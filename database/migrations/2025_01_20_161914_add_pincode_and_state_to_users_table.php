@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
+<<<<<<< HEAD
             $table->string('pin_code', 10)->nullable()->after('pincode_id'); // Adjust the "after" column as needed
+=======
+            $table->string('pin_code', 10)->nullable()->after('pincode_id'); 
+>>>>>>> 38c116d (23022025 commit changes)
             $table->string('state')->nullable()->after('pin_code');
         });
     }

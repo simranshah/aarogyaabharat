@@ -38,7 +38,7 @@
                     <li class="{{ Route::currentRouteName() == 'products' ? 'active' : '' }}"><a href="{{ route('products') }}">Products</a></li>
                     <li id="offerLink" ><a  href="{{route('products.flash.sale')}}">Sale</a></li>
                     <li class="{{ Route::currentRouteName() == 'blogs' ? 'active' : '' }}" ><a href="{{route('blogs')}}">Blogs</a></li>
-                    {{-- <li class="{{ Route::currentRouteName() == 'customer.about.us' ? 'active' : '' }}"><a href="{{route('customer.about.us')}}">About</a></li> --}}
+                    <li class="{{ Route::currentRouteName() == 'about-us' ? 'active' : '' }}"><a href="{{route('customer.about.us')}}">About</a></li>
                 </ul>
                 @if(Auth::check() && Auth::user()->hasRole('Customer'))
                 <div class="loginBtn">

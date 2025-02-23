@@ -279,7 +279,7 @@ text-align: left;float: left;padding-left: 6px;}
 .blog_tag_name ul li.blogview img{float: left;}
 .blog_tag_name .blogreadnow{font-family: 'Nunito-Reg';font-size: 16px;font-weight: 700;line-height: 22px;color: #F2A602;
 }
-.read_more_blogs{width: 100%;float: left;border-bottom: 1px solid #D9D9D9;padding: 16px 18px;}
+.read_more_blogs{width: 100%;float: left;border-top: 1px solid #D9D9D9;padding: 16px 18px;}
 .read_more_blogs a{display: flex;flex-direction: row;align-items: center;justify-content: center;}
 .read_more_blogs p{font-family: 'Nunito-Reg';font-size: 16px;font-weight: 700;line-height: 22px;text-align: left;color:#F2A602;padding-right: 16px;}
 

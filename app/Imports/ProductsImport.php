@@ -4,12 +4,14 @@ namespace App\Imports;
 
 use App\Models\Admin\Category;
 use App\Models\Admin\Product;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Illuminate\Support\Facades\Storage;
 
 class ProductsImport implements ToModel, WithHeadingRow
 {
+<<<<<<< HEAD
     public function model(array $row)
     {
         // Handle Category Image
@@ -72,6 +74,52 @@ class ProductsImport implements ToModel, WithHeadingRow
             'page_title' => trim($row['page_title_head'] ?? null),
             'seo_meta_tag_title' => trim($row['seo_meta_tag_title'] ?? null),
             'seo_meta_tag' => trim($row['seo_meta_tag_description'] ?? null),
+=======
+    /**
+     * Handle the import row and create a product.
+     *
+     * @param array $row
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+     
+    public function model(array $row)
+    {
+        // Validate and upload category image
+        $categoryImagePath = $this->storeImage($row['c_image'] ?? null, 'categories');
+
+        // Find or create the category
+        // dd($row['category_name']);
+        // dd($row['category_name'], strlen($row['category_name']));
+
+        $category = Category::firstOrCreate(
+            ['name' => $row['category_name']],
+            [
+                'image' => $categoryImagePath,
+                'slug' => Str::slug($row['category_name']),
+            ]
+        );
+
+        // Validate and upload product image
+        $productImagePath = $this->storeImage($row['image'] ?? null, 'products');
+
+        // Create and return the product
+        return new Product([
+            'category_id' => $category->id,
+            'name' => $row['product_name'],
+            'title' => $row['title'],
+            'image' => $productImagePath,
+            'slug' => Str::slug($row['product_name']),
+            'description' => $row['description'],
+            'features_specification' => $row['features_specification'],
+            'price' => $row['price'],
+            'weekly_price' => $row['weekly_price'],
+            'monthly_price' => $row['monthly_price'],
+            'gst' => $row['gst'],
+            'is_popular' => $row['is_popular'],
+            'about_item' => $row['about_item'],
+            'is_rentable' => $row['is_rentable'],
+            'is_new' => $row['is_new'],
+>>>>>>> 38c116d (23022025 commit changes)
         ]);
 
         // **Now handle product images**
@@ -119,5 +167,24 @@ class ProductsImport implements ToModel, WithHeadingRow
             );    
      
         return $product;
+    }
+
+    /**
+     * Store an image and return its path.
+     *
+     * @param string|null $url
+     * @param string $folder
+     * @return string|null
+     */
+    private function storeImage(?string $url, string $folder): ?string
+    {
+        if ($url && @file_get_contents($url)) {
+            $fileContents = file_get_contents($url);
+            $fileName = $folder . '/' . basename($url);
+            Storage::disk('public')->put($fileName, $fileContents);
+            return $fileName;
+        }
+
+        return null;
     }
 }

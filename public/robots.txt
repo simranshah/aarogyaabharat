@@ -1,4 +1,5 @@
 User-agent: *
+<<<<<<< HEAD
 # Point to your sitemap
 Sitemap: https://aarogyaabharat.com/sitemap.xml
 
@@ -30,3 +31,8 @@ Disallow: /dashboard/
 
 # Optional: crawl-delay to prevent server overload (adjust if needed)
 # Crawl-delay: 10
+=======
+Disallow:
+
+Sitemap: https://aarogyaabharat.com/sitemap.xml
+>>>>>>> 38c116d (23022025 commit changes)
