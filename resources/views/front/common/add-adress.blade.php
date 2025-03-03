@@ -1,6 +1,6 @@
 <div class="addressFormPopMiddle">
             <div class="addressFormPopInner">
-                <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="" /> </a>
+                <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="cross" /> </a>
                 <h4>Add New Address</h4>
                 <p>Please enter pin code to get current location.</p>
                 <form id="addressForm">

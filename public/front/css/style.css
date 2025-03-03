@@ -385,6 +385,7 @@ text-align: left;float: left;padding-left: 6px;}
 .titlePart2{float: left;width: 100%;padding: 0 0 16px;display: flex;align-items: center;}
 .titlePart2 > img{float: left;width: 48px;margin-right: 16px;}
 .titlePart2 h4{float: left;font-size: 24px;font-family: 'Nunito-Bold';color: #000;flex-grow: 1;}
+.titlePart2 h1{float: left;font-size: 24px;font-family: 'Nunito-Bold';color: #000;flex-grow: 1;}
 .titlePart2 P{float: left;width: 100%;font-size: 16px;color: #504D4D;padding-top: 16px;}
 .titlePart2 a{float: right;font-size: 16px;font-family: 'Nunito-Bold';color: #F2A602;line-height: 32px;}
 .titlePart2 a img{height: 12px;}
@@ -1122,7 +1123,7 @@ text-align: center;}
     .product_slider2block .product_inner img{padding: 12px;}
     .product_slider2block p{font-size: 14px;margin-bottom: 6px;}
     .product_slider2block strong{font-size: 16px;}
-    .product_slider3block{height: 380px;}
+    .product_slider3block{height: 330px;}
     .product_slider3padd{padding: 0 8px;width: 47%;height: 100%;}
     .product_slider3 .slick-track {margin-left: 0;margin-right: 0;padding: 0 10px;}
     .product_slider3block .product_inner{height: 134px;margin-bottom: 12px;}
@@ -1925,8 +1926,172 @@ input[type="radio"] { transform: scale(1);  margin-right: 8px;}
     font-size: 20px;
   }
   .flash-sale-flash-button {
-    margin-bottom: 73px;
+    margin-bottom: 146px;
     padding: 10px 15px;
-    margin-left: 202px;
+    margin-left: 255px;
+  }
+  
+}
+#chat-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 70px;
+  height: 80px;
+  cursor: pointer;
+  z-index: 1000;
+  
+}
+
+#chat-toggle img {
+  width: 100%;
+  height: 100%;
+}
+
+#chat-toggle img:hover {
+  transform: scale(1.05);
+}
+
+.chat-popup {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 90vw;
+  max-width:330px;
+  height: 75vh;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999;
+  animation: slideUp 2s ease;
+}
+
+.chat-header {
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 2px solid #1976d2;
+  font-weight: bold;
+  font-size: 18px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.chat-header img {
+  width: 28px;
+  margin-right: 10px;
+}
+
+.chat-header .close-btn {
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.message-wrapper.user {
+  align-items: flex-end;
+}
+
+.sender-name {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 2px;
+  color: #555;
+}
+
+.message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 15px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.user .message {
+  background: linear-gradient(136.53deg, rgba(255, 204, 92, 0.1) 21.55%, rgba(242, 166, 2, 0.1) 80.03%);
+  color: black;
+  border-bottom-right-radius: 0;
+}
+
+.bot .message {
+  background: #233F8C0D;
+  color: black;
+  border-bottom-left-radius: 0;
+}
+
+.typing-indicator {
+  font-style: italic;
+  font-size: 13px;
+  color: #888;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+  background: #f8f8f8;
+  padding: 10px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  border-radius: 15px;
+}
+
+.chat-input button {
+  margin-left: 10px;
+  padding: 0 16px;
+  border: none;
+  background: #f2a007;
+  color: white;
+  font-size: 18px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .chat-popup {
+    max-width: 375px;
+  }
+  #chat-toggle {
+    right: 10px;
+    bottom: 73px;
   }
 }

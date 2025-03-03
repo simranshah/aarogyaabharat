@@ -5,7 +5,7 @@
                 @if (isset($contactPageData) && isset($contactPageData->cms) && $contactPageData->cms->images && $contactPageData->cms->images->isNotEmpty())
                   <img src="{{ asset('storage/' .$contactPageData->cms->images->first()->path) }}" alt="" style="height: 300px; margin-bottom: 15px;">
                 @else
-                        <img src="{{ asset('front/images/banner.jpg') }}" alt="" style="height: 300px; margin-bottom: 15px;">
+                        <img src="{{ asset('front/images/banner.jpg') }}" alt="banner" style="height: 300px; margin-bottom: 15px;">
                 @endif
 				</div>
             </div>

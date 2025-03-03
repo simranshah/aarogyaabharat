@@ -8,42 +8,42 @@
         <ul>
             <li>
                 <a href="#;">
-                    <img src="{{ asset('front/images/search_fil.svg')}}" alt="" />
+                    <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                     <p>Long product name</p>
-                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /> 
+                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /> 
                 </a>
             </li>
             <li>
                 <a href="#;">
-                    <img src="{{ asset('front/images/search_fil.svg')}}" alt="" />
+                    <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                     <p>Product name</p>
-                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /> 
+                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /> 
                 </a>
             </li>
             <li>
                 <a href="#;">
-                    <img src="{{ asset('front/images/search_fil.svg')}}" alt="" />
+                    <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                     <p>Product</p>
-                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /> 
+                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /> 
                 </a>
             </li>
             <li>
                 <a href="#;">
-                    <img src="{{ asset('front/images/search_fil.svg')}}" alt="" />
+                    <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                     <p>Small product name</p>
-                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /> 
+                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /> 
                 </a>
             </li>
         </ul>
         
         <div class="popPro">
         <strong>Popular Products</strong>
-        <a href="#;">Long product name <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /></a>
-        <a href="#;">product name <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /></a>
-        <a href="#;">product <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /></a>
-        <a href="#;">Small product name <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /></a>
-        <a href="#;">Name of product <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /></a>
-        <a href="#;">Popular product name  <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" /></a>
+        <a href="#;">Long product name <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /></a>
+        <a href="#;">product name <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /></a>
+        <a href="#;">product <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /></a>
+        <a href="#;">Small product name <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /></a>
+        <a href="#;">Name of product <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /></a>
+        <a href="#;">Popular product name  <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /></a>
         </div>
     </div>
 </div>
@@ -78,9 +78,9 @@
                     </div>
                     <div class="helpBlock">
                         <p>Need an emergency help</p>
-                        <a href="https://wa.me/{{ env('HELP_LINE_NO') }}"><img src="{{asset('front/images/help_whata-app.svg')}}" alt="" /> </a>
-                        <a href="tel:{{ env('HELP_LINE_NO') }}"><img src="{{asset('front/images/help_call.svg')}}" alt="" /> </a>
-                        <a href="mailto:{{ env('HELP_LINE_EMAIL') }}"><img src="{{asset('front/images/help_mail.svg')}}" alt="" /> </a>
+                        <a href="https://wa.me/{{ env('HELP_LINE_NO') }}"><img src="{{asset('front/images/help_whata-app.svg')}}" alt="help_whata-app" /> </a>
+                        <a href="tel:{{ env('HELP_LINE_NO') }}"><img src="{{asset('front/images/help_call.svg')}}" alt="help_call" /> </a>
+                        <a href="mailto:{{ env('HELP_LINE_EMAIL') }}"><img src="{{asset('front/images/help_mail.svg')}}" alt="help_mail" /> </a>
                     </div>
                 </div>
             </div>
@@ -89,14 +89,14 @@
                     <div class="profileAccor">
                         <div>
                             <div class="profileAccorClick">
-                                <img src="{{asset('front/images/my_addresses.svg')}}" alt="" class="icon1" />
+                                <img src="{{asset('front/images/my_addresses.svg')}}" alt="my_addresses" class="icon1" />
                                 <p>My Addresses</p>
-                                <img src="{{asset('front/images/rightArrow.svg')}}" alt="" class="arrow1" />
+                                <img src="{{asset('front/images/rightArrow.svg')}}" alt="rightArrow" class="arrow1" />
                             </div>
                             <div class="profileAccorAns" id="customerAdress">
                                 <div class="profileAccorAnsTtl">
                                     <strong>My Addresses</strong>
-                                    <a href="javascript:void(0)" onclick="addNewAddress()" >Add New Address <img src="{{asset('front/images/jam_plus.svg')}}" alt="" /> </a>
+                                    <a href="javascript:void(0)" onclick="addNewAddress()" >Add New Address <img src="{{asset('front/images/jam_plus.svg')}}" alt="jam_plus" /> </a>
                                 </div>
                                 <div id="addressList">
                                     @include('front.common.customer-address')
@@ -105,22 +105,22 @@
                         </div>
                         <div>
                             <div class="profileAccorClick">
-                                <img src="{{asset('front/images/order_info.svg')}}" alt="" class="icon1" />
+                                <img src="{{asset('front/images/order_info.svg')}}" alt="order_info" class="icon1" />
                                 <p>Order Info</p>
-                                <img src="{{asset('front/images/rightArrow.svg')}}" alt="" class="arrow1" />
+                                <img src="{{asset('front/images/rightArrow.svg')}}" alt="rightArrow" class="arrow1" />
                             </div>
                             <div class="profileAccorAns">
                                 <div class="orderinfo_title">
                                     <h2>Order Info</h2>
                                 </div>
                                 <div class="filter">
-                                    <div class="filtertitle"><p>Filter</p><img src="{{asset('front/images/Filter.svg')}}" alt="" /></div>
+                                    <div class="filtertitle"><p>Filter</p><img src="{{asset('front/images/Filter.svg')}}" alt="Filter" /></div>
                                     <ul>
                                         @foreach($statuses as $status)
                                             <li>
                                                 <a  onClick="changeStatusTab('{{ $status->id }}')">
                                                     <span>{{ $status->name }}</span>
-                                                    <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="" />
+                                                    <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
                                                 </a>
                                             </li>
                                         @endforeach
@@ -133,13 +133,13 @@
                         </div>
                         <div>
                             <a href="{{route('terms.and.conditions')}}" class="profileAccorClick">
-                                <img src="{{asset('front/images/terms_condition.svg')}}" alt="" class="icon1" />
+                                <img src="{{asset('front/images/terms_condition.svg')}}" alt="terms_condition" class="icon1" />
                                 <p>Terms & Condition</p> 
                             </a>
                         </div>
                         <div>
                         <a  class="profileAccorClick" onclick="confirmLogout();">
-                                <img src="{{ asset('front/images/logout.svg') }}" alt="" class="icon1" />
+                                <img src="{{ asset('front/images/logout.svg') }}" alt="logout" class="icon1" />
                                 <p>Logout</p>
                             </a>
                             <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
@@ -149,8 +149,8 @@
                         <div>
                             <div class="needaneme">
                                 <h2>Need an emergency help</h2>
-                                <a href="tel:{{ env('HELP_LINE_NO') }}" class="phone_eme"><img src="{{asset('front/images/phone_call.svg')}}"><p>{{ env('HELP_LINE_NO') }}</p><span>Call Now</span></a>
-                                <a href="mailto:{{ env('HELP_LINE_EMAIL') }}" class="mail_eme"><img src="{{asset('front/images/mail.svg')}}"><p>{{ env('HELP_LINE_EMAIL') }}</p></a>
+                                <a href="tel:{{ env('HELP_LINE_NO') }}" class="phone_eme"><img src="{{asset('front/images/phone_call.svg')}}" alt="phone_call"><p>{{ env('HELP_LINE_NO') }}</p><span>Call Now</span></a>
+                                <a href="mailto:{{ env('HELP_LINE_EMAIL') }}" class="mail_eme"><img src="{{asset('front/images/mail.svg')}}" alt="mail"><p>{{ env('HELP_LINE_EMAIL') }}</p></a>
                             </div>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
 </section>
 <div class="locationPop winScrollStop">
     <div class="locationBlock">
-        <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="" /></a>
+        <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="cross" /></a>
         <h4>Select Delivery Location</h4>
         <p>Please enter pin code to get current location.</p>
         <div class="inputPart">
@@ -169,7 +169,7 @@
             <a href="#;">Check</a>
         </div>
         <div class="currLoc">
-            <img src="{{asset('front/images/pin.svg')}}" alt="" />
+            <img src="{{asset('front/images/pin.svg')}}" alt="pin" />
             <a href="#;">Select Current Location</a>
         </div>
         <button>Get Location</button>
@@ -178,7 +178,7 @@
  
 <div class="areyousurePop winScrollStop">
     <div class="areyousureBlock">
-        <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="" /></a>
+        <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="cross" /></a>
         <strong>Are you sure want to cancel order?</strong>
         <div class="btnpop">
             <a href="#;">Yes</a>
@@ -240,7 +240,7 @@
 <div class="updateprofilePop winScrollStop">
     <div class="updateprofilePopMiddle">
         <div class="updateprofilePopInner">
-            <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt=""> </a>
+            <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="cross"> </a>
             <h4>Update Profile</h4>
             <p>You can update you profile details here</p>
             <form id="updatepro">

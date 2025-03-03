@@ -1,5 +1,5 @@
 <div class="orderSummery">
-    <h4>Order Summery</h4>
+    <h4>Order Summary</h4>
     <ul>
         @php
         $total = 0;

@@ -60,7 +60,7 @@
     <div class="container">
        <div class="titlePart">
             <h4>Category</h4>
-            <a href="{{route('products.category')}}">View All <img src="{{ asset('front/images/orange_arrow.svg')}}" alt=""> </a>
+            <a href="{{route('products.category')}}">View All <img src="{{ asset('front/images/orange_arrow.svg')}}" alt="orange_arrow"> </a>
         </div>
         <div class="category_all_box catgory_slider getprogressWidth arrowOnProgress">
             @foreach ($categories as $category)
@@ -79,7 +79,17 @@
         </div>
     </div>
 </section>
+@include('front.home-products.flash-sale')
+
+@include('front.home-products.top-deals-products')
+
+@include('front.home-products.top-pick for-you')
+
 @include('front.home-products.newly-added')
+@include('front.home-products.best-selling-products')
+@include('front.home-products.product-for-you')
+
+@include('front.home-products.sports-healthcare-more')
 @if(isset($offerAndDiscounts)&& $offerAndDiscounts->isNotEmpty())
  <section class="offer_Part part-offer" id="offer_Part">
     <div class="container">
@@ -96,9 +106,6 @@
     </div>
 </section> 
 @endif
-
-@include('front.home-products.product-for-you')
-@include('front.home-products.flash-sale')
 
 <!-- product part  -->
 
@@ -184,13 +191,12 @@
     </div>
 </section> -->
 
-
 <section class="raise_query">
     <div class="container">
     <a href="{{ route('raise.query')}}">
         <div class="raise_query_box">
             <div class="rise_text_box">
-                 <img src="{{ asset('front/images/raise.png')}}" alt="" />
+                 <img src="{{ asset('front/images/raise.png')}}" alt="raise" />
                 <div class="rise_text_line">
                     <h4>Raise Query</h4>
                     <p>You can request anything by single click.</p>
@@ -200,7 +206,6 @@
     </a>   
     </div>
 </section>
-@include('front.home-products.best-selling-products')
 <section class="why_arogya_bharat">
     <div class="container">
        <div class="titlePart">
@@ -209,42 +214,42 @@
         </div>
         <div class="why_arogya_bharat_all_box">
             <div class="why_arogya_bharat_box">
-                <div class="arogya_icon"><img src="{{asset('front/images/Client_Centric_Approach.svg')}}" alt="" /></div>
+                <div class="arogya_icon"><img src="{{asset('front/images/Client_Centric_Approach.svg')}}" alt="Client_Centric_Approach" /></div>
                 <div class="why_arogya_bharat_text">
                     <h3>Client-Centric Approach</h3>
                     <p>We prioritize our clients, understanding their unique needs and preferences. </p>
                 </div>
             </div>
             <div class="why_arogya_bharat_box">
-                <div class="arogya_icon"><img src="{{asset('front/images/well_equipped.svg')}}" alt="" /></div>
+                <div class="arogya_icon"><img src="{{asset('front/images/well_equipped.svg')}}" alt="well_equipped" /></div>
                 <div class="why_arogya_bharat_text">
                     <h3>Well-Equipped Infrastructural Setup</h3>
                     <p>We prioritize our clients, understanding their unique needs and preferences. </p>
                 </div>
             </div>
             <div class="why_arogya_bharat_box">
-                <div class="arogya_icon"><img src="{{asset('front/images/skilled_team.svg')}}" alt="" /></div>
+                <div class="arogya_icon"><img src="{{asset('front/images/skilled_team.svg')}}" alt="skilled_team" /></div>
                 <div class="why_arogya_bharat_text">
                     <h3>Skilled Team of Professionals</h3>
                     <p>Our success is attributed to a team of skilled and dedicated professionals </p>
                 </div>
             </div>
             <div class="why_arogya_bharat_box">
-                <div class="arogya_icon"><img src="{{asset('front/images/wide_distribution_network.svg')}}" alt="" /></div>
+                <div class="arogya_icon"><img src="{{asset('front/images/wide_distribution_network.svg')}}" alt="wide_distribution_network" /></div>
                 <div class="why_arogya_bharat_text">
                     <h3>Wide Distribution Network</h3>
                     <p>With a wide-reaching distribution network, we are capable of delivering our products </p>
                 </div>
             </div>
             <div class="why_arogya_bharat_box">
-                <div class="arogya_icon"><img src="{{asset('front/images/Work-Ethics.svg')}}" alt="" /></div>
+                <div class="arogya_icon"><img src="{{asset('front/images/Work-Ethics.svg')}}" alt="Work-Ethics" /></div>
                 <div class="why_arogya_bharat_text">
                     <h3>Ethical Business Practices</h3>
                     <p>Integrity and ethics are at the core of our business operations. </p>
                 </div>
             </div>
             <div class="why_arogya_bharat_box">
-                <div class="arogya_icon"><img src="{{asset('front/images/delivery-van.svg')}}" alt="" /></div>
+                <div class="arogya_icon"><img src="{{asset('front/images/delivery-van.svg')}}" alt="delivery-van" /></div>
                 <div class="why_arogya_bharat_text">
                     <h3>Timely Delivery</h3>
                     <p>We understand the importance of timely deliveries in the healthcare industry.</p>
@@ -254,16 +259,10 @@
     </div>
 </section>
 
-@include('front.home-products.sports-healthcare-more')
 
 <section class="customer_part">
     @include('front.common.happy-customer')
 </section>
-
-@include('front.home-products.top-deals-products')
-
-@include('front.home-products.top-pick for-you')
-
 
 <!-- blog part  -->
 @if(!$isMobile)
@@ -293,11 +292,11 @@
                                 <ul>
                                     <li class="tagBox"><p>{{ $blog->tagname  }}</p></li>
                                     <li class="blogdate">
-                                        <img src="{{ asset('front/images/calendar.svg') }}" alt="" />
+                                        <img src="{{ asset('front/images/calendar.svg') }}" alt="calendar" />
                                         <p>{{ $blog->created_at->format('d/m/Y') }}</p>
                                     </li>
                                     <li class="blogview">
-                                        <img src="{{ asset('front/images/carbon_view.svg') }}" alt="" />
+                                        <img src="{{ asset('front/images/carbon_view.svg') }}" alt="carbon_view" />
                                         <p>{{ $blog->views}}</p>
                                     </li>
                                     <li><a href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blog->title . ' ' . route('blog.details', $blog->slug)) }}"><img src="{{ asset('front/images/ri_share-line.svg') }}" alt="{{$blog->title}}"></a></li>
@@ -311,7 +310,7 @@
             <div class="read_more_blogs">
             <a href="{{ route('blogs')}}">
                 <p>Read More Blogs</p>
-                <img src="{{ asset('front/images/downArrow.svg') }}" alt="" />
+                <img src="{{ asset('front/images/downArrow.svg') }}" alt="downArrow" />
             </a>
         </div>
         </div>
@@ -414,7 +413,7 @@
         </div>
         <div class="partners_we_work_logo">
         @foreach($partners->cms->images as $img)
-            <img src="{{ asset('storage/' . $img->path) }}"/>
+            <img src="{{ asset('storage/' . $img->path) }}" alt="image"/>
         @endforeach
             <!-- <img src="{{asset('front/images/Frame_1.png')}}" alt="" />
             <img src="{{asset('front/images/Frame_2.png')}}" alt="" />
@@ -443,7 +442,6 @@
     </div>
 </section>
 @endif
-@endsection('content')
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -487,3 +485,4 @@
         });
     });
 </script>
+@endsection('content')

@@ -41,8 +41,8 @@
 <section class="productSlidePart">
     <div class="container">
             <div class="titlePart2">
-                <img src="{{ asset('front/images/flash-sale.png')}}" alt="" />
-                <h4>Flash Sale</h4>
+                <img src="{{ asset('front/images/flash-sale.png')}}" alt="flash-sale" />
+                <h1>Flash Sale</h1>
               
             </div>
             <div class="rowMob">

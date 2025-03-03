@@ -18,7 +18,7 @@
                         <span>{{ $order->status->name ?? 'Status not available' }}</span> <!-- Display order status -->
                         <div class="cancel_share">
                             <a href="#;" class="cancel_click" data-order-id="{{ $order->id }}">Cancel Order</a>
-                            <a href="#;"><img src="{{ asset('front/images/Share.svg') }}" alt="" /></a>
+                            <a href="#;"><img src="{{ asset('front/images/Share.svg') }}" alt="Share" /></a>
                         </div>
                     </div>
                 </div>

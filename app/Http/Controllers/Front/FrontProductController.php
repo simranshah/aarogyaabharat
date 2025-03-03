@@ -67,7 +67,12 @@ class FrontProductController extends Controller
     {
         $categories = Category::take(12)->get();
         $categoriesAndProducts = Category::with('products')->where('slug',$slug)->get();
-        return view('front.category-product', compact('categoriesAndProducts', 'categories'));
+        $categoriesmain= Category::where('slug',$slug)->first();
+        // dd($categoriesAndProducts);
+        $seoMetaTagTitle = $categoriesmain->name.' Products';
+        $pageTitle = $categoriesmain->name.' Products';
+        $seoMetaTag = $categoriesmain->name .' Category All Products From Aarogyaa Bharat'; 
+        return view('front.category-product', compact('categoriesAndProducts', 'categories', 'slug', 'seoMetaTagTitle', 'pageTitle', 'seoMetaTag'));
     }
     public function productSubCatogoryWise($slug,$subSlug)
     {
@@ -124,6 +129,9 @@ class FrontProductController extends Controller
      public function flashSale()
     {
         $products = Product::with('category')->where('flash_sale',1)->get();
-        return view('front.flash-sale', compact('products'));
+        $seoMetaTag = 'Flash Sale Products';
+        $seoMetaTagTitle = 'Flash Sale Products';
+        $pageTitle = 'Flash Sale Products';
+        return view('front.flash-sale', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
     }
 }
