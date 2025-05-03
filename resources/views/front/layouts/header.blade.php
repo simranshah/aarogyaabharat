@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
+    @if(isset($seoMetaTagTitle))
+    <meta name="title" content="{{$seoMetaTagTitle}}">
+    @endif
+    @if(isset($seoMetaTag))
+    <meta name="description" content="{{$seoMetaTag}}">
+    @endif
+    <title>
+    @if(isset($pageTitle))
+       {{$pageTitle}}
+    @endif
+    </title>
+
+    <link rel="stylesheet" href="{{ asset('front/css/slick.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('front/css/slick-theme.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('front/css/sweetalert.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/toaster.css') }}">
+    <link rel="icon" href="{{ asset('front/images/Favicon-new.svg') }}" type="image/x-icon">
+</head>
+
+<body class="bodyback">
+
+    <header>
+        <div class="container">
+            <div class="headerBlock">
+                <a href="{{ route('home') }}" class="logoPart">
+                    <img src="{{ asset('front/images/arogya_bharat.svg') }}" alt="">
+                </a>
+                <ul class="menuList">
+                    <li id="home" class="{{ Route::currentRouteName() == 'home' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
+                    <li class="{{ Route::currentRouteName() == 'products' ? 'active' : '' }}"><a href="{{ route('products') }}">Products</a></li>
+                    <li id="offerLink" ><a  href="{{route('products.flash.sale')}}">Sale</a></li>
+                    <li class="{{ Route::currentRouteName() == 'blogs' ? 'active' : '' }}" ><a href="{{route('blogs')}}">Blogs</a></li>
+                    {{-- <li class="{{ Route::currentRouteName() == 'customer.about.us' ? 'active' : '' }}"><a href="{{route('customer.about.us')}}">About</a></li> --}}
+                </ul>
+                @if(Auth::check() && Auth::user()->hasRole('Customer'))
+                <div class="loginBtn">
+                @php    
+                $fullName = Auth::user()->name;
+                $nameParts = explode(' ', $fullName);
+                $firstName = ucfirst(strtolower($nameParts[0]));
+                @endphp
+                <a href="{{route('customers.profile')}}"><img src="{{ asset('front/images/Profile-Fil.png') }}" alt="notification"></a>
+                </div>
+                @else
+                <div class="loginBtn">
+                    <button>Login</button>
+                </div>
+                @endif
+                <ul class="cartsUl">
+                    <li>
+                        <a class="notificationpopupjs"> <img src="{{ asset('front/images/notification.svg') }}" alt="notification">
+                            @if(auth()->check() && auth()->user()->notifications->count() > 0)
+                                <span id="notify-count"></span>
+                            @endif
+                            
+                        </a>
+                    </li>
+                    <li>
+                        @php
+                        $customer = Auth::user();
+                        $session_id = session()->get('cart_id');
+
+                        // Only count cart items if a session ID or user exists
+                        if ($customer || $session_id) {
+                            $cartProductCount1 = App\Models\Front\Cart::where(function ($query) use ($customer, $session_id) {
+                                if ($customer) {
+                                    $query->where('user_id', $customer->id);
+                                }
+                                if ($session_id) {
+                                    // Only check session_id if it's not null
+                                        $query->orWhere('session_id', $session_id);
+                                    }
+                                })
+                                    ->withCount('cartProducts')
+                                    ->get()
+                                    ->sum('cart_products_count');
+                            } else {
+                                $cartProductCount1 = 0; // No cart items if no session or user
+                            }
+
+                            \Log::channel('cart_log')->info('Header - Session ID:', [
+                                'session_id' => $session_id,
+                                'cartProductCount1' => $cartProductCount1,
+                        ]);
+                    @endphp
+                       
+                    @if(Auth::check() && Auth::user()->hasRole('Customer'))
+                        <!-- Display Cart Link -->
+                        <a href="{{route('cart')}}"><img src="{{ asset('front/images/cart.svg') }}" alt=""><span>{{$cartProductCount1 ?? 0}}</span></a>
+                    @else
+                        <!-- Trigger Login Popup -->
+                        <a href="javascript:void(0)" class="trigger-login-popup"><img src="{{ asset('front/images/cart.svg') }}" alt=""><span>{{$cartProductCount1 ?? 0}}</span></a>
+                    @endif
+                    </li>
+                </ul>
+                <div id="customerlocationPin">
+                    @include('front.common.customer-pin')
+                </div>
+                <div class="SearchBlock">
+                    <div>
+                        <button><img src="{{ asset('front/images/search.svg') }}" alt=""></button>
+                        <input type="text" id="searchInput" placeholder="Search" onkeydown="
+                        if (event.keyCode === 13) {
+                          searchproductinput(this.value);
+                         }
+                        ">
+                        <a href="#"><img src="{{ asset('front/images/search_arrow.svg') }}" alt=""> </a>
+                    </div>
+                    <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="" /> </a>
+                </div>
+            </div>
+        </div> 
+        <div class="headerBlock" style="padding: 1px;background-color: #220D6D;color: white; text-align: right;">
+            <div class="nav-emg-header-inner">
+                <div class="nav-emg-container">
+                    <div class="nav-emg-header-text">
+                        <p class="nav-emg-contact-label" style="font-weight: bold;">Need Help ?</p>
+                        <a href="https://wa.me/+919921407039" class="nav-emg-contact-link" target="_blank">
+                            <img src="/front/images/Wp_me.png" alt="Call" class="nav-emg-contact-icon">
+                            <p class="nav-emg-contact-info" style="font-weight: bold;">+91 9921407039</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    @if(!Route::is('products.flash.sale') && !Route::is('cart'))
+      
+    <button class="flash-sale-flash-button" onclick="document.querySelector('.flash-sale-popup-overlay').style.display='flex'">
+        🎉 70% OFF! Tap Here
+      </button>
+      @endif
+      
+      <!-- Popup -->
+      <div class="flash-sale-popup-overlay" onclick="this.style.display='none'" id="flash-sale-popup-overlay">
+        <div class="flash-sale-popup" onclick="event.stopPropagation()">
+          <div class="flash-sale-popup-header">
+            <div class="flash-sale-close-btn" onclick="document.querySelector('.flash-sale-popup-overlay').style.display='none'">&times;</div>
+            <h2>FLASH SALE</h2>
+            <p>Limited Time Offer</p>
+          </div>
+          <div class="flash-sale-popup-body">
+            <h3>Introductory Special Discount</h3>
+            <div class="flash-sale-discount">70% OFF</div>
+            <p class="flash-sale-desc">On Bestselling medical equipment</p>
+            <div class="flash-sale-timer">
+              <div class="flash-sale-timer-box">
+                <span id="hrs">12</span>
+                <small>Hours</small>
+              </div>
+              <div class="flash-sale-timer-box">
+                <span id="mins">00</span>
+                <small>Minutes</small>
+              </div>
+              <div class="flash-sale-timer-box">
+                <span id="secs">00</span>
+                <small>Seconds</small>
+              </div>
+            </div>
+           <a href="{{route('products.flash.sale')}}"><button class="flash-sale-shop-btn"  >Shop Now</button></a>
+          </div>
+        </div>
+      </div>
+    <div class="searchPop winScrollStop">
+        <div class="searchPopBlock">
+            <strong>Recent Search</strong>
+            <p>Our highest rented or buying products.</p>
+            <ul id="searchResultList">
+                @include('front.common.search-product-result')
+            </ul>
+        </div>
+    </div>
+    <div id="notification-pop">
+        
+    </div>
+
+    <!-- use re-captcha route  -->
+    <form id="demo-form">
+
+    @csrf
+    <button class="g-recaptcha" 
+            data-sitekey="{{ env('GOOGLE_RECATCHA_SITE_KEY') }}" 
+            data-callback="onSubmit" style="display: none;">Submit
+    </button>
+</form>
+    <script src="{{ asset('front/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('front/js/script.js') }}"></script>
+    <script src="{{ asset('front/js/sweetalert.js') }}"></script>
+    <script src="{{ asset('front/js/toaster.js') }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+    <script>
+        $(document).ready(function() {
+            $('#searchInput').on('keyup', function() {
+                var query = $(this).val(); // Get the input value
+
+                if (query.length >= 2) { // Trigger search when at least 2 characters are entered
+                    $.ajax({
+                        url: "{{ route('search.products') }}", // Your route to search products
+                        type: 'GET',
+                        data: {
+                            query: query // Send the input as a query parameter
+                        },
+                        success: function(response) {
+                            if (response.success === false) {
+                                $('#searchResultList').html('<li>No products found.</li>');
+                            } else {
+                                $('#searchResultList').html(response); // Render the results
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                            $('#searchResultList').html('<li>Something went wrong.</li>');
+                        }
+                    });
+                } else {
+                    $('#searchResultList').empty(); // Clear results if query length is less than 2
+                }
+            });
+        });
+        //notifications get
+        $('.notificationpopupjs').click(function() {
+            $.ajax({
+            url: '{{ route('customer.notification') }}',
+            method: 'GET',
+            success: function(data) {
+                if (data.notificationHtml) {
+                    $('#notification-pop').html(data.notificationHtml);
+                    $('.notificationPop').css('display', 'flex');
+                } else {
+                    toastr.error('No notifications found.');
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 401) {
+                    toastr.error('Please log to see your notifications.');
+                } else {
+                    toastr.error('No notifications found.');
+                }
+            }
+        });
+        });
+        $('.notificationBlock > a').click(function(){
+            $('.notificationPop').hide();
+        });
+        
+        function closeonotificationPopUp() {
+            $('.notificationPop').hide();
+        }
+        $('.trigger-login-popup').click(function(e) {
+            e.preventDefault();
+            $('.LoginPop').show();
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+        if (window.location.hash === "#offer_Part") {
+            document.getElementById("offerLink").classList.add("active");
+            document.getElementById("home").classList.remove("active");
+        }
+    });
+
+    </script>
+    <script>
+        $(document).on('click', '.notidelete', function () {
+            let notificationId = $(this).data('id');
+
+            $.ajax({
+                url: `/customer/notification/delete/${notificationId}`,
+                type: 'GET', 
+                success: function (response) {
+                    if (response.success) {
+                        if (response.notificationHtml) {
+                        $('#notification-pop').html(response.notificationHtml);
+                        if(response.count!=0){
+                        $('#notify-count').text('');
+                        }else{
+                            $('#notify-count').css('display', 'none');
+                        }
+
+                        $('.notificationPop').css('display', 'flex');
+                        } else {
+                            toastr.error('No notifications found.');
+                        }
+                        toastr.success(response.message); // Show success message
+                    } else {
+                        toastr.error('Failed to delete notification');
+                    }
+                },
+                error: function () {
+                    if (xhr.status === 401) {
+                        toastr.error('Please log to see your notifications.');
+                    } else {
+                        toastr.error('No notifications found.');
+                    }
+                }
+            });
+        });
+        function searchproductinput(searchvalue) {
+        // var checkworld= checkSpelling(searchvalue);
+            var url = '{{ url("/search/products/results/") }}/' + searchvalue;
+            window.location.href = url;
+         }
+         function getmoreSearchResult(query,offset){
+    $.ajax({
+        url: '{{ url("/search/products/results/") }}/'+query+'/'+offset, // Your route to search products
+        type: 'GET',
+       
+        success: function(response) {
+            $('#searchlist').html(response);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            $('#searchlist').html('<li>Something went wrong.</li>');
+        }
+    });
+}
+    </script>
+  <script>
+    // Check if countdown end time is already in localStorage
+    let countdownDate = localStorage.getItem("countdownEndTime");
+  
+    if (!countdownDate) {
+      // Set countdown to 99 hours from now and store it
+      countdownDate = new Date().getTime() + 99 * 60 * 60 * 1000;
+      localStorage.setItem("countdownEndTime", countdownDate);
+    } else {
+      countdownDate = parseInt(countdownDate);
+    }
+  
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+  
+      if (distance <= 0) {
+        document.getElementById("hrs").innerText = "00";
+        document.getElementById("mins").innerText = "00";
+        document.getElementById("secs").innerText = "00";
+        localStorage.removeItem("countdownEndTime"); // Optional: reset after end
+        return;
+      }
+  
+      const hrs = Math.floor((distance / (1000 * 60 * 60)));
+      const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((distance % (1000 * 60)) / 1000);
+  
+      document.getElementById("hrs").innerText = hrs.toString().padStart(2, '0');
+      document.getElementById("mins").innerText = mins.toString().padStart(2, '0');
+      document.getElementById("secs").innerText = secs.toString().padStart(2, '0');
+    };
+    @if(!Route::is('products.flash.sale') && !Route::is('cart'))
+let loadedAt = localStorage.getItem("settureifloded");
+const now = Date.now(); // current timestamp in milliseconds
+const thirtyMinutes = 30 * 60 * 1000;
+
+if (!loadedAt || now - parseInt(loadedAt) > thirtyMinutes) {
+  // Set or reset timestamp
+  localStorage.setItem("settureifloded", now);
+
+  // Show popup after 10 seconds
+  setTimeout(() => {
+    document.querySelector('.flash-sale-popup-overlay').style.display = 'flex';
+  }, 10000); // 10 seconds
+}
+@endif
+  </script>
+  
