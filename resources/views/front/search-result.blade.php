@@ -4,7 +4,7 @@
     <section class="search_result">
         <div class="container">
             <div class="searchFill_title">
-                <img src="{{ asset('front/images/Search-Fil.svg') }}" alt="" />
+                <img src="{{ asset('front/images/Search-Fil.svg') }}" alt="Search-Fil" />
                 <div class="searchFill_text">
                     <h4>Search Result</h4>
                     <p>We found {{ $products->count() }} top products based on your search</p>
@@ -46,7 +46,7 @@
                     <p>No products found.</p>
                 @endif
                 <div class="read_more_blogs" onclick="getmoreSearchResult('{{$query}}',10);"><a href="#;">
-                        <p>Load More</p><img src="{{ asset('front/images/radix-icons_reload.svg') }}" alt="">
+                        <p>Load More</p><img src="{{ asset('front/images/radix-icons_reload.svg') }}" alt="radix-icons_reload">
                     </a></div>
             </div>
         </div>
@@ -58,7 +58,7 @@
             <a href="{{ route('raise.query') }}">
                 <div class="raise_query_box">
                     <div class="rise_text_box">
-                        <img src="{{ asset('front/images/raise.svg') }}" alt="">
+                        <img src="{{ asset('front/images/raise.svg') }}" alt="raise">
                         <div class="rise_text_line">
                             <h4>Raise Query</h4>
                             <p>You can request anything by single click.</p>

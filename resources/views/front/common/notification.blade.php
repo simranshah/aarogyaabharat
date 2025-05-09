@@ -20,7 +20,7 @@
                         <p>{{ $notification->data['message'] ?? 'Notification message here.' }}</p>
                     </div>
                     <a href="#;" class="notidelete" data-id="{{ $notification->id }}">
-                        <img src="{{ asset('front/images/delete.svg') }}" />
+                        <img src="{{ asset('front/images/delete.svg') }}" alt="delete" />
                     </a>
                 </div>
             @endforeach

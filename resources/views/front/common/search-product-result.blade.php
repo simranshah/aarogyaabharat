@@ -2,9 +2,9 @@
     @foreach ($products as $product)
         <li>
             <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
-                <img src="{{ asset('front/images/search_fil.svg')}}" alt="" />
+                <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                 <p>{{ $product->name }}</p>
-                <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="" />
+                <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" />
             </a>
         </li>
     @endforeach

@@ -1,6 +1,6 @@
 <div id="pincodeContainer">
 <div class="locationPin">
-    <img src="{{ asset('front/images/pin.svg') }}" alt="" class="pin1">
+    <img src="{{ asset('front/images/pin.svg') }}" alt="pin" class="pin1">
     <div>
         @if(isset($userPincode) && !empty($userPincode))
             <p id="district">{{ $userPincode->district }}</p>
@@ -20,6 +20,6 @@
             @endif
         @endif
     </div>
-    <img src="{{ asset('front/images/downArrow.svg') }}" alt="" class="arrow1">
+    <img src="{{ asset('front/images/downArrow.svg') }}" alt="downArrow" class="arrow1">
 </div>
 </div>

@@ -16,7 +16,7 @@
     <div class="container">
        <div class="titlePart">
             <h4>Product List</h4>
-            <a href="{{route('products.list')}}">View All <img src="{{ asset('front/images/orange_arrow.svg')}}" alt=""> </a>
+            <a href="{{route('products.list')}}">View All <img src="{{ asset('front/images/orange_arrow.svg')}}" alt="orange_arrow"> </a>
         </div>
         </div>
     </div>

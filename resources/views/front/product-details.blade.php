@@ -36,7 +36,7 @@
                         @endforeach
                     @else
                         <div class="prod_slide"><img src="{{ asset('storage/' . $productDetails->image) }}"
-                                alt="" /></div>
+                                alt="{{$productDetails->slug}}" /></div>
                     @endif
                     <!--<div class="prod_slide"><img src="{{ asset('front/images/wheelchair_2.png') }}" alt="" /></div>
                                         <div class="prod_slide"><img src="{{ asset('front/images/wheelchair_2.png') }}" alt="" /></div> -->
@@ -145,19 +145,19 @@
             </div>
             <div class="get_service_benefits_allbox">
                 <div class="benefits_box">
-                    <img src="{{ asset('front/images/Quick_delivery.svg') }}" alt="" />
+                    <img src="{{ asset('front/images/Quick_delivery.svg') }}" alt="Quick_delivery" />
                     <p>Quick Delivery</p>
                 </div>
                 <div class="benefits_box">
-                    <img src="{{ asset('front/images/getitwith.svg') }}" alt="" />
+                    <img src="{{ asset('front/images/getitwith.svg') }}" alt="getitwith" />
                     <p>Get it Within 5 hrs</p>
                 </div>
                 <div class="benefits_box">
-                    <img src="{{ asset('front/images/freeinstolation.svg') }}" alt="" />
+                    <img src="{{ asset('front/images/freeinstolation.svg') }}" alt="freeinstolation" />
                     <p>Free Installation</p>
                 </div>
                 <div class="benefits_box">
-                    <img src="{{ asset('front/images/24hours.svg') }}" alt="" />
+                    <img src="{{ asset('front/images/24hours.svg') }}" alt="24hours" />
                     <p>24hrs Emergency Help</p>
                 </div>
             </div>
@@ -168,7 +168,7 @@
         <div class="container">
             <div class="titlePart">
                 <h4>Offer & Discount</h4>
-                <a href="#;">View All <img src="{{ asset('front/images/orange_arrow.svg') }}" alt=""> </a>
+                <a href="#;">View All <img src="{{ asset('front/images/orange_arrow.svg') }}" alt="orange_arrow"> </a>
             </div>
             <div class="rowMob">
                 <div class="offer_slider getprogressWidth arrowOnProgress">

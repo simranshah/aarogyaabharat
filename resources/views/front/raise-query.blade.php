@@ -62,13 +62,13 @@
                             {{-- <i>*</i> --}}
                         </span>
                         <label class="fileUpload">
-                            Browse Picture <img src="{{ asset('front/images/upload.svg') }}" alt="" />
+                            Browse Picture <img src="{{ asset('front/images/upload.svg') }}" alt="upload" />
                             <input type="file" name="file_upload" class="file-upload AnyValueVD" />
                         </label>
                         <div class="uploadedPart">
                             <div class="imgDis">
                                 <a href="#;">
-                                    <img src="{{ asset('front/images/Remove_x.svg') }}" alt="" class="close1" />
+                                    <img src="{{ asset('front/images/Remove_x.svg') }}" alt="Remove_x" class="close1" />
                                 </a>
                                 <img src="#" alt="" class="uploadeedImg" />
                             </div>

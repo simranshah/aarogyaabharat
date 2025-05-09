@@ -4,7 +4,7 @@
     <section class="search_result">
         <div class="container">
             <div class="searchFill_title">
-                <img src="{{ asset('front/images/Search-Fil.svg') }}" alt="" />
+                <img src="{{ asset('front/images/Search-Fil.svg') }}" alt="Search" />
                 <div class="searchFill_text">
                     <h4>Search Result</h4>
                     <p>We found {{ $blogs->count() }} top blogs based on your search</p>
@@ -47,7 +47,7 @@
             <a href="{{ route('raise.query') }}">
                 <div class="raise_query_box">
                     <div class="rise_text_box">
-                        <img src="{{ asset('front/images/raise.svg') }}" alt="">
+                        <img src="{{ asset('front/images/raise.svg') }}" alt="raise_query">
                         <div class="rise_text_line">
                             <h4>Raise Query</h4>
                             <p>You can request anything by single click.</p>

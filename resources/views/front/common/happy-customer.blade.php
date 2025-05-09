@@ -27,7 +27,7 @@
                                     @for($i = 1; $i <= 5; $i++)  <!-- Loop to show 5 stars -->
                                         <li>
                                             <a href="#">
-                                                <img src="{{ $i <= $rating ? asset('front/images/fill_star.svg') : asset('front/images/empty_star.svg') }}" alt="" />
+                                                <img src="{{ $i <= $rating ? asset('front/images/fill_star.svg') : asset('front/images/empty_star.svg') }}" alt="fill_star" />
                                             </a>
                                         </li>
                                     @endfor

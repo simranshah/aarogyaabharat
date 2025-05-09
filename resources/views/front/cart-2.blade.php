@@ -26,7 +26,7 @@
             @endif
 
             <div class="cartTitle">
-                <img src="{{ asset('front/images/cart.svg') }}" alt="" />
+                <img src="{{ asset('front/images/cart.svg') }}" alt="cart" />
                 <div>
                     @php
                         $customer = Auth::user();
@@ -221,7 +221,7 @@
         <div class="offerPop winScrollStop" id="offerModal" style="display:none;">
             <div class="offerPopMiddle">
                 <div class="offerPopInner">
-                    <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="" /> </a>
+                    <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /> </a>
                     <h4>Offer & Benefits</h4>
                     <div class="couponInput">
                         <input type="text" id="couponCode" placeholder="Enter coupon code" />
