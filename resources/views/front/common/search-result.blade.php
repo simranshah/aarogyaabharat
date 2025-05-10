@@ -28,5 +28,5 @@
                     <p>No products found.</p>
                 @endif
                 <div class="read_more_blogs" onclick="getmoreSearchResult('{{$query}}','{{$offset}}');"><a href="#;">
-                        <p>Load More</p><img src="{{ asset('front/images/radix-icons_reload.svg') }}" alt="">
+                        <p>Load More</p><img src="{{ asset('front/images/radix-icons_reload.svg') }}" alt="icons_reload">
                     </a></div>

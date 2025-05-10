@@ -1,7 +1,7 @@
 <div class="">
                     <div class="title1">
                         <strong>Delivery Address</strong>
-                        <a href="#;"><img src="{{asset('front/images/edit_pen.svg')}}" alt="" /> </a>
+                        <a href="#;"><img src="{{asset('front/images/edit_pen.svg')}}" alt="edit_pen" /> </a>
                     </div>
                     <div class="deliveryAddressInner">
                         @if(isset($customerAndAddresses) && !empty($customerAndAddresses))
@@ -15,7 +15,7 @@
                         </label>
                         @endif
                         <div class="addDelAddress1">
-                            <a href="#;">Add New Address <img src="{{asset('front/images/jam_plus.svg')}}" alt="" /> </a>
+                            <a href="#;">Add New Address <img src="{{asset('front/images/jam_plus.svg')}}" alt="jam_plus" /> </a>
                         </div>
                     </div>
                 </div>

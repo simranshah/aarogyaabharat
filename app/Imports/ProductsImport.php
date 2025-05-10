@@ -22,7 +22,7 @@ class ProductsImport implements ToModel, WithHeadingRow
         // Find or create the category
         $category = Category::updateOrCreate(
             ['name' => trim($row['category'])],
-            ['image' => $categoryImagePath, 'slug' => \Str::slug(trim($row['category']))]
+            ['slug' => \Str::slug(trim($row['category']))]
         );
 
         // Function to clean numeric values

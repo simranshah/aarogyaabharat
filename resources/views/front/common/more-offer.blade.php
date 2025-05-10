@@ -1,7 +1,7 @@
 @if(isset($offers) && count($offers) > 0)
     @foreach($offers as $offer)
         <div class="flatOffer">
-            <img src="{{ asset('front/images/flat_offer.svg') }}" alt="" />
+            <img src="{{ asset('front/images/flat_offer.svg') }}" alt="flat_offer" />
             <div class="flatCon">
                 <strong>{{ $offer->title }}</strong>
                 <p>{{ $offer->description }}</p>

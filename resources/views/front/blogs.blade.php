@@ -63,7 +63,6 @@
         </div>
     </div>
 </section>
-@endsection
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script>
 
@@ -117,3 +116,4 @@ function searchblogsinput(query) {
     }
 }
 </script>
+@endsection

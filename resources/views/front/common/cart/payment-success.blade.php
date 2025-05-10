@@ -10,7 +10,7 @@
     </div>
     <div class="orderedProduct">
         <div class="imagePart">
-            <img src="images/wheelchair_1.png" alt="" />
+            <img src="images/wheelchair_1.png" alt="wheelchair_1" />
         </div>
         <div class="productadd">
             <strong>Shipping to {{ $address->customer->name ?? 'N/A' }}</strong> <!-- Customer name -->
@@ -21,6 +21,6 @@
     </div>
     <div class="btnPart">
         <a href="{{ route('home') }}" class="goHomeBtn">Go to Home</a>
-        <a href="#;" class="shreI"><img src="images/Share.svg" alt="" /></a>
+        <a href="#;" class="shreI"><img src="images/Share.svg" alt="Share" /></a>
     </div>
 </div>

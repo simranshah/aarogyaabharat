@@ -28,8 +28,8 @@
           <p class="articalauthor">{{ $blogDetails->author  }}</p>
             <ul>
                 <li class="tagBox"><p>{{ $blogDetails->tagname  }}</p></li>
-                <li class="blogdate"><img src="{{ asset('front/images/calendar.svg') }}" alt=""><p>{{$blogDetails->created_at->format('m/d/y')}}</p></li>
-                <li class="blogview"><img src="{{ asset('front/images/carbon_view.svg') }}" alt=""><p>{{ $blogDetails->views}}</p></li>
+                <li class="blogdate"><img src="{{ asset('front/images/calendar.svg') }}" alt="calendar"><p>{{$blogDetails->created_at->format('m/d/y')}}</p></li>
+                <li class="blogview"><img src="{{ asset('front/images/carbon_view.svg') }}" alt="carbon_view"><p>{{ $blogDetails->views}}</p></li>
                 <li><a href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blogDetails->title . ' ' . route('blog.details', $blogDetails->slug)) }}"><img src="{{ asset('front/images/ri_share-line.svg') }}" alt="{{$blogDetails->title}}"></a></li>
             </ul>
         </div>
@@ -48,7 +48,7 @@
         <div class="our_blog_all_box">
             @foreach($twoBlogs as $blog)
             <div class="our_blog_box">
-                <div class="blog_image"><img src="{{ asset('storage/' .$blog->images->first()->path) }}" alt=""></div>
+                <div class="blog_image"><img src="{{ asset('storage/' .$blog->images->first()->path) }}" alt="{{$blogDetails->images->first()->alt}}"></div>
                 <div class="blog_text">
                     <div class="text_one">
                         <a href="{{ route('blog.details', ['slug' => $blog->slug]) }}">
@@ -58,9 +58,9 @@
                     <div class="blog_tag_name">
                         <ul>
                             <li class="tagBox"><p>{{ $blog->tagname  }}</p></li>
-                            <li class="blogdate"><img src="{{ asset('front/images/calendar.svg')}}" alt="" /><p>{{$blog->created_at->format('m/d/y')}}</p></li>
-                            <li class="blogview"><img src="{{ asset('front/images/carbon_view.svg')}}" alt="" /><p>{{ $blog->views}}</p></li>
-                            <li><a href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blog->title . ' ' . route('blog.details', $blog->slug)) }}"><img src="{{ asset('front/images/ri_share-line.svg')}}" alt="" /></a></li>
+                            <li class="blogdate"><img src="{{ asset('front/images/calendar.svg')}}" alt="calendar" /><p>{{$blog->created_at->format('m/d/y')}}</p></li>
+                            <li class="blogview"><img src="{{ asset('front/images/carbon_view.svg')}}" alt="carbon_view" /><p>{{ $blog->views}}</p></li>
+                            <li><a href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blog->title . ' ' . route('blog.details', $blog->slug)) }}"><img src="{{ asset('front/images/ri_share-line.svg')}}" alt="share" /></a></li>
                         </ul>
                         <a href="{{ route('blog.details', ['slug' => $blog->slug]) }}" class="blogreadnow">Read Now</a>
                     </div>

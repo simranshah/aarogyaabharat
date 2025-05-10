@@ -3,7 +3,7 @@
         <div class="all_footer_parts">
             <div class="footer_acco_box">
                 <div class="acco_click"><a href="#;">
-                        <p>Quick links</p><img src="{{ asset('front/images/upArrow.svg') }}" alt="" />
+                        <p>Quick links</p><img src="{{ asset('front/images/upArrow.svg') }}" alt="upArrow" />
                     </a></div>
                 <div class="acco_text">
                     <div class="footer_links">
@@ -26,7 +26,7 @@
             </div>
             <div class="footer_acco_box">
                 <div class="acco_click"><a href="#;">
-                        <p>Popular Products</p><img src="{{ asset('front/images/upArrow.svg') }}" alt="" />
+                        <p>Popular Products</p><img src="{{ asset('front/images/upArrow.svg') }}" alt="upArrow" />
                     </a></div>
                 <div class="acco_text">
                     <div class="Products_tag">
@@ -47,7 +47,7 @@
             </div>
             <div class="footer_acco_box">
                 <div class="acco_click"><a href="#;">
-                        <p>Social connects</p><img src="{{ asset('front/images/upArrow.svg') }}" alt="" />
+                        <p>Social connects</p><img src="{{ asset('front/images/upArrow.svg') }}" alt="upArrow" />
                     </a></div>
                 <div class="acco_text">
                     <div class="social_connects">
@@ -80,11 +80,11 @@
                     <h2>Need an emergency help</h2>
                     <ul>
                         <li><a href="tel:{{ env('HELP_LINE_NO') }}"><img
-                                    src="{{ asset('front/images/phone_call.svg') }}" alt="" />
+                                    src="{{ asset('front/images/phone_call.svg') }}" alt="phone_call" />
                                 <p>{{ env('HELP_LINE_NO') }}</p><span>Call Now</span>
                             </a></li>
                         <li><a href="mailto:{{ env('HELP_LINE_EMAIL') }}"><img
-                                    src="{{ asset('front/images/mail.svg') }}" alt="" />
+                                    src="{{ asset('front/images/mail.svg') }}" alt="mail" />
                                 <p>{{ env('HELP_LINE_EMAIL') }}</p>
                             </a></li>
                     </ul>
@@ -154,9 +154,9 @@
         </li>
         <li id="offerLink" data-active-img="{{ asset('front/images//offerbar-active.svg') }}"
             data-inactive-img="{{ asset('front/images/offerbar.svg') }}">
-            <a href="{{ route('home') }}#offer_Part">
+            <a href="{{ route('products.flash.sale')}}">
                 <img id="offerImage" src="{{ asset('front/images/offerbar.svg') }}" alt="Offers" />
-                Offers
+                Sale
             </a>
         </li>
         <li>
@@ -180,7 +180,7 @@
 
 <div class="locationPop winScrollStop">
     <div class="locationBlock">
-        <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="" /></a>
+        <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
         <h4>Select Delivery Location</h4>
         <p>Please enter pin code to get current location.</p>
         <div class="inputPart">
@@ -195,7 +195,7 @@
 
         </div>
         <div class="currLoc">
-            <img src="{{ asset('front/images/pin.svg') }}" alt="" />
+            <img src="{{ asset('front/images/pin.svg') }}" alt="pin" />
             <a href="#;">Select Current Location</a>
         </div>
         <button id="getLocationBtn">Get Location</button>
@@ -205,7 +205,7 @@
 <div class="LoginPop winScrollStop">
     <div class="LoginPopMiddle">
         <div class="LoginPopInner">
-            <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="" /> </a>
+            <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /> </a>
             <div class="mobForm">
                 <div class="title1">
                     <strong>Lets’ Login</strong>
@@ -214,11 +214,11 @@
                 <div class="socialLogos">
                     <div>
                         <a href="{{ route('google.login') }}"><img
-                                src="{{ asset('front/images/logos_google.svg') }}" alt="" /></a>
+                                src="{{ asset('front/images/logos_google.svg') }}" alt="logos_google" /></a>
                     </div>
                     <div>
                         <a href="{{ route('facebook.login') }}"><img
-                                src="{{ asset('front/images/facebook_logo.svg') }}" alt="" /></a>
+                                src="{{ asset('front/images/facebook_logo.svg') }}" alt="facebook_logo" /></a>
                     </div>
                 </div>
                 <div class="orLine">
@@ -232,7 +232,7 @@
                             autocomplete="off">
                         <div class="errormsg"></div>
                         <div class="addressNote2">
-                            <img src="{{ asset('front/images/info-circle.svg') }}" alt="">
+                            <img src="{{ asset('front/images/info-circle.svg') }}" alt="info-circle">
                             <p>Enter your 10-digit mobile number</p>
                         </div>
                     </div>

@@ -2,6 +2,21 @@
 <html lang="en">
 
 <head>
+ <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D1GEF2BB22"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TEY1CCE82S');
+</script>
+ <!-- Google tag-manger (gtag.js) -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-P8QHT45N');</script>
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
@@ -23,15 +38,26 @@
     <link rel="stylesheet" href="{{ asset('front/css/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/toaster.css') }}">
     <link rel="icon" href="{{ asset('front/images/Favicon-new.svg') }}" type="image/x-icon">
+     <!-- Google tag (gtag.js) -->
+     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16811101057"></script>
+     <script>
+       window.dataLayer = window.dataLayer || [];
+       function gtag(){dataLayer.push(arguments);}
+       gtag('js', new Date());
+     
+       gtag('config', 'AW-16811101057');
+     </script>
 </head>
 
 <body class="bodyback">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8QHT45N"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <header>
         <div class="container">
             <div class="headerBlock">
                 <a href="{{ route('home') }}" class="logoPart">
-                    <img src="{{ asset('front/images/arogya_bharat.svg') }}" alt="">
+                    <img src="{{ asset('front/images/arogya_bharat.svg') }}" alt="Logo">
                 </a>
                 <ul class="menuList">
                     <li id="home" class="{{ Route::currentRouteName() == 'home' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
@@ -94,10 +120,10 @@
                        
                     @if(Auth::check() && Auth::user()->hasRole('Customer'))
                         <!-- Display Cart Link -->
-                        <a href="{{route('cart')}}"><img src="{{ asset('front/images/cart.svg') }}" alt=""><span>{{$cartProductCount1 ?? 0}}</span></a>
+                        <a href="{{route('cart')}}"><img src="{{ asset('front/images/cart.svg') }}" alt="Cart"><span>{{$cartProductCount1 ?? 0}}</span></a>
                     @else
                         <!-- Trigger Login Popup -->
-                        <a href="javascript:void(0)" class="trigger-login-popup"><img src="{{ asset('front/images/cart.svg') }}" alt=""><span>{{$cartProductCount1 ?? 0}}</span></a>
+                        <a href="javascript:void(0)" class="trigger-login-popup"><img src="{{ asset('front/images/cart.svg') }}" alt="cart"><span>{{$cartProductCount1 ?? 0}}</span></a>
                     @endif
                     </li>
                 </ul>
@@ -106,15 +132,15 @@
                 </div>
                 <div class="SearchBlock">
                     <div>
-                        <button><img src="{{ asset('front/images/search.svg') }}" alt=""></button>
+                        <button><img src="{{ asset('front/images/search.svg') }}" alt="search"></button>
                         <input type="text" id="searchInput" placeholder="Search" onkeydown="
                         if (event.keyCode === 13) {
                           searchproductinput(this.value);
                          }
                         ">
-                        <a href="#"><img src="{{ asset('front/images/search_arrow.svg') }}" alt=""> </a>
+                        <a href="#"><img src="{{ asset('front/images/search_arrow.svg') }}" alt="search_arrow"> </a>
                     </div>
-                    <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="" /> </a>
+                    <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /> </a>
                 </div>
             </div>
         </div> 
@@ -132,11 +158,19 @@
             </div>
         </div>
     </header>
+    @php
+    $isMobile = request()->header('User-Agent') && preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
+    @endphp
     @if(!Route::is('products.flash.sale') && !Route::is('cart'))
-      
+    @if($isMobile)
     <button class="flash-sale-flash-button" onclick="document.querySelector('.flash-sale-popup-overlay').style.display='flex'">
-        🎉 70% OFF! Tap Here
+        🎉 70% OFF!
       </button>
+    @else
+    <button class="flash-sale-flash-button" onclick="document.querySelector('.flash-sale-popup-overlay').style.display='flex'">
+        🎉 70% OFF! Click Here
+      </button>
+      @endif
       @endif
       
       <!-- Popup -->
@@ -167,6 +201,23 @@
             </div>
            <a href="{{route('products.flash.sale')}}"><button class="flash-sale-shop-btn"  >Shop Now</button></a>
           </div>
+        </div>
+      </div>
+        <div id="chat-toggle">
+        <img src="{{ asset('front/images/chat_bot_img.png') }}" alt="Chat Icon">
+      </div>
+      
+      <!-- Chat Popup -->
+      <div class="chat-popup" id="chatbox">
+        <div class="chat-header">
+          <img src="{{ asset('front/images/samll_chat_gpt.png') }}" alt="Bot">
+          <span>Aarogyaa</span>
+          <div class="close-btn" id="close-chat">✕</div>
+        </div>
+        <div class="chat-body" id="chat-body"></div>
+        <div class="chat-input">
+          <input type="text" id="chat-input" placeholder="Ask Aarogyaa..." />
+          <button id="send-btn">➤</button>
         </div>
       </div>
     <div class="searchPop winScrollStop">
@@ -370,5 +421,135 @@ if (!loadedAt || now - parseInt(loadedAt) > thirtyMinutes) {
   }, 10000); // 10 seconds
 }
 @endif
-  </script>
+const toggleBtn = document.getElementById('chat-toggle');
+  const closeBtn = document.getElementById('close-chat');
+  const chatbox = document.getElementById('chatbox');
+  const chatBody = document.getElementById('chat-body');
+  const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('send-btn');
+
+  let lastQuery = "";
+  let typingEl;
+
+  function formatMarkdown(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  }
+
+  function addMessage(text, sender = "user") {
+    const wrapper = document.createElement("div");
+    wrapper.className = `message-wrapper ${sender}`;
+
+    const name = document.createElement("div");
+    name.className = "sender-name";
+    name.textContent = sender === "user" ? "You :" : "Aarogya :";
+
+    const msg = document.createElement("div");
+    msg.className = "message";
+    msg.innerHTML = formatMarkdown(text);
+
+    wrapper.appendChild(name);
+    wrapper.appendChild(msg);
+    chatBody.appendChild(wrapper);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function showTypingIndicator() {
+    typingEl = document.createElement("div");
+    typingEl.className = "message-wrapper bot";
+
+    const name = document.createElement("div");
+    name.className = "sender-name";
+    name.textContent = "Aarogya :";
+
+    const typingText = document.createElement("div");
+    typingText.className = "typing-indicator";
+    typingText.textContent = "Aarogya is typing...";
+
+    typingEl.appendChild(name);
+    typingEl.appendChild(typingText);
+    chatBody.appendChild(typingEl);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function hideTypingIndicator() {
+    if (typingEl) {
+      chatBody.removeChild(typingEl);
+      typingEl = null;
+    }
+  }
+
+  async function handleSend() {
+    const userInput = input.value.trim();
+    if (!userInput) return;
+
+    addMessage(userInput, "user");
+    input.value = "";
+
+    showTypingIndicator();
+
+    try {
+      const payload = { query: userInput };
+      if (lastQuery) payload.old_query = lastQuery;
+
+      const response = await fetch("https://chatbot-abl-1.onrender.com/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      const reply = data.response;
+
+      hideTypingIndicator();
+      addMessage(reply, "bot");
+
+      if (reply.includes("I couldn’t find a matching product")) {
+        lastQuery = userInput;
+      } else {
+        lastQuery = "";
+      }
+
+    } catch (err) {
+      hideTypingIndicator();
+      addMessage("⚠️ Could not connect to server.", "bot");
+    }
+  }
+
+  sendBtn.addEventListener("click", handleSend);
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") handleSend();
+  });
+
+  toggleBtn.addEventListener("click", () => {
+    chatbox.style.display = "flex";
+    toggleBtn.style.display = "none";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    chatbox.style.display = "none";
+    toggleBtn.style.display = "block";
+  });
+  function addMessage(text, sender = "user") {
+    const wrapper = document.createElement("div");
+    wrapper.className = `message-wrapper ${sender}`;
+
+    // if (sender === "bot") {
+    //     const botImage = document.createElement("img");
+    //     botImage.src = "{{ asset('front/images/samll_chat_gpt.png') }}";
+    //     botImage.alt = "Bot";
+    //     botImage.className = "bot-image"; // Add a class for styling
+    //     // wrapper.appendChild(botImage);
+    // }
+
+    const msg = document.createElement("div");
+    msg.className = "message";
+    msg.innerHTML = formatMarkdown(text);
+    // msg.appendChild(botImage); // Append the image to the message
+
+    wrapper.appendChild(msg);
+    chatBody.appendChild(wrapper);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+  addMessage("Hi! I'm Aarogyaa. How can I help you today?", "bot");
+</script> 
   
