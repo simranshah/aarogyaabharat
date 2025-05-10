@@ -338,11 +338,20 @@ class CustomerController extends Controller
         ->first();
         $statuses = Status::all();
 
+<<<<<<< HEAD
         //  $lastSegment = basename(parse_url($request->url(), PHP_URL_PATH));
         //  $contactPageData = Page::where('slug', $lastSegment)->with('cms.images')->first();
         //  $seoMetaTag = $contactPageData->seo_meta_tag;
         //  $seoMetaTagTitle = $contactPageData->seo_meta_tag_title;
         //  $pageTitle = $contactPageData->page_title;    
+=======
+         $lastSegment = basename(parse_url($request->url(), PHP_URL_PATH));
+         $contactPageData = Page::where('slug', $lastSegment)->with('cms.images')->first();
+         
+         $seoMetaTag = $contactPageData && $contactPageData->seo_meta_tag ? $contactPageData->seo_meta_tag : '';
+         $seoMetaTagTitle = $contactPageData &&  $contactPageData->seo_meta_tag_title ? $contactPageData->seo_meta_tag_title : '';
+         $pageTitle = $contactPageData &&  $contactPageData->page_title ? $contactPageData->page_title : '';    
+>>>>>>> 358cf96 (changes on 19325)
         // if ($customerDetail && $customerDetail->hasRole('Customer')) {
             return view('front.profile', compact('customerDetail','statuses'));
         // } 

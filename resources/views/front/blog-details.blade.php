@@ -33,10 +33,16 @@
                 <li><a href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blogDetails->title . ' ' . route('blog.details', $blogDetails->slug)) }}"><img src="{{ asset('front/images/ri_share-line.svg') }}" alt="{{$blogDetails->title}}"></a></li>
             </ul>
         </div>
+<<<<<<< HEAD
 
       <div class="blog-content" id="skipMe">
                 {!! html_entity_decode($blogDetails->content_html) !!}
             </div>
+=======
+        <div class="for_renting">
+        {!! $blogDetails->content_html !!}
+        </div>
+>>>>>>> 358cf96 (changes on 19325)
     </div>
 </section>
 
