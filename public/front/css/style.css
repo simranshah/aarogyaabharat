@@ -261,7 +261,7 @@ margin-top: 6px;}
 .blog_image img{width: 128px;height: 128px;box-shadow: 0px 0px 5px 0px #233F8C1A;}
 .blog_text{float: left;padding-left: 16px;}
 .text_one{width: 100%;float: left;padding-bottom: 28px;}
-.text_one h2{width: 100%;float: left;color: #000000;font-size: 16px;font-family: 'Nunito-Reg';font-weight: 700;line-height: 26px;padding-bottom: 6px;}
+.text_one h2 a{width: 100%;float: left;color: #000000;font-size: 16px;font-family: 'Nunito-Reg';font-weight: 700;line-height: 26px;padding-bottom: 6px;}
 .text_one h1{width: 100%;float: left;color: #000000;font-size: 16px;font-family: 'Nunito-Reg';font-weight: 700;line-height: 26px;padding-bottom: 6px;}
 .text_one p{width: 100%;float: left;color: #504D4D;    font-size: 16px;font-family: 'Nunito-Reg';font-weight: 400;line-height: 21.82px;}
 .blog_tag_name{width: 100%;float: left;display: flex;flex-direction: row;align-items: center;justify-content:space-between;}
@@ -1934,7 +1934,7 @@ input[type="radio"] { transform: scale(1);  margin-right: 8px;}
   bottom: 20px;
   right: 20px;
   width: 70px;
-  height: 80px;
+  height: 70px;
   cursor: pointer;
   z-index: 1000;
   
@@ -1964,7 +1964,7 @@ input[type="radio"] { transform: scale(1);  margin-right: 8px;}
   flex-direction: column;
   overflow: hidden;
   z-index: 999;
-  animation: slideUp 2s ease;
+  animation: slideUp 1s ease;
 }
 
 .chat-header {
@@ -2058,7 +2058,7 @@ input[type="radio"] { transform: scale(1);  margin-right: 8px;}
   display: flex;
   border-top: 1px solid #ccc;
   background: #f8f8f8;
-  padding: 10px;
+  padding: 4px;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
 }
@@ -2070,13 +2070,15 @@ input[type="radio"] { transform: scale(1);  margin-right: 8px;}
   outline: none;
   font-size: 14px;
   border-radius: 15px;
+  background: #F2F2F2;
+
 }
 
 .chat-input button {
   margin-left: 10px;
   padding: 0 16px;
   border: none;
-  background: #f2a007;
+ background: linear-gradient(90deg, #FF6700 0%, #FF8900 100%);
   color: white;
   font-size: 18px;
   border-radius: 15px;
@@ -2085,10 +2087,40 @@ input[type="radio"] { transform: scale(1);  margin-right: 8px;}
 
 @media (max-width: 480px) {
   .chat-popup {
-    max-width: 375px;
+    position: fixed; /* Ensure it overlays correctly */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;     /* 100% of viewport width */
+    height: 100vh;     /* 90% of viewport height */
+    max-width: 100%;  /* Prevent any max-width limitations */
+    margin: 0;
+    padding: 0;
   }
+
   #chat-toggle {
+    position: fixed;
     right: 10px;
     bottom: 73px;
   }
+}
+
+img.lazy-image {
+  filter: blur(10px);
+  transition: filter 0.3s ease;
+}
+
+img.lazy-image.loaded {
+  filter: blur(0);
+}
+#add-btn {
+   background: #F2F2F2;
+  color: black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  margin-right: 10px;
+  align-items: center;
+  cursor: pointer;
 }

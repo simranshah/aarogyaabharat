@@ -32,11 +32,11 @@
     @endif
     </title>
 
-    <link rel="stylesheet" href="{{ asset('front/css/slick.css') }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('front/css/slick-theme.css') }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('front/css/sweetalert.css') }}">
-    <link rel="stylesheet" href="{{ asset('front/css/toaster.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/slick.css') }}?v={{ time() }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('front/css/slick-theme.css') }}?v={{ time() }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}?v={{ time() }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('front/css/sweetalert.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('front/css/toaster.css') }}?v={{ time() }}">
     <link rel="icon" href="{{ asset('front/images/Favicon-new.svg') }}" type="image/x-icon">
      <!-- Google tag (gtag.js) -->
      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16811101057"></script>
@@ -210,12 +210,13 @@
       <!-- Chat Popup -->
       <div class="chat-popup" id="chatbox">
         <div class="chat-header">
-          <img src="{{ asset('front/images/samll_chat_gpt.png') }}" alt="Bot">
+          <img src="{{ asset('front/images/samll_chat_gpt.svg') }}" alt="Bot">
           <span>Aarogyaa</span>
           <div class="close-btn" id="close-chat">✕</div>
         </div>
         <div class="chat-body" id="chat-body"></div>
         <div class="chat-input">
+          <button id="add-btn">+</button>
           <input type="text" id="chat-input" placeholder="Ask Aarogyaa..." />
           <button id="send-btn">➤</button>
         </div>
@@ -234,14 +235,14 @@
     </div>
 
     <!-- use re-captcha route  -->
-    <form id="demo-form">
+    {{-- <form id="demo-form">
 
     @csrf
     <button class="g-recaptcha" 
             data-sitekey="{{ env('GOOGLE_RECATCHA_SITE_KEY') }}" 
             data-callback="onSubmit" style="display: none;">Submit
     </button>
-</form>
+</form> --}}
     <script src="{{ asset('front/js/jquery.min.js') }}"></script>
     <script src="{{ asset('front/js/script.js') }}"></script>
     <script src="{{ asset('front/js/sweetalert.js') }}"></script>
@@ -532,15 +533,31 @@ const toggleBtn = document.getElementById('chat-toggle');
   function addMessage(text, sender = "user") {
     const wrapper = document.createElement("div");
     wrapper.className = `message-wrapper ${sender}`;
+    if (sender === "bot") {
+      // Place bot image and message in a flex row
+      const botRow = document.createElement("div");
+      botRow.className = "bot-row";
+      botRow.style.display = "flex";
+      botRow.style.alignItems = "center";
+      botRow.style.gap = "8px";
 
-    // if (sender === "bot") {
-    //     const botImage = document.createElement("img");
-    //     botImage.src = "{{ asset('front/images/samll_chat_gpt.png') }}";
-    //     botImage.alt = "Bot";
-    //     botImage.className = "bot-image"; // Add a class for styling
-    //     // wrapper.appendChild(botImage);
-    // }
+      const botImage = document.createElement("img");
+      botImage.src = "{{ asset('front/images/msg_chat_bot.svg') }}";
+      botImage.style.alignSelf = "flex-start";
+      botImage.alt = "Bot";
+      botImage.className = "bot-image";
 
+      const msg = document.createElement("div");
+      msg.className = "message";
+      msg.innerHTML = formatMarkdown(text);
+
+      botRow.appendChild(botImage);
+      botRow.appendChild(msg);
+      wrapper.appendChild(botRow);
+      chatBody.appendChild(wrapper);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return;
+    }
     const msg = document.createElement("div");
     msg.className = "message";
     msg.innerHTML = formatMarkdown(text);

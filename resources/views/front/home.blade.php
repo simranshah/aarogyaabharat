@@ -281,10 +281,8 @@
                         </a>   
                         </div>
                         <div class="blog_text" style="height: 128px;">
-                            <div class="text_one">
-                            <a href="{{ route('blog.details', ['slug' => $blog->slug]) }}">
-                                <h2>{{ $blog->title }}</h2>
-                            </a>    
+                            <div class="text_one">                         
+                                <h2><a href="{{ route('blog.details', ['slug' => $blog->slug]) }}" >{{ $blog->title }} </a></h2>
                                 <p>{{ Str::limit($blog->description, 102) }}</p>
                                 {{-- <p>{{ $blog->description }}</p> --}}
                             </div>

@@ -676,8 +676,52 @@
         }
     });
 });
+</script>
+<script>
+// document.addEventListener("DOMContentLoaded", function () {
+//   const placeholderSVG = `
+//     <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+//       <rect width="300" height="200" fill="#eee" />
+//       <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#aaa" font-size="20">
+//         Loading...
+//       </text>
+//     </svg>`;
 
+//   const allImages = document.querySelectorAll('img');
 
+//   allImages.forEach((img) => {
+//     // Skip if already lazy-loaded manually
+//     if (img.hasAttribute('data-lazy-ready')) return;
+
+//     const realSrc = img.getAttribute('src');
+//     img.setAttribute('data-src', realSrc);
+//     img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(placeholderSVG));
+//     img.setAttribute('data-lazy-ready', 'true');
+//   });
+
+//   if ('IntersectionObserver' in window) {
+//     const observer = new IntersectionObserver((entries, obs) => {
+//       entries.forEach(entry => {
+//         if (entry.isIntersecting) {
+//           const img = entry.target;
+//           img.src = img.dataset.src;
+
+//           // Optional smooth load
+//           img.onload = () => {
+//             img.removeAttribute('data-src');
+//             img.removeAttribute('data-lazy-ready');
+//           };
+
+//           observer.unobserve(img);
+//         }
+//       });
+//     });
+
+//     document.querySelectorAll('img[data-lazy-ready]').forEach(img => {
+//       observer.observe(img);
+//     });
+//   }
+// });
 </script>
 </body>
 </html>
