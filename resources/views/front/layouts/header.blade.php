@@ -460,11 +460,20 @@ const toggleBtn = document.getElementById('chat-toggle');
 
     const name = document.createElement("div");
     name.className = "sender-name";
-    name.textContent = "Aarogya :";
+    name.textContent = "";
 
     const typingText = document.createElement("div");
     typingText.className = "typing-indicator";
-    typingText.textContent = "Aarogya is typing...";
+  typingText.innerHTML = `
+  <div class="typing-wrapper">
+    <span class="typing-dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </span>
+  </div>`;
+
+
 
     typingEl.appendChild(name);
     typingEl.appendChild(typingText);

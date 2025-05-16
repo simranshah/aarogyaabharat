@@ -2124,3 +2124,37 @@ img.lazy-image.loaded {
   align-items: center;
   cursor: pointer;
 }
+.typing-wrapper {
+  background-color: #f1f1f1; /* Light gray background */
+  padding: 8px 12px;
+  border-radius: 12px;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.typing-dots {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  background-color: #333;
+  border-radius: 50%;
+  opacity: 0;
+  animation: blink 1.4s infinite;
+}
+
+.dot:nth-child(1) { animation-delay: 0s; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0; }
+  40% { opacity: 1; }
+}
+
