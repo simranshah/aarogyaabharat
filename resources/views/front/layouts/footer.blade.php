@@ -723,5 +723,73 @@
 //   }
 // });
 </script>
+<script>
+window.dataLayer = window.dataLayer || [];
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("register_form");
+  const inputs = form.querySelectorAll("input");
+  const submitBtn = document.querySelector(".submitBTN");
+
+  let hasStarted = false;
+
+  // Track when the user starts filling the form
+  inputs.forEach(input => {
+    input.addEventListener("focus", function () {
+      if (!hasStarted) {
+        window.dataLayer.push({
+          event: "signup_form_start"
+        });
+        hasStarted = true;
+      }
+    });
+  });
+
+  // Utility: Wait for city/state autofill (up to 2 seconds max)
+  function waitForCityState(callback) {
+    let checks = 0;
+    const interval = setInterval(() => {
+      const city = form.querySelector('[name="city"]').value.trim();
+      const state = form.querySelector('[name="state"]').value.trim();
+
+      if (city && state || checks > 10) {
+        clearInterval(interval);
+        callback(city, state);
+      }
+
+      checks++;
+    }, 200);
+  }
+
+  // Track form errors on submit
+  submitBtn.addEventListener("click", function () {
+    const errors = [];
+
+    const fullName = form.querySelector('[name="full_name"]').value.trim();
+    const email = form.querySelector('[name="email"]').value.trim();
+    const mobile = form.querySelector('[name="mobile"]').value.trim();
+    const pincode = form.querySelector('[name="pincode"]').value.trim();
+
+    if (!fullName) errors.push("full_name");
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) errors.push("email");
+    if (!mobile || mobile.length < 10) errors.push("mobile");
+    if (!pincode || pincode.length !== 6) errors.push("pincode");
+
+    // Wait for city/state autofill before validating
+    waitForCityState((city, state) => {
+      if (!city) errors.push("city");
+      if (!state) errors.push("state");
+
+      if (errors.length > 0) {
+        window.dataLayer.push({
+          event: "signup_form_error",
+          errorFields: errors
+        });
+      }
+    });
+  });
+});
+</script>
+
 </body>
 </html>

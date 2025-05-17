@@ -125,4 +125,9 @@ class SubCategory extends Controller
         return view('admin.pin.import-pin')->with('success', 'Pin Offices Imported Successfully!');;
         // return redirect()->back()->with('success', 'Pin Offices Imported Successfully!');
     }
+    public function pinallApi()
+    {
+        $pinOffices = PinOffice::all();
+        return response()->json($pinOffices);
+    }
 }

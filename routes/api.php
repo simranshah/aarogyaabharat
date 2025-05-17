@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\FrontProductController;
@@ -21,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/product-info', [FrontProductController::class, 'getProductInfo']);
 Route::get('/page-content', [FrontCmsController::class, 'getPageContent']);
+Route::get('/all-pin-offices', [SubCategory::class, 'pinallApi']);
 
