@@ -22,5 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/product-info', [FrontProductController::class, 'getProductInfo']);
 Route::get('/page-content', [FrontCmsController::class, 'getPageContent']);
-Route::get('/all-pin-offices', [SubCategory::class, 'pinallApi']);
+Route::get('/check-pincode', [SubCategory::class, 'pinallApi']);
 

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\SubCategories;
 use App\Models\Admin\Category;
-use App\Models\Admin\pinOffice;
+use App\Models\Admin\PinOffice;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use App\imports\OfficesImport;
