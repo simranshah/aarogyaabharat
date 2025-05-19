@@ -483,4 +483,48 @@
         });
     });
 </script>
+{{-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const preloader = document.getElementById("preloader");
+        const content = document.querySelector(".content");
+        const progress = document.getElementById("progress");
+        const percent = document.getElementById("percent");
+
+        let siteLoaded = false;
+        let fiveSecondsPassed = false;
+          let load = 0;
+        function hidePreloader() {
+            if (siteLoaded && fiveSecondsPassed) {
+                preloader.style.opacity = "0";
+                setTimeout(() => {
+                    preloader.style.display = "none";
+                    content.style.opacity = "1";
+                }, 500); // matches transition
+            }else{
+            const interval = setInterval(() => {
+            load++;
+            
+
+            if (load <= 100) {
+              progress.style.width = load + "%";
+            percent.textContent = load + "%";
+            }
+        }, 75); // Adjust loading speed
+            }
+        }
+
+        // Wait until everything (images, etc.) is loaded
+        window.addEventListener("load", () => {
+            siteLoaded = true;
+            hidePreloader();
+        });
+
+        // Minimum 5 seconds
+        setTimeout(() => {
+            fiveSecondsPassed = true;
+            hidePreloader();
+        }, 5000);
+    });
+</script> --}}
+
 @endsection('content')

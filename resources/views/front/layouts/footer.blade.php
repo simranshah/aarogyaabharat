@@ -344,6 +344,7 @@
     </div>
 </div>
 
+
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>
@@ -787,9 +788,77 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
     });
+
+    // 🔹 NEW: Track form submit button click
+    window.dataLayer.push({
+      event: 'signup_form_submit_click',
+      form_name: 'register_form'
+    });
   });
 });
 </script>
+<script>
+window.dataLayer = window.dataLayer || [];
 
+document.addEventListener("DOMContentLoaded", function() {
+  const loginForm = document.getElementById("loginMo");
+  const loginBtn = loginForm.querySelector(".submitBTN");
+  const mobileInput = loginForm.querySelector('[name="mobile"]');
+  const googleBtn = document.querySelector('a[href*="auth/google"]');
+  const facebookBtn = document.querySelector('a[href*="auth/facebook"]');
+
+  let loginStarted = false;
+
+  // Form start tracking
+  mobileInput.addEventListener("focus", function() {
+    if (!loginStarted) {
+      window.dataLayer.push({
+        event: "login_form_start"
+      });
+      loginStarted = true;
+    }
+  });
+
+  // Google login click
+  if (googleBtn) {
+    googleBtn.addEventListener("click", function() {
+      window.dataLayer.push({
+        event: "login_google_click"
+      });
+    });
+  }
+
+  // Facebook login click
+  if (facebookBtn) {
+    facebookBtn.addEventListener("click", function() {
+      window.dataLayer.push({
+        event: "login_facebook_click"
+      });
+    });
+  }
+
+  // Submit button click + validation + error tracking
+  loginBtn.addEventListener("click", function() {
+    const mobile = mobileInput.value.trim();
+    let errors = [];
+
+    if (!mobile || mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
+      errors.push("mobile");
+    }
+
+    if (errors.length > 0) {
+      window.dataLayer.push({
+        event: "login_form_error",
+        errorFields: errors
+      });
+    }
+
+    window.dataLayer.push({
+      event: "login_form_submit_click",
+      form_name: "loginMo"
+    });
+  });
+});
+</script>
 </body>
 </html>

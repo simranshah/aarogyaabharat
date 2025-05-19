@@ -595,37 +595,36 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const input = document.querySelector("#editormain"); // Change to your actual field ID
+  const input = document.querySelector("#editormain");
 
-    if (input) {
-      input.addEventListener("paste", function (e) {
-        e.preventDefault();
+  if (input) {
+    input.addEventListener("paste", function (e) {
+      e.preventDefault();
 
-        // Get clipboard data
-            const clipboard = e.clipboardData || window.clipboardData;
-            const htmlData = clipboard.getData("text/html") || clipboard.getData("text/plain");
+      const clipboard = e.clipboardData || window.clipboardData;
+      const htmlData = clipboard.getData("text/html") || clipboard.getData("text/plain");
 
-            // Parse pasted HTML
-            const temp = document.createElement("div");
-            temp.innerHTML = htmlData;
+      const temp = document.createElement("div");
+      temp.innerHTML = htmlData;
 
-            // Keep only <span> tags
-            const clean = [];
-            temp.querySelectorAll("*").forEach(node => {
-                if (node.tagName.toLowerCase() === "span") {
-                    const span = document.createElement("span");
-                    span.textContent = node.textContent;
-                    clean.push(span.outerHTML);
-                } else {
-                    clean.push(node.textContent); // Preserve text without tags
-                }
-            });
-            // Insert plain text without any tags
-            document.execCommand("insertText", false, temp.textContent);
-            // // Insert cleaned HTML
-            // document.execCommand("insertHTML", false, clean.join(""));
-        });
-    }
+      // Remove only font-size from inline styles
+      temp.querySelectorAll("[style]").forEach(el => {
+        const style = el.getAttribute("style")
+          .split(";")
+          .filter(rule => !rule.trim().toLowerCase().startsWith("font-size"))
+          .join(";");
+
+        if (style.trim()) {
+          el.setAttribute("style", style);
+        } else {
+          el.removeAttribute("style");
+        }
+      });
+
+      // Insert cleaned HTML
+      document.execCommand("insertHTML", false, temp.innerHTML);
+    });
+  }
 });
 </script>
 

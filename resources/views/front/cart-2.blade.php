@@ -24,11 +24,7 @@
                     toastr.error('{{ session('error') }}');
                 </script>
             @endif
-
-            <div class="cartTitle">
-                <img src="{{ asset('front/images/cart.svg') }}" alt="cart" />
-                <div>
-                    @php
+           @php
                         $customer = Auth::user();
                         $session_id = session()->get('cart_id');
 
@@ -55,6 +51,39 @@
                                 'cartProductCount1' => $cartProductCount1,
                         ]);
                     @endphp
+            @if ($cartProductCount1 == 0)  
+            <div class="empty-cart-container">
+    <div class="empty-cart-empty">
+      <img src="{{asset('front/images/empty_cart.png')}}" alt="Empty Cart" class="empty-cart-img" />
+      <p class="empty-cart-message">Let’s equip your care kit, your cart’s looking a bit empty.</p>
+     <a href="{{route('products.flash.sale')}}"><button class="empty-cart-shop-btn">Continue Shopping</button></a>
+    </div>
+
+    <div class="empty-cart-best-selling">
+      <h2>Best Selling Products</h2>
+      <div class="empty-cart-product-list">
+        <!-- Product cards -->
+          @foreach ($flashSaleProducts as $product)
+          @if ($loop->index >= 6)
+          @break
+          @endif
+         <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+        <div class="empty-cart-product-card">
+          <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
+          <div class="empty-cart-product-info">
+            <p>{{$product->name}}</p>
+            <strong>₹ @indianCurrency($product->our_price)</strong>
+          </div>
+        </div>
+         </a>
+        @endforeach
+      </div>
+    </div>
+  </div>
+            @else
+            <div class="cartTitle">
+                <img src="{{ asset('front/images/cart.svg') }}" alt="cart" />
+                <div>
                     @php
                     $total = 0;
                     $gst = 0;
@@ -205,6 +234,7 @@
                     </div>
                 </div>
             @endif
+            @endIf
         </div>
 
         <div class="addressFormPop winScrollStop" style="display: none;">

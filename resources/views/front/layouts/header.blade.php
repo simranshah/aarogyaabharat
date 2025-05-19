@@ -546,6 +546,7 @@ const toggleBtn = document.getElementById('chat-toggle');
     const wrapper = document.createElement("div");
     wrapper.className = `message-wrapper ${sender}`;
     if (sender === "bot") {
+      document.getElementById("chat-input").disabled = false; // Disable input for bot messages
       // Place bot image and message in a flex row
       const botRow = document.createElement("div");
       botRow.className = "bot-row";
@@ -569,6 +570,8 @@ const toggleBtn = document.getElementById('chat-toggle');
       chatBody.appendChild(wrapper);
       chatBody.scrollTop = chatBody.scrollHeight;
       return;
+    }else{
+      document.getElementById("chat-input").disabled = true; // Enable input for user messages
     }
     const msg = document.createElement("div");
     msg.className = "message";

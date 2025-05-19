@@ -614,5 +614,39 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const input = document.querySelector("#editormain");
+
+  if (input) {
+    input.addEventListener("paste", function (e) {
+      e.preventDefault();
+
+      const clipboard = e.clipboardData || window.clipboardData;
+      const htmlData = clipboard.getData("text/html") || clipboard.getData("text/plain");
+
+      const temp = document.createElement("div");
+      temp.innerHTML = htmlData;
+
+      // Remove only font-size from inline styles
+      temp.querySelectorAll("[style]").forEach(el => {
+        const style = el.getAttribute("style")
+          .split(";")
+          .filter(rule => !rule.trim().toLowerCase().startsWith("font-size"))
+          .join(";");
+
+        if (style.trim()) {
+          el.setAttribute("style", style);
+        } else {
+          el.removeAttribute("style");
+        }
+      });
+
+      // Insert cleaned HTML
+      document.execCommand("insertHTML", false, temp.innerHTML);
+    });
+  }
+});
+</script>
 
 @endsection
