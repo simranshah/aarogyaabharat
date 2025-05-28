@@ -105,7 +105,7 @@
                 {{-- <a href="{{route('customers.profile')}}"><img src="{{ asset('front/images/Profile_img.svg') }}" alt="notification"></a>
                 </div> --}}
                 @else
-                <div class="loginBtn">
+                <div class="loginBtn1">
                     <a href="{{ route('login') }}"><button>Login</button></a>
                 </div>
                 @endif
