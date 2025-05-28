@@ -150,7 +150,7 @@ class BannerController extends Controller
                 Auth::user()->update(['pincode_id' => $userPincode->id]); 
             }
             $userPincodeHtml = view('front.common.customer-pin', compact('userPincode'))->render();
-            return response()->json(['available' => true, 'userPincodeHtml' => $userPincodeHtml]);
+            return response()->json(['available' => true, 'userPincodeHtml' => $userPincodeHtml,'data'=>$userPincode]);
         }
         $userPincodeHtml =  view('front.common.customer-pin', compact('userPincode'))->render();
         return response()->json(['available' => $exists, 'userPincodeHtml' => $userPincodeHtml, 'redirect' => route('raise.query'),]);        

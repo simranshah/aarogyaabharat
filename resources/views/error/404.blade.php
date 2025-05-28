@@ -34,10 +34,8 @@
 
     <div class="error-container">
          <img src="{{ asset('front/images/404.png') }}" alt="404 Error" class="error-image">
-        <p>Oops! The page you're looking for doesn't exist.</p>
-        <div class="quote-box">
-            <strong>Fun Fact::</strong> "{{ $quote }}"
-        </div>
+        <p class="error-message">Oops! Page not found</p>
+       <p>Don’t worry our team will help to find what are you looking for</p>
         <p><a href="{{ url('/') }}">Go back to Home</a></p>
     </div>
 @endsection

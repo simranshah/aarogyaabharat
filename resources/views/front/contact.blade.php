@@ -21,7 +21,8 @@
 <section class="contact_us_text">
     <div class="container">
         
-            <form id="contactus-form">
+            <form id="contactus-form" action="{{ route('contact.store') }}" method="POST" class="contactus-form">
+                @csrf
                 <!-- Name Field -->
                 <div class="contactus-form-group">
                     <label for="name" class="contactus-label">Full Name</label>

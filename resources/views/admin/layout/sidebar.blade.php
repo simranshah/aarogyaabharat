@@ -287,6 +287,17 @@
                     </a>
                 </li>
                 @endif
+                @if(auth()->user()->hasRole('admin'))
+                <li class="nav-item">
+                    <a href="{{ route('admin.contact.show') }}"
+                        class="nav-link {{ Request::is('admin/contact/show') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Contact Queries
+                        </p>
+                    </a>
+                </li>
+                @endif
                 <!-- <li class="nav-item">
     <a href="{{ route('admin.customers') }}" class="nav-link {{ Request::is('admin/customers') ? 'active' : '' }}">
         <i class="nav-icon fas fa-th"></i>
@@ -294,18 +305,6 @@
             Customers
     </a>
 </li> -->
-
-                @role('admin')
-                    <li class="nav-item">
-                        <a href="{{ route('admin.status') }}"
-                            class="nav-link {{ Request::is('admin/status') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Status
-                            </p>
-                        </a>
-                    </li>
-                @endrole
                 <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>

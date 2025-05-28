@@ -50,12 +50,38 @@
      
        gtag('config', 'AW-16811101057');
      </script>
+      <link rel="preload" href="{{ asset('front/images/pentagon_img.png') }}" as="image" type="image/webp">
+      <link rel="preload" href="{{ asset('front/images/qtback.png') }}" as="image" type="image/svg+xml">
+       <link rel="preload" href="{{ asset('front/images/qtback.png') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/slider_orange_arrow.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/slider_orange_arrow_2.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/grean_tick.png') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/carbon_view.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/ri_share-line.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/pin.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/notification.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/arogya_bharat.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/orange_arrow.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/samll_chat_gpt.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/empty_star.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/cart.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/cross.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/search.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/downArrow.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/Wp_me.png') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/chat_bot_img.png') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/calendar.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/images/logo_mini.svg') }}" as="image" type="image/svg+xml">
+      <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Regular.ttf') }}" as="font" type="font/ttf" crossorigin="anonymous">
+      <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Medium.ttf') }}" as="font" type="font/ttf" crossorigin="anonymous">
+      <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Bold.ttf') }}" as="font" type="font/ttf" crossorigin="anonymous">
+
 </head>
 
 <body class="bodyback">
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8QHT45N"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
+   
     <header>
         <div class="container">
             <div class="headerBlock">
@@ -70,17 +96,17 @@
                     {{-- <li class="{{ Route::currentRouteName() == 'customer.about.us' ? 'active' : '' }}"><a href="{{route('customer.about.us')}}">About</a></li> --}}
                 </ul>
                 @if(Auth::check() && Auth::user()->hasRole('Customer'))
-                <div class="loginBtn">
+                {{-- <div class="loginBtn"> --}}
                 @php    
                 $fullName = Auth::user()->name;
                 $nameParts = explode(' ', $fullName);
                 $firstName = ucfirst(strtolower($nameParts[0]));
                 @endphp
-                <a href="{{route('customers.profile')}}"><img src="{{ asset('front/images/Profile-Fil.png') }}" alt="notification"></a>
-                </div>
+                {{-- <a href="{{route('customers.profile')}}"><img src="{{ asset('front/images/Profile_img.svg') }}" alt="notification"></a>
+                </div> --}}
                 @else
                 <div class="loginBtn">
-                    <button>Login</button>
+                    <a href="{{ route('login') }}"><button>Login</button></a>
                 </div>
                 @endif
                 <ul class="cartsUl">
@@ -129,6 +155,11 @@
                         <a href="javascript:void(0)" class="trigger-login-popup"><img src="{{ asset('front/images/cart.svg') }}" alt="cart"><span>{{$cartProductCount1 ?? 0}}</span></a>
                     @endif
                     </li>
+                    @if(Auth::check() && Auth::user()->hasRole('Customer'))
+                    <li>
+                      <a href="{{route('customers.profile')}}"><img src="{{ asset('front/images/Profile_img.svg') }}" alt="Profile" class="profile_fil"></a>
+                    </li>
+                    @endif
                 </ul>
                 <div id="customerlocationPin">
                     @include('front.common.customer-pin')
@@ -310,10 +341,10 @@
         function closeonotificationPopUp() {
             $('.notificationPop').hide();
         }
-        $('.trigger-login-popup').click(function(e) {
-            e.preventDefault();
-            $('.LoginPop').show();
-        });
+        // $('.trigger-login-popup').click(function(e) {
+        //     e.preventDefault();
+        //     $('.LoginPop').show();
+        // });
 
         document.addEventListener("DOMContentLoaded", function () {
         if (window.location.hash === "#offer_Part") {

@@ -38,11 +38,21 @@ class CustomerController extends Controller
             'city' => 'required|string|max:255',
             'pincode' => 'required|numeric|digits:6',
         ]);
-        
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $alreadyExists = User::where('mobile', $request->input('mobile'))->exists();
 
+        if ($alreadyExists) {
+            $validator->after(function ($validator) use ($request) {
+                if (User::where('mobile', $request->input('mobile'))->exists()) {
+                    $validator->errors()->add('mobile', 'Mobile number already exists.');
+                }
+            });
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }
+        
         $customer = User::create([
             'name' => $request->input('full_name'),
             'password' => bcrypt($request->input('mobile')), 
@@ -64,7 +74,7 @@ class CustomerController extends Controller
             $customer->update(['pincode_id' => $customerPin->id]);
         }
         $customer->assignRole('Customer');
-        return response()->json(['success' => 'Customer registered successfully!'], 200);
+        return redirect()->route('login')->with('success', 'Registration successful! Please login to continue.');
     }
 
     public function login(Request $request)
@@ -99,10 +109,10 @@ class CustomerController extends Controller
                 'res' => json_decode($response->getBody(), true) 
             ], 200);
             } catch (RequestException $e) {
-                return response()->json(['errors' => ['mobile' => ['We could not find the mobile number. Please try another.']]], 422);
+                return response()->json(['errors' => ['mobile' => ['No account found for this number. Please register.']]], 422);
             }
         } else {
-            return response()->json(['errors' => ['mobile' => ['We could not find the mobile number. Please try another.']]], 422);
+            return response()->json(['errors' => ['mobile' => ['No account found for this number. Please register.']]], 422);
         }
     }
 
@@ -134,6 +144,7 @@ class CustomerController extends Controller
                 return response()->json(['errors' => ['otp' => 'Invalid OTP.']], 422);
             }else{
             Auth::login($customer, true);
+            return redirect()->route('home')->with('success', 'OTP verified successfully! Welcome back, ' . $customer->name);
             return response()->json([
                 'success' => 'OTP verified succesfully!',
                 'res' => json_decode($response->getBody(), true) 

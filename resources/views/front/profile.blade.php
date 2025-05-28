@@ -138,7 +138,7 @@
                             </a>
                         </div>
                         <div>
-                        <a  class="profileAccorClick" onclick="confirmLogout();">
+                        <a  class="profileAccorClick" onclick="confirmLogoutpopup();">
                                 <img src="{{ asset('front/images/logout.svg') }}" alt="logout" class="icon1" />
                                 <p>Logout</p>
                             </a>
@@ -271,10 +271,28 @@
         </div>
     </div>
 </div>
+    <div class="log-out">
+  <!-- Popup Structure -->
+  <div class="popup-overlay" id="logoutPopup" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="closePopup()">&times;</button>
+      <img src="{{asset('front/images/grandpa.svg')}}" alt="Logout" class="popup-image" />
+      <h2 class="popup-title">Come back soon!</h2>
+      <p class="popup-text">Are you sure you want to logout?</p>
+      <div class="popup-buttons">
+        <button class="btn yes-btn" onclick="confirmLogout()">Yes</button>
+        <button class="btn cancel-btn" onclick="closePopup()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>
 <script>
+     function closePopup() {
+    document.getElementById("logoutPopup").style.display = "none";
+  }
 $(document).ready(function() {
     $('#updatepro').on('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
@@ -336,6 +354,7 @@ function updateProfile() {
             $('#profileDetails').html(response.html);
             $('.updateprofilePop').hide();
             toastr.success('Profile updated successfully!');
+            window.location.reload();
         },
         error: function(xhr) {
             if (xhr.status === 422) { // Unprocessable Entity
@@ -401,20 +420,11 @@ function updateProfile() {
 }
 
 function confirmLogout() {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You will be logged out!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, logout!',
-        cancelButtonText: 'No, cancel!'
-    }).then((result) => {
-        if (result.isConfirmed) {
+   
+       
             document.getElementById('logout-form').submit();
-        }
-    });
+        
+
 }
 
 function changeStatusTab(statusId) {
@@ -560,6 +570,9 @@ function addNewAddress() {
 function hideAddressPop(){
     $('#addressForm')[0].reset();
     $('.addressFormPop').hide();
+}
+function confirmLogoutpopup() {
+    $('#logoutPopup').show();
 }
 
 </script>

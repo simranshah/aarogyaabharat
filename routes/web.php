@@ -31,6 +31,7 @@ use App\Http\Controllers\Front\NewPaymentController;
 use App\Http\Controllers\Admin\ContactUsController as FrontContactUsController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Controllers\contactController;
 
 use App\Http\Controllers\Front\CartController2;
 use Illuminate\Support\Facades\Mail;
@@ -60,7 +61,7 @@ Route::get('/download-log/{type}/{date}', function ($type, $date) {
 
     return response()->download($filePath);
 });
-
+Route::post('/contact-us', [contactController::class, 'store'])->name('contact.store');
 //front routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::get('/products', [HomeController::class, 'productPage'])->name('products');
@@ -86,6 +87,12 @@ Route::controller(FrontProductController::class)->group(function () {
 Route::get('/thanks', function () {
     return view('front.thank-you');
 })->name('thanks');
+Route::get('/log-in', function () {
+    return view('front.login');
+})->name('login');
+Route::get('/register', function () {
+    return view('front.register');
+})->name('register');
 Route::controller(BannerController::class)->group(function () {
     // Display a list of banners
     Route::get('/banners', 'index')->name('banners.index');
@@ -346,7 +353,11 @@ Route::middleware(['auth'])->group(function () {
         // Route::controller(BlogController::class)->group(function () {
         //     Route::get('/blogs', 'index')->name('admin.blogs');
         // });
-        
+         Route::controller(contactController::class)->group(function () {
+            Route::get('/contact-us', 'index')->name('admin.contact');
+            Route::get('/contact-us/show', 'index')->name('admin.contact.show');
+
+         });
         Route::controller(ContactUsController::class)->group(function () {
             Route::get('/contactus', 'index')->name('admin.contactus');
             Route::get('/contactus/show/{id}', 'showDetails')->name('admin.contactus.show');

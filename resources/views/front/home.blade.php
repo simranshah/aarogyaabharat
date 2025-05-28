@@ -5,7 +5,20 @@
 @php
     $isMobile = request()->header('User-Agent') && preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
 @endphp
-
+ {{-- <div class="preloader" id="preloader" style="display: none;">
+    <div class="logo-container">
+      <div class="spinner"></div>
+      <div class="logo" style="align-content: center;align-items:center;justify-content: center;">
+          <img src="{{ asset('front/images/logo_mini.svg') }}" alt="Logo" style="width: 60px; height: 60px;">
+      </div>
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+      <div class="loading-text">
+        Loading <span class="percent" id="percent">0%</span>
+      </div>
+    </div>
+  </div> --}}
 <section class="bannerPArt" style="margin-top: 8px">
     <div class="container">
         <div class="bannerSlider getprogressWidth arrowOnProgress">
@@ -15,9 +28,8 @@
                         <a href="{{ $banner->link }}" target="_blank">
                             <img class="bannerImage"
                                  src="{{ asset('storage/' . $banner->image) }}" 
-                                 data-mobile="{{ asset('storage/' . $banner->image) }}"
-                                 data-desktop="{{ asset('storage/' . ($banner->desktop_image ?? $banner->image)) }}"
-                                 alt="Mobile Banner">
+                               
+                                 alt="Mobile Banner"  loading="lazy">
                         </a>    
                     </div>
                 @endforeach
@@ -27,9 +39,7 @@
                         <a href="{{ $banner->link }}" target="_blank">
                             <img class="bannerImage"
                                  src="{{ asset('storage/' . $banner->image) }}" 
-                                 data-mobile="{{ asset('storage/' . ($banner->mobile_image ?? $banner->image)) }}"
-                                 data-desktop="{{ asset('storage/' . $banner->image) }}"
-                                 alt="Desktop Banner">
+                                 alt="Desktop Banner"  loading="lazy">
                         </a>    
                     </div>
                 @endforeach
@@ -489,6 +499,7 @@
         const content = document.querySelector(".content");
         const progress = document.getElementById("progress");
         const percent = document.getElementById("percent");
+        preloader.style.display = "flex"; // Show preloader
 
         let siteLoaded = false;
         let fiveSecondsPassed = false;
@@ -523,7 +534,7 @@
         setTimeout(() => {
             fiveSecondsPassed = true;
             hidePreloader();
-        }, 5000);
+        }, 3000);
     });
 </script> --}}
 
