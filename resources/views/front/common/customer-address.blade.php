@@ -2,7 +2,7 @@
     @foreach($customerDetail->addresses as $address)
         <div class="deliveryAddressInner">
             <label class="deliveryAddress1">
-            <input type="radio" name="addressRadio" value="{{ $address->id }}" {{ $address->is_delivery_address ? 'checked' : '' }}>
+            <input type="radio" onclick="chnagedeliveryadress({{$address->id}});" name="addressRadio" value="{{ $address->id }}" {{ $address->is_delivery_address ? 'checked' : '' }}>
                 <span></span>
                 <div>
                     <strong>{{ $customerDetail->name }}</strong>
@@ -26,3 +26,26 @@
 @else
     <p>No delivery addresses available.</p>
 @endif
+<script>
+    function chnagedeliveryadress(selectedId){
+        if (!selectedId) {
+        alert("Please select an address.");
+        return;
+    }
+
+    $.ajax({
+        url: '/change-deliver-adress', // Laravel route URL (web.php or route name with URL helper)
+        type: 'POST',
+        data: {
+            address_id: selectedId,
+            _token: $('meta[name="csrf-token"]').attr('content') // Laravel CSRF token
+        },
+        success: function(response) {
+            // location.reload();
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", error);
+        }
+    });
+    }
+</script>

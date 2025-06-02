@@ -25,7 +25,7 @@
             <div class="countProduct">
                 <a href="javascript:void(0);" class="countMinus" data-id="{{ $cartItem->id }}" data-sign="minus"
                     {{-- onclick="updateQuantity({{ $cartItem->id }}, {{ $cartProducts[0]->id }} ,'minus')" --}}
-                    onclick=" toastr.error('Only one quantity available.');"
+                   onclick="deleteCartItem('{{ $cartItem->id }}')"
                     >
                     <img src="{{ asset('front/images/jam_minus.svg') }}" alt="Minus" />
                 </a>

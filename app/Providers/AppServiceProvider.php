@@ -34,17 +34,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //home page products start
-       $productForYou = Product::with('images','category')->where('product_for_you', true)->orderBy('updated_at', 'desc')->take(10)->get();
-        $flashSaleProducts = Product::with('images','category')->where('flash_sale', true)->orderBy('updated_at', 'desc')->take(10)->get();
-        $bestSellingProducts = Product::with('images','Category')->where('best_selling_products', true)->orderBy('updated_at', 'desc')->take(10)->get();
-        $sportsHealthcareMoreProducts = Product::with('images','Category')->where('sports_healthcare_more', true)->orderBy('updated_at', 'desc')->take(10)->get();
-        $topDealsProducts = Product::with('images','category')->where('top_deals', true)->orderBy('updated_at', 'desc')->take(10)->get();
-        $topPickForYouProducts = Product::with('images','Category')->where('top_pick_for_you', true)->orderBy('updated_at', 'desc')->take(10)->get();
+       $productForYou = Product::with('images','category')->where('product_for_you', true)->orderBy('updated_at', 'desc')->take(7)->get();
+        $flashSaleProducts = Product::with('images','category')->where('flash_sale', true)->orderBy('updated_at', 'desc')->take(7)->get();
+        $bestSellingProducts = Product::with('images','Category')->where('best_selling_products', true)->orderBy('updated_at', 'desc')->take(7)->get();
+        $sportsHealthcareMoreProducts = Product::with('images','Category')->where('sports_healthcare_more', true)->orderBy('updated_at', 'desc')->take(7)->get();
+        $topDealsProducts = Product::with('images','category')->where('top_deals', true)->orderBy('updated_at', 'desc')->take(7)->get();
+        $topPickForYouProducts = Product::with('images','Category')->where('top_pick_for_you', true)->orderBy('updated_at', 'desc')->take(7)->get();
         // dd($productForYou, $flashSaleProducts, $bestSellingProducts, $sportsHealthcareMoreProducts, $topDealsProducts, $topPickForYouProducts);
 
         //home page products end
-        $recentViewedProducts = Product::with('images','category')->orderBy('updated_at', 'desc')->take(10)->get();
-        $popularProducts = Product::with('images','category')->where('is_popular', true)->orderBy('updated_at', 'desc')->take(10)->get();
+        $recentViewedProducts = Product::with('images','category')->orderBy('updated_at', 'desc')->take(7)->get();
+        $popularProducts = Product::with('images','category')->where('is_popular', true)->orderBy('updated_at', 'desc')->take(7)->get();
         $offerAndDiscounts = OfferAndDiscount::orderBy('updated_at', 'desc')->take(10)->get();
         $contactusBlog = Blog::with('images')->inRandomOrder()->take(4)->get();
         $faqs = FAQ::with('answers')->get();

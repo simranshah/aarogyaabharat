@@ -74,7 +74,7 @@ class CustomerController extends Controller
             $customer->update(['pincode_id' => $customerPin->id]);
         }
         $customer->assignRole('Customer');
-        return redirect()->route('login')->with('success', 'Registration successful! Please login to continue.');
+        return view('front.onbord',compact('customer'));
     }
 
     public function login(Request $request)
@@ -246,11 +246,20 @@ class CustomerController extends Controller
     public function removeAddress($id)
     {
         $address = Adress::find($id);
+        $isDeliver=$address->is_delivery_address;
         if ($address) {
             $address->delete(); 
             $customerDetail = User::with('orders', 'addresses')
             ->where('id', Auth::user()->id)
             ->first();
+            if($isDeliver==true){
+                $Address=Adress::where('customer_id',Auth::user()->id)->first();
+                
+                if($Address){
+                    $Address->update(['is_delivery_address' => 1]);
+                    $Address->save();
+                }
+            }
             $addressListHtml = view('front.common.customer-address', ['customerDetail' => $customerDetail])->render();
             return response()->json(['success' => true, 'html' => $addressListHtml, 'message' => 'Address removed successfully.']);
         } else {

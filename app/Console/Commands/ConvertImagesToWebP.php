@@ -3,14 +3,15 @@ namespace App\Console\Commands;
 
 use App\Models\Admin\Category;
 use Illuminate\Console\Command;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Facades\Image as InterventionImage;
 use App\Models\Admin\Product;
 use App\Models\Banner;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
-
+use App\Models\Admin\Blog;
+use App\Models\Admin\Image;
 
 class ConvertImagesToWebP extends Command
 {
@@ -20,7 +21,7 @@ class ConvertImagesToWebP extends Command
    public function handle()
     {
         $manager = new ImageManager(new GdDriver());
-        $products = Product::whereNotNull('image')->get();
+        $products = Product::whereNotNull('image')->get() ->where('image', 'NOT LIKE', '%.webp');
 
         foreach ($products as $product) {
             $originalPath = public_path('storage/' . $product->image); // e.g., public/storage/products/image1.jpg
@@ -51,7 +52,7 @@ class ConvertImagesToWebP extends Command
                 $this->error("❌ Error processing {$product->image}: " . $e->getMessage());
             }
         }
-        Category::whereNotNull('image')->get()->each(function ($category) use ($manager) {
+        Category::whereNotNull('image') ->where('image', 'NOT LIKE', '%.webp')->get()->each(function ($category) use ($manager) {
             $originalPath = public_path('storage/' . $category->image);
 
             if (!file_exists($originalPath)) {
@@ -78,7 +79,7 @@ class ConvertImagesToWebP extends Command
                 $this->error("❌ Error processing {$category->image}: " . $e->getMessage());
             }
         });
-        Banner::whereNotNull('image')->get()->each(function ($banner) use ($manager) {
+        Banner::whereNotNull('image') ->where('image', 'NOT LIKE', '%.webp')->get()->each(function ($banner) use ($manager) {
             $originalPath = public_path('storage/' . $banner->image);
 
             if (!file_exists($originalPath)) {
@@ -105,6 +106,34 @@ class ConvertImagesToWebP extends Command
                 $this->error("❌ Error processing {$banner->image}: " . $e->getMessage());
             }
         });
+        $blogImages = Image::where('imageable_type', Blog::class)->get();
+        foreach ($blogImages as $blogImage) {
+            $originalPath = public_path('storage/' . $blogImage->path);
+
+            if (!file_exists($originalPath)) {
+                $this->warn("Missing file: $originalPath");
+                continue;
+            }
+
+            try {
+                $image = $manager->read($originalPath);
+                $image->scale(width: 800);
+
+                $filename = pathinfo($originalPath, PATHINFO_FILENAME) . '.webp';
+                $relativeDir = dirname($blogImage->path);
+                $newRelativePath = $relativeDir . '/' . $filename;
+                $newFullPath = public_path('storage/' . $newRelativePath);
+
+                file_put_contents($newFullPath, (string) $image->toWebp(50));
+
+                $blogImage->path = $newRelativePath;
+                $blogImage->save();
+
+                $this->info("✅ Converted: {$blogImage->path}");
+            } catch (\Exception $e) {
+                $this->error("❌ Error processing {$blogImage->path}: " . $e->getMessage());
+            }
+        }
 
         $this->info('🎉 All images processed.');
     }

@@ -70,10 +70,13 @@
     $isMobile = request()->header('User-Agent') && preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
 @endphp
 <body class="bodyback">
-    <div class="LoginPop winScrollStop" style="display: block;">
-        <div class="LoginPopMiddle">
-            <div class="LoginPopInner">
-                <div class="Sign_up_form_container">
+    <div class="LoginPop winScrollStop container" style="display: block;">
+        <div class="LoginPopMiddle" >
+            <div class="LoginPopInner">  
+                   <div style="position: absolute;top: 37px; right: 331px;z-index: 10;" class="close-login-pop">
+                          <a href="{{url('/')}}" class="close-login-pop"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
+                     </div>                        
+                <div class="Sign_up_form_container">         
                     @if(!$isMobile)
                     <div class="Sign_up_form info-box" style="padding: 0px;">
                         <div class="Login_right_container">
@@ -157,8 +160,9 @@
                     @endif
                     <div class="Sign_up_form form-box">
                         <div class="mobForm">
+                            
                             <div class="title1">
-                                <strong>Lets’ Login</strong>
+                                <strong>Let’s Login</strong>
                                 <p>Please fill below details to get account access.</p>
                             </div>
                             <div class="socialLogos">
@@ -179,8 +183,8 @@
                             <form id="loginMo" method="post" action="{{ route('customer.login') }}">
                                 @csrf
                                 <div class="inputMainBlock fullwidth">
-                                    <span>Mobile number</span>
-                                    <input type="tel" name="mobile" class="mobileVD" placeholder="9921407039"
+                                    <span >Mobile number</span>
+                                    <input type="tel" name="mobile" class="mobileVD" placeholder="Enter your mobile number"
                                         oninput="this.value = this.value.replace(/[^0-9]/g, '')" autocomplete="off">
                                     <div class="errormsg"></div>
                                     <div class="addressNote2">

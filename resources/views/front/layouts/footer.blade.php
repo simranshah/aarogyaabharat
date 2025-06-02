@@ -228,114 +228,114 @@
 <script>
     var mobileNumber;
     var otpUrl;
-    $(document).ready(function() {
+    // $(document).ready(function() {
 
-        $("#register_form .submitBTN").click(function(e) {
-            e.preventDefault();
-            var formData = $('#register_form').serialize();
-            console.log('formData', formData);
-            $.ajax({
-                url: "{{ route('customers.store') }}",
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    $('.errormsg').html('');
-                    if (response.errors) {
-                        $.each(response.errors, function(key, value) {
-                            $('input[name="' + key + '"]').next('.errormsg').html(
-                                value[0]).css("display", "block");
-                        });
-                    } else {
-                        toastr.success(response.success);
-                        $('#register_form')[0].reset();
-                        $('.registerFormPart').hide();
-                        $('.LoginPop').show();
-                        $('.mobForm').show();
-                        $('body').css('overflow-y', 'auto');
-                    }
-                },
-                error: function(xhr) {
-                    $('.errormsg').html('');
-                    $.each(xhr.responseJSON.errors, function(key, value) {
-                        $('input[name="' + key + '"]').next('.errormsg').html(value[
-                            0]).css("display", "block");
-                    });
-                }
-            });
-        });
+    //     $("#register_form .submitBTN").click(function(e) {
+    //         e.preventDefault();
+    //         var formData = $('#register_form').serialize();
+    //         console.log('formData', formData);
+    //         $.ajax({
+    //             url: "{{ route('customers.store') }}",
+    //             type: 'POST',
+    //             data: formData,
+    //             success: function(response) {
+    //                 $('.errormsg').html('');
+    //                 if (response.errors) {
+    //                     $.each(response.errors, function(key, value) {
+    //                         $('input[name="' + key + '"]').next('.errormsg').html(
+    //                             value[0]).css("display", "block");
+    //                     });
+    //                 } else {
+    //                     toastr.success(response.success);
+    //                     $('#register_form')[0].reset();
+    //                     $('.registerFormPart').hide();
+    //                     $('.LoginPop').show();
+    //                     $('.mobForm').show();
+    //                     $('body').css('overflow-y', 'auto');
+    //                 }
+    //             },
+    //             error: function(xhr) {
+    //                 $('.errormsg').html('');
+    //                 $.each(xhr.responseJSON.errors, function(key, value) {
+    //                     $('input[name="' + key + '"]').next('.errormsg').html(value[
+    //                         0]).css("display", "block");
+    //                 });
+    //             }
+    //         });
+    //     });
 
-        $("#loginMo .submitBTN").click(function(e) {
-            e.preventDefault();
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            var formData = $('#loginMo').serialize();
-            formData += '&_token=' + "{{ csrf_token() }}";
+    //     $("#loginMo .submitBTN").click(function(e) {
+    //         e.preventDefault();
+    //         var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    //         var formData = $('#loginMo').serialize();
+    //         formData += '&_token=' + "{{ csrf_token() }}";
 
-            $.ajax({
-                url: "{{ route('customer.login') }}",
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    $('.errormsg').html('');
-                    if (response.errors) {
-                        $.each(response.errors, function(key, value) {
-                            $('input[name="' + key + '"]').next('.errormsg').html(
-                                value[0]).css("display", "block");
-                        });
-                    } else {
-                        toastr.success(response.success);
-                        $('.mobForm').hide();
-                        $('.optForm').show();
-                        count3minut('otp_form');
-                        mobileNumber = response.number;
-                        otpUrl = "{{ route('verify.otp', ['number' => ':number']) }}"
-                            .replace(':number', mobileNumber);
-                        let maskedNumber = 'XXXXXX' + mobileNumber.slice(-4);
-                        $('#number-section').text(maskedNumber);
-                    }
-                },
-                error: function(xhr) {
-                    $('.errormsg').html('');
-                    $.each(xhr.responseJSON.errors, function(key, value) {
-                        $('input[name="' + key + '"]').next('.errormsg').html(value[
-                            0]).css("display", "block");
-                    });
-                }
-            });
-        });
-        $('#checkPin').on('click', function() {
-            var pinCode = $('#pinCode').val();
-            // Simple validation for empty input
-            if (pinCode === '') {
-                $('#fail').text('Please enter a pin code.');
-                $('#success').text('');
-                return;
-            }
+    //         $.ajax({
+    //             url: "{{ route('customer.login') }}",
+    //             type: 'POST',
+    //             data: formData,
+    //             success: function(response) {
+    //                 $('.errormsg').html('');
+    //                 if (response.errors) {
+    //                     $.each(response.errors, function(key, value) {
+    //                         $('input[name="' + key + '"]').next('.errormsg').html(
+    //                             value[0]).css("display", "block");
+    //                     });
+    //                 } else {
+    //                     toastr.success(response.success);
+    //                     $('.mobForm').hide();
+    //                     $('.optForm').show();
+    //                     count3minut('otp_form');
+    //                     mobileNumber = response.number;
+    //                     otpUrl = "{{ route('verify.otp', ['number' => ':number']) }}"
+    //                         .replace(':number', mobileNumber);
+    //                     let maskedNumber = 'XXXXXX' + mobileNumber.slice(-4);
+    //                     $('#number-section').text(maskedNumber);
+    //                 }
+    //             },
+    //             error: function(xhr) {
+    //                 $('.errormsg').html('');
+    //                 $.each(xhr.responseJSON.errors, function(key, value) {
+    //                     $('input[name="' + key + '"]').next('.errormsg').html(value[
+    //                         0]).css("display", "block");
+    //                 });
+    //             }
+    //         });
+    //     });
+    //     $('#checkPin').on('click', function() {
+    //         var pinCode = $('#pinCode').val();
+    //         // Simple validation for empty input
+    //         if (pinCode === '') {
+    //             $('#fail').text('Please enter a pin code.');
+    //             $('#success').text('');
+    //             return;
+    //         }
 
-            $.ajax({
-                url: "{{ route('checkpin') }}", // Change this to your actual endpoint
-                method: 'GET', // Use POST or GET as needed
-                data: {
-                    pin: pinCode,
-                },
-                success: function(response) {
-                    if (response.available) {
-                        $('#fail').text('');
-                        $('#success').text('Pincode is match.');
-                        // $('#pincodeContainer').html(response.userPincodeHtml);
-                    } else {
-                        $('#success').text('');
-                        $('#fail').text('Pincode not match.');
-                        if (response.redirect) {
-                            window.location.href = response.redirect;
-                        }
-                    }
-                },
-                error: function() {
-                    $('#result').text('An error occurred while checking the pin code.');
-                }
-            });
-        });
-    });
+    //         $.ajax({
+    //             url: "{{ route('checkpin') }}", // Change this to your actual endpoint
+    //             method: 'GET', // Use POST or GET as needed
+    //             data: {
+    //                 pin: pinCode,
+    //             },
+    //             success: function(response) {
+    //                 if (response.available) {
+    //                     $('#fail').text('');
+    //                     $('#success').text('Pincode is match.');
+    //                     // $('#pincodeContainer').html(response.userPincodeHtml);
+    //                 } else {
+    //                     $('#success').text('');
+    //                     $('#fail').text('Pincode not match.');
+    //                     if (response.redirect) {
+    //                         window.location.href = response.redirect;
+    //                     }
+    //                 }
+    //             },
+    //             error: function() {
+    //                 $('#result').text('An error occurred while checking the pin code.');
+    //             }
+    //         });
+    //     });
+    // });
 
     //get adress from current location start
     $('#getLocationBtn').click(function() {
@@ -392,29 +392,29 @@
     // otp timer
     var interval;
 
-    function count3minut(otpFid) {
-        var timer2 = "1:00";
-        interval = setInterval(function() {
-            var timer = timer2.split(':');
-            var minutes = parseInt(timer[0], 10);
-            var seconds = parseInt(timer[1], 10);
-            --seconds;
-            minutes = (seconds < 0) ? --minutes : minutes;
-            seconds = (seconds < 0) ? 59 : seconds;
-            seconds = (seconds < 10) ? '0' + seconds : seconds;
+    // function count3minut(otpFid) {
+    //     var timer2 = "1:00";
+    //     interval = setInterval(function() {
+    //         var timer = timer2.split(':');
+    //         var minutes = parseInt(timer[0], 10);
+    //         var seconds = parseInt(timer[1], 10);
+    //         --seconds;
+    //         minutes = (seconds < 0) ? --minutes : minutes;
+    //         seconds = (seconds < 0) ? 59 : seconds;
+    //         seconds = (seconds < 10) ? '0' + seconds : seconds;
 
-            $('#' + otpFid + ' .a_otpPart .a_countText p i').html('0' + minutes + ':' + seconds);
-            if (minutes < 0) clearInterval(interval);
-            if ((seconds <= 0) && (minutes <= 0)) clearInterval(interval);
-            timer2 = minutes + ':' + seconds;
+    //         $('#' + otpFid + ' .a_otpPart .a_countText p i').html('0' + minutes + ':' + seconds);
+    //         if (minutes < 0) clearInterval(interval);
+    //         if ((seconds <= 0) && (minutes <= 0)) clearInterval(interval);
+    //         timer2 = minutes + ':' + seconds;
 
-            if ((seconds <= 0) && (minutes <= 0)) {
-                $('#' + otpFid + ' .a_otpPart .a_countText').hide();
-                $('#' + otpFid + ' .a_otpPart .a_resendOtp').show();
-            }
+    //         if ((seconds <= 0) && (minutes <= 0)) {
+    //             $('#' + otpFid + ' .a_otpPart .a_countText').hide();
+    //             $('#' + otpFid + ' .a_otpPart .a_resendOtp').show();
+    //         }
 
-        }, 1000);
-    }
+    //     }, 1000);
+    // }
     //open login popup
     function openLoginPop() {
         $('.LoginPop').show();

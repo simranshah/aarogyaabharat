@@ -70,9 +70,14 @@
     $isMobile = request()->header('User-Agent') && preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
 @endphp
 <body class="bodyback">
+<div class="container">
+
     <div class="LoginPop winScrollStop" style="display: block;">
         <div class="LoginPopMiddle">
             <div class="LoginPopInner">
+                 <div style="position: absolute;top: 37px; right: 331px;z-index: 10;" class="close-login-pop">
+                          <a href="{{url('/')}}" class="close-login-pop"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
+                     </div>   
                 <div class="Sign_up_form_container">
                     @if(!$isMobile)
                     <div class="Sign_up_form info-box" style="padding: 0px;">
@@ -186,38 +191,41 @@
                                 @enderror
 
                                 <div class="Sign_up_form report-fields">
-                                    <input type="text" id="state" name="state" placeholder="Enter your State"
-                                        readonly required value="{{ old('state') }}">
-                                    @error('state')
-                                        <div class="error-message" style="color:red;">{{ $message }}</div>
-                                    @enderror
                                     <input type="text" id="city" name="city" placeholder="Enter your City"
                                         readonly required value="{{ old('city') }}">
                                     @error('city')
                                         <div class="error-message" style="color:red;">{{ $message }}</div>
                                     @enderror
-                                </div>
-
-                                <div class="Sign_up_form terms">
-                                    <input type="checkbox" id="agree" name="agree"
-                                        {{ old('agree') ? 'checked' : '' }} style="width: 10%" required>
-                                    <label for="agree">I agree with all <a href="{{route('terms.and.conditions')}}">T&C</a>
-                                        and <a href="{{route('privacy.policy')}}">Privacy Policies</a>.</label>
-                                    @error('agree')
+                                    <input type="text" id="state" name="state" placeholder="Enter your State"
+                                        readonly required value="{{ old('state') }}">
+                                    @error('state')
                                         <div class="error-message" style="color:red;">{{ $message }}</div>
                                     @enderror
+                                    
                                 </div>
+                                    <div class="checkboxPart fullwidth">
+                                        <div class="">
+                                            <label>
+                                                <input type="checkbox" checked="" id="agree" name="agree"
+                                                   required>
+                                                <i></i>
+                                            </label>
+                                            I read and understand <a href="{{ route('terms.and.conditions') }}">T&C</a>.
+                                        </div>
+                                       
+                                    </div>
                                 <button type="submit">Sign Up</button>
                             </form>
                             <div class="Sign_up_form login-link">
-                                Already have an account? <a href="{{ route('login') }}">Login</a>
+                                Already have an account? <a href="{{ route('login') }}" style="color: #F2A602;">Login</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
+</div>
         <script src="{{ asset('front/js/jquery.min.js') }}"></script>
         <script src="{{ asset('front/js/slick.js') }}"></script>
         <script src="{{ asset('front/js/script.js') }}"></script>
@@ -248,21 +256,25 @@
 
             function chekPincodeAvil(pincode) {
                 document.getElementById('error-message_pin').innerHTML = 'Searching...';
+                document.getElementById('error-message_pin').style.color = 'black';
                 $.ajax({
                     url: "{{ url('/get-city-state') }}/" + pincode, // Change this to your actual endpoint
                     method: 'GET', // Use POST or GET as needed
 
                     success: function(response) {
                         if (response.success) {
+                            document.getElementById('error-message_pin').innerHTML = '';
                             document.getElementById('state').value = response.state;
                             document.getElementById('city').value = response.city;
                         } else {
+                            document.getElementById('state').value = '';
+                            document.getElementById('city').value = '';
                             document.getElementById('error-message_pin').innerHTML = response.message;
+                             document.getElementById('error-message_pin').style.color = 'red';
                         }
                     }
                 });
             }
         </script>
 </body>
-
 </html>
