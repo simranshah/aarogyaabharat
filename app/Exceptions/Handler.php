@@ -60,9 +60,9 @@ class Handler extends ExceptionHandler
         return response()->view('error.419', [], 419);
     }
 
-    if ($exception instanceof \Illuminate\Validation\ValidationException) {
-        return response()->view('error.422', [], 422);
-    }
+    // if ($exception instanceof \Illuminate\Validation\ValidationException) {
+    //     return response()->view('error.422', [], 422);
+    // }
     if ($exception instanceof ErrorException || $exception instanceof \Error) {
         return response()->view('error.500', [], 500);
     }

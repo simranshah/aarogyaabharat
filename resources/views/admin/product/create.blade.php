@@ -108,7 +108,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="productPrice">Price</label>
+                                        <label for="productPrice">Orignal Price</label>
                                         <input type="number" name="price" min="0"
                                             class="form-control @error('price') is-invalid @enderror" id="productPrice" onblur="calculateourprice()"
                                             placeholder="Enter Product Price" value="{{ old('price') }}">
@@ -134,11 +134,11 @@
                                      
                                     </div>
                                     <div class="form-group">
-                                        <label for="weeklyPrice">Weekly Price</label>
-                                        <input type="number" name="weekly_price" min="0"
-                                            class="form-control @error('weekly_price') is-invalid @enderror"
-                                            id="weeklyPrice" placeholder="Enter Weekly Price"
-                                            value="{{ old('weekly_price') }}">
+                                        <label for="weeklyPrice">Monthly Price</label>
+                                        <input type="number" name="monthly_price" min="0"
+                                            class="form-control @error('monthly_price') is-invalid @enderror"
+                                            id="weeklyPrice" placeholder="Enter Monthly Price"
+                                            value="{{ old('monthly_price') }}">
                                         @error('weekly_price')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -188,6 +188,66 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
+                                            <input type="checkbox" name="product_for_you" class="form-check-input"
+                                                id="product_for_you" value="1" {{ old('product_for_you') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="product_for_you">Product For You</label>
+                                        </div>
+                                        @error('product_for_you')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="flash_sale" class="form-check-input"
+                                                id="flash_sale" value="1" {{ old('flash_sale') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="flash_sale">Flash Sale</label>
+                                        </div>
+                                        @error('flash_sale')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="best_selling_products" class="form-check-input"
+                                                id="best_selling_products" value="1" {{ old('best_selling_products') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="best_selling_products">Best Selling Products</label>
+                                        </div>
+                                        @error('best_selling_products')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="sports_healthcare_more" class="form-check-input"
+                                                id="sports_healthcare_more" value="1" {{ old('sports_healthcare_more') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="sports_healthcare_more">Sports Healthcare More</label>
+                                        </div>
+                                        @error('sports_healthcare_more')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="top_deals" class="form-check-input"
+                                                id="top_deals" value="1" {{ old('top_deals') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="top_deals">Top Deals</label>
+                                        </div>
+                                        @error('top_deals')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="top_pick_for_you" class="form-check-input"
+                                                id="top_pick_for_you" value="1" {{ old('top_pick_for_you') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="top_pick_for_you">Top Pick For You</label>
+                                        </div>
+                                        @error('top_pick_for_you')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
                                             <input type="checkbox" name="is_new" class="form-check-input"
                                                 id="isNew" value="1" {{ old('is_new') ? 'checked' : '' }}>
                                             <label class="form-check-label" for="isNew">Is New</label>
@@ -204,7 +264,38 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
+                                    <div class="form-group">
+                                        <label for="aboutItem">Features Specification</label>
+                                        <textarea name="features_specification" class="form-control @error('features_specification') is-invalid @enderror" id="features_specification"
+                                            placeholder="Enter About Item">{{ old('features_specification') }}</textarea>
+                                        @error('features_specification')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="aboutItem">Measurements</label>
+                                        <textarea name="measurements" class="form-control @error('measurements') is-invalid @enderror" id="measurements"
+                                            placeholder="Enter About Item">{{ old('measurements') }}</textarea>
+                                        @error('measurements')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="aboutItem">Why Choose This Product</label>
+                                        <textarea name="why_choose_this_product" class="form-control @error('why_choose_this_product') is-invalid @enderror" id="why_choose_this_product"
+                                            placeholder="Enter About Item">{{ old('why_choose_this_product') }}</textarea>
+                                        @error('why_choose_this_product')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                     <div class="form-group">
+                                        <label for="aboutItem">Usage Instructions</label>
+                                        <textarea name="usage_instructions" class="form-control @error('usage_instructions') is-invalid @enderror" id="usage_instructions"
+                                            placeholder="Enter About Item">{{ old('usage_instructions') }}</textarea>
+                                        @error('usage_instructions')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                                     <div class="form-group">
                                         <label for="pageName">Page Title(HEAD)</label>
@@ -244,6 +335,10 @@
         document.addEventListener("DOMContentLoaded", function() {
             CKEDITOR.replace('productFeatures');
             CKEDITOR.replace('aboutItem');
+            CKEDITOR.replace('why_choose_this_product');
+            CKEDITOR.replace('measurements');
+            CKEDITOR.replace('usage_instructions');
+            CKEDITOR.replace('features_specification');
         });
         function calculateourprice() {
             var price = parseFloat(document.getElementById('productPrice').value);

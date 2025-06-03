@@ -61,13 +61,21 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->original_price = $request->price;
         $product->our_price = $request->price - ($request->price * $request->dicount_percentage / 100);
-        $product->weekly_price = $request->weekly_price;
+        $product->monthly_price = $request->monthly_price;
         $product->is_rentable = $request->has('is_rentable') ? true : false;
         $product->is_popular = $request->has('is_popular') ? true : false;
         $product->is_new = $request->has('is_new') ? true : false;
+        $product->top_pick_for_you = $request->has('top_pick_for_you') ? true : false;
+        $product->top_deals= $request->has('top_deals') ? true : false;
+        $product->best_selling_products = $request->has('best_selling_products') ? true : false;
+        $product->sports_healthcare_more = $request->has('sports_healthcare_more') ? true : false;
+        $product->flash_sale = $request->has('flash_sale') ? true : false;
         $product->gst = $request->gst;
         $product->about_item = $request->about_item;
         $product->image = 'temp';
+        $product->measurements = $request->measurements ?? null;
+        $product->usage_instructions = $request->usage_instructions ?? null;
+        $product->why_choose_this_product = $request->why_choose_this_product ?? null;
        
         $product->discount_percentage = $request->dicount_percentage ?? null;
         $product->page_title = $request->page_title ?? null;
@@ -130,12 +138,20 @@ class ProductController extends Controller
         $product->is_rentable = $request->has('is_rentable') ? true : false ;
         $product->is_popular = $request->has('is_popular') ? true : false;
         $product->is_new = $request->has('is_new') ? true : false;
+        $product->top_pick_for_you = $request->has('top_pick_for_you') ? true : false;
+        $product->top_deals = $request->has('top_deals') ? true : false;
+        $product->best_selling_products = $request->has('best_selling_products') ? true : false;
+        $product->sports_healthcare_more = $request->has('sports_healthcare_more') ? true : false;
+        $product->flash_sale = $request->has('flash_sale') ? true : false;
         $product->about_item = $request->about_item;
         $product->discount_percentage = $request->dicount_percentage;
         $product->page_title = $request->page_title;
         $product->seo_meta_tag_title = $request->seo_meta_tag_title;
         $product->seo_meta_tag = $request->seo_meta_tag;
         $product->delivery_and_installation_fees = $request->delivery_and_installation_fees;
+        $product->measurements = $request->measurements ?? null;
+        $product->usage_instructions = $request->usage_instructions ?? null;
+        $product->why_choose_this_product = $request->why_choose_this_product ?? null;
         $product->save();
             if ($request->hasFile('image')) {
                 if ($product->images->isNotEmpty()) {

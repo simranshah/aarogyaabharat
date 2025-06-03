@@ -286,6 +286,20 @@
     </div>
   </div>
 </div>
+<div class="log-out">
+<div class="popup-overlay" id="logoutPopup1" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="closePopupadress()">&times;</button>
+      <img src="{{asset('front/images/grandpa_delete.svg')}}" alt="Logout" class="popup-image1" />
+      {{-- <h2 class="popup-title">Come back soon!</h2> --}}
+      <p class="popup-text">Are you sure you want to Delete?</p>
+      <div class="popup-buttons">
+        <button class="btn yes-btn" id="delete_Adress">Yes</button>
+        <button class="btn cancel-btn" onclick="closePopupadress()">Cancel</button>
+      </div>
+    </div>
+  </div>
+ </div>    
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>

@@ -19,7 +19,7 @@
             </label>
             <div class="edit_remove">
                 <a href="#;" onclick="editAddress({{ $address->id }})" class="edit_box">Edit</a>
-                <a href="#" class="remove_box" onclick="removeAddress({{ $address->id }})" data-address-id="{{ $address->id }}">Remove</a>
+                <a href="#" class="remove_box" onclick="removeAddressnew({{ $address->id }})" data-address-id="{{ $address->id }}">Remove</a>
             </div>
         </div>
     @endforeach
@@ -48,4 +48,33 @@
         }
     });
     }
+ function removeAddressnew(addressid) {
+    console.log("Address ID received:", addressid); // Debug log
+    document.getElementById('logoutPopup1').style.display = '';
+    document.getElementById('delete_Adress').onclick = function() { 
+        console.log("Button clicked, passing address ID:", addressid); // Debug log
+        removeAddressWithId(addressid); 
+    };
+}
+function removeAddressWithId(addressId){
+    $.ajax({
+            url: '/customer/remove-address/' + addressId,  
+            type: 'GET',
+            success: function(response) {
+                if (response.success) {
+                     toastr.success(response.message);
+                    location.reload();
+                   
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                toastr.error('Something went wrong. Please try again.');
+            }
+        });
+}
+function closePopupadress(){
+  document.getElementById('logoutPopup1').style.display = 'none';  
+}
 </script>

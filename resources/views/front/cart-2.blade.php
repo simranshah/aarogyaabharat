@@ -1,6 +1,5 @@
 @extends('front.layouts.layout')
 @section('content')
-
     {{-- @include('front.common.welcome-message') --}}
     <div class="breadcrumbs">
         <div class="container">
@@ -24,112 +23,118 @@
                     toastr.error('{{ session('error') }}');
                 </script>
             @endif
-           @php
-                        $customer = Auth::user();
-                        $session_id = session()->get('cart_id');
+            @php
+                $customer = Auth::user();
+                $session_id = session()->get('cart_id');
 
-                        // Only count cart items if a session ID or user exists
-                        if ($customer || $session_id) {
-                            $cartProductCount1 = App\Models\Front\Cart::where(function ($query) use ($customer, $session_id) {
-                                if ($customer) {
-                                    $query->where('user_id', $customer->id);
-                                }
-                                if ($session_id) {
-                                    // Only check session_id if it's not null
-                                        $query->orWhere('session_id', $session_id);
-                                    }
-                                })
-                                    ->withCount('cartProducts')
-                                    ->get()
-                                    ->sum('cart_products_count');
-                            } else {
-                                $cartProductCount1 = 0; // No cart items if no session or user
-                            }
-
-                            \Log::channel('cart_log')->info('Header - Session ID:', [
-                                'session_id' => $session_id,
-                                'cartProductCount1' => $cartProductCount1,
-                        ]);
-                    @endphp
-            @if ($cartProductCount1 == 0)  
-            <div class="empty-cart-container">
-    <div class="empty-cart-empty">
-      <img src="{{asset('front/images/empty_cart.png')}}" alt="Empty Cart" class="empty-cart-img" />
-      <p class="empty-cart-message">Let’s equip your care kit, your cart’s looking a bit empty.</p>
-     <a href="{{route('products.flash.sale')}}"><button class="empty-cart-shop-btn">Continue Shopping</button></a>
-    </div>
-
-    <div class="empty-cart-best-selling">
-      <h2>Best Selling Products</h2>
-      <div class="empty-cart-product-list">
-        <!-- Product cards -->
-          @foreach ($flashSaleProducts as $product)
-          @if ($loop->index >= 6)
-          @break
-          @endif
-         <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
-        <div class="empty-cart-product-card">
-          <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
-          <div class="empty-cart-product-info">
-            <p>{{$product->name}}</p>
-            <strong>₹ @indianCurrency($product->our_price)</strong>
-          </div>
-        </div>
-         </a>
-        @endforeach
-      </div>
-    </div>
-  </div>
-            @else
-            <div class="cartTitle">
-                <img src="{{ asset('front/images/cart.svg') }}" alt="cart" />
-                <div>
-                    @php
-                    $total = 0;
-                    $gst = 0;
-                    $offer = 0;
-                
-                    if (isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->cartProducts)) {
-                        foreach ($cartProducts[0]->cartProducts as $cartItem) {
-                            if (isset($cartItem->is_visible) && $cartItem->is_visible == 1) {
-                                $productPrice = $cartItem->product->our_price * $cartItem->quantity;
-                                $total += $productPrice;
-                                $gst += ($productPrice * $cartItem->product->gst) / 100;
-                            }
+                // Only count cart items if a session ID or user exists
+                if ($customer || $session_id) {
+                    $cartProductCount1 = App\Models\Front\Cart::where(function ($query) use ($customer, $session_id) {
+                        if ($customer) {
+                            $query->where('user_id', $customer->id);
                         }
-                
-                        $offer = $cartProducts[0]->discount_offer_amount ?? 0;
-                        $totalPayable = round($total - $offer + $gst,2);
-                    }
-                @endphp
-                
+                        if ($session_id) {
+                            // Only check session_id if it's not null
+            $query->orWhere('session_id', $session_id);
+        }
+    })
+        ->withCount('cartProducts')
+        ->get()
+        ->sum('cart_products_count');
+} else {
+    $cartProductCount1 = 0; // No cart items if no session or user
+}
 
-                    <h4>{{ $cartProductCount1 ?? 0 }} Item in your cart</h4>
-                </div>
-            </div>
-            @if (isset($cartProducts[0]) && !empty($cartProducts[0]))
-                <div class="row18">
-                    <div class="cart50">
-                        <div id="delivery-address">
-                            @include('front.common.delivery-address')
-                        </div>
-                        <div class="cartProductpart1" id="cart-items">
-                            @include('front.common.cart.items')
-                        </div>
-                        <div class="offer-box">
-                            <div class="offer-left">
-                                <img src="{{ asset('front/images/discount-icon.png') }}" alt="Discount Icon">
-                              <div class="offer-text">
-                                <strong>Offers & Discounts</strong><br>
-                                <small>*T&C apply</small>
-                              </div>
-                            </div>
-                            <div class="apply-btn"  onclick="getMoreOffers()">Apply Now</div>
-                          </div>
-                       
+\Log::channel('cart_log')->info('Header - Session ID:', [
+    'session_id' => $session_id,
+    'cartProductCount1' => $cartProductCount1,
+                ]);
+            @endphp
+            @if ($cartProductCount1 == 0)
+                <div class="empty-cart-container">
+                    <div class="empty-cart-empty">
+                        <img src="{{ asset('front/images/empty_cart.png') }}" alt="Empty Cart" class="empty-cart-img" />
+                        <p class="empty-cart-message">Let’s equip your care kit, your cart’s looking a bit empty.</p>
+                        <a href="{{ route('products.flash.sale') }}"><button class="empty-cart-shop-btn">Continue
+                                Shopping</button></a>
                     </div>
-                    <div class="cart50">
-                        {{-- <div class="flatOffer">
+
+                    <div class="empty-cart-best-selling">
+                        <h2>Best Selling Products</h2>
+                        <div class="empty-cart-product-list">
+                            <!-- Product cards -->
+                            @foreach ($flashSaleProducts as $product)
+                                @if ($loop->index >= 6)
+                                    @break
+                                @endif
+                                <a
+                                    href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug, 'subSlug' => $product->slug]) }}">
+                                    <div class="empty-cart-product-card">
+                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
+                                        <div class="empty-cart-product-info">
+                                            <p>{{ $product->name }}</p>
+                                            <strong>₹ @indianCurrency($product->our_price)</strong>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="cartTitle">
+                    <img src="{{ asset('front/images/cart.svg') }}" alt="cart" />
+                    <div>
+                        @php
+                            $total = 0;
+                            $gst = 0;
+                            $offer = 0;
+
+                            if (
+                                isset($cartProducts) &&
+                                !empty($cartProducts[0]) &&
+                                !empty($cartProducts[0]->cartProducts)
+                            ) {
+                                foreach ($cartProducts[0]->cartProducts as $cartItem) {
+                                    if (isset($cartItem->is_visible) && $cartItem->is_visible == 1) {
+                                        $productPrice = $cartItem->product->our_price * $cartItem->quantity;
+                                        $total += $productPrice;
+                                        $gst += ($productPrice * $cartItem->product->gst) / 100;
+                                    }
+                                }
+
+                                $offer = $cartProducts[0]->discount_offer_amount ?? 0;
+                                $totalPayable = round($total - $offer + $gst, 2);
+                            }
+                        @endphp
+
+
+                        <h4>{{ $cartProductCount1 ?? 0 }} Item in your cart</h4>
+                    </div>
+                </div>
+                @if (isset($cartProducts[0]) && !empty($cartProducts[0]))
+                    <div class="row18">
+                        <div class="cart50">
+                            <div id="delivery-address">
+                                @include('front.common.delivery-address')
+                            </div>
+                            <div class="cartProductpart1" id="cart-items">
+                                @include('front.common.cart.items')
+                            </div>
+                            <div class="offer-box">
+                                <div class="offer-left">
+                                    <img src="{{ asset('front/images/discount-icon.png') }}" alt="Discount Icon">
+                                    <div class="offer-text">
+                                        <strong>Offers & Discounts</strong><br>
+                                        <small>*T&C apply</small>
+                                    </div>
+                                </div>
+                                <div class="apply-btn" onclick="getMoreOffers()">Apply Now</div>
+                            </div>
+
+                        </div>
+                        <div class="cart50">
+                            {{-- <div class="flatOffer">
                             <img src="{{ asset('front/images/flat_offer.svg/') }}" alt="" />
                             <div class="flatCon">
                                 <strong>{{ $offerOrDiscount->title }}</strong>
@@ -162,58 +167,62 @@
                         <div class="offerLink1">
                             <a id="getMoreOffers" onclick="getMoreOffers()">View More Offers</a>
                         </div> --}}
-                        <div id="buyOption" class="option-box active">
-                            <div class="header">
-                              <label>
-                                <input type="radio" name="mode" value="buy" checked>
-                               <span style="font-weight: bold;">Buy Now</span> 
-                              </label>
-                              <div class="amount">Total Payable<span id="buyAmount" style="font-weight: bold;"> &nbsp; ₹ {{$totalPayable}}</span></div>
+                            <div id="buyOption" class="option-box active">
+                                <div class="header">
+                                    <label>
+                                        <input type="radio" name="mode" value="buy" checked>
+                                        <span style="font-weight: bold;">Buy Now</span>
+                                    </label>
+                                    <div class="amount">Total Payable<span id="buyAmount" style="font-weight: bold;"> &nbsp;
+                                            ₹ {{ $totalPayable }}</span></div>
+                                </div>
+                                <button class="pay-btn" id="proceedButton" data-cartid="{{ $cartProducts[0]->id }}">Proceed
+                                    to Pay</button>
                             </div>
-                            <button class="pay-btn" id="proceedButton" data-cartid="{{ $cartProducts[0]->id }}">Proceed to Pay</button>
-                          </div>
-                        
-                          <div id="rentOption" class="option-box" onclick="showopopunderDev();">
-                            <div class="header">
-                              <label>
-                                <input type="radio" name="mode" value="rent" disabled>
-                                <span style="font-weight: bold;"> Rent Now</span>
-                              </label>
-                              <div class="amount">Total Payable<span id="rentAmount" style="font-weight: bold;"> ₹ 00</span></div>
+
+                            <div id="rentOption" class="option-box" onclick="showopopunderDev();">
+                                <div class="header">
+                                    <label>
+                                        <input type="radio" name="mode" value="rent" disabled>
+                                        <span style="font-weight: bold;"> Rent Now</span>
+                                    </label>
+                                    <div class="amount">Total Payable<span id="rentAmount" style="font-weight: bold;"> ₹
+                                            00</span></div>
+                                </div>
+                                <div class="slider-container">
+                                    <div class="slider-label">
+                                        <input type="range" min="1" max="5" value="1" class="slider"
+                                            id="rentSlider" disabled>
+                                    </div>
+                                    <div class="rent-options">
+                                        <label>1 Month</label>
+                                        <label>3 Month</label>
+                                        <label>6 Month</label>
+                                        <label>9 Month</label>
+                                        <label>12 Month</label>
+                                    </div>
+
+                                </div>
+                                <button class="pay-btn">Proceed to Pay</button>
                             </div>
-                            <div class="slider-container">
-                            <div class="slider-label">
-                              <input type="range" min="1" max="5" value="1" class="slider" id="rentSlider" disabled>
+                            @php
+                                $total = 0;
+                                $totalONRent = 0;
+                                $subTotal = 0;
+                                $gst = 0;
+                                $cartId = 0;
+                                $couponId = 0;
+                                if (isset($cartProducts) && isset($cartProducts[0])) {
+                                    $cartId = $cartProducts[0]->id;
+                                }
+                                if (isset($offerOrDiscount)) {
+                                    $couponId = $offerOrDiscount->id;
+                                }
+                            @endphp
+                            <div id="orderSummery">
+                                @include('front.common.cart.order-summary')
                             </div>
-                              <div class="rent-options">
-                                <label>1 Month</label>
-                                <label>3 Month</label>
-                                <label>6 Month</label>
-                                <label>9 Month</label>
-                                <label>12 Month</label>
-                              </div>
-                            
-                            </div>
-                            <button class="pay-btn">Proceed to Pay</button>
-                          </div>
-                        @php
-                            $total = 0;
-                            $totalONRent = 0;
-                            $subTotal = 0;
-                            $gst = 0;
-                            $cartId = 0;
-                            $couponId = 0;
-                            if (isset($cartProducts) && isset($cartProducts[0])) {
-                                $cartId = $cartProducts[0]->id;
-                            }
-                            if (isset($offerOrDiscount)) {
-                                $couponId = $offerOrDiscount->id;
-                            }
-                        @endphp
-                        <div id="orderSummery">
-                            @include('front.common.cart.order-summary')
-                        </div>
-                        {{-- <div id="delivery-address">
+                            {{-- <div id="delivery-address">
                             @include('front.common.delivery-address')
                         </div>
 
@@ -231,9 +240,9 @@
                                         data-prefill.name="test" data-prefill.email="test@test.com" data-theme.color="#ff7529"></script>
                                 </form> -->
                         </div> --}}
+                        </div>
                     </div>
-                </div>
-            @endif
+                @endif
             @endIf
         </div>
 
@@ -266,50 +275,65 @@
                 </div>
             </div>
         </div>
-
+        <div class="log-out">
+            <div class="popup-overlay" id="logoutPopup1" style="display: none;">
+                <div class="popup">
+                    <button class="close-btn" onclick="closePopupadress()">&times;</button>
+                    <img src="{{ asset('front/images/grandpa_delete.svg') }}" alt="Logout" class="popup-image1" />
+                    {{-- <h2 class="popup-title">Come back soon!</h2> --}}
+                    <p class="popup-text">Are you sure you want to Delete?</p>
+                    <div class="popup-buttons">
+                        <button class="btn yes-btn" id="delete_Adress">Yes</button>
+                        <button class="btn cancel-btn" onclick="closePopupadress()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="{{ asset('front/js/jquery.min.js') }}"></script>
         <script src="{{ asset('front/js/slick.js') }}"></script>
         <script src="{{ asset('front/js/script.js') }}"></script>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script>
-   const buyBox = document.getElementById('buyOption');
-    const rentBox = document.getElementById('rentOption');
-    const radioButtons = document.querySelectorAll('input[name="mode"]');
-    const slider = document.getElementById('rentSlider');
-    const rentAmount = document.getElementById('rentAmount');
+            const buyBox = document.getElementById('buyOption');
+            const rentBox = document.getElementById('rentOption');
+            const radioButtons = document.querySelectorAll('input[name="mode"]');
+            const slider = document.getElementById('rentSlider');
+            const rentAmount = document.getElementById('rentAmount');
 
-    radioButtons.forEach(radio => {
-      radio.addEventListener('change', () => {
-        if (radio.value === 'buy') {
-          buyBox.classList.add('active');
-          rentBox.classList.remove('active');
-        } else {
-          rentBox.classList.add('active');
-          buyBox.classList.remove('active');
-        }
-      });
-    });
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (radio.value === 'buy') {
+                        buyBox.classList.add('active');
+                        rentBox.classList.remove('active');
+                    } else {
+                        rentBox.classList.add('active');
+                        buyBox.classList.remove('active');
+                    }
+                });
+            });
 
-    slider.addEventListener('input', () => {
-      const values = {
-        1: " ₹ 1746.00",
-        2: " ₹ 1746.00",
-        3: " ₹ 1746.00",
-        4: " ₹ 1746.00",
-        5: " ₹ 1746.00"
-      };
-    //   rentAmount.textContent = values[slider.value];
+            slider.addEventListener('input', () => {
+                const values = {
+                    1: " ₹ 1746.00",
+                    2: " ₹ 1746.00",
+                    3: " ₹ 1746.00",
+                    4: " ₹ 1746.00",
+                    5: " ₹ 1746.00"
+                };
+                //   rentAmount.textContent = values[slider.value];
 
-      const percentage = (slider.value - 1) / 4 * 100;
-      slider.style.background = `linear-gradient(to right, #2d4a91 0%, #2d4a91 ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
-    });
-   function showopopunderDev() {
-        // Show the popunder
-        toastr.error('This feature is unavailable. Please check back later.');
-    }
-    // Initialize background on load
-    slider.dispatchEvent(new Event('input'));
-          </script>
+                const percentage = (slider.value - 1) / 4 * 100;
+                slider.style.background =
+                    `linear-gradient(to right, #2d4a91 0%, #2d4a91 ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
+            });
+
+            function showopopunderDev() {
+                // Show the popunder
+                toastr.error('This feature is unavailable. Please check back later.');
+            }
+            // Initialize background on load
+            slider.dispatchEvent(new Event('input'));
+        </script>
         <script>
             $(document).ready(function() {
 
@@ -558,30 +582,37 @@
             }
 
             function deleteCartItem(cartItemId) {
-                if (confirm('Are you sure you want to delete this item from the cart?')) {
-                    $.ajax({
-                        url: "{{ route('cart.delete-item', '') }}/" + cartItemId, // Adjust the route as needed
-                        type: 'DELETE', // Use DELETE method
-                        data: {
-                            _token: '{{ csrf_token() }}' // Include CSRF token for Laravel
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                toastr.success('Item deleted successfully.');
-                                $('#cart-items').html(response.cartItmes);
-                                $('#orderSummery').html(response.orderSummaryResponse);
-                                 location.reload();
-                            } else {
-                                toastr.error(response.message);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            toastr.error('Something went wrong. Please try again later.');
-                        }
-                    });
-                }
+                document.getElementById('logoutPopup1').style.display = '';
+                document.getElementById('delete_Adress').onclick = function() {
+                    console.log("Button clicked, passing address ID:", cartItemId); // Debug log
+                    removecartproduct(cartItemId);
+                };
             }
 
+            function removecartproduct(cartItemId) {
+                // if (confirm('Are you sure you want to delete this item from the cart?')) {
+                $.ajax({
+                    url: "{{ route('cart.delete-item', '') }}/" + cartItemId, // Adjust the route as needed
+                    type: 'DELETE', // Use DELETE method
+                    data: {
+                        _token: '{{ csrf_token() }}' // Include CSRF token for Laravel
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success('Item deleted successfully.');
+                            $('#cart-items').html(response.cartItmes);
+                            $('#orderSummery').html(response.orderSummaryResponse);
+                            location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error('Something went wrong. Please try again later.');
+                    }
+                });
+                // }
+            }
 
             function applyOffer(element, single = false) {
                 var cartId = $(element).data('cart-id');
@@ -772,12 +803,17 @@
                     }
                 });
             }
-            function addNewDeliveryAddress1(){
-                            const popup = document.querySelector('.addressFormPop1');
-                            if (popup) {
-                                popup.style.display = 'block';
-                            }
-                        }
+
+            function addNewDeliveryAddress1() {
+                const popup = document.querySelector('.addressFormPop1');
+                if (popup) {
+                    popup.style.display = 'block';
+                }
+            }
+
+            function closePopupadress() {
+                document.getElementById('logoutPopup1').style.display = 'none';
+            }
         </script>
     </section>
 @endsection('content')

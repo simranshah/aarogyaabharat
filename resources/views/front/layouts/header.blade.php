@@ -118,7 +118,7 @@
                             href="{{ route('home') }}">Home</a></li>
                     <li class="{{ Route::currentRouteName() == 'products' ? 'active' : '' }}"><a
                             href="{{ route('products') }}">Products</a></li>
-                    <li id="offerLink"><a href="{{ route('products.flash.sale') }}">Sale</a></li>
+                    <li id="offerLink"><a href="{{ route('products.flash.sale') }}">Offer</a></li>
                     <li class="{{ Route::currentRouteName() == 'blogs' ? 'active' : '' }}"><a
                             href="{{ route('blogs') }}">Blogs</a></li>
                     {{-- <li class="{{ Route::currentRouteName() == 'customer.about.us' ? 'active' : '' }}"><a href="{{route('customer.about.us')}}">About</a></li> --}}
@@ -138,6 +138,11 @@
                     </div>
                 @endif
                 <ul class="cartsUl">
+                    <li>
+                        <a href="https://wa.me/+919921407039">
+                            <img src="/front/images/Wp_me.png" alt="whatsapp">
+                        </a>
+                    </li>
                     <li>
                         <a class="notificationpopupjs"> <img src="{{ asset('front/images/notification.svg') }}"
                                 alt="notification">
@@ -202,13 +207,13 @@
                         </li>
                     @endif
                 </ul>
-                <div id="customerlocationPin">
+                {{-- <div id="customerlocationPin">
                     @include('front.common.customer-pin')
-                </div>
+                </div> --}}
                 <div class="SearchBlock">
                     <div>
                         <button><img src="{{ asset('front/images/search.svg') }}" alt="search"></button>
-                        <input type="text" id="searchInput" placeholder="Search"
+                        <input type="text" id="searchInput" placeholder=""
                             onkeydown="
                         if (event.keyCode === 13) {
                           searchproductinput(this.value);
@@ -221,7 +226,7 @@
                 </div>
             </div>
         </div>
-        <div class="headerBlock" style="padding: 1px;background-color: #220D6D;color: white; text-align: right;">
+        {{-- <div class="headerBlock" style="padding: 1px;background-color: #220D6D;color: white; text-align: right;">
             <div class="nav-emg-header-inner">
                 <div class="nav-emg-container">
                     <div class="nav-emg-header-text">
@@ -233,14 +238,14 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </header>
     @php
         $isMobile =
             request()->header('User-Agent') &&
             preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
     @endphp
-    @if (!Route::is('products.flash.sale') && !Route::is('cart'))
+    {{-- @if (!Route::is('products.flash.sale') && !Route::is('cart'))
         @if ($isMobile)
             <button class="flash-sale-flash-button"
                 onclick="document.querySelector('.flash-sale-popup-overlay').style.display='flex'">
@@ -252,7 +257,7 @@
                 🎉 70% OFF! Click Here
             </button>
         @endif
-    @endif
+    @endif --}}
 
     <!-- Popup -->
     <div class="flash-sale-popup-overlay" onclick="this.style.display='none'" id="flash-sale-popup-overlay">
@@ -260,7 +265,7 @@
             <div class="flash-sale-popup-header">
                 <div class="flash-sale-close-btn"
                     onclick="document.querySelector('.flash-sale-popup-overlay').style.display='none'">&times;</div>
-                <h2>FLASH SALE</h2>
+                <h2>FLASH Offer</h2>
                 <p>Limited Time Offer</p>
             </div>
             <div class="flash-sale-popup-body">
@@ -332,6 +337,23 @@
     <script src="{{ asset('front/js/toaster.js') }}"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+     <script>
+        const input = document.getElementById('searchInput');
+        const placeholderText = "Search best deals on medical equipment...";
+        let i = 0;
+        
+        function typePlaceholder() {
+            if (i < placeholderText.length) {
+                input.placeholder += placeholderText.charAt(i);
+                i++;
+                setTimeout(typePlaceholder, 100); // Adjust speed here (milliseconds)
+            }else{
+                typePlaceholder(); 
+            }
+        }
+        // Start the animation
+        typePlaceholder();
+    </script>
     <script>
         $(document).ready(function() {
             $('#searchInput').on('keyup', function() {
@@ -492,21 +514,21 @@
             document.getElementById("mins").innerText = mins.toString().padStart(2, '0');
             document.getElementById("secs").innerText = secs.toString().padStart(2, '0');
         };
-        @if (!Route::is('products.flash.sale') && !Route::is('cart'))
-            let loadedAt = localStorage.getItem("settureifloded");
-            const now = Date.now(); // current timestamp in milliseconds
-            const thirtyMinutes = 30 * 60 * 1000;
+        // @if (!Route::is('products.flash.sale') && !Route::is('cart'))
+        //     let loadedAt = localStorage.getItem("settureifloded");
+        //     const now = Date.now(); // current timestamp in milliseconds
+        //     const thirtyMinutes = 30 * 60 * 1000;
 
-            if (!loadedAt || now - parseInt(loadedAt) > thirtyMinutes) {
-                // Set or reset timestamp
-                localStorage.setItem("settureifloded", now);
+        //     if (!loadedAt || now - parseInt(loadedAt) > thirtyMinutes) {
+        //         // Set or reset timestamp
+        //         localStorage.setItem("settureifloded", now);
 
-                // Show popup after 10 seconds
-                setTimeout(() => {
-                    document.querySelector('.flash-sale-popup-overlay').style.display = 'flex';
-                }, 10000); // 10 seconds
-            }
-        @endif
+        //         // Show popup after 10 seconds
+        //         setTimeout(() => {
+        //             document.querySelector('.flash-sale-popup-overlay').style.display = 'flex';
+        //         }, 10000); // 10 seconds
+        //     }
+        // @endif
         const toggleBtn = document.getElementById('chat-toggle');
         const closeBtn = document.getElementById('close-chat');
         const chatbox = document.getElementById('chatbox');
@@ -671,3 +693,4 @@
         }
         addMessage("Hi! I'm Aarogyaa. How can I help you today?", "bot");
     </script>
+   
