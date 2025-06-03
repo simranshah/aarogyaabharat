@@ -156,7 +156,7 @@
             data-inactive-img="{{ asset('front/images/offerbar.svg') }}">
             <a href="{{ route('products.flash.sale')}}">
                 <img id="offerImage" src="{{ asset('front/images/offerbar.svg') }}" alt="Offers" />
-                Sale
+                Offers
             </a>
         </li>
         <li>

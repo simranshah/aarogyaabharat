@@ -118,7 +118,7 @@
                             href="{{ route('home') }}">Home</a></li>
                     <li class="{{ Route::currentRouteName() == 'products' ? 'active' : '' }}"><a
                             href="{{ route('products') }}">Products</a></li>
-                    <li id="offerLink"><a href="{{ route('products.flash.sale') }}">Offer</a></li>
+                    <li id="offerLink"><a href="{{ route('products.flash.sale') }}">Offers</a></li>
                     <li class="{{ Route::currentRouteName() == 'blogs' ? 'active' : '' }}"><a
                             href="{{ route('blogs') }}">Blogs</a></li>
                     {{-- <li class="{{ Route::currentRouteName() == 'customer.about.us' ? 'active' : '' }}"><a href="{{route('customer.about.us')}}">About</a></li> --}}
