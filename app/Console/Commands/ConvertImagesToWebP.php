@@ -21,7 +21,7 @@ class ConvertImagesToWebP extends Command
    public function handle()
     {
         $manager = new ImageManager(new GdDriver());
-        $products = Product::whereNotNull('image')->get() ->where('image', 'NOT LIKE', '%.webp');
+        $products = Product::where('image', 'NOT LIKE', '%.webp')->get();
 
         foreach ($products as $product) {
             $originalPath = public_path('storage/' . $product->image); // e.g., public/storage/products/image1.jpg

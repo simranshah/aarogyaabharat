@@ -7,45 +7,17 @@
     <div class="container">
         <ul>
             <li><a href="{{ route('home') }}">Home</a> </li>
-            <li><a href="{{ route('products.category') }}">Flash Sale</a> </li>
+            <li><a href="{{ route('products.category') }}">Sports, Healthcare & More</a> </li>
         </ul>
     </div>    
 </div>
-<section class="bannerPArt1">
-    <div class="container">
-        <div class="bannerSlider">
-            @if($isMobile)
-              
-                    <div class="bannerBlock">  
-                            <img class="bannerImage"
-                                 src="{{ asset('front/images/Flash_sale_mob_banner.gif') }}" 
-                                  data-mobile="{{ asset('front/images/Flash_sale_mob_banner.gif') }}"
-                                 data-desktop="{{ asset('front/images/Flash_sale_des_banner.gif') }}"
-                                 alt="Mobile Banner">                          
-                    </div>
-                
-            @else
-               
-                    <div class="bannerBlock">
-                            <img class="bannerImage"
-                                 src="{{ asset('front/images/Flash_sale_des_banner.gif') }}" 
-                                 data-mobile="{{ asset('front/images/Flash_sale_mob_banner.gif') }}"
-                                 data-desktop="{{ asset('front/images/Flash_sale_des_banner.gif') }}"
-                                 alt="Desktop Banner">
-                    </div>
-              
-            @endif
-        </div> 
-    </div>
-</section>
 <section class="productSlidePart">
     <div class="container">
             <div class="titlePart2">
-                <img src="{{ asset('front/images/flash-sale.png')}}" alt="flash-sale" />
-                <h1>Flash Sale</h1>
-              
+                <img src="{{ asset('front/images/sport-heathcare.png')}}" alt="sport-heathcare" />
+                <h1>Sports, Healthcare & More</h1> 
             </div>
-            <div class="rowMob">
+           <div class="rowMob">
                 <div class="product_slider3  "> 
                     @foreach ($products as $product)
                         <div class="product_slider3padd">

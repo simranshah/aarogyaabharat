@@ -127,14 +127,14 @@
                                     </div>
 
                                     <!-- Features and Specifications -->
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="productFeatures">Features and Specifications</label>
                                         <textarea name="features_specification" class="form-control @error('features_specification') is-invalid @enderror"
                                             id="productFeatures" placeholder="Enter Product Features and Specifications">{{ old('features_specification', $product->features_specification) }}</textarea>
                                         @error('features_specification')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Price -->
                                     <div class="form-group">

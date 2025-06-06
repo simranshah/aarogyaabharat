@@ -1,5 +1,3 @@
-{{-- resources/views/front/common/notification.blade.php --}}
-
 <div class="notificationPop winScrollStop">
     <div class="notificationBlock">
         <h4>Notifications</h4>
@@ -16,12 +14,21 @@
                         {{-- <img src="{{ asset('front/images/flat_offer.svg') }}" /> --}}
                     </div>
                     <div>
-                        <h4>{{ $notification->data['title'] ?? 'Notification Title' }}</h4>
-                        <p>{{ $notification->data['message'] ?? 'Notification message here.' }}</p>
+                        @php
+                            // Handle both formats
+                            $data = is_string($notification->data) 
+                                ? json_decode($notification->data, true) 
+                                : ($notification->data ?? []);
+                        @endphp
+                        <h4>{{ $data['title'] ?? 'Notification Title' }}</h4>
+                        <p>{{ $data['message'] ?? 'Notification message here.' }}</p>
+                       
                     </div>
-                    <a href="#;" class="notidelete" data-id="{{ $notification->id }}">
-                        <img src="{{ asset('front/images/delete.svg') }}" alt="delete" />
-                    </a>
+                    @if(auth()->check())
+                        <a href="#;" class="notidelete" data-id="{{ $notification->id }}">
+                            <img src="{{ asset('front/images/delete.svg') }}" alt="delete" />
+                        </a>
+                    @endif
                 </div>
             @endforeach
         @endif

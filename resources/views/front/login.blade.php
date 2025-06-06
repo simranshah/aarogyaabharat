@@ -73,7 +73,7 @@
     <div class="LoginPop winScrollStop container" style="display: block;">
         <div class="LoginPopMiddle" >
             <div class="LoginPopInner">  
-                   <div style="position: absolute;top: 37px; right: 331px;z-index: 10;" class="close-login-pop">
+                   <div style="position: absolute;top: 37px; right: 405px;z-index: 10;" class="close-login-pop">
                           <a href="{{url('/')}}" class="close-login-pop"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
                      </div>                        
                 <div class="Sign_up_form_container">         
@@ -206,6 +206,7 @@
                             </div>
                             <form id="otp_form">
                                 <div class="a_otpPart">
+                                     <div class="errormsg" style="color: green" id="msg-for-otp-send"></div>
                                     <div class="inputMainBlock fullwidth">
                                         <div class="form-group">
                                             <div class="otp-wrap" id="otp-inputs">
@@ -225,6 +226,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                   
                                     <div class="a_resendOtp">
                                         <p><a href="javascript:void(0)">Resend OTP</a></p>
                                     </div>
@@ -324,7 +326,8 @@
                                     value[0]).css("display", "block");
                             });
                         } else {
-                            toastr.success(response.success);
+                            // toastr.success(response.success);
+                            document.getElementById('msg-for-otp-send').innerHTML=response.success;
                             $('.mobForm').hide();
                             $('.optForm').show();
                             count3minut('otp_form');

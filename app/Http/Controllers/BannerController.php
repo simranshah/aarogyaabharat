@@ -214,4 +214,10 @@ class BannerController extends Controller
 
         return redirect()->route('banners.index')->with('success', 'Banner created successfully.');
     }
+    function getBanners()
+    {
+        $banners = Banner::where('status', 1)->orderBy('display_order', 'asc')->get();
+        $html= view('front.common.banners', compact('banners'))->render();
+        return  response()->json(['html' => $html]);
+    }
 }

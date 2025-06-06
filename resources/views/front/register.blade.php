@@ -75,7 +75,7 @@
     <div class="LoginPop winScrollStop" style="display: block;">
         <div class="LoginPopMiddle">
             <div class="LoginPopInner">
-                 <div style="position: absolute;top: 37px; right: 331px;z-index: 10;" class="close-login-pop">
+                 <div style="position: absolute;top: 37px; right: 405px;z-index: 10;" class="close-login-pop">
                           <a href="{{url('/')}}" class="close-login-pop"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
                      </div>   
                 <div class="Sign_up_form_container">
@@ -183,9 +183,11 @@
                                     <div class="error-message" style="color:red;">{{ $message }}</div>
                                 @enderror
 
+                                {{-- <input type="text" id="pincode" name="pincode" placeholder="Enter your Pincode"
+                                    required value="{{ old('pincode') }}" onkeyup="chekPincodeAvil(this.value);"> --}}
                                 <input type="text" id="pincode" name="pincode" placeholder="Enter your Pincode"
-                                    required value="{{ old('pincode') }}" onkeyup="chekPincodeAvil(this.value);">
-                                <div id="error-message_pin" div="error-message"> </div>
+                                    required maxlength="6" pattern="\d{6}" value="{{ old('pincode') }}" onkeyup="chekPincodeAvil(this.value);">
+                                <div id="error-message_pin" class="error-message"></div>
                                 @error('pincode')
                                     <div class="error-message" style="color:red;">{{ $message }}</div>
                                 @enderror

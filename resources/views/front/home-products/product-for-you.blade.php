@@ -3,7 +3,7 @@
     <div class="container">
         <div class="titlePart">
             <h4>Products For You</h4>
-            <a href="{{ route('products')}}">View All <img src="{{ asset('front/images/orange_arrow.svg') }}" alt="View All"> </a>
+            <a href="{{ route('products.for.you')}}">View All <img src="{{ asset('front/images/orange_arrow.svg') }}" alt="View All"> </a>
         </div>
         <div class="rowMob">
             <div class="product_slider getprogressWidth arrowOnProgress">

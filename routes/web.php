@@ -83,7 +83,14 @@ Route::controller(FrontProductController::class)->group(function () {
     Route::get('/categories/{slug}', 'productCatogoryWise')->name('products.category.wise');
     Route::get('/categories/{slug}/{subSlug}', 'productSubCatogoryWise')->name('products.sub.category.wise');
     Route::get('/sale', 'flashSale')->name('products.flash.sale');
+    Route::get('/top-pick-for-you', 'topPickForYou')->name('products.top.pick.for.you');
+    Route::get('/best-sellers', 'bestSellers')->name('products.best.sellers');
+    Route::get('/top-deals', 'topDeals')->name('products.top.deals');
+    Route::get('/product-for-you', 'productForYou')->name('products.for.you');
+    Route::get('/sport-heathcare', 'sportHealthCare')->name('products.sport.healthcare');
+    Route::get('/new-arrivals', 'newArrivals')->name('products.new.arrivals');
 });
+Route::get('/get-banners', [BannerController::class, 'getBanners'])->name('get.banners');
 Route::get('/thanks', function () {
     return view('front.thank-you');
 })->name('thanks');
@@ -121,13 +128,12 @@ Route::controller(BlogController::class)->group(function () {
     Route::get('/search-blog-list/{query}', 'blogSearchResult')->name('blog.search.result'); 
 });
 
-
+Route::get('/customer/notification', [FrontCustomerController::class, 'Notification'])->name('customer.notification');
 Route::middleware(['auth.customer'])->group(function () {
     Route::get('/profile', [FrontCustomerController::class, 'profile'])->name('customers.profile');
     Route::post('/profile/update', [FrontCustomerController::class, 'profileUpdate'])->name('customers.profile.update');
     Route::get('/profile/address', [FrontCustomerController::class, 'addAddress'])->name('customers.address.add');
     Route::post('/profile/logout', [FrontCustomerController::class, 'customerLogout'])->name('customer.logout');
-    Route::get('/customer/notification', [FrontCustomerController::class, 'Notification'])->name('customer.notification');
     Route::get('/customer/order/{id}', [FrontCustomerController::class, 'OrderStatusWise'])->name('customer.orderStatusWise');
     Route::get('/customer/notification/delete/{id}', [FrontCustomerController::class, 'customerNotificationDestroy'])->name('customer.notifi.destroy');
     Route::post('/change-deliver-adress', [FrontCustomerController::class, 'changeDeliverAddress'])->name('change.deliver.address');

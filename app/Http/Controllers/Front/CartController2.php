@@ -91,9 +91,9 @@ class CartController2 extends Controller
             ]);
 
             if ($cart) {
-                $cart->quantity += $request->input('quantity', 1);
-                $cart->sub_total += ($product->our_price * $request->input('quantity', 1));
-                $cart->total_gst += ($product->our_price * $request->input('quantity', 1) * $product->gst) / 100;
+                // $cart->quantity += $request->input('quantity', 1);
+                // $cart->sub_total += ($product->our_price * $request->input('quantity', 1));
+                // $cart->total_gst += ($product->our_price * $request->input('quantity', 1) * $product->gst) / 100;
                 
                 
                 $cartProduct = CartProduct::where('cart_id', $cart->id)

@@ -20,6 +20,7 @@ class UserNotification extends Notification
 
     public function via($notifiable)
     {
+        // You can specify multiple channels here if needed, e.g., ['database', 'mail']
         return ['database'];
     }
 

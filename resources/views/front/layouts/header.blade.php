@@ -338,151 +338,6 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
      <script>
-        const input = document.getElementById('searchInput');
-        const placeholderText = "Search best deals on medical equipment...";
-        let i = 0;
-        
-        function typePlaceholder() {
-            if (i < placeholderText.length) {
-                input.placeholder += placeholderText.charAt(i);
-                i++;
-                setTimeout(typePlaceholder, 100); // Adjust speed here (milliseconds)
-            }else{
-                typePlaceholder(); 
-            }
-        }
-        // Start the animation
-        typePlaceholder();
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#searchInput').on('keyup', function() {
-                var query = $(this).val(); // Get the input value
-
-                if (query.length >= 2) { // Trigger search when at least 2 characters are entered
-                    $.ajax({
-                        url: "{{ route('search.products') }}", // Your route to search products
-                        type: 'GET',
-                        data: {
-                            query: query // Send the input as a query parameter
-                        },
-                        success: function(response) {
-                            if (response.success === false) {
-                                $('#searchResultList').html('<li>No products found.</li>');
-                            } else {
-                                $('#searchResultList').html(response); // Render the results
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                            $('#searchResultList').html('<li>Something went wrong.</li>');
-                        }
-                    });
-                } else {
-                    $('#searchResultList').empty(); // Clear results if query length is less than 2
-                }
-            });
-        });
-        //notifications get
-        $('.notificationpopupjs').click(function() {
-            $.ajax({
-                url: '{{ route('customer.notification') }}',
-                method: 'GET',
-                success: function(data) {
-                    if (data.notificationHtml) {
-                        $('#notification-pop').html(data.notificationHtml);
-                        $('.notificationPop').css('display', 'flex');
-                    } else {
-                        toastr.error('No notifications found.');
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 401) {
-                        toastr.error('Please log to see your notifications.');
-                    } else {
-                        toastr.error('No notifications found.');
-                    }
-                }
-            });
-        });
-        $('.notificationBlock > a').click(function() {
-            $('.notificationPop').hide();
-        });
-
-        function closeonotificationPopUp() {
-            $('.notificationPop').hide();
-        }
-        // $('.trigger-login-popup').click(function(e) {
-        //     e.preventDefault();
-        //     $('.LoginPop').show();
-        // });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            if (window.location.hash === "#offer_Part") {
-                document.getElementById("offerLink").classList.add("active");
-                document.getElementById("home").classList.remove("active");
-            }
-        });
-    </script>
-    <script>
-        $(document).on('click', '.notidelete', function() {
-            let notificationId = $(this).data('id');
-
-            $.ajax({
-                url: `/customer/notification/delete/${notificationId}`,
-                type: 'GET',
-                success: function(response) {
-                    if (response.success) {
-                        if (response.notificationHtml) {
-                            $('#notification-pop').html(response.notificationHtml);
-                            if (response.count != 0) {
-                                $('#notify-count').text('');
-                            } else {
-                                $('#notify-count').css('display', 'none');
-                            }
-
-                            $('.notificationPop').css('display', 'flex');
-                        } else {
-                            toastr.error('No notifications found.');
-                        }
-                        toastr.success(response.message); // Show success message
-                    } else {
-                        toastr.error('Failed to delete notification');
-                    }
-                },
-                error: function() {
-                    if (xhr.status === 401) {
-                        toastr.error('Please log to see your notifications.');
-                    } else {
-                        toastr.error('No notifications found.');
-                    }
-                }
-            });
-        });
-
-        function searchproductinput(searchvalue) {
-            // var checkworld= checkSpelling(searchvalue);
-            var url = '{{ url('/search/products/results/') }}/' + searchvalue;
-            window.location.href = url;
-        }
-
-        function getmoreSearchResult(query, offset) {
-            $.ajax({
-                url: '{{ url('/search/products/results/') }}/' + query + '/' +
-                offset, // Your route to search products
-                type: 'GET',
-
-                success: function(response) {
-                    $('#searchlist').html(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                    $('#searchlist').html('<li>Something went wrong.</li>');
-                }
-            });
-        }
-    </script>
-    <script>
         // Check if countdown end time is already in localStorage
         let countdownDate = localStorage.getItem("countdownEndTime");
 
@@ -514,21 +369,7 @@
             document.getElementById("mins").innerText = mins.toString().padStart(2, '0');
             document.getElementById("secs").innerText = secs.toString().padStart(2, '0');
         };
-        // @if (!Route::is('products.flash.sale') && !Route::is('cart'))
-        //     let loadedAt = localStorage.getItem("settureifloded");
-        //     const now = Date.now(); // current timestamp in milliseconds
-        //     const thirtyMinutes = 30 * 60 * 1000;
-
-        //     if (!loadedAt || now - parseInt(loadedAt) > thirtyMinutes) {
-        //         // Set or reset timestamp
-        //         localStorage.setItem("settureifloded", now);
-
-        //         // Show popup after 10 seconds
-        //         setTimeout(() => {
-        //             document.querySelector('.flash-sale-popup-overlay').style.display = 'flex';
-        //         }, 10000); // 10 seconds
-        //     }
-        // @endif
+        
         const toggleBtn = document.getElementById('chat-toggle');
         const closeBtn = document.getElementById('close-chat');
         const chatbox = document.getElementById('chatbox');
@@ -693,4 +534,146 @@
         }
         addMessage("Hi! I'm Aarogyaa. How can I help you today?", "bot");
     </script>
-   
+     <script>
+        const input = document.getElementById('searchInput');
+        const placeholderText = "Search best deals on medical equipment...";
+        let i = 0;
+        
+        function typePlaceholder() {
+            if (i < placeholderText.length) {
+                input.placeholder += placeholderText.charAt(i);
+                i++;
+                setTimeout(typePlaceholder, 100); // Adjust speed here (milliseconds)
+            }
+        }
+        // Start the animation
+        typePlaceholder();
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#searchInput').on('keyup', function() {
+                var query = $(this).val(); // Get the input value
+
+                if (query.length >= 2) { // Trigger search when at least 2 characters are entered
+                    $.ajax({
+                        url: "{{ route('search.products') }}", // Your route to search products
+                        type: 'GET',
+                        data: {
+                            query: query // Send the input as a query parameter
+                        },
+                        success: function(response) {
+                            if (response.success === false) {
+                                $('#searchResultList').html('<li>No products found.</li>');
+                            } else {
+                                $('#searchResultList').html(response); // Render the results
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                            $('#searchResultList').html('<li>Something went wrong.</li>');
+                        }
+                    });
+                } else {
+                    $('#searchResultList').empty(); // Clear results if query length is less than 2
+                }
+            });
+        });
+        //notifications get
+        $('.notificationpopupjs').click(function() {
+            $.ajax({
+                url: '{{ route('customer.notification') }}',
+                method: 'GET',
+                success: function(data) {
+                    if (data.notificationHtml) {
+                        $('#notification-pop').html(data.notificationHtml);
+                        $('.notificationPop').css('display', 'flex');
+                    } else {
+                        // toastr.error('No notifications found.');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 401) {
+                        // toastr.error('Please log to see your notifications.');
+                    } else {
+                        // toastr.error('No notifications found.');
+                    }
+                }
+            });
+        });
+        $('.notificationBlock > a').click(function() {
+            $('.notificationPop').hide();
+        });
+
+        function closeonotificationPopUp() {
+            $('.notificationPop').hide();
+        }
+        // $('.trigger-login-popup').click(function(e) {
+        //     e.preventDefault();
+        //     $('.LoginPop').show();
+        // });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.location.hash === "#offer_Part") {
+                document.getElementById("offerLink").classList.add("active");
+                document.getElementById("home").classList.remove("active");
+            }
+        });
+    </script>
+    <script>
+        $(document).on('click', '.notidelete', function() {
+            let notificationId = $(this).data('id');
+
+            $.ajax({
+                url: `/customer/notification/delete/${notificationId}`,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        if (response.notificationHtml) {
+                            $('#notification-pop').html(response.notificationHtml);
+                            if (response.count != 0) {
+                                $('#notify-count').text('');
+                            } else {
+                                $('#notify-count').css('display', 'none');
+                            }
+
+                            $('.notificationPop').css('display', 'flex');
+                        } else {
+                            toastr.error('No notifications found.');
+                        }
+                        // toastr.success(response.message); // Show success message
+                    } else {
+                        // toastr.error('Failed to delete notification');
+                    }
+                },
+                error: function() {
+                    if (xhr.status === 401) {
+                        // toastr.error('Please log to see your notifications.');
+                    } else {
+                        // toastr.error('No notifications found.');
+                    }
+                }
+            });
+        });
+
+        function searchproductinput(searchvalue) {
+            // var checkworld= checkSpelling(searchvalue);
+            var url = '{{ url('/search/products/results/') }}/' + searchvalue;
+            window.location.href = url;
+        }
+
+        function getmoreSearchResult(query, offset) {
+            $.ajax({
+                url: '{{ url('/search/products/results/') }}/' + query + '/' +
+                offset, // Your route to search products
+                type: 'GET',
+
+                success: function(response) {
+                    $('#searchlist').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    $('#searchlist').html('<li>Something went wrong.</li>');
+                }
+            });
+        }
+    </script>

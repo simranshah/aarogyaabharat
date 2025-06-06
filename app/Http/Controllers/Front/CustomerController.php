@@ -17,6 +17,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use App\Models\Admin\PinOffice;
 use App\Models\Admin\Page;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -187,7 +188,7 @@ class CustomerController extends Controller
             'house_number' => 'required|string|max:255',
             'society_name' => 'required|string|max:255',
             // 'locality' => 'required|string|max:255',
-            'landmark' => 'required|string|max:255',
+            // 'landmark' => 'required|string|max:255',
             'pincode' => 'required|string|max:6',
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
@@ -294,7 +295,7 @@ class CustomerController extends Controller
             'house_number' => 'required|string|max:255',
             'society_name' => 'required|string|max:255',
             // 'locality' => 'required|string|max:255',
-            'landmark' => 'required|string|max:255',
+            // 'landmark' => 'required|string|max:255',
             'pincode' => 'required|string|max:6',
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
@@ -438,16 +439,32 @@ class CustomerController extends Controller
         }
         return redirect()->back()->with('message', 'You have been logged out successfully.');
     }
-    public function Notification(Request $request) {
-
-        if (auth()->check() && auth()->user()->hasRole('Customer')) {
-            $notifications = auth()->user()->notifications; 
-            $notificationHtml = view('front.common.notification', compact('notifications'))->render();
-            return response()->json(['message' => 'User notifications', 'notificationHtml' => $notificationHtml], 200);
-        }
-
-        return response()->json(['message' => 'User not authenticated or not a customer'], 401);
+    public function Notification(Request $request) 
+{
+    $notifications = collect();
+    
+    if (auth()->check() && auth()->user()->hasRole('Customer')) {
+        // For logged-in customers
+        $notifications = auth()->user()->notifications;
+    } else {
+        // For guest users - get public notifications
+        $notifications = DB::table('guest_notifications')
+            ->select('*', DB::raw("CONCAT('{\"title\":\"', title, '\", \"message\":\"', message, '\"}') as data"))
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
     }
+
+    $notificationHtml = view('front.common.notification', [
+        'notifications' => $notifications
+    ])->render();
+
+    return response()->json([
+        'message' => 'Notifications loaded',
+        'notificationHtml' => $notificationHtml,
+        'userType' => auth()->check() ? 'customer' : 'guest'
+    ], 200);
+}
 
     public function OrderStatusWise($statusId)
     {

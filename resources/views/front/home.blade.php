@@ -19,22 +19,24 @@
       </div>
     </div>
   </div> --}}
-<section class="bannerPArt" style="margin-top: 8px">
+<section class="bannerPArt" style="margin-top: 8px" id="bannerpart">
     <div class="container">
         <div class="bannerSlider getprogressWidth arrowOnProgress">
             @if($isMobile)
                 @foreach($mobileBannerImages as $banner)
+                @if($loop->first)
                     <div class="bannerBlock">
                         <a href="{{ $banner->link }}" target="_blank">
                             <img class="bannerImage"
                                  src="{{ asset('storage/' . $banner->image) }}" 
-                               
                                  alt="Mobile Banner"  loading="lazy">
                         </a>    
                     </div>
+                @endif
                 @endforeach
             @else
                 @foreach($bannerImages as $banner)
+                 @if($loop->first)
                     <div class="bannerBlock">
                         <a href="{{ $banner->link }}" target="_blank">
                             <img class="bannerImage"
@@ -42,6 +44,7 @@
                                  alt="Desktop Banner"  loading="lazy">
                         </a>    
                     </div>
+                    @endif
                 @endforeach
             @endif
         </div> 
@@ -492,6 +495,27 @@
             expanded = !expanded;
         });
     });
+     window.addEventListener('load', function() {
+    // Make an AJAX request after the document is loaded
+    fetch('/get-banners') // Replace with your URL
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            // Insert the HTML into a specific element
+
+            // Reload all JS scripts after updating the banner
+           
+            document.getElementById('bannerpart').innerHTML = data.html;
+             document.querySelectorAll('script').forEach(function(oldScript) {
+                if (oldScript.src) {
+                    const newScript = document.createElement('script');
+                    newScript.src = oldScript.src;
+                    newScript.async = oldScript.async;
+                    document.body.appendChild(newScript);
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
 </script>
 {{-- <script>
     document.addEventListener("DOMContentLoaded", function () {

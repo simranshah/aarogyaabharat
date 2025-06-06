@@ -134,4 +134,52 @@ class FrontProductController extends Controller
         $pageTitle = 'Flash Sale Products';
         return view('front.flash-sale', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
     }
+    function topPickForYou()
+    {
+        $products = Product::with('category')->where('top_pick_for_you',1)->get();
+        $seoMetaTag = 'Top Pick For You Products';
+        $seoMetaTagTitle = 'Top Pick For You Products';
+        $pageTitle = 'Top Pick For You Products';
+        return view('front.top-pick-for-you', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+    }
+    function bestSellers()
+    {
+        $products = Product::with('category')->where('best_selling_products',1)->get();
+        $seoMetaTag = 'Best Sellers Products';
+        $seoMetaTagTitle = 'Best Sellers Products';
+        $pageTitle = 'Best Sellers Products';
+        return view('front.bestselling-product', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+    }
+    function topDeals()
+    {
+        $products = Product::with('category')->where('top_deals',1)->get();
+        $seoMetaTag = 'Top Deals Products';
+        $seoMetaTagTitle = 'Top Deals Products';
+        $pageTitle = 'Top Deals Products';
+        return view('front.top-deals-for-you', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+    }
+    function productForYou()
+    {
+        $products = Product::with('category')->where('product_for_you',1)->get();
+        $seoMetaTag = 'Product For You';
+        $seoMetaTagTitle = 'Product For You';
+        $pageTitle = 'Product For You';
+        return view('front.product-for-you', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+    }
+    function sportHealthCare()
+    {
+        $products = Product::with('category')->where('sports_healthcare_more',1)->get();
+        $seoMetaTag = 'Sport Health Care Products';
+        $seoMetaTagTitle = 'Sport Health Care Products';
+        $pageTitle = 'Sport Health Care Products';
+        return view('front.sport-heathcare-product', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+    }
+    function newArrivals()
+    {
+        $products = Product::with('category')->where('is_new',1)->get();
+        $seoMetaTag = 'New Arrivals Products';
+        $seoMetaTagTitle = 'New Arrivals Products';
+        $pageTitle = 'New Arrivals Products';
+        return view('front.new-added-prouct', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+    }
 }

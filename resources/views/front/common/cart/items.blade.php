@@ -32,13 +32,14 @@
                 <span id="quantity-{{ $cartItem->id }}">{{ $cartItem->quantity }}</span>
                 <a href="javascript:void(0);" class="countPlus" data-id="{{ $cartItem->id }}" data-sign="plus"
                     {{-- onclick="updateQuantity({{ $cartItem->id }}, {{ $cartProducts[0]->id }} ,'plus')" --}}
-                      onclick=" toastr.error('Only one quantity available.');"
+                    onclick="document.getElementById('msg-for-otp-send{{ $loop->index }}').innerHTML='Only one quantity available.'; setTimeout(function(){ document.getElementById('msg-for-otp-send{{ $loop->index }}').innerHTML=''; }, 10000);"
                     >
                     <img src="{{ asset('front/images/jam_plus.svg') }}" alt="Plus" />
                 </a>
 
             </div>
         </div>
+        <div class="errormsg" style="color: red;" id="msg-for-otp-send{{ $loop->index }}"></div>
         @if (isset($cartItem->product->is_rentable) && $cartItem->product->is_rentable == 1)
             <small> This product only available for rent.</small>
         @endif
