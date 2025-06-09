@@ -32,6 +32,7 @@
               <tr>
                 <th>Name</th>
                 <th>Image</th>
+                <th>Visibility</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -44,6 +45,13 @@
                       <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}" width="100" height="50">
                     @else
                       No image
+                    @endif
+                  </td>
+                  <td>
+                    @if($banner->is_mobile)
+                    Mobile
+                    @else
+                    Dekstop
                     @endif
                   </td>
                   <td>

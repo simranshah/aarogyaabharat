@@ -229,6 +229,15 @@ class NewPaymentController extends Controller
                     ];
                 }
             }
+            $deliveradress=Adress::where([
+                ['customer_id', '=', Auth::id()],
+                ['is_delivery_address', '=', true]
+            ])->first();
+            $deliveradress['order_id'] = $order->id;
+            $orderAddress = OrderAddress::create($deliveradress->toArray());
+            Log::channel('payment_log')->info('Order address created', ['order_address_id' => $orderAddress->id]);
+            
+
             foreach ($orderItemsData as $item) {
                 $item['order_id'] = $order->id; // Associate the item with the created order
                 OrderItem::create($item);
@@ -400,6 +409,13 @@ class NewPaymentController extends Controller
                 $atribute->stock -= $item['quantity'];
                 $atribute->save();
             }
+            $deliveradress=Adress::where([
+                ['customer_id', '=', Auth::id()],
+                ['is_delivery_address', '=', true]
+            ])->first();
+            $deliveradress['order_id'] = $order->id;
+            $orderAddress = OrderAddress::create($deliveradress->toArray());
+            Log::channel('payment_log')->info('Order address created', ['order_address_id' => $orderAddress->id]);
             Cache::forget($cacheKey);
 
             DB::commit();

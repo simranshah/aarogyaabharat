@@ -152,6 +152,9 @@
 
                         </a>
                     </li>
+                     <div class="cart-popup" id="cartPopup">
+                                     <p class="popup-text">Item Added to Cart</p>
+                                    </div>
                     <li>
                         @php
                             $customer = Auth::user();
@@ -193,8 +196,10 @@
                             <a href="javascript:void(0)" class="trigger-login-popup"><img
                                     src="{{ asset('front/images/cart.svg') }}"
                                     alt="cart"><span>{{ $cartProductCount1 ?? 0 }}</span></a>
+                                    
                         @endif
                     </li>
+                   
                     @if (Auth::check() && Auth::user()->hasRole('Customer'))
                         <li>
                             <a href="{{ route('customers.profile') }}">
@@ -225,6 +230,7 @@
                     <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /> </a>
                 </div>
             </div>
+            
         </div>
         {{-- <div class="headerBlock" style="padding: 1px;background-color: #220D6D;color: white; text-align: right;">
             <div class="nav-emg-header-inner">
@@ -294,7 +300,20 @@
     <div id="chat-toggle">
         <img src="{{ asset('front/images/chat_bot_img.png') }}" alt="Chat Icon">
     </div>
-
+<div class="log-out">
+<div class="popup-overlay" id="logoutPopup3" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="document.getElementById('logoutPopup3').style.display='none';">&times;</button>
+      <img src="{{asset('front/images/server_isuue.svg')}}" alt="Logout" class="popup-image1" />
+      {{-- <h2 class="popup-title">Come back soon!</h2> --}}
+      <p class="popup-text">Something Went Wrong !</p>
+      <div class="popup-buttons">
+        <a href="{{route('raise.query')}}"><button class="btn yes-btn" style="padding: 10px 1px;" >Raise Query</button></a>
+        <button class="btn cancel-btn" onclick="document.getElementById('logoutPopup3').style.display='none';">Cancel</button>
+      </div>
+    </div>
+  </div>
+ </div>
     <!-- Chat Popup -->
     <div class="chat-popup" id="chatbox">
         <div class="chat-header">
@@ -638,7 +657,7 @@
 
                             $('.notificationPop').css('display', 'flex');
                         } else {
-                            toastr.error('No notifications found.');
+                            // toastr.error('No notifications found.');
                         }
                         // toastr.success(response.message); // Show success message
                     } else {
@@ -676,4 +695,18 @@
                 }
             });
         }
+         function cartPopup() {
+        // const cartBtn = document.getElementById('cartBtn');
+        const cartPopup = document.getElementById('cartPopup');
+
+        // cartCount++;
+        // cartBtn.textContent = `Cart (${cartCount})`;
+
+        cartPopup.classList.add('show');
+
+        // Hide the popup after 3 seconds
+        setTimeout(() => {
+            cartPopup.classList.remove('show');
+        }, 3000);
+    }
     </script>

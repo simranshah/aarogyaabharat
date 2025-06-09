@@ -201,7 +201,6 @@
         <button id="getLocationBtn">Get Location</button>
     </div>
 </div>
-
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>
@@ -336,7 +335,6 @@
     //         });
     //     });
     // });
-
     //get adress from current location start
     $('#getLocationBtn').click(function() {
         if (navigator.geolocation) {
@@ -367,23 +365,28 @@
                                     }
                                     toastr.success(response.message);
                                 } else {
-                                    toastr.error(response.message);
+                                     document.getElementById('logoutPopup3').style.display='flex';
+                                    // toastr.error(response.message);
                                 }
                                 $('.locationPop').hide();
                             },
                             error: function(xhr, status, error) {
-                                toastr.error(error);
+                                 document.getElementById('logoutPopup3').style.display='flex';
+                                // toastr.error(error);
                             }
                         });
                     }
                 }).fail(function() {
-                    toastr.error('Address could not be retrieved');
+                     document.getElementById('logoutPopup3').style.display='flex';
+                    // toastr.error('Add/ress could not be retrieved');
                 });
             }, function(error) {
-                toastr.error(error.message);
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error(error.message);
             });
         } else {
-            toastr.error('Geolocation is not supported by this browser.');
+             document.getElementById('logoutPopup3').style.display='flex';
+            // toastr.error('Geolocation is not supported by this browser.');
         }
     });
 
@@ -419,6 +422,7 @@
     function openLoginPop() {
         $('.LoginPop').show();
     }
+
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {

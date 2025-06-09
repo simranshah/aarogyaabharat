@@ -67,100 +67,104 @@
     <!-- Google tag (gtag.js) -->
 </head>
 @php
-    $isMobile = request()->header('User-Agent') && preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
+    $isMobile =
+        request()->header('User-Agent') &&
+        preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
 @endphp
+
 <body class="bodyback">
     <div class="LoginPop winScrollStop container" style="display: block;">
-        <div class="LoginPopMiddle" >
-            <div class="LoginPopInner">  
-                   <div style="position: absolute;top: 37px; right: 405px;z-index: 10;" class="close-login-pop">
-                          <a href="{{url('/')}}" class="close-login-pop"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
-                     </div>                        
-                <div class="Sign_up_form_container">         
-                    @if(!$isMobile)
-                    <div class="Sign_up_form info-box" style="padding: 0px;">
-                        <div class="Login_right_container">
-                            <div class="Login_right_header">
-                                <h1 class="Login_right">Aarogyaa Bharat</h1>
-                                <div class="Login_right_tagline">AFFORDABLE - ACCESSIBLE - RELIABLE</div>
-                                <div class="Login_right_divider"></div>
-                            </div>
-
-                            <div class="Login_right_services">
-                                <div class="Login_right_service-card">
-                                    <div class="Login_right_icon">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                                        </svg>
-                                    </div>
-                                    <div class="Login_right_service-content">
-                                        <h3 class="Login_right">Buy or Rent Medical Equipment:</h3>
-                                        <p class="Login_right">Affordable solutions for every need</p>
-                                    </div>
+        <div class="LoginPopMiddle">
+            <div class="LoginPopInner">
+                <div style="position: absolute;top: 37px; right: 405px;z-index: 10;" class="close-login-pop">
+                    <a href="{{ url('/') }}" class="close-login-pop"><img
+                            src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
+                </div>
+                <div class="Sign_up_form_container">
+                    @if (!$isMobile)
+                        <div class="Sign_up_form info-box" style="padding: 0px;">
+                            <div class="Login_right_container">
+                                <div class="Login_right_header">
+                                    <h1 class="Login_right">Aarogyaa Bharat</h1>
+                                    <div class="Login_right_tagline">AFFORDABLE - ACCESSIBLE - RELIABLE</div>
+                                    <div class="Login_right_divider"></div>
                                 </div>
 
-                                <div class="Login_right_service-card">
-                                    <div class="Login_right_icon">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z" />
-                                        </svg>
+                                <div class="Login_right_services">
+                                    <div class="Login_right_service-card">
+                                        <div class="Login_right_icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                            </svg>
+                                        </div>
+                                        <div class="Login_right_service-content">
+                                            <h3 class="Login_right">Buy or Rent Medical Equipment:</h3>
+                                            <p class="Login_right">Affordable solutions for every need</p>
+                                        </div>
                                     </div>
-                                    <div class="Login_right_service-content">
-                                        <h3 class="Login_right">Fast Doorstep Delivery:</h3>
-                                        <p class="Login_right">Nationwide reach for hassle-free access</p>
-                                    </div>
-                                    <div class="Login_right_delivery-icon">
-                                      
-                                    </div>
-                                </div>
 
-                                <div class="Login_right_service-card">
-                                    <div class="Login_right_icon">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                    </div>
-                                    <div class="Login_right_service-content">
-                                        <h3 class="Login_right">High-Quality Healthcare Products:</h3>
-                                        <p class="Login_right">Oxygen, hospital beds & wheelchairs</p>
-                                    </div>
-                                </div>
+                                    <div class="Login_right_service-card">
+                                        <div class="Login_right_icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z" />
+                                            </svg>
+                                        </div>
+                                        <div class="Login_right_service-content">
+                                            <h3 class="Login_right">Fast Doorstep Delivery:</h3>
+                                            <p class="Login_right">Nationwide reach for hassle-free access</p>
+                                        </div>
+                                        <div class="Login_right_delivery-icon">
 
-                                <div class="Login_right_service-card">
-                                    <div class="Login_right_icon">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
-                                        </svg>
+                                        </div>
                                     </div>
-                                    <div class="Login_right_service-content">
-                                        <h3 class="Login_right">Trusted by Caregivers & Hospitals:</h3>
-                                        <p class="Login_right">Reliable equipment for home & clinicals</p>
-                                    </div>
-                                </div>
 
-                                <div class="Login_right_service-card">
-                                    <div class="Login_right_icon">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.2c.27-.27.35-.67.24-1.02C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z" />
-                                        </svg>
+                                    <div class="Login_right_service-card">
+                                        <div class="Login_right_icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                            </svg>
+                                        </div>
+                                        <div class="Login_right_service-content">
+                                            <h3 class="Login_right">High-Quality Healthcare Products:</h3>
+                                            <p class="Login_right">Oxygen, hospital beds & wheelchairs</p>
+                                        </div>
                                     </div>
-                                    <div class="Login_right_service-content">
-                                        <h3 class="Login_right">24/7 Customer Support:</h3>
-                                        <p class="Login_right">Expert guidance for all medical needs</p>
+
+                                    <div class="Login_right_service-card">
+                                        <div class="Login_right_icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                                            </svg>
+                                        </div>
+                                        <div class="Login_right_service-content">
+                                            <h3 class="Login_right">Trusted by Caregivers & Hospitals:</h3>
+                                            <p class="Login_right">Reliable equipment for home & clinicals</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="Login_right_service-card">
+                                        <div class="Login_right_icon">
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.2c.27-.27.35-.67.24-1.02C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z" />
+                                            </svg>
+                                        </div>
+                                        <div class="Login_right_service-content">
+                                            <h3 class="Login_right">24/7 Customer Support:</h3>
+                                            <p class="Login_right">Expert guidance for all medical needs</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endif
                     <div class="Sign_up_form form-box">
                         <div class="mobForm">
-                            
+
                             <div class="title1">
                                 <strong>Let’s Login</strong>
                                 <p>Please fill below details to get account access.</p>
@@ -183,8 +187,9 @@
                             <form id="loginMo" method="post" action="{{ route('customer.login') }}">
                                 @csrf
                                 <div class="inputMainBlock fullwidth">
-                                    <span >Mobile number</span>
-                                    <input type="tel" name="mobile" class="mobileVD" placeholder="Enter your mobile number"
+                                    <span>Mobile number</span>
+                                    <input type="tel" name="mobile" class="mobileVD"
+                                        placeholder="Enter your mobile number"
                                         oninput="this.value = this.value.replace(/[^0-9]/g, '')" autocomplete="off">
                                     <div class="errormsg"></div>
                                     <div class="addressNote2">
@@ -202,11 +207,12 @@
                             <div class="title1">
                                 <strong>Verify with OTP</strong>
                                 <p>Enter the OTP sent to <span id="number-section"><strong>XXXXXX9898</strong></span>
-                                    <br> <a href="#;">Change Number</a> </p>
+                                    <br> <a href="#;">Change Number</a>
+                                </p>
                             </div>
                             <form id="otp_form">
                                 <div class="a_otpPart">
-                                     <div class="errormsg" style="color: green" id="msg-for-otp-send"></div>
+                                    <div class="errormsg" style="color: green" id="msg-for-otp-send"></div>
                                     <div class="inputMainBlock fullwidth">
                                         <div class="form-group">
                                             <div class="otp-wrap" id="otp-inputs">
@@ -226,7 +232,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="a_resendOtp">
                                         <p><a href="javascript:void(0)">Resend OTP</a></p>
                                     </div>
@@ -308,8 +314,14 @@
         <script src="{{ asset('front/js/slick.js') }}"></script>
         <script src="{{ asset('front/js/script.js') }}"></script>
         <script>
+             const element = document.querySelector('.LoginPopInner');
+            const width = element.offsetWidth;
+            console.log(width);
+            var interval;
+
             $("#loginMo .submitBTN").click(function(e) {
                 e.preventDefault();
+                clearInterval(interval);
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 var formData = $('#loginMo').serialize();
                 formData += '&_token=' + "{{ csrf_token() }}";
@@ -327,7 +339,7 @@
                             });
                         } else {
                             // toastr.success(response.success);
-                            document.getElementById('msg-for-otp-send').innerHTML=response.success;
+                            document.getElementById('msg-for-otp-send').innerHTML = response.success;
                             $('.mobForm').hide();
                             $('.optForm').show();
                             count3minut('otp_form');
@@ -347,7 +359,6 @@
                     }
                 });
             });
-            var interval;
 
             function count3minut(otpFid) {
                 var timer2 = "1:00";
@@ -383,6 +394,7 @@
                     event.preventDefault();
                 }
             });
+           
         </script>
 </body>
 

@@ -47,13 +47,13 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="bannerDescription">Description</label>
                                     <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="bannerDescription" placeholder="Enter Banner Description">{{ old('description', $banner->description) }}</textarea>
                                     @error('description')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label for="bannerImage">Banner Image</label>
                                     <div class="input-group">

@@ -12,7 +12,7 @@
 
     <section class="cartSec">
         <div class="container">
-            @if (session('success'))
+            {{-- @if (session('success'))
                 <script>
                     toastr.success('{{ session('success') }}');
                 </script>
@@ -22,7 +22,7 @@
                 <script>
                     toastr.error('{{ session('error') }}');
                 </script>
-            @endif
+            @endif --}}
             @php
                 $customer = Auth::user();
                 $session_id = session()->get('cart_id');
@@ -289,6 +289,20 @@
                 </div>
             </div>
         </div>
+        <div class="log-out">
+<div class="popup-overlay" id="logoutPopup4" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="document.getElementById('logoutPopup4').style.display='none';">&times;</button>
+      <img src="{{asset('front/images/under_construction.svg')}}" alt="Logout" class="popup-image1" />
+      {{-- <h2 class="popup-title">Come back soon!</h2> --}}
+      <p class="popup-text">Temporarily unavailable.Please try again later</p>
+      <div class="popup-buttons">
+        <a href="{{route('raise.query')}}"><button class="btn yes-btn" style="padding: 10px 1px;" >Raise Query</button></a>
+        <button class="btn cancel-btn" onclick="document.getElementById('logoutPopup4').style.display='none';">Cancel</button>
+      </div>
+    </div>
+  </div>
+ </div>
         <script src="{{ asset('front/js/jquery.min.js') }}"></script>
         <script src="{{ asset('front/js/slick.js') }}"></script>
         <script src="{{ asset('front/js/script.js') }}"></script>
@@ -329,7 +343,7 @@
 
             function showopopunderDev() {
                 // Show the popunder
-                toastr.error('This feature is unavailable. Please check back later.');
+                document.getElementById('logoutPopup4').style.display='flex';
             }
             // Initialize background on load
             slider.dispatchEvent(new Event('input'));
@@ -380,7 +394,8 @@
                             } else {
                                 // Show error messages
                                 if (response.status == 401) {
-                                    toastr.error(response.message);
+                                    document.getElementById('logoutPopup3').style.display='flex';
+                                    // toastr.error(response.message);
                                 } else {
 
                                     $.each(response.errors, function(key, value) {
@@ -392,7 +407,8 @@
                         },
                         error: function(xhr, status, error) {
                             // Handle any unexpected errors
-                            toastr.error('Something went wrong. Please try again later.');
+                             document.getElementById('logoutPopup3').style.display='flex';
+                            // toastr.error('Something went wrong. Please try again later.');
                         }
                     });
                 });
@@ -424,20 +440,31 @@
                                 // Redirect or update UI as needed
                                 payAmount(response.amount, response.order_id, response.customer);
                             } else {
-                                toastr.error('Payment failed. Please try again.');
+                                  document.getElementById('logoutPopup3').style.display='flex';
+                                // toastr.error('Payment failed. Please try again.');
                             }
                         },
                         error: function(xhr, status, error) {
                             if (xhr.status == 401) {
                                 var response = JSON.parse(xhr.responseText);
-                                toastr.error(response.message);
+                                if(response.message=='Please login to proceed with payment.'){
+                                   window.location.href="{{route('login')}}"
+                                }else if(response.message=='Please add a delivery address.'){
+                                addNewDeliveryAddress1();
+                                }else{
+                                    document.getElementById('logoutPopup3').style.display='flex';
+                                }
+                                // document.getElementById('logoutPopup3').style.display='flex';
+                                // toastr.error(response.message);
                             } else if (xhr.status == 404) {
                                 var response = JSON.parse(xhr.responseText);
-                                toastr.error(response.message);
+                                document.getElementById('logoutPopup3').style.display='flex';
+                                // toastr.error(response.message);
                             } else {
-                                toastr.error(
-                                    'Something went wrong with the payment. Please try again later.'
-                                );
+                                  document.getElementById('logoutPopup3').style.display='flex';
+                                // toastr.error(
+                                //     'Something went wrong with the payment. Please try again later.'
+                                // );
                             }
                         }
                     });
@@ -447,9 +474,9 @@
                 // Add event listener to tenure radio buttons
                 $("input[name='tenure']").change(function() {
                     var selectedTenure = $("input[name='tenure']:checked").val();
-
+                     document.getElementById('logoutPopup3').style.display='flex';
                     // Alert the selected tenure value
-                    toastr.error("Selected tenure: " + selectedTenure);
+                    // toastr.error("Selected tenure: " + selectedTenure);
 
                     // Hide all list items initially within the `.cart-items` container
                     $(".cart-items li").hide();
@@ -500,7 +527,7 @@
                     var couponCode = $('#couponCode').val();
 
                     if (couponCode === "") {
-                        toastr.error("Please enter a coupon code.");
+                        // toastr.error("Please enter a coupon code.");
                         return;
                     }
 
@@ -514,7 +541,7 @@
                         },
                         success: function(response) {
                             if (response.success) {
-                                toastr.success(response.message);
+                                // toastr.success(response.message);
                                 // Perform additional actions, such as updating the cart or showing a modal
                                 // $('#offerModal').hide();
                                 $('.flatDicountPop').css('display', 'flex');
@@ -523,7 +550,8 @@
                             }
                         },
                         error: function(xhr, status, error) {
-                            toastr.error('Something went wrong. Please try again later.');
+                             document.getElementById('logoutPopup3').style.display='flex';
+                            // toastr.error('Something went wrong. Please try again later.');
                         }
                     });
                 });
@@ -570,13 +598,14 @@
                         if (response.success) {
                             $('#quantity-' + cartItemId).text(response.newQuantity);
                             $('#orderSummery').html(response.orderSummaryResponse);
-                            toastr.success('Quantity updated succesfully.');
+                            // toastr.success('Quantity updated succesfully.');
                         } else {
                             toastr.error(response.message);
                         }
                     },
                     error: function(xhr, status, error) {
-                        toastr.error('Something went wrong. Please try again later.');
+                         document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error('Something went wrong. Please try again later.');
                     }
                 });
             }
@@ -599,16 +628,17 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            toastr.success('Item deleted successfully.');
+                            // toastr.success('Item deleted successfully.');
                             $('#cart-items').html(response.cartItmes);
                             $('#orderSummery').html(response.orderSummaryResponse);
                             location.reload();
                         } else {
-                            toastr.error(response.message);
+                           document.getElementById('logoutPopup3').style.display='flex';
                         }
                     },
                     error: function(xhr, status, error) {
-                        toastr.error('Something went wrong. Please try again later.');
+                         document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error('Something went wrong. Please try again later.');
                     }
                 });
                 // }
@@ -628,7 +658,8 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            toastr.success(response.message);
+                            // toastr.success(response.message);
+                            document.getElementById('offerModal').style.display='none';
                             if (single) {
                                 $('.flatOffer .removeDiscount').css('display', 'block');
                                 $('#applyCoupon').hide();
@@ -642,11 +673,12 @@
                             $('#offer-html').html(response.couponHtml);
                             $('.flatDicountPop').css('display', 'flex');
                         } else {
-                            toastr.error(response.message);
+                            // toastr.error(response.message);
                         }
                     },
                     error: function(xhr, status, error) {
-                        toastr.error('Something went wrong. Please try again later.');
+                         document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error('Something went wrong. Please try again later.');
                     }
                 });
             }
@@ -664,7 +696,8 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            toastr.success(response.message);
+                            // toastr.success(response.message);
+                             document.getElementById('offerModal').style.display='none';
                             if (single) {
                                 $('.flatOffer .removeDiscount').css('display', 'none');
                                 $('.linkPart #applyCoupon').css('display', 'block');
@@ -677,11 +710,12 @@
                             // $('#apply-' + couponCode).show();
                             // $('#removeDiscount-' + couponCode).hide();
                         } else {
-                            toastr.success(response.message);
+                            // toastr.success(response.message);
                         }
                     },
                     error: function(xhr, status, error) {
-                        toastr.error('Something went wrong. Please try again later.');
+                         document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error('Something went wrong. Please try again later.');
                     }
                 });
             }
@@ -704,17 +738,19 @@
                     success: function(response) {
                         if (response.success) {
                             if (isVisible == 1) {
-                                toastr.success('Item selected successfully.');
+                                // toastr.success('Item selected successfully.');
                             } else {
-                                toastr.success('Item remove from selected successfully.');
+                                // toastr.success('Item remove from selected successfully.');
                             }
                             $('#orderSummery').html(response.orderSummaryResponse);
                         } else {
-                            toastr.error(response.message);
+                             document.getElementById('logoutPopup3').style.display='flex';
+                            // toastr.error(response.message);
                         }
                     },
                     error: function(xhr, status, error) {
-                        toastr.error('Something went wrong. Please try again later.');
+                         document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error('Something went wrong. Please try again later.');
                     }
                 });
             }
@@ -744,7 +780,8 @@
                         $("#offerModal").show();
                     },
                     error: function(xhr, status, error) {
-                        toastr.error('Something went wrong. Please try again later.');
+                         document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error('Something went wrong. Please try again later.');
                     }
                 });
             }

@@ -14,7 +14,7 @@ class OrderController extends Controller
     {
             if ($request->ajax()) {
             $orders = Order::with(['customer', 'status']) 
-                ->select('id', 'customer_id', 'amount', 'status_id', 'created_at');
+                ->select('id', 'customer_id', 'amount', 'status_id', 'created_at')->where('status_id', '!=', 1);
 
             return DataTables::of($orders)
                 ->addColumn('action', function ($order) {
@@ -55,5 +55,11 @@ class OrderController extends Controller
 
         return redirect()->route('admin.order.show', $order->id)
             ->with('success', 'Order status updated successfully.');
+    }
+    public function edit($id)
+    {
+        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product', 'orderOffer'])->findOrFail($id);
+        $statuses = Status::all();  
+        return view('admin.order.show', compact('order', 'statuses'));
     }
 }

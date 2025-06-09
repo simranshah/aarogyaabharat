@@ -13,7 +13,7 @@
 
     <section class="product_details">
         <div class="container">
-            @if (session('success'))
+            {{-- @if (session('success'))
                 <script>
                     toastr.success('{{ session('success') }}');
                 </script>
@@ -23,7 +23,7 @@
                 <script>
                     toastr.error('{{ session('error') }}');
                 </script>
-            @endif
+            @endif --}}
             <div class="product_details_box">
                 <div class="product_details_slide slide_product">
                     @if ($productDetails->images->isNotEmpty())
@@ -116,16 +116,16 @@
                         <div class="cart_buy">
                             @if (!isset($productDetails->productAttributes) || $productDetails->productAttributes->stock == 0)
                                 {{-- <span style="color: red; font-weight: bold;">Out of Stock</span> --}}
-                                    <button type="submit" class="addtocart" onclick="toastr.error(
+                                    {{-- <button type="submit" class="addtocart" onclick="toastr.error(
                                                 'Product is out of stock!'
-                                                );">Add to Cart</button>
-                                <a href="#;" class="addtocart disabled" id="buy-now-button" style="background-color: #d7d7d7 !importent;color: red;"
-                                    data-productid="{{ $productDetails->id }}">Sold out</a>
+                                                );">Add to Cart</button> --}}
+                                <a href="#;" class="addtocart disabled"  style="background-color: #d7d7d7 !importent;color: red;"
+                                    >Sold out</a>
                             @else
                                 <form action="{{ route('cart.add', ['productId' => $productDetails->id]) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="addtocart">Add to Cart</button>
+                                    <button type="submit" onclick="cartPopup();" class="addtocart">Add to Cart</button>
                                 </form>
                                 <a href="#;" class="btn_buynow" id="buy-now-button"
                                     data-productid="{{ $productDetails->id }}">Buy Now</a>
@@ -235,16 +235,18 @@
                     },
                     success: function(data) {
                         if (data.error) {
-                            toastr.error(data.error);
+                            // if(data.error=='')
+                             document.getElementById('logoutPopup3').style.display='flex';
+                            // toastr.error(data.error);
                             return;
                         }
-
+                     
                         var options = {
                             "key": razorpayKey,
                             "amount": data.amount,
                             "currency": "INR",
-                            "name": "My Shop",
-                            "description": "Purchase Description",
+                            "name": "Aarogyaa Bharat",
+                            "description": "Purchase product {{$productDetails->name}}: "+data.amount,
                             "order_id": data.id,
                             "handler": function(response) {
                                 $.ajax({
@@ -264,19 +266,21 @@
                                     success: function(response) {
                                         if (response.message ===
                                             'Payment Verified') {
-                                            toastr.success(
-                                                'Payment successful!');
+                                            // toastr.success(
+                                            //     'Payment successful!');
                                                 window.location.href = "{{ route('thanks') }}";
                                         } else {
-                                            toastr.error(
-                                                'Payment verification failed!'
-                                                );
+                                            // toastr.error(
+                                            //     'Payment verification failed!'
+                                            //     );
+                                             document.getElementById('logoutPopup3').style.display='flex';
                                         }
                                     },
                                     error: function(xhr) {
-                                        toastr.error(
-                                            'Payment verification error: ' +
-                                            xhr.responseJSON.error);
+                                        // toastr.error(
+                                        //     'Payment verification error: ' +
+                                        //     xhr.responseJSON.error);
+                                         document.getElementById('logoutPopup3').style.display='flex';
                                     }
                                 });
                             },
@@ -294,15 +298,17 @@
                         rzp1.open();
                     },
                     error: function(xhr) {
-
-                        toastr.error(xhr.responseJSON.error|| xhr.responseJSON.message || 'An error occurred.');
+                        //   document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error(xhr.responseJSON.error|| xhr.responseJSON.message || 'An error occurred.');
                         if( xhr.responseJSON.message=='Please add an address to proceed with payment.') {
                             setTimeout(() => {
                                 window.location.href = "{{ route('customers.profile') }}";
                             }, 2000);
                             
                         }else if(xhr.responseJSON.message=='Please login to proceed with payment.') {
-                            $('.LoginPop').show();
+                           window.location.href="{{route('login')}}"
+                    }else{
+                        document.getElementById('logoutPopup3').style.display='flex';
                     }
                 }
                 });

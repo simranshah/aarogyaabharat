@@ -83,9 +83,9 @@ class BannerController extends Controller
     // Validate incoming data
     $validatedData = $request->validate([
         'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
+        // 'description' => 'nullable|string',
         'link' => 'nullable|url',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
         'status' => 'nullable|boolean',
         'display_order' => 'nullable|integer',
         // 'is_mobile' => 'boolean',
@@ -109,7 +109,7 @@ class BannerController extends Controller
     }
 
     $banner->title = $validatedData['title'];
-    $banner->description = $validatedData['description'];
+    // $banner->description = $validatedData['description'];
     $banner->link = $validatedData['link'];  // Set the link
     $banner->status = $validatedData['status'];
     $banner->display_order = $validatedData['display_order'];
@@ -181,8 +181,8 @@ class BannerController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'link' => 'nullable|url',
-            'description' => 'nullable|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size: 2MB
+            // 'description' => 'nullable|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048', // Max size: 2MB
             'status' => 'boolean',
             'display_order' => 'nullable|integer|min:0',
             // 'is_mobile' => 'boolean',

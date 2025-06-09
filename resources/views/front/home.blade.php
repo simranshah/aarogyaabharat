@@ -467,7 +467,7 @@
                 tempInput.setSelectionRange(0, 99999);
                 document.execCommand('copy');
                 document.body.removeChild(tempInput);
-                toastr.success('Offer code copied');
+                // toastr.success('Offer code copied');
             });
         });
     });

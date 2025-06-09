@@ -62,15 +62,17 @@ function removeAddressWithId(addressId){
             type: 'GET',
             success: function(response) {
                 if (response.success) {
-                     toastr.success(response.message);
+                    //  toastr.success(response.message);
                     location.reload();
                    
                 } else {
-                    toastr.error(response.message);
+                     document.getElementById('logoutPopup3').style.display='flex';
+                    // toastr.error(response.message);
                 }
             },
             error: function(xhr, status, error) {
-                toastr.error('Something went wrong. Please try again.');
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Something went wrong. Please try again.');
             }
         });
 }

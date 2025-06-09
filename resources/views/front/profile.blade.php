@@ -104,12 +104,12 @@
                             </div>
                         </div>
                         <div>
-                            <div class="profileAccorClick">
+                            <div class="profileAccorClick" onclick="changeStatusTab('2');">
                                 <img src="{{asset('front/images/order_info.svg')}}" alt="order_info" class="icon1" />
                                 <p>Order Info</p>
                                 <img src="{{asset('front/images/rightArrow.svg')}}" alt="rightArrow" class="arrow1" />
                             </div>
-                            <div class="profileAccorAns">
+                            <div class="profileAccorAns" >
                                 <div class="orderinfo_title">
                                     <h2>Order Info</h2>
                                 </div>
@@ -117,12 +117,18 @@
                                     <div class="filtertitle"><p>Filter</p><img src="{{asset('front/images/Filter.svg')}}" alt="Filter" /></div>
                                     <ul>
                                         @foreach($statuses as $status)
+                                        @if($status->name=='Order Placed' ||$status->name=='Delivered' || $status->name=='Order Cancelled' ||  $status->name=='Return picked up' )
                                             <li>
                                                 <a  onClick="changeStatusTab('{{ $status->id }}')">
+                                                    @if($status->name !='Return picked up')
                                                     <span>{{ $status->name }}</span>
+                                                    @else
+                                                 <span>Return</span>
+                                                 @endif
                                                     <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
                                                 </a>
                                             </li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 </div>
@@ -299,11 +305,25 @@
       </div>
     </div>
   </div>
- </div>    
+ </div>
+ <div class="log-out">
+<div class="popup-overlay" id="logoutPopup2" style="display: none;">
+    <div class="popup">
+      <button class="close-btn" onclick="closePopupadressadd()">&times;</button>
+      <img src="{{asset('front/images/add_adress_success.svg')}}" alt="Logout" class="popup-image1" />
+      {{-- <h2 class="popup-title">Come back soon!</h2> --}}
+      <p class="popup-text">Address was successfully saved.</p>
+      <div class="popup-buttons">
+        <button class="btn cancel-btn" onclick="closePopupadressadd()">OK</button>
+      </div>
+    </div>
+  </div>
+ </div>       
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>
 <script>
+    
      function closePopup() {
     document.getElementById("logoutPopup").style.display = "none";
   }
@@ -325,7 +345,8 @@ $(document).ready(function() {
             data: formData,
             success: function(response) {
                 // Handle success
-                toastr.success('Profile updated successfully!');
+                // toastr.success('Profile updated successfully!');
+                window.location.reload;
                 $('#updatepro')[0].reset(); // Optionally reset the form
             },
             error: function(xhr) {
@@ -367,7 +388,7 @@ function updateProfile() {
             $('.perrormsg').text('').hide();
             $('#profileDetails').html(response.html);
             $('.updateprofilePop').hide();
-            toastr.success('Profile updated successfully!');
+            // toastr.success('Profile updated successfully!');
             window.location.reload();
         },
         error: function(xhr) {
@@ -381,7 +402,8 @@ function updateProfile() {
                     errorElement.text(errorMessage).show(); // Set text and show error
                 });
             } else {
-                toastr.error('Something went wrong please try again!');
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Something went wrong please try again!');
             }
         }
     });
@@ -413,7 +435,7 @@ function updateProfile() {
         success: function(response) {
             $('.errormsg').text('');
             $('#addressList').html(response.html); // Assuming you have an element to update with the new address list
-            toastr.success('Address added successfully!');
+            // toastr.success('Address added successfully!');
         },
         error: function(xhr) {
             if (xhr.status === 422) { // Unprocessable Entity
@@ -427,7 +449,8 @@ function updateProfile() {
                 });
             } else {
                 $('.errormsg').text('');
-                toastr.error('Something went wrong please try again');
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Something went wrong please try again');
             }
         }
     });
@@ -449,7 +472,8 @@ function changeStatusTab(statusId) {
                 $('#orders').html(response.customerDetailHtml);
             },
             error: function(xhr) {
-                toastr.error('Something went wrong please try again');
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Something went wrong please try again');
             }
         });
 }
@@ -472,13 +496,15 @@ function removeAddress(addressId) {
             success: function(response) {
                 if (response.success) {
                     $('#addressList').html(response.html);
-                    toastr.success(response.message);
+                    // toastr.success(response.message);
                 } else {
-                    toastr.error(response.message);
+                     document.getElementById('logoutPopup3').style.display='flex';
+                    // toastr.error(response.message);
                 }
             },
             error: function(xhr, status, error) {
-                toastr.error('Something went wrong. Please try again.');
+                    document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Something went wrong. Please try again.');
             }
         });
         }
@@ -505,11 +531,13 @@ function editAddress(id) {
                     $('#addressForm input[name="name"]').val(response.address.name);
                 $('.addressFormPop').show();
             } else {
-                toastr.error('Error fetching address data.');
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Error fetching address data.');
             }
         },
         error: function(xhr, status, error) {
-            toastr.error('Something went wrong while fetching the address data.');
+             document.getElementById('logoutPopup3').style.display='flex';
+            // toastr.error('Something went wrong while fetching the address data.');
         }
     });
 }
@@ -547,12 +575,14 @@ function updateAddress(event) {
                     $('.errormsg').text(''); 
                     $('#addressForm')[0].reset();
                     $('#addressList').html(response.html);
-                    toastr.success(response.message);
+                    // toastr.success(response.message);
+                    document.getElementById('logoutPopup2').style.display='flex';
                     hideAddressPop();
                 } else {
                     // Show error messages
                     if (response.status == 401) {
-                        toastr.error(response.message);
+                        // toastr.error(response.message);
+                         document.getElementById('logoutPopup3').style.display='flex';
                     } else {
                         $.each(response.errors, function(key, value) {
                             $("#addressForm input[name='" + key + "']").next('.errormsg').text(value).show();
@@ -570,7 +600,8 @@ function updateAddress(event) {
                 });
             } else {
                 $('.errormsg').text('');
-                toastr.error('An error occurred. Please try again.');
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('An error occurred. Please try again.');
             }
             }
         });
@@ -587,6 +618,9 @@ function hideAddressPop(){
 }
 function confirmLogoutpopup() {
     $('#logoutPopup').show();
+}
+function closePopupadressadd(){
+    document.getElementById('logoutPopup2').style.display='none';
 }
 
 </script>

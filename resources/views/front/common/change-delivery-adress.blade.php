@@ -115,11 +115,13 @@ function editAddress(id) {
                $('.addressFormPop').show();
                
             } else {
-                toastr.error('Error fetching address data.');
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Error fetching address data.');
             }
         },
         error: function(xhr, status, error) {
-            toastr.error('Something went wrong while fetching the address data.');
+             document.getElementById('logoutPopup3').style.display='flex';
+            // toastr.error('Something went wrong while fetching the address data.');
         }
     });
 }
@@ -156,14 +158,15 @@ function updateAddress(event) {
                 if (response.success) {
                     $('.errormsg').text(''); 
                     $('#addressForm')[0].reset();
-                    toastr.success(response.message);
+                    // toastr.success(response.message);
                     location.reload();
                     hideAddressPop();
                    
                 } else {
                     // Show error messages
                     if (response.status == 401) {
-                        toastr.error(response.message);
+                        // toastr.error(response.message);
+                         document.getElementById('logoutPopup3').style.display='flex';
                     } else {
                         $.each(response.errors, function(key, value) {
                             $("#addressForm input[name='" + key + "']").next('.errormsg').text(value).show();
@@ -181,7 +184,8 @@ function updateAddress(event) {
                 });
             } else {
                 $('.errormsg').text('');
-                toastr.error('An error occurred. Please try again.');
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('An error occurred. Please try again.');
             }
             }
         });
