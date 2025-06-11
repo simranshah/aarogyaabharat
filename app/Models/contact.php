@@ -14,5 +14,6 @@ class contact extends Model
         'email',
         'subject',
         'message',
+        'phone_no', // Assuming you have added this field in your migration
     ];
 }

@@ -91,9 +91,7 @@ Route::controller(FrontProductController::class)->group(function () {
     Route::get('/new-arrivals', 'newArrivals')->name('products.new.arrivals');
 });
 Route::get('/get-banners', [BannerController::class, 'getBanners'])->name('get.banners');
-Route::get('/thanks', function () {
-    return view('front.thank-you');
-})->name('thanks');
+Route::get('/thanks', [NewPaymentController::class,'getdataforthankyou'])->name('thanks');
 Route::get('/log-in', function () {
     return view('front.login');
 })->name('login');
@@ -152,6 +150,7 @@ Route::controller(FrontCustomerController::class)->group(function () {
     Route::get('/customer/remove-address/{id}', 'removeAddress')->name('remove.address');
     Route::get('/customer/verify-otp/{number}', 'verifyOtp')->name('verify.otp');
     Route::get('/customer/location', 'saveLocation')->name('save.location');
+    Route::get('/customer/remove-order-item/{id}', 'removeOrderItem')->name('remove.order.item');
 });
 
 Route::controller(FrontContactUsController::class)->group(function () {
@@ -240,6 +239,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/orders', 'index')->name('admin.order.index');
             Route::get('/orders/edit/{id}', 'edit')->name('admin.order.edit');
             Route::get('/orders/{id}', 'show')->name('admin.order.show');
+            Route::get('/orders/update-order-item-status/{id}/{status}', [OrderController::class, 'updateOrderItemStatus'])->name('admin.order.updateOrderItemStatus');
             Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('admin.order.updateStatus');
         });
        

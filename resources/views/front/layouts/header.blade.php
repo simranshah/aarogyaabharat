@@ -153,7 +153,7 @@
                         </a>
                     </li>
                      <div class="cart-popup" id="cartPopup">
-                                     <p class="popup-text">Item Added to Cart</p>
+                                     <p class="popup-text" id="text-btween-cartpopup">Item Added to Cart</p>
                                     </div>
                     <li>
                         @php
@@ -187,17 +187,17 @@
                             ]);
                         @endphp
 
-                        @if (Auth::check() && Auth::user()->hasRole('Customer'))
+                        {{-- @if (Auth::check() && Auth::user()->hasRole('Customer')) --}}
                             <!-- Display Cart Link -->
                             <a href="{{ route('cart') }}"><img src="{{ asset('front/images/cart.svg') }}"
                                     alt="Cart"><span>{{ $cartProductCount1 ?? 0 }}</span></a>
-                        @else
+                        {{-- @else --}}
                             <!-- Trigger Login Popup -->
-                            <a href="javascript:void(0)" class="trigger-login-popup"><img
+                            {{-- <a href="javascript:void(0)" class="trigger-login-popup"><img
                                     src="{{ asset('front/images/cart.svg') }}"
-                                    alt="cart"><span>{{ $cartProductCount1 ?? 0 }}</span></a>
+                                    alt="cart" style="margin-top:3px;"><span>{{ $cartProductCount1 ?? 0 }}</span></a> --}}
                                     
-                        @endif
+                        {{-- @endif --}}
                     </li>
                    
                     @if (Auth::check() && Auth::user()->hasRole('Customer'))

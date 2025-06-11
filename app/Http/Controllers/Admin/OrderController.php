@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Order; 
 use App\Models\Admin\Status; 
+use App\Models\Admin\OrderItem;
 use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
@@ -37,7 +38,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product', 'orderOffer'])->findOrFail($id);
+        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product.status', 'orderOffer'])->findOrFail($id);
         // dd($order);
         $statuses = Status::all();  
         return view('admin.order.show', compact('order', 'statuses'));
@@ -58,8 +59,17 @@ class OrderController extends Controller
     }
     public function edit($id)
     {
-        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product', 'orderOffer'])->findOrFail($id);
+        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product','orderItems.status', 'orderOffer'])->findOrFail($id);
         $statuses = Status::all();  
         return view('admin.order.show', compact('order', 'statuses'));
+    }
+    public function updateOrderItemStatus($id,$status)
+    {
+        $orderItem = OrderItem::findOrFail($id);
+        $orderItem->status_id = $status;
+        $orderItem->save();
+
+        // return redirect()->route('admin.order.show', $orderItem->order_id)
+        //     ->with('success', 'Order item status updated successfully.');
     }
 }

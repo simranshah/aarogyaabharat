@@ -25,7 +25,7 @@
             @endforeach
             <li>
                 <p>Total GST(18%)</p>
-                <strong>₹ {{ $cartProducts[0]->total_gst ? $cartProducts[0]->total_gst : 0 }}</strong>
+                <strong>₹ {{ $gst}}</strong>
             </li>
             <li class="discount_1">
                 @php

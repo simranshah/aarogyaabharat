@@ -8,6 +8,7 @@ use App\Models\Admin\Customer;
 use App\Models\Admin\Status; 
 use App\Models\User;
 use App\Models\Front\Adress;
+use App\Models\Admin\OrderItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -18,6 +19,7 @@ use GuzzleHttp\Exception\RequestException;
 use App\Models\Admin\PinOffice;
 use App\Models\Admin\Page;
 use Illuminate\Support\Facades\DB;
+
 
 class CustomerController extends Controller
 {
@@ -349,10 +351,13 @@ class CustomerController extends Controller
     {
         // $customerDetail = User::with('orders', 'addresses')->where('id', Auth::user()->id)->first();
         $customerDetail = User::with([
-            'orders' => function($query)  {
-                $query->where('status_id', 1);
+            'orders' => function($query) {
+                $query->whereHas('orderItems', function($q) {
+                    $q->where('status_id', 1);
+                });
             },
-            'orders.orderItems.product.images', // Change 'products' to 'product'
+            'orders.orderItems.product.images',
+            'orders.orderItems.status',
             'addresses'
         ])
         ->where('id', Auth::user()->id)
@@ -468,16 +473,22 @@ class CustomerController extends Controller
 
     public function OrderStatusWise($statusId)
     {
-            $customerDetail = User::with([
-                'orders' => function($query) use ($statusId) {
-                    $query->where('status_id', $statusId);
-                },
-                'orders.status',
-                'orders.orderItems.product.images',
-                'addresses'
-            ])
-            ->where('id', Auth::user()->id)
-            ->first();
+          $customerDetail = User::with([
+    'orders' => function($query) use ($statusId) {
+        $query->whereHas('orderItems', function($q) use ($statusId) {
+            $q->where('status_id', $statusId);
+        })->with([ // Eager load the related items that match the status
+            'orderItems' => function($q) use ($statusId) {
+                $q->where('status_id', $statusId);
+            },
+            'orderItems.product.images',
+            'orderItems.status'
+        ]);
+    },
+    'addresses'
+])
+->where('id', Auth::user()->id)
+->first();
             // \Log::info([$statusId => $customerDetail]);    
             $customerDetailHtml = view('front.common.customer-orders', compact('customerDetail'))->render();
             return response()->json(['success' => true,  'customerDetailHtml' => $customerDetailHtml, 'message' => 'Fetch order status wise.']);
@@ -560,5 +571,17 @@ class CustomerController extends Controller
         $address = Adress::findOrFail($id);
         $addressHtml = view('front.common.open-update-adress', ['address' => $address])->render();
         return response()->json(['success' => true, 'html' => $addressHtml, 'address' => $address]);
+    }
+    public function removeOrderItem($id){
+        if (auth()->check() && auth()->user()->hasRole('Customer')) {
+            $customer = auth()->user();
+            $orderItem = OrderItem::find($id);
+            if ($orderItem) {
+                $orderItem->status_id =7;
+                $orderItem->save();
+                return response()->json(['success' => true, 'message' => 'Order item removed successfully.']);
+            }
+        }
+        return response()->json(['success' => false, 'message' => 'Order item not found'], 404);
     }
 }

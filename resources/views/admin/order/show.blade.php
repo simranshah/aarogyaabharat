@@ -51,6 +51,7 @@
                             <th>Price</th>
                             <th>Sub Total</th>
                             <th>GST</th>
+                            <th>status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,6 +80,13 @@
                                 <td>₹{{ number_format($item->price, 2) }}</td>
                                 <td>₹{{ number_format($subTotal, 2) }}</td>
                                 <td>₹{{ number_format($gst, 2) }}</td>
+                                <td><select name="status_id" id="status_id" class="form-control" onblur="chnageproductstatus({{$item->id}},this.value);" onkeyup="chnageproductstatus({{$item->id}},this.value);">
+                            @foreach ($statuses as $status)
+                                <option value="{{ $status->id }}" {{ $status->id == $item->status_id ? 'selected' : '' }}>
+                                    {{ $status->name }}
+                                </option>
+                            @endforeach
+                        </select></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -131,5 +139,27 @@
         </div>
     </section>
 </div>
+<script>
+    function chnageproductstatus(orderitemid,statusid){
+        $.ajax({
+            url: '/admin/orders/update-order-item-status/' + orderitemid+'/'+statusid,  
+            type: 'GET',
+            success: function(response) {
+                if (response.success) {
+                    //  toastr.success(response.message);
+                    location.reload();
+                   
+                } else {
+                     document.getElementById('logoutPopup3').style.display='flex';
+                    // toastr.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Something went wrong. Please try again.');
+            }
+        });
+    }
+</script>
 @endsection
 

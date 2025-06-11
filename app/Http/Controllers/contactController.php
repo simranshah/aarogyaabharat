@@ -38,7 +38,9 @@ class contactController extends Controller
             'email' => 'required|email|max:255',
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
+            'phone_no' => 'required|digits_between:7,15', // Phone number must be numeric and between 7 to 15 digits
         ]);
+        
 
         \App\Models\contact::create($request->all());
 

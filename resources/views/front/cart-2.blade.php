@@ -458,7 +458,13 @@
                                 // toastr.error(response.message);
                             } else if (xhr.status == 404) {
                                 var response = JSON.parse(xhr.responseText);
-                                document.getElementById('logoutPopup3').style.display='flex';
+                               if(response.message=='Please login to proceed with payment.'){
+                                   window.location.href="{{route('login')}}"
+                                }else if(response.message=='Please add a delivery address.'){
+                                addNewDeliveryAddress1();
+                                }else{
+                                    document.getElementById('logoutPopup3').style.display='flex';
+                                }
                                 // toastr.error(response.message);
                             } else {
                                   document.getElementById('logoutPopup3').style.display='flex';

@@ -197,7 +197,11 @@ class NewPaymentController extends Controller
                 'payment_response' => json_encode($request->all()),
                 'razorpay_payment_id' => $request->razorpay_payment_id,
             ]);
-
+            $orderitemData = OrderItem::where('order_id', $order->id)->get()->toArray();
+            // foreach ($orderitemData as $item) {
+            //     $item['status_id'] = 2; // Update status to 'Paid'
+            //     OrderItem::where('id', $item['id'])->update($item);
+            // }
             Log::channel('payment_log')->info('Order marked as paid', ['order_id' => $order->id]);
 
             $cacheKey = 'cart_' . Auth::id() . '_'  . $request->razorpay_order_id;
@@ -240,6 +244,7 @@ class NewPaymentController extends Controller
 
             foreach ($orderItemsData as $item) {
                 $item['order_id'] = $order->id; // Associate the item with the created order
+                $item['status_id'] = 2; // Set initial status to 'Pending'
                 OrderItem::create($item);
             }
             $orderitemData=OrderItem::where('order_id',$order->id)->get()->toArray();  
@@ -253,8 +258,10 @@ class NewPaymentController extends Controller
             Cache::forget($cacheKey);
 
             DB::commit();
-
-            return redirect()->route('cart')->with('orderAddress', $order->orderAddress);
+            $orderData= Order::with('orderItems.product', 'orderAddress')
+                ->where('id', $order->id)
+                ->first();
+            return view('front.thank-you')->with('orderData', $orderData);
         } catch (\Exception $e) {
             Log::channel('payment_log')->error('Payment success error', ['message' => $e->getMessage()]);
             DB::rollBack();
@@ -374,7 +381,7 @@ class NewPaymentController extends Controller
         DB::beginTransaction();
         try {
             $gst = ($product->our_price * $product->gst / 100);
-            $total = $product->our_price + $gst;
+            $total = $product->our_price + $gst +$product->delivery_and_installation_fees;
 
             $order = new Order();
             $order->customer_id = Auth::id();
@@ -393,6 +400,7 @@ class NewPaymentController extends Controller
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $product->id,
+                'status_id' => 1, // Set initial status to 'Pending'
                 'quantity' => 1,
                 'price' => $product->our_price,
                 'gst' => $gstAmount,
@@ -421,11 +429,18 @@ class NewPaymentController extends Controller
             DB::commit();
             Log::channel('payment_log')->info('Payment verified successfully', ['order_id' => $order->id]);
 
-            return response()->json(['message' => 'Payment Verified']);
+            return response()->json(['message' => 'Payment Verified','order_id' => $order->id]);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::channel('payment_log')->error('Payment verification failed', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Payment processing failed. Please contact support.'], 500);
         }
+    }
+    public function getdataforthankyou(Request $request){
+        $orderid=$request->order_id;
+         $orderData= Order::with('orderItems.product', 'orderAddress')
+                ->where('id', $orderid)
+                ->first();
+            return view('front.thank-you')->with('orderData', $orderData);
     }
 }

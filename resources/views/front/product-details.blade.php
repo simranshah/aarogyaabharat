@@ -268,7 +268,18 @@
                                             'Payment Verified') {
                                             // toastr.success(
                                             //     'Payment successful!');
-                                                window.location.href = "{{ route('thanks') }}";
+                                             var form = $('<form>', {
+                                                'action': "{{ route('thanks') }}",
+                                                'method': 'GET'
+                                            });
+                                            form.append($('<input>', {
+                                                'type': 'hidden',
+                                                'name': 'order_id',
+                                                'value': response.order_id
+                                            }));
+                                            $('body').append(form);
+                                            form.submit();
+                                            // window.location.href = "{{ route('thanks') }}?order_id=" + response.order_id;
                                         } else {
                                             // toastr.error(
                                             //     'Payment verification failed!'
@@ -301,9 +312,11 @@
                         //   document.getElementById('logoutPopup3').style.display='flex';
                         // toastr.error(xhr.responseJSON.error|| xhr.responseJSON.message || 'An error occurred.');
                         if( xhr.responseJSON.message=='Please add an address to proceed with payment.') {
-                            setTimeout(() => {
+                            document.getElementById('text-btween-cartpopup').innerHTML='Let’s add your address first.'
+                            cartPopup();
+                                localStorage.setItem('address_required', '1');
                                 window.location.href = "{{ route('customers.profile') }}";
-                            }, 2000);
+                            
                             
                         }else if(xhr.responseJSON.message=='Please login to proceed with payment.') {
                            window.location.href="{{route('login')}}"

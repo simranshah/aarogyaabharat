@@ -120,10 +120,12 @@
                                         @if($status->name=='Order Placed' ||$status->name=='Delivered' || $status->name=='Order Cancelled' ||  $status->name=='Return picked up' )
                                             <li>
                                                 <a  onClick="changeStatusTab('{{ $status->id }}')">
-                                                    @if($status->name !='Return picked up')
+                                                    @if($status->name !='Return picked up' && $status->name!='Delivered')
                                                     <span>{{ $status->name }}</span>
-                                                    @else
-                                                 <span>Return</span>
+                                                    @elseif($status->name=='Delivered')
+                                                   <span>Order Delivered</span>
+                                                 @else
+                                                 <span>Order Return</span>
                                                  @endif
                                                     <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
                                                 </a>
@@ -182,12 +184,12 @@
     </div>
 </div>
  
-<div class="areyousurePop winScrollStop">
+<div class="areyousurePop winScrollStop" id='areyousurePop'>
     <div class="areyousureBlock">
         <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="cross" /></a>
-        <strong>Are you sure want to cancel order?</strong>
+        <strong>Do you really want to cancel this order?</strong>
         <div class="btnpop">
-            <a href="#;">Yes</a>
+            <a href="#;" id='cancelorder'>Yes</a>
             <a href="#;">No</a>
         </div>
     </div>
@@ -611,7 +613,14 @@ function addNewAddress() {
     $('#addressForm')[0].reset();
     $('.addressFormPop').show();
 }
-
+let showpoupFlage = localStorage.getItem('address_required');
+if (showpoupFlage == '1') {
+    $('.addressFormPop').show();
+    // Optionally clear the flag so it doesn't show again
+    document.getElementById('text-btween-cartpopup').innerHTML='Let’s add your address first.'
+                            cartPopup();
+    localStorage.removeItem('address_required');
+}
 function hideAddressPop(){
     $('#addressForm')[0].reset();
     $('.addressFormPop').hide();

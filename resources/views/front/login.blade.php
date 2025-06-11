@@ -76,7 +76,7 @@
     <div class="LoginPop winScrollStop container" style="display: block;">
         <div class="LoginPopMiddle">
             <div class="LoginPopInner">
-                <div style="position: absolute;top: 37px; right: 405px;z-index: 10;" class="close-login-pop">
+                <div style="position: absolute;top: 37px; z-index: 10;" class="close-login-pop" id="closebtnid">
                     <a href="{{ url('/') }}" class="close-login-pop"><img
                             src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
                 </div>
@@ -188,9 +188,11 @@
                                 @csrf
                                 <div class="inputMainBlock fullwidth">
                                     <span>Mobile number</span>
-                                    <input type="tel" name="mobile" class="mobileVD"
+                                    <input type="tel" name="mobile" class="mobileVD" id="mobilenumber"
                                         placeholder="Enter your mobile number"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" autocomplete="off">
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" 
+                                        autocomplete="off"
+                                        onkeyup="if(event.key === 'Enter'){ document.querySelector('#loginMo .submitBTN').click(); }">
                                     <div class="errormsg"></div>
                                     <div class="addressNote2">
                                         <img src="{{ asset('front/images/info-circle.svg') }}" alt="info-circle">
@@ -212,7 +214,7 @@
                             </div>
                             <form id="otp_form">
                                 <div class="a_otpPart">
-                                    <div class="errormsg" style="color: green" id="msg-for-otp-send"></div>
+                                    {{-- <div class="errormsg" style="color: green" id="msg-for-otp-send"></div> --}}
                                     <div class="inputMainBlock fullwidth">
                                         <div class="form-group">
                                             <div class="otp-wrap" id="otp-inputs">
@@ -227,12 +229,11 @@
                                                 <input type="number" id="codeBox5" maxlength="1" title="OTP"
                                                     onfocus="onFocusEvent(5)" autocomplete="one-time-code" />
                                                 <input type="number" id="codeBox6" maxlength="1" title="OTP"
-                                                    onfocus="onFocusEvent(6)" autocomplete="one-time-code" />
-                                                <div class="errormsg">You have entered incorrect OTP</div>
+                                                    onfocus="onFocusEvent(6)" autocomplete="one-time-code" />  
                                             </div>
                                         </div>
                                     </div>
-
+                                     <div class="errormsg" style="color: green" id="msg-for-otp-send"></div>
                                     <div class="a_resendOtp">
                                         <p><a href="javascript:void(0)">Resend OTP</a></p>
                                     </div>
@@ -251,7 +252,7 @@
                                         </div>
                                         <button class="submitBTN">Submit</button>
                                     </div>
-                                    <a href="#;">Need Help!</a>
+                                    <a href="">Need Help!</a>
                                 </div>
                             </form>
                         </div>
@@ -317,11 +318,17 @@
              const element = document.querySelector('.LoginPopInner');
             const width = element.offsetWidth;
             console.log(width);
+            document.getElementById('closebtnid').style.marginLeft = width-18 + 'px';
             var interval;
 
             $("#loginMo .submitBTN").click(function(e) {
                 e.preventDefault();
+                 $("#loginMo .submitBTN").prop("disabled", true)
+                            .css({ "background": "#ccc", "color": "#fff", "cursor": "not-allowed" })
+                            .html(`<svg width="20" height="20" viewBox="0 0 50 50" style="vertical-align:middle;margin-right:8px;" fill="#fff"><circle cx="25" cy="25" r="20" stroke="#888" stroke-width="5" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/></circle></svg>Sending OTP...`);
                 clearInterval(interval);
+                var $btn = $(this);
+                $btn.prop('disabled', true); // Disable button to prevent multiple clicks
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 var formData = $('#loginMo').serialize();
                 formData += '&_token=' + "{{ csrf_token() }}";
@@ -332,16 +339,23 @@
                     data: formData,
                     success: function(response) {
                         $('.errormsg').html('');
+                        $("#loginMo .submitBTN").prop("disabled", false);
+                         $("#loginMo .submitBTN").html('Login with OTP');
+                        
                         if (response.errors) {
                             $.each(response.errors, function(key, value) {
                                 $('input[name="' + key + '"]').next('.errormsg').html(
                                     value[0]).css("display", "block");
                             });
+                           
                         } else {
+                            $("#loginMo .submitBTN").prop("disabled", false);
+                            $("#loginMo .submitBTN").html('Login with OTP').removeAttr('style');
                             // toastr.success(response.success);
                             document.getElementById('msg-for-otp-send').innerHTML = response.success;
                             $('.mobForm').hide();
                             $('.optForm').show();
+                            $('#codeBox1').focus();
                             count3minut('otp_form');
                             mobileNumber = response.number;
                             otpUrl = "{{ route('verify.otp', ['number' => ':number']) }}"
@@ -351,11 +365,13 @@
                         }
                     },
                     error: function(xhr) {
+                        $("#loginMo .submitBTN").prop("disabled", false);
+                       $("#loginMo .submitBTN").html('Login with OTP').removeAttr('style');
                         $('.errormsg').html('');
                         $.each(xhr.responseJSON.errors, function(key, value) {
-                            $('input[name="' + key + '"]').next('.errormsg').html(value[
-                                0]).css("display", "block");
+                            $('input[name="' + key + '"]').next('.errormsg').html(value[0]).css("display", "block");
                         });
+                        $btn.prop('disabled', false); // Re-enable on AJAX error
                     }
                 });
             });
@@ -387,6 +403,7 @@
             function openLoginPop() {
                 $('.LoginPop').show();
             }
+            $('#mobilenumber').focus();
             document.getElementById("signupForm").addEventListener("submit", function(event) {
                 let mobileNumber = document.getElementById("mobileNumber").value;
                 if (!/^\d{10}$/.test(mobileNumber)) {
