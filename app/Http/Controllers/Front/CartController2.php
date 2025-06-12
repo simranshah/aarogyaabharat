@@ -102,8 +102,8 @@ class CartController2 extends Controller
                 
                 if ($cartProduct) {
                     // Product exists, update quantity and subtotal
-                    $cartProduct->quantity += $request->input('quantity', 1);
-                    $cartProduct->total_price = $product->our_price * $cartProduct->quantity; // Update total price
+                    // $cartProduct->quantity += $request->input('quantity', 1);
+                    // $cartProduct->total_price = $product->our_price * $cartProduct->quantity; // Update total price
                     $cartProduct->save();
 
                     // Update the cart's subtotal as well

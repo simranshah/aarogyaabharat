@@ -450,6 +450,8 @@
                                 if(response.message=='Please login to proceed with payment.'){
                                    window.location.href="{{route('login')}}"
                                 }else if(response.message=='Please add a delivery address.'){
+                            document.getElementById('text-btween-cartpopup').innerHTML='Let’s add your address first.'
+                            cartPopup();
                                 addNewDeliveryAddress1();
                                 }else{
                                     document.getElementById('logoutPopup3').style.display='flex';
@@ -461,6 +463,8 @@
                                if(response.message=='Please login to proceed with payment.'){
                                    window.location.href="{{route('login')}}"
                                 }else if(response.message=='Please add a delivery address.'){
+                                 document.getElementById('text-btween-cartpopup').innerHTML='Let’s add your address first.'
+                                 cartPopup();
                                 addNewDeliveryAddress1();
                                 }else{
                                     document.getElementById('logoutPopup3').style.display='flex';
