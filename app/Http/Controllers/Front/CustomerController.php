@@ -19,6 +19,7 @@ use GuzzleHttp\Exception\RequestException;
 use App\Models\Admin\PinOffice;
 use App\Models\Admin\Page;
 use Illuminate\Support\Facades\DB;
+use App\Models\orderCancelItem;
 
 
 class CustomerController extends Controller
@@ -473,6 +474,7 @@ class CustomerController extends Controller
 
     public function OrderStatusWise($statusId)
     {
+        if($statusId!=7 && $statusId!=9){
           $customerDetail = User::with([
     'orders' => function($query) use ($statusId) {
         $query->whereHas('orderItems', function($q) use ($statusId) {
@@ -492,6 +494,23 @@ class CustomerController extends Controller
             // \Log::info([$statusId => $customerDetail]);    
             $customerDetailHtml = view('front.common.customer-orders', compact('customerDetail'))->render();
             return response()->json(['success' => true,  'customerDetailHtml' => $customerDetailHtml, 'message' => 'Fetch order status wise.']);
+}else{
+   $userorderdata = User::with(['orders'])->where('id', Auth::user()->id)->first();
+$customerDetail = [];
+
+foreach($userorderdata->orders as $order) {
+    $cancelproducts = orderCancelItem::with('orderItems.product.images')
+        ->where('order_id', $order->id)
+        ->where('status_id', $statusId)
+        ->get();
+    
+    if($cancelproducts->isNotEmpty()) {
+        $customerDetail = array_merge($customerDetail, $cancelproducts->all());
+    }
+}
+            $customerDetailHtml = view('front.common.customer-orders1', compact('customerDetail'))->render();
+            return response()->json(['success' => true,  'customerDetailHtml' => $customerDetailHtml, 'message' => 'Fetch order status wise.']);
+}
 
     }
 
@@ -572,16 +591,74 @@ class CustomerController extends Controller
         $addressHtml = view('front.common.open-update-adress', ['address' => $address])->render();
         return response()->json(['success' => true, 'html' => $addressHtml, 'address' => $address]);
     }
-    public function removeOrderItem($id){
-        if (auth()->check() && auth()->user()->hasRole('Customer')) {
-            $customer = auth()->user();
-            $orderItem = OrderItem::find($id);
-            if ($orderItem) {
-                $orderItem->status_id =7;
-                $orderItem->save();
-                return response()->json(['success' => true, 'message' => 'Order item removed successfully.']);
+    public function removeOrderItem($id,Request $request) {
+        $qty=$request->qytToRemove;
+    if (auth()->check() && auth()->user()->hasRole('Customer')) {
+        $customer = auth()->user();
+        $orderItem = OrderItem::find($id);
+        
+        if ($orderItem) {
+            // Reduce the quantity of the order item
+            $orderItem->quantity -= $qty;
+            
+            // If quantity reaches 0 or below, change status to 7
+            if ($orderItem->quantity <= 0) {
+                $orderItem->status_id = 7;
+                $orderItem->quantity = 0; // Ensure quantity doesn't go negative
             }
+            
+            $orderItem->save();
+            
+            // Handle the canceled quantity in orderCancelItem table
+            $cancelItem = OrderCancelItem::where('order_id', $orderItem->order_id)
+                                        ->where('order_item_id', $id)
+                                        ->first();
+            
+            if ($cancelItem) {
+                // Update existing canceled item
+                $cancelItem->qty += $qty;
+                $cancelItem->save();
+            } else {
+                // Create new canceled item
+                OrderCancelItem::create([
+                    'order_id' => $orderItem->order_id,
+                    'order_item_id' => $id,
+                    'status_id' => 7,
+                    'qty' => $qty,
+                    'price' => $orderItem->price // Assuming price is stored in order item
+                ]);
+            }
+            
+            return response()->json([
+                'success' => true, 
+                'message' => 'Order item updated successfully.',
+                'new_qty' => $orderItem->qty,
+                'status_changed' => $orderItem->status_id == 7
+            ]);
         }
-        return response()->json(['success' => false, 'message' => 'Order item not found'], 404);
     }
+    
+    return response()->json(['success' => false, 'message' => 'Order item not found'], 404);
+}
+public function resendOtp(Request $request)
+{
+    $customer = User::where('mobile', $request->input('mobile'))->first();
+
+    if ($customer) {
+        try {
+            // https://2factor.in/API/V1/:api_key/SMS/:phone_number/AUTOGEN/:otp_template_name
+            $response = $this->client->post("https://2factor.in/API/V1/{$this->apiKey}/SMS/{$customer->mobile}/AUTOGEN");
+            \Log::info(['otp response' => json_decode($response->getBody(), true)]);
+            return response()->json([
+                'success' => 'OTP resent successfully!',
+                'number' => $customer->mobile,
+                'res' => json_decode($response->getBody(), true) 
+            ], 200);
+        } catch (RequestException $e) {
+            return response()->json(['errors' => ['mobile' => ['Failed to resend OTP. Please try again later.']]], 422);
+        }
+    } else {
+        return response()->json(['errors' => ['mobile' => ['No account found for this number. Please register.']]], 422);
+    }
+}
 }

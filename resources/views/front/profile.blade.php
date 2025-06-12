@@ -188,10 +188,48 @@
     <div class="areyousureBlock">
         <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="cross" /></a>
         <strong>Do you really want to cancel this order?</strong>
-        <div class="btnpop">
+        <label for="qtyInput" style="display:block; margin: 12px 0 4px 86px; font-weight: 600; color: #333;">Select quantity to cancel</label>
+        <div  style="margin-left:118px; margin-bottom: 12px; align-items: center; gap: 10px;">
+            <a href="#;" id="decreaseQty" style="padding: 0 10px;border-radius: 8px;
+    border: 2px solid #FFCC5C;
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Nunito-Bold';
+    color: #F2A602;
+    ">-</a>
+            <input type="number" id="qtyInput" value="1" min="1" style="width: 50px; text-align: center;border: 2px solid #FFCC5C;
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Nunito-Bold';
+    " />
+            <a href="#;" id="increaseQty" style="padding: 0 10px;border-radius: 8px;
+    border: 2px solid #FFCC5C;
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Nunito-Bold';
+    color: #F2A602;
+    ">+</a>
+        </div>
+            <div class="btnpop" style="display: flex; align-items: center; gap: 10px;">
             <a href="#;" id='cancelorder'>Yes</a>
             <a href="#;">No</a>
         </div>
+        <script>
+            $(document).on('click', '#increaseQty', function(e) {
+            e.preventDefault();
+            let $input = $('#qtyInput');
+            let val = parseInt($input.val()) || 1;
+            let max = parseInt($input.attr('max')) || Infinity;
+            if(val < max) $input.val(val + 1);
+            // $input.val(val + 1);
+            });
+            $(document).on('click', '#decreaseQty', function(e) {
+            e.preventDefault();
+            let $input = $('#qtyInput');
+            let val = parseInt($input.val()) || 1;
+            if(val > 1) $input.val(val - 1);
+            });
+        </script>
     </div>
 </div>
 

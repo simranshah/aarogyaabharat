@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Order; 
 use App\Models\Admin\Status; 
 use App\Models\Admin\OrderItem;
+use App\Models\orderCancelItem;
 use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
@@ -59,13 +60,13 @@ class OrderController extends Controller
     }
     public function edit($id)
     {
-        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product','orderItems.status', 'orderOffer'])->findOrFail($id);
+        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product','orderItems.status','orderCancelItem.orderItems.product', 'orderOffer'])->findOrFail($id);
         $statuses = Status::all();  
         return view('admin.order.show', compact('order', 'statuses'));
     }
     public function updateOrderItemStatus($id,$status)
     {
-        $orderItem = OrderItem::findOrFail($id);
+        $orderItem = orderCancelItem::findOrFail($id);
         $orderItem->status_id = $status;
         $orderItem->save();
 

@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Front\Cart;
+use App\Models\orderCancelItem;
 
 class Order extends Model
 {
@@ -42,7 +43,10 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class); 
     }
-
+    public function orderCancelItem()
+    {
+        return $this->hasMany(orderCancelItem::class); 
+    }
     public function orderAddress()
     {
         return $this->hasOne(OrderAddress::class); 
@@ -51,4 +55,5 @@ class Order extends Model
     {
         return $this->belongsTo(OfferAndDiscount::class, 'offer_id'); 
     }
+
 }

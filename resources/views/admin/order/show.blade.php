@@ -51,7 +51,7 @@
                             <th>Price</th>
                             <th>Sub Total</th>
                             <th>GST</th>
-                            <th>status</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -61,6 +61,7 @@
                             $offerAmount = 0;
                         @endphp
                         @foreach ($order->orderItems as $item)
+                        @if($item->quantity>0)
                             @php
                                 // Calculate Subtotal for each item
                                 $subTotal = $item->price * $item->quantity;
@@ -80,11 +81,57 @@
                                 <td>₹{{ number_format($item->price, 2) }}</td>
                                 <td>₹{{ number_format($subTotal, 2) }}</td>
                                 <td>₹{{ number_format($gst, 2) }}</td>
+                                
+                            </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+                <hr/>
+                <br/>
+
+                <h5>Order Cancel Items</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Sub Total</th>
+                            <th>GST</th>
+                            <th>status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($order->orderCancelItem as $item)
+                        
+                            @php
+                            
+                                // Calculate Subtotal for each item
+                                $subTotal = $item->price * $item->qty;
+                                
+                                // Assuming each product has a `gst` field in your `Product` model
+                                $gst = ($subTotal * $item->orderItems->product->gst / 100);
+                                // $total += $subTotal + $gst;
+                                
+                                // Assuming there's an offer that you can apply
+                                // $offerAmount += $order->offer_amount ?? 0;
+                                
+                                 
+                            @endphp
+                            <tr>
+                                <td>{{ $item->orderItems->product->name }}</td>
+                                <td>{{ $item->qyt }}</td>
+                                <td>₹{{ number_format($item->price, 2) }}</td>
+                                <td>₹{{ number_format($subTotal, 2) }}</td>
+                                <td>₹{{ number_format($gst, 2) }}</td>
                                 <td><select name="status_id" id="status_id" class="form-control" onblur="chnageproductstatus({{$item->id}},this.value);" onkeyup="chnageproductstatus({{$item->id}},this.value);">
                             @foreach ($statuses as $status)
+                            @if($status->id >=7)
                                 <option value="{{ $status->id }}" {{ $status->id == $item->status_id ? 'selected' : '' }}>
                                     {{ $status->name }}
                                 </option>
+                                @endif
                             @endforeach
                         </select></td>
                             </tr>

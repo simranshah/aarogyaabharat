@@ -234,7 +234,7 @@
                                         </div>
                                     </div>
                                      <div class="errormsg" style="color: green" id="msg-for-otp-send"></div>
-                                    <div class="a_resendOtp">
+                                    <div class="a_resendOtp" onclick="resendotp();">
                                         <p><a href="javascript:void(0)">Resend OTP</a></p>
                                     </div>
                                     <div class="a_countText">
@@ -402,6 +402,29 @@
             //open login popup
             function openLoginPop() {
                 $('.LoginPop').show();
+            }
+
+            function resendotp(){
+                var mobileNo=document.getElementById('mobilenumber').value;
+                $.ajax({  
+            url: '/customer/resendotp',
+            data: { mobile: mobileNo },
+            type: 'GET',
+            success: function(response) {
+                if (response.success) {
+                    //  toastr.success(response.message);
+                    // location.reload();
+                   
+                } else {
+                     document.getElementById('logoutPopup3').style.display='flex';
+                    // toastr.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Something went wrong. Please try again.');
+            }
+        });
             }
             $('#mobilenumber').focus();
             document.getElementById("signupForm").addEventListener("submit", function(event) {

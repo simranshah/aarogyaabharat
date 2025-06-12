@@ -29,6 +29,7 @@
     }
     .editor, .html-editor {
       min-height: 300px;
+      max-height: 450px;
       outline: none;
       position: relative;
       background-color: #f9f9f9;

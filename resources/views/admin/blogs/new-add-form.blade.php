@@ -3,12 +3,13 @@
 <style>
     .editor-container {
       max-width: 800px;
+      max-height: 300px;
       margin: auto;
       background: #fff;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       padding: 20px;
-      position: relative;
+     
     }
     .toolbar {
       border-bottom: 1px solid #ddd;
@@ -16,6 +17,7 @@
       margin-bottom: 15px;
       background: #fff;
       z-index: 99;
+      /* position: absolute; */
     }
     .toolbar button, .toolbar select {
       background: none;
@@ -29,6 +31,7 @@
     }
     .editor, .html-editor {
       min-height: 300px;
+      max-height: 450px;
       outline: none;
       position: relative;
       background-color: #f9f9f9;

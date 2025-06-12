@@ -274,7 +274,432 @@
 
 
 <section class="customer_part">
-    @include('front.common.happy-customer')
+   <div class="container">
+        <div class="header-google">
+            <h2>What Our Customers Say</h2>
+        </div>
+
+        <div class="google-section">
+            <div class="google-header">
+                <div class="google-info">
+                    <div class="google-logo">
+                        <img src="/front/images/googlefull.svg" alt="Google Icon" width="124" height="84" />
+                    </div>
+                    <span class="reviews-text">Reviews</span>
+                </div>
+                <div class="rating-section">
+                    <span class="rating-number">4.7</span>
+                    <span class="stars">★★★★★</span>
+                    <span class="review-count">(18)</span>
+                </div>
+                <a href="https://search.google.com/local/writereview?placeid=ChIJ8f2JDrvBwjsRBTVgSg8gSqA"
+                    target="_blank" rel="noopener noreferrer">
+                    <button class="review-button">Review us on Google</button>
+                </a>
+
+            </div>
+
+            <div class="carousel-container">
+                <div class="carousel" id="carousel">
+
+                    <!-- Start of review cards -->
+                     
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">MU</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Mayuri Ubale <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 2 months ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            I had a great experience with Aarogyaa Bharat! I needed a hospital bed for my grandfather,
+                            and their rental service was seamless. The ordering process was easy, delivery was quick,
+                            and the equipment was in excellent condition.
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">AS</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Ayesha Shaikh <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 3 weeks ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            I had a great experience with Aarogyaabharat.com! They provide a wide range of medical
+                            equipment for sale and rent, making it super convenient for those in need. The quality of
+                            the products is excellent, and their customer service is great.
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">MR</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Mohammed Rayan <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 2 months ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Excellent service from Aarogyaa Bharat! Rented an oxygen concentrator, and it was delivered
+                            on time in perfect condition. Hassle-free process and great customer support. Highly
+                            recommend!
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">SD</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">SHARON D'SA <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 6 months ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            I once needed oxygen concentrator for a relative, and they delivered it within 30 mins. I
+                            was amazed at their prompt service and would recommend everyone to keep in touch with them
+                            in case of emergencies.
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">ZK</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Zahed Kazi <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> a month ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Thank you for delivering on time. The oxygen concentrator helped my granny to survive.
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">SS</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">simran shah <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 3 months ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Best and prompt service provider and enthusiastic environment to work with this company👍
+                            Highly recommend
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">KO</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Kalbhor Omkar <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 2 months ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Thank you so much for quick help. Team is very polite band responsive.
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">ST</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Sai Tathe <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 6 months ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Thanks to Kiran, he was super supportive and responsible. thank you to aarogya bharat for
+                            quick help.
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">JK</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Jyoti kamble <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 2 months ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Great support by avinash. Thanks for quick help.
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">AK</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Aditya Kumar Singh <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 2 weeks ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★☆</div>
+                        <div class="review-text">
+                            Good customer support
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">SP</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">sandesh patil <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> a month ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Thanks for quick support
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">AV</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Anirudh Vasudevan <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> a month ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Amazing!
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">HP</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Harsh Pundir <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> 2 weeks ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★☆</div>
+                        <div class="review-text">
+                            Good service
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="avatar">SP</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Samiksha Patil <span class="verified">✓</span></div>
+                                <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24"
+                                        height="24" /> a day ago</div>
+                            </div>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">
+                            Helpful service 👍
+                        </div>
+                    </div>
+
+                    <!-- Add more cards here if needed -->
+
+                </div>
+            </div>
+
+
+            <div class="carousel-controls">
+                <button class="nav-button" id="prevBtn">‹</button>
+                <div class="dots" id="dotsContainer"></div>
+                <button class="nav-button" id="nextBtn">›</button>
+            </div>
+        </div>
+    </div>
+     <script>
+        class ReviewCarousel {
+            constructor() {
+                this.carousel = document.getElementById('carousel');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.dotsContainer = document.getElementById('dotsContainer');
+                this.reviews = this.carousel.children;
+                this.currentIndex = 0;
+                this.reviewsToShow = this.getReviewsToShow();
+                this.totalSlides = Math.ceil(this.reviews.length / this.reviewsToShow);
+
+                this.init();
+            }
+
+            getReviewsToShow() {
+                if (window.innerWidth <= 480) return 1;
+                if (window.innerWidth <= 768) return 2;
+                if (window.innerWidth <= 1024) return 3;
+                return 4;
+            }
+
+            init() {
+                this.createDots();
+                this.updateCarousel();
+                this.bindEvents();
+                window.addEventListener('resize', () => {
+                    const newReviewsToShow = this.getReviewsToShow();
+                    if (newReviewsToShow !== this.reviewsToShow) {
+                        this.reviewsToShow = newReviewsToShow;
+                        this.totalSlides = Math.ceil(this.reviews.length / this.reviewsToShow);
+                        this.currentIndex = Math.min(this.currentIndex, this.totalSlides - 1);
+                        this.createDots();
+                        this.updateCarousel();
+                    }
+                });
+            }
+
+            createDots() {
+                this.dotsContainer.innerHTML = '';
+                for (let i = 0; i < this.totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    if (i === this.currentIndex) dot.classList.add('active');
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    this.dotsContainer.appendChild(dot);
+                }
+            }
+
+            updateCarousel() {
+                const translateX = -(this.currentIndex * 100);
+                this.carousel.style.transform = `translateX(${translateX}%)`;
+
+                // Update dots
+                const dots = this.dotsContainer.querySelectorAll('.dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentIndex);
+                });
+
+                // Update button states
+                this.prevBtn.disabled = this.currentIndex === 0;
+                this.nextBtn.disabled = this.currentIndex === this.totalSlides - 1;
+            }
+
+            goToSlide(index) {
+                this.currentIndex = Math.max(0, Math.min(index, this.totalSlides - 1));
+                this.updateCarousel();
+            }
+
+            nextSlide() {
+                if (this.currentIndex < this.totalSlides - 1) {
+                    this.currentIndex++;
+                    this.updateCarousel();
+                }
+            }
+
+            prevSlide() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.updateCarousel();
+                }
+            }
+
+            bindEvents() {
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+
+                // Auto-scroll functionality
+                let autoScrollInterval = setInterval(() => {
+                    if (this.currentIndex < this.totalSlides - 1) {
+                        this.nextSlide();
+                    } else {
+                        this.currentIndex = 0;
+                        this.updateCarousel();
+                    }
+                }, 5000);
+
+                // Pause auto-scroll on hover
+                this.carousel.addEventListener('mouseenter', () => {
+                    clearInterval(autoScrollInterval);
+                });
+
+                this.carousel.addEventListener('mouseleave', () => {
+                    autoScrollInterval = setInterval(() => {
+                        if (this.currentIndex < this.totalSlides - 1) {
+                            this.nextSlide();
+                        } else {
+                            this.currentIndex = 0;
+                            this.updateCarousel();
+                        }
+                    }, 5000);
+                });
+
+                // Touch/swipe support for mobile
+                let startX = 0;
+                let endX = 0;
+
+                this.carousel.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                });
+
+                this.carousel.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    const difference = startX - endX;
+
+                    if (difference > 50) {
+                        this.nextSlide();
+                    } else if (difference < -50) {
+                        this.prevSlide();
+                    }
+                });
+            }
+        }
+
+        // Initialize carousel when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ReviewCarousel();
+        });
+
+        // Handle read more functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('read-more')) {
+                e.preventDefault();
+                const reviewText = e.target.parentElement;
+                // Here you could expand the text or show a modal
+                console.log('Read more clicked');
+            }
+        });
+
+        // Handle review button click
+        document.querySelector('.review-button').addEventListener('click', () => {
+            // Here you would typically redirect to Google Reviews
+            console.log('Review us on Google clicked');
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.review-text').forEach(el => {
+            const maxChars = 150;
+            if (el.textContent.length > maxChars) {
+                el.textContent = el.textContent.slice(0, maxChars) + '...';
+            }
+        });
+    </script>
 </section>
 
 <!-- blog part  -->

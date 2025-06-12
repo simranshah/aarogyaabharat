@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\orderCancelItem;
 
 class OrderItem extends Model
 {
@@ -29,4 +30,5 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Status::class, 'status_id');
     }
+    
 }
