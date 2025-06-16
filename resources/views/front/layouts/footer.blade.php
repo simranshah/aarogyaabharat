@@ -21,6 +21,13 @@
                                 <li><a href="{{ route('front.contact') }}">Contact us</a></li>
                             </ul>
                         </div>
+                        <div class="links_text">
+                            <ul>
+                                <li><a href="{{ route('write.to.us') }}">Write For Us</a></li>
+                                {{-- <li><a href="{{ route('faqs') }}">Frequently Asked Questions</a></li>
+                                <li><a href="{{ route('front.contact') }}">Contact us</a></li> --}}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

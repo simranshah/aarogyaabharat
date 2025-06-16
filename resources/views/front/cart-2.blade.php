@@ -303,10 +303,172 @@
     </div>
   </div>
  </div>
+  <div class="add-adress-popup-overlay" id="add-adress-popup-overlay">
+        <div class="add-adress-popup-container">
+            <button class="add-adress-close-btn" onclick="closePopup5()">&times;</button>
+            
+            <div class="add-adress-popup-header">
+                <h2 class="add-adress-popup-title" id="add-adress-popup-title">Edit Address</h2>
+                <p class="add-adress-popup-subtitle">Enter pincode to get accurate delivery info</p>
+            </div>
+
+            <form id="addressForm5" onsubmit=" updateAddress(event)">
+                <div class="add-adress-form-row">
+                    <div class="add-adress-form-group">
+                        <label for="fullName">Full Name<span class="add-adress-required">*</span></label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="fullName" name="name" placeholder="Enter Your Full Name" value="" required>
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                    <div class="add-adress-form-group">
+                        <label for="mobile">Mobile Number<span class="add-adress-required">*</span></label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="tel" id="mobile" name="mobile" placeholder="Enter Mobile Number" required>
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-adress-form-row">
+                    <div class="add-adress-form-group">
+                        <label for="pincode">Pincode<span class="add-adress-required">*</span></label>
+                        <input type="text" id="pincode" name="pincode"  onblur="chekPincodeAvil(this.value);" placeholder="Enter 6-digit pincode" maxlength="6" required>
+                        <div id="error-message_pin"></div>
+                    </div>
+                    <div class="add-adress-form-group">
+                        <label for="pincode">House Number<span class="add-adress-required">*</span></label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="house_number" name="house_number" placeholder="Flat, House no, Building, Apartment">
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-adress-form-row">
+                    <div class="add-adress-form-group">
+                        <label for="pincode">Society Name<span class="add-adress-required">*</span></label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="society_name" name="society_name" placeholder="Area, Street, Sector, Village, Town">
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                    <div class="add-adress-form-group">
+                        <label for="landmark">Landmark (optional)</label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="landmark" name="landmark" placeholder="Enter nearby landmark">
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-adress-form-row">
+                    <div class="add-adress-form-group">
+                        <label for="city">City</label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="city" name="city" placeholder="Enter Your City" readonly>
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                    <div class="add-adress-form-group">
+                        <label for="state">State</label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="state" name="state" placeholder="Enter Your State" readonly>
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-adress-checkbox-container">
+                    <div class="add-adress-checkbox-group">
+                        <input type="checkbox" id="defaultAddress" name="delivery">
+                        <label for="defaultAddress">Mark as Default Address</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="add-adress-submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>            
+
         <script src="{{ asset('front/js/jquery.min.js') }}"></script>
         <script src="{{ asset('front/js/slick.js') }}"></script>
         <script src="{{ asset('front/js/script.js') }}"></script>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+        function closePopup5() {
+            document.querySelector('.add-adress-popup-overlay').style.display = 'none';
+        }
+
+        // Form validation
+        const form = document.getElementById('addressForm');
+        const inputs = form.querySelectorAll('input[type="text"], input[type="tel"]');
+
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                validateField(this);
+            });
+
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+        });
+
+        function validateField(field) {
+            const wrapper = field.closest('.input-wrapper');
+            if (!wrapper) return;
+
+            const isValid = field.value.trim() !== '';
+            
+            if (field.type === 'tel') {
+                const phoneRegex = /^[6-9]\d{9}$/;
+                if (isValid && !phoneRegex.test(field.value)) {
+                    wrapper.classList.remove('valid');
+                    return;
+                }
+            }
+
+            if (field.name === 'pincode') {
+                const pincodeRegex = /^\d{6}$/;
+                if (isValid && !pincodeRegex.test(field.value)) {
+                    wrapper.classList.remove('valid');
+                    return;
+                }
+            }
+
+            // if (isValid) {
+            //     wrapper.classList.add('valid');
+            // } else {
+            //     wrapper.classList.remove('valid');
+            // }
+        }
+
+        // Pincode auto-fill city and state
+        document.getElementById('pincode').addEventListener('input', function() {
+            const pincode = this.value;
+            if (pincode.length === 6) {
+                // This is a mock implementation - in real apps, you'd call an API
+                setTimeout(() => {
+                    validateField(document.getElementById('city'));
+                    validateField(document.getElementById('state'));
+                }, 500);
+            }
+        });
+        // Close popup when clicking outside
+        document.querySelector('.add-adress-popup-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup5();
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup5();
+            }
+        });
+    </script>
+
         <script>
             const buyBox = document.getElementById('buyOption');
             const rentBox = document.getElementById('rentOption');
@@ -852,15 +1014,38 @@
             }
 
             function addNewDeliveryAddress1() {
-                const popup = document.querySelector('.addressFormPop1');
-                if (popup) {
-                    popup.style.display = 'block';
-                }
+                 $('.errormsg').text('');
+                 $('#addressForm5')[0].reset();
+                 document.getElementById('add-adress-popup-title').innerHTML="Add Address";
+                 document.getElementById('add-adress-popup-overlay').style.display='flex';
             }
-
+           
             function closePopupadress() {
                 document.getElementById('logoutPopup1').style.display = 'none';
             }
+            $('.errormsg').css('color', 'red');
+            function chekPincodeAvil(pincode) {
+                document.getElementById('error-message_pin').innerHTML = 'Searching...';
+                document.getElementById('error-message_pin').style.color = 'black';
+                $.ajax({
+                    url: "{{ url('/get-city-state') }}/" + pincode, // Change this to your actual endpoint
+                    method: 'GET', // Use POST or GET as needed
+
+                    success: function(response) {
+                        if (response.success) {
+                            document.getElementById('error-message_pin').innerHTML = '';
+                            document.getElementById('state').value = response.state;
+                            document.getElementById('city').value = response.city;
+                        } else {
+                            document.getElementById('state').value = '';
+                            document.getElementById('city').value = '';
+                            document.getElementById('error-message_pin').innerHTML = response.message;
+                             document.getElementById('error-message_pin').style.color = 'red';
+                        }
+                    }
+                });
+            }
+
         </script>
     </section>
 @endsection('content')

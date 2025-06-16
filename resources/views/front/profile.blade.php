@@ -358,10 +358,173 @@
       </div>
     </div>
   </div>
- </div>       
+ </div>
+ <div class="order-info-pop-upmodal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        
+    </div>
+ <div class="add-adress-popup-overlay" id="add-adress-popup-overlay">
+        <div class="add-adress-popup-container">
+            <button class="add-adress-close-btn" onclick="closePopup5()">&times;</button>
+            
+            <div class="add-adress-popup-header">
+                <h2 class="add-adress-popup-title" id="add-adress-popup-title">Edit Address</h2>
+                <p class="add-adress-popup-subtitle">Enter pincode to get accurate delivery info</p>
+            </div>
+
+            <form id="addressForm5" onsubmit=" updateAddress(event)">
+                <div class="add-adress-form-row">
+                    <div class="add-adress-form-group">
+                        <label for="fullName">Full Name<span class="add-adress-required">*</span></label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="fullName" name="name" placeholder="Enter Your Full Name" value="" required>
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                    <div class="add-adress-form-group">
+                        <label for="mobile">Mobile Number<span class="add-adress-required">*</span></label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="tel" id="mobile" name="mobile" placeholder="Enter Mobile Number" required>
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-adress-form-row">
+                    <div class="add-adress-form-group">
+                        <label for="pincode">Pincode<span class="add-adress-required">*</span></label>
+                        <input type="text" id="pincode" name="pincode"  onblur="chekPincodeAvil(this.value);" placeholder="Enter 6-digit pincode" maxlength="6" required>
+                        <div id="error-message_pin"></div>
+                    </div>
+                    <div class="add-adress-form-group">
+                        <label for="pincode">House Number<span class="add-adress-required">*</span></label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="house_number" name="house_number" placeholder="Flat, House no, Building, Apartment">
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-adress-form-row">
+                    <div class="add-adress-form-group">
+                        <label for="pincode">Society Name<span class="add-adress-required">*</span></label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="society_name" name="society_name" placeholder="Area, Street, Sector, Village, Town">
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                    <div class="add-adress-form-group">
+                        <label for="landmark">Landmark (optional)</label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="landmark" name="landmark" placeholder="Enter nearby landmark">
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-adress-form-row">
+                    <div class="add-adress-form-group">
+                        <label for="city">City</label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="city" name="city" placeholder="Enter Your City" readonly>
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                    <div class="add-adress-form-group">
+                        <label for="state">State</label>
+                        <div class="add-adress-input-wrapper valid">
+                            <input type="text" id="state" name="state" placeholder="Enter Your State" readonly>
+                            <div class="errormsg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-adress-checkbox-container">
+                    <div class="add-adress-checkbox-group">
+                        <input type="checkbox" id="defaultAddress" name="delivery">
+                        <label for="defaultAddress">Mark as Default Address</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="add-adress-submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>            
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>
+<script>
+        function closePopup5() {
+            document.querySelector('.add-adress-popup-overlay').style.display = 'none';
+        }
+
+        // Form validation
+        const form = document.getElementById('addressForm');
+        const inputs = form.querySelectorAll('input[type="text"], input[type="tel"]');
+
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                validateField(this);
+            });
+
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+        });
+
+        function validateField(field) {
+            const wrapper = field.closest('.input-wrapper');
+            if (!wrapper) return;
+
+            const isValid = field.value.trim() !== '';
+            
+            if (field.type === 'tel') {
+                const phoneRegex = /^[6-9]\d{9}$/;
+                if (isValid && !phoneRegex.test(field.value)) {
+                    wrapper.classList.remove('valid');
+                    return;
+                }
+            }
+
+            if (field.name === 'pincode') {
+                const pincodeRegex = /^\d{6}$/;
+                if (isValid && !pincodeRegex.test(field.value)) {
+                    wrapper.classList.remove('valid');
+                    return;
+                }
+            }
+
+            // if (isValid) {
+            //     wrapper.classList.add('valid');
+            // } else {
+            //     wrapper.classList.remove('valid');
+            // }
+        }
+
+        // Pincode auto-fill city and state
+        document.getElementById('pincode').addEventListener('input', function() {
+            const pincode = this.value;
+            if (pincode.length === 6) {
+                // This is a mock implementation - in real apps, you'd call an API
+                setTimeout(() => {
+                    validateField(document.getElementById('city'));
+                    validateField(document.getElementById('state'));
+                }, 500);
+            }
+        });
+        // Close popup when clicking outside
+        document.querySelector('.add-adress-popup-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup5();
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup5();
+            }
+        });
+    </script>
 <script>
     
      function closePopup() {
@@ -553,115 +716,152 @@ function removeAddress(addressId) {
 
 
 function editAddress(id) {
+    $('.errormsg').text('');
     $.ajax({
         url: '/customer/get-update-address/' + id,
         type: 'GET',
         success: function(response) {
             if (response.success) {
-                $('#address').html(response.html);
-                $('#addressForm input[name="house_number"]').val(response.address.house_number);
-                    $('#addressForm input[name="society_name"]').val(response.address.society_name);
-                    $('#addressForm input[name="landmark"]').val(response.address.landmark);
-                    $('#addressForm input[name="pincode"]').val(response.address.pincode);
-                    $('#addressForm input[name="city"]').val(response.address.city);
-                    $('#addressForm input[name="state"]').val(response.address.state);
-                    $('#addressForm input[name="delivery"]').prop('checked', response.address.is_delivery_address);
-                    $('#addressForm input[name="uuid"]').val(id);
-                    $('#addressForm input[name="mobile"]').val(response.address.mobile);
-                    $('#addressForm input[name="name"]').val(response.address.name);
-                $('.addressFormPop').show();
+                // Show the popup
+                // $('.add-address-popup-overlay').style.display="flex";
+                 document.getElementById('add-adress-popup-title').innerHTML="Edit Address";
+                document.getElementById('add-adress-popup-overlay').style.display='flex';
+                
+                // Fill the form fields
+                $('#fullName').val(response.address.name);
+                $('#mobile').val(response.address.mobile);
+                $('#pincode').val(response.address.pincode);
+                $('#house_number').val(response.address.house_number);
+                $('#society_name').val(response.address.society_name);
+                $('#landmark').val(response.address.landmark);
+                $('#city').val(response.address.city);
+                $('#state').val(response.address.state);
+                
+                // Set default address checkbox if applicable
+                if (response.address.is_delivery_address) {
+                    $('#defaultAddress').prop('checked', true);
+                } else {
+                    $('#defaultAddress').prop('checked', false);
+                }
+                
+                // Store the address ID in a hidden field (you might want to add this to your form)
+                $('#addressForm5').append(`<input type="hidden" name="uuid" value="${id}">`);
+                
+                // Validate all fields that have values
+                $('#add-address-form input').each(function() {
+                    if ($(this).val().trim() !== '') {
+                        validateField(this);
+                    }
+                });
             } else {
-                 document.getElementById('logoutPopup3').style.display='flex';
+                document.getElementById('logoutPopup3').style.display='flex';
                 // toastr.error('Error fetching address data.');
             }
         },
         error: function(xhr, status, error) {
-             document.getElementById('logoutPopup3').style.display='flex';
+            document.getElementById('logoutPopup3').style.display='flex';
             // toastr.error('Something went wrong while fetching the address data.');
         }
     });
 }
 
 function updateAddress(event) {
-        event.preventDefault(); 
+    event.preventDefault();
 
-        if (!$('#DA').prop('checked')) {
-                $('#DA').val('0');
+    // Handle default address checkbox
+    if (!$('#defaultAddress').prop('checked')) {
+        $('#defaultAddress').val('0');
+    } else {
+        $('#defaultAddress').val('1');
+    }
+
+    // Collect form data
+    var formData = $('#addressForm5').serialize();
+
+    // Clear previous error messages
+    $('.errormsg').text('');
+
+    $.ajax({
+        url: "{{ route('customers.profile.address.update') }}",
+        type: 'GET',
+        data: formData,
+        success: function(response) {
+            if (response.success) {
+                 window.location.reload;
+                 document.getElementById('logoutPopup2').style.display='flex';
+                // $('.errormsg').text('');
+                $('#addressList').html(response.html);
+               
+                closePopup5(); // Use your popup closing function
+            } else {
+                if (response.status == 401) {
+                    document.getElementById('logoutPopup3').style.display='flex';
                 } else {
-                    // If checked, ensure the value is 1 (it should already be by default)
-                    $('#DA').val('1');
+                    $.each(response.errors, function(key, value) {
+                        // Find the appropriate field to display error
+                        let errorElement;
+                        switch(key) {
+                            case 'name':
+                                errorElement = $('#fullName').next('.errormsg');
+                                break;
+                            case 'mobile':
+                                errorElement = $('#mobile').next('.errormsg');
+                                break;
+                            case 'house_number':
+                                errorElement = $('#house_number').next('.errormsg');
+                                break;
+                            case 'society_name':
+                                errorElement = $('#society_name').next('.errormsg');
+                                break;
+                            case 'pincode':
+                                errorElement = $('#pincode').next('.errormsg');
+                                break;
+                            // Add other cases as needed
+                            default:
+                                errorElement = $(`[name="${key}"]`).next('.errormsg');
+                        }
+                        if (errorElement.length) {
+                            errorElement.text(value).show();
+                        }
+                    });
                 }
-                // Collect form data
-        var formData = {
-            house_number: $("#addressForm input[name='house_number']").val(),
-            society_name: $("#addressForm input[name='society_name']").val(),
-            locality: $("#addressForm input[name='locality']").val(),
-            landmark: $("#addressForm input[name='landmark']").val(),
-            pincode: $("#addressForm input[name='pincode']").val(),
-            city: $("#addressForm input[name='city']").val(),
-            state: $("#addressForm input[name='state']").val(),
-            delivery: $("#addressForm input[name='delivery']").val(),
-            uuid: $("#addressForm input[name='uuid']").val(),
-            mobile:$("#addressForm input[name='mobile']").val(),
-            name:$("#addressForm input[name='name']").val(),
-        };
-        $('.errormsg').text('');
-        $.ajax({
-            url: "{{route('customers.profile.address.update')}}", // Update with your endpoint
-            type: 'GET',
-            data: formData,
-            success: function(response) {
-                if (response.success) {
-                    $('.errormsg').text(''); 
-                    $('#addressForm')[0].reset();
-                    $('#addressList').html(response.html);
-                    // toastr.success(response.message);
-                    document.getElementById('logoutPopup2').style.display='flex';
-                    hideAddressPop();
-                } else {
-                    // Show error messages
-                    if (response.status == 401) {
-                        // toastr.error(response.message);
-                         document.getElementById('logoutPopup3').style.display='flex';
-                    } else {
-                        $.each(response.errors, function(key, value) {
-                            $("#addressForm input[name='" + key + "']").next('.errormsg').text(value).show();
-                        });
-                    }
-                }
-            },
-            error: function(xhr) {
-                if (xhr.status === 422) { // Unprocessable Entity
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
                 var errors = xhr.responseJSON.errors;
-                $('.errormsg').text(''); 
+                $('.errormsg').text('');
                 $.each(errors, function(key, value) {
                     var errorMessage = Array.isArray(value) ? value[0] : value;
-                    $('.' + key + 'Error').text(errorMessage);
+                    $(`.${key}Error`).text(errorMessage);
                 });
             } else {
                 $('.errormsg').text('');
-                 document.getElementById('logoutPopup3').style.display='flex';
-                // toastr.error('An error occurred. Please try again.');
+                document.getElementById('logoutPopup3').style.display='flex';
             }
-            }
-        });
+        }
+    });
 }
-
+$('.errormsg').css('color', 'red');
 function addNewAddress() {
-    $('#addressForm')[0].reset();
-    $('.addressFormPop').show();
+    $('.errormsg').text('');
+    $('#addressForm5')[0].reset();
+    document.getElementById('add-adress-popup-title').innerHTML="Add Address";
+     document.getElementById('add-adress-popup-overlay').style.display='flex';
 }
 let showpoupFlage = localStorage.getItem('address_required');
 if (showpoupFlage == '1') {
-    $('.addressFormPop').show();
+     $('#addressForm5')[0].reset();
+     document.getElementById('add-adress-popup-title').innerHTML="Add Address";
+     document.getElementById('add-adress-popup-overlay').style.display='flex';
     // Optionally clear the flag so it doesn't show again
     document.getElementById('text-btween-cartpopup').innerHTML='Let’s add your address first.'
                             cartPopup();
     localStorage.removeItem('address_required');
 }
 function hideAddressPop(){
-    $('#addressForm')[0].reset();
-    $('.addressFormPop').hide();
+    $('#addressForm5')[0].reset();
+    $('.add-adress-popup-overlay').hide();
 }
 function confirmLogoutpopup() {
     $('#logoutPopup').show();
@@ -669,6 +869,141 @@ function confirmLogoutpopup() {
 function closePopupadressadd(){
     document.getElementById('logoutPopup2').style.display='none';
 }
+function chekPincodeAvil(pincode) {
+                document.getElementById('error-message_pin').innerHTML = 'Searching...';
+                document.getElementById('error-message_pin').style.color = 'black';
+                $.ajax({
+                    url: "{{ url('/get-city-state') }}/" + pincode, // Change this to your actual endpoint
+                    method: 'GET', // Use POST or GET as needed
 
+                    success: function(response) {
+                        if (response.success) {
+                            document.getElementById('error-message_pin').innerHTML = '';
+                            document.getElementById('state').value = response.state;
+                            document.getElementById('city').value = response.city;
+                        } else {
+                            document.getElementById('state').value = '';
+                            document.getElementById('city').value = '';
+                            document.getElementById('error-message_pin').innerHTML = response.message;
+                             document.getElementById('error-message_pin').style.color = 'red';
+                        }
+                    }
+                });
+            }
 </script>
+<script>
+    let selectedItems = [];
+
+    function openModal() {
+        const modal = document.getElementById('modalOverlay');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('modalOverlay');
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    function closeModalOnOverlay(event) {
+        if (event.target === event.currentTarget) {
+            closeModal();
+        }
+    }
+
+    function toggleItem(card, index) {
+        const checkbox = document.getElementById(`checkbox-${index}`);
+        
+        if (selectedItems.includes(index)) {
+            selectedItems = selectedItems.filter(i => i !== index);
+            checkbox.classList.remove('checked');
+            card.classList.remove('selected');
+        } else {
+            selectedItems.push(index);
+            checkbox.classList.add('checked');
+            card.classList.add('selected');
+        }
+
+        updateCancelButton();
+    }
+
+   function changeQuantity(event, index, change) {
+    event.stopPropagation();
+    const qtyElement = document.getElementById(`qty-${index}`);
+    const card = qtyElement.closest('.order-info-pop-upitem-card');
+    const maxQty = parseInt(card.getAttribute('data-max-qty'));
+
+    let currentQty = parseInt(qtyElement.textContent);
+    let newQty = currentQty + change;
+
+    // Prevent quantity from going below 1 or above max
+    if (newQty < 1 || newQty > maxQty) {
+        if (newQty > maxQty) {
+            alert("You cannot cancel more than originally ordered quantity.");
+        }
+        return;
+    }
+
+    qtyElement.textContent = newQty;
+
+    // Update QTY display
+    const qtyDisplay = card.querySelector('.order-info-pop-upproduct-qty');
+    qtyDisplay.textContent = `QTY : ${newQty}`;
+}
+
+
+    function updateCancelButton() {
+        const cancelBtn = document.querySelector('.cancel-button');
+        if (selectedItems.length > 0) {
+            cancelBtn.disabled = false;
+        } else {
+            cancelBtn.disabled = true;
+        }
+    }
+
+    function cancelItems() {
+        const reason = document.getElementById('cancel-reason')?.value;
+        // if (!reason) {
+        //     alert("Please select a cancellation reason.");
+        //     return;
+        // }
+
+        selectedItems.forEach(index => {
+            const card = document.querySelector(`.order-info-pop-upitem-card[data-index="${index}"]`);
+            const productId = card.getAttribute('data-product-id');
+            const qty = document.getElementById(`qty-${index}`).innerText;
+
+            $.ajax({
+                url: '/customer/remove-order-item/' + productId,
+                type: 'GET',
+                data: {
+                    qtyToRemove: qty,
+                    reason: reason
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Example: You can show a message or reload
+                        console.log('Cancelled:', response.message);
+                        // location.reload();
+                    } else {
+                        document.getElementById('logoutPopup3').style.display = 'flex';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    document.getElementById('logoutPopup3').style.display = 'flex';
+                }
+            });
+        });
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    });
+
+    updateCancelButton();
+</script>
+
 @endsection('content')

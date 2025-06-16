@@ -90,6 +90,7 @@ class User extends Authenticatable
      {
          return $this->belongsTo(PinOffice::class,'pincode_id');
      }
+     
     /**
      * Get the roles for the user.
      */

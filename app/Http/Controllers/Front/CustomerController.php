@@ -302,7 +302,7 @@ class CustomerController extends Controller
             'pincode' => 'required|string|max:6',
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
-            'mobile' => 'required|string|max:15',
+            'mobile' => 'required|string|max:15|min:7',
             'name' => 'required|string|max:255',
         ]);
 
@@ -495,21 +495,30 @@ class CustomerController extends Controller
             $customerDetailHtml = view('front.common.customer-orders', compact('customerDetail'))->render();
             return response()->json(['success' => true,  'customerDetailHtml' => $customerDetailHtml, 'message' => 'Fetch order status wise.']);
 }else{
-   $userorderdata = User::with(['orders'])->where('id', Auth::user()->id)->first();
+$userOrderData = User::with(['orders'])->where('id', Auth::user()->id)->first();
 $customerDetail = [];
 
-foreach($userorderdata->orders as $order) {
-    $cancelproducts = orderCancelItem::with('orderItems.product.images')
+foreach ($userOrderData->orders as $order) {
+    $cancelProducts = OrderCancelItem::with('orderItems.product.images')
         ->where('order_id', $order->id)
         ->where('status_id', $statusId)
         ->get();
     
-    if($cancelproducts->isNotEmpty()) {
-        $customerDetail = array_merge($customerDetail, $cancelproducts->all());
+    if ($cancelProducts->isNotEmpty()) {
+        // Include both order data and its canceled products
+        $customerDetail[] = [
+            'order_data' => $order,
+            'cancel_products' => $cancelProducts
+        ];
     }
 }
-            $customerDetailHtml = view('front.common.customer-orders1', compact('customerDetail'))->render();
-            return response()->json(['success' => true,  'customerDetailHtml' => $customerDetailHtml, 'message' => 'Fetch order status wise.']);
+
+$customerDetailHtml = view('front.common.customer-orders1', compact('customerDetail'))->render();
+return response()->json([
+    'success' => true,
+    'customerDetailHtml' => $customerDetailHtml,
+    'message' => 'Fetch order status wise.'
+]);
 }
 
     }
@@ -591,55 +600,67 @@ foreach($userorderdata->orders as $order) {
         $addressHtml = view('front.common.open-update-adress', ['address' => $address])->render();
         return response()->json(['success' => true, 'html' => $addressHtml, 'address' => $address]);
     }
-    public function removeOrderItem($id,Request $request) {
-        $qty=$request->qytToRemove;
+public function removeOrderItem($id, Request $request)
+{
+    $qtyToRemove = (int) $request->qtyToRemove;
+
     if (auth()->check() && auth()->user()->hasRole('Customer')) {
         $customer = auth()->user();
         $orderItem = OrderItem::find($id);
-        
-        if ($orderItem) {
-            // Reduce the quantity of the order item
-            $orderItem->quantity -= $qty;
-            
-            // If quantity reaches 0 or below, change status to 7
-            if ($orderItem->quantity <= 0) {
-                $orderItem->status_id = 7;
-                $orderItem->quantity = 0; // Ensure quantity doesn't go negative
-            }
-            
-            $orderItem->save();
-            
-            // Handle the canceled quantity in orderCancelItem table
-            $cancelItem = OrderCancelItem::where('order_id', $orderItem->order_id)
-                                        ->where('order_item_id', $id)
-                                        ->first();
-            
-            if ($cancelItem) {
-                // Update existing canceled item
-                $cancelItem->qty += $qty;
-                $cancelItem->save();
-            } else {
-                // Create new canceled item
-                OrderCancelItem::create([
-                    'order_id' => $orderItem->order_id,
-                    'order_item_id' => $id,
-                    'status_id' => 7,
-                    'qty' => $qty,
-                    'price' => $orderItem->price // Assuming price is stored in order item
-                ]);
-            }
-            
+
+        if (!$orderItem) {
             return response()->json([
-                'success' => true, 
-                'message' => 'Order item updated successfully.',
-                'new_qty' => $orderItem->qty,
-                'status_changed' => $orderItem->status_id == 7
+                'success' => false,
+                'message' => 'Order item not found.'
             ]);
         }
+
+        // Prevent removing more than available quantity
+        if ($qtyToRemove <= 0 || $qtyToRemove > $orderItem->quantity) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid quantity to remove.'
+            ]);
+        }
+
+        // Reduce quantity
+        $orderItem->quantity -= $qtyToRemove;
+
+        // If quantity drops to 0 or below, set status to Cancelled (e.g., 7)
+        $statusChanged = false;
+        if ($orderItem->quantity <= 0) {
+            $orderItem->status_id = 7; // Cancelled
+            $orderItem->quantity = 0;
+            $statusChanged = true;
+        }
+
+        $orderItem->save();
+
+        // Log cancellation in OrderCancelItem
+        $cancelItem = OrderCancelItem::firstOrNew([
+            'order_id' => $orderItem->order_id,
+            'order_item_id' => $orderItem->id,
+        ]);
+
+        $cancelItem->status_id = 7;
+        $cancelItem->qty = $cancelItem->qty + $qtyToRemove;
+        $cancelItem->price = $orderItem->price;
+        $cancelItem->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Order item updated successfully.',
+            'new_qty' => $orderItem->quantity,
+            'status_changed' => $statusChanged
+        ]);
     }
-    
-    return response()->json(['success' => false, 'message' => 'Order item not found'], 404);
+
+    return response()->json([
+        'success' => false,
+        'message' => 'Unauthorized action.'
+    ]);
 }
+
 public function resendOtp(Request $request)
 {
     $customer = User::where('mobile', $request->input('mobile'))->first();
@@ -661,4 +682,30 @@ public function resendOtp(Request $request)
         return response()->json(['errors' => ['mobile' => ['No account found for this number. Please register.']]], 422);
     }
 }
+ public function saveGetInTouch(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            // 'message' => 'required|string',
+        ]);
+
+        $visitor = new \App\Models\Visitor($data);
+        $visitor->save();
+
+        return response()->json(['success' => true, 'message' => 'Visitor information saved successfully.'], 201);
+    }
+    public function getOrderData($id){
+        $order = \App\Models\Admin\Order::with(['orderItems.product.images', 'status'])
+            ->where('id', $id)
+            ->first();
+
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found'], 404);
+        }
+
+        $orderHtml = view('front.common.order-detail', ['order' => $order])->render();
+        return response()->json(['success' => true, 'html' => $orderHtml]);
+    }
 }

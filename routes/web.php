@@ -35,7 +35,7 @@ use App\Http\Controllers\contactController;
 
 use App\Http\Controllers\Front\CartController2;
 use Illuminate\Support\Facades\Mail;
-
+use App\Http\Controllers\ArticleSubmissionController;
 
 
 /*
@@ -61,6 +61,8 @@ Route::get('/download-log/{type}/{date}', function ($type, $date) {
 
     return response()->download($filePath);
 });
+
+Route::post('/submit-article', [ArticleSubmissionController::class, 'store'])->name('articles.submit');
 Route::post('/contact-us', [contactController::class, 'store'])->name('contact.store');
 //front routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -98,6 +100,9 @@ Route::get('/log-in', function () {
 Route::get('/register', function () {
     return view('front.register');
 })->name('register');
+Route::get('/write-to-us', function () {
+    return view('front.write-to-us');
+})->name('write.to.us');
 Route::controller(BannerController::class)->group(function () {
     // Display a list of banners
     Route::get('/banners', 'index')->name('banners.index');
@@ -141,6 +146,7 @@ Route::middleware(['auth.customer'])->group(function () {
 
 Route::controller(FrontCustomerController::class)->group(function () {
     // Route::get('/customers/profile', 'profile')->name('customers.profile');
+    Route::post('/save-get-in-touch', 'saveGetInTouch')->name('save.get.in.touch');
     Route::post('/customers/store', 'store')->name('customers.store');
     Route::post('/customers/login', 'login')->name('customer.login');
     Route::get('/customer/save-address', 'saveAddress')->name('save.address');
@@ -152,6 +158,7 @@ Route::controller(FrontCustomerController::class)->group(function () {
     Route::get('/customer/verify-otp/{number}', 'verifyOtp')->name('verify.otp');
     Route::get('/customer/location', 'saveLocation')->name('save.location');
     Route::get('/customer/remove-order-item/{id}', 'removeOrderItem')->name('remove.order.item');
+    Route::get('/get-order-data/{id}', 'getOrderData')->name('order.getOrderData');
 });
 
 Route::controller(FrontContactUsController::class)->group(function () {
