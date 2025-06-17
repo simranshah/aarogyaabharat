@@ -404,27 +404,35 @@
                 $('.LoginPop').show();
             }
 
-            function resendotp(){
-                var mobileNo=document.getElementById('mobilenumber').value;
-                $.ajax({  
-            url: '/customer/resendotp',
-            data: { mobile: mobileNo },
-            type: 'GET',
-            success: function(response) {
-                if (response.success) {
-                    //  toastr.success(response.message);
-                    // location.reload();
-                   
-                } else {
-                     document.getElementById('logoutPopup3').style.display='flex';
-                    // toastr.error(response.message);
+            // Allow OTP resend only 3 times
+            let otpResendCount = 0;
+            const maxOtpResend = 4;
+
+            function resendotp() {
+                if (otpResendCount >= maxOtpResend) {
+                    alert('You have reached the maximum number of OTP requests. Please try again later.');
+                    return;
                 }
-            },
-            error: function(xhr, status, error) {
-                 document.getElementById('logoutPopup3').style.display='flex';
-                // toastr.error('Something went wrong. Please try again.');
-            }
-        });
+                var mobileNo = document.getElementById('mobilenumber').value;
+                $.ajax({
+                    url: '/customer/resendotp',
+                    data: { mobile: mobileNo },
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            otpResendCount++;
+                            // toastr.success(response.message);
+                            // location.reload();
+                        } else {
+                            document.getElementById('logoutPopup3').style.display = 'flex';
+                            // toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        document.getElementById('logoutPopup3').style.display = 'flex';
+                        // toastr.error('Something went wrong. Please try again.');
+                    }
+                });
             }
             $('#mobilenumber').focus();
             document.getElementById("signupForm").addEventListener("submit", function(event) {

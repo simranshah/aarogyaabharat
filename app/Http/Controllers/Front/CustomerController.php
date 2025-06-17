@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\Customer; 
+use App\Models\Admin\Customer;
+use App\Models\Admin\Order;
 use App\Models\Admin\Status; 
 use App\Models\User;
 use App\Models\Front\Adress;
@@ -20,6 +21,7 @@ use App\Models\Admin\PinOffice;
 use App\Models\Admin\Page;
 use Illuminate\Support\Facades\DB;
 use App\Models\orderCancelItem;
+use App\Models\RetrunItems;
 
 
 class CustomerController extends Controller
@@ -487,14 +489,39 @@ class CustomerController extends Controller
             'orderItems.status'
         ]);
     },
-    'addresses'
+    'addresses',
+    'orders.status' // Assuming you want to include the status of the order
 ])
 ->where('id', Auth::user()->id)
 ->first();
-            // \Log::info([$statusId => $customerDetail]);    
-            $customerDetailHtml = view('front.common.customer-orders', compact('customerDetail'))->render();
-            return response()->json(['success' => true,  'customerDetailHtml' => $customerDetailHtml, 'message' => 'Fetch order status wise.']);
-}else{
+
+$totalOrderItems = 0;
+if ($customerDetail && $customerDetail->orders) {
+    foreach ($customerDetail->orders as $order) {
+        $itemCount = 0;
+        if ($order->orderItems) {
+            foreach ($order->orderItems as $item) {
+                if ($item->quantity > 0) {
+                    // Count only the items that match the status
+                    $totalOrderItems++;
+                    $itemCount++;
+                }
+            }
+        }
+        // Attach the item count to the order object
+        $order->item_count = $itemCount;
+    }
+}
+
+// \Log::info([$statusId => $customerDetail]);    
+$customerDetailHtml = view('front.common.customer-orders', compact('customerDetail', 'totalOrderItems'))->render();
+return response()->json([
+    'success' => true,
+    'customerDetailHtml' => $customerDetailHtml,
+    'message' => 'Fetch order status wise.',
+    'totalOrderItems' => $totalOrderItems
+]);
+}else if($statusId!=9){
 $userOrderData = User::with(['orders'])->where('id', Auth::user()->id)->first();
 $customerDetail = [];
 
@@ -514,6 +541,31 @@ foreach ($userOrderData->orders as $order) {
 }
 
 $customerDetailHtml = view('front.common.customer-orders1', compact('customerDetail'))->render();
+return response()->json([
+    'success' => true,
+    'customerDetailHtml' => $customerDetailHtml,
+    'message' => 'Fetch order status wise.'
+]);
+}else{
+    $userOrderData = User::with(['orders'])->where('id', Auth::user()->id)->first();
+$customerDetail = [];
+
+foreach ($userOrderData->orders as $order) {
+    $cancelProducts = RetrunItems::with('orderItems.product.images')
+        ->where('order_id', $order->id)
+        ->where('status_id', $statusId)
+        ->get();
+    
+    if ($cancelProducts->isNotEmpty()) {
+        // Include both order data and its canceled products
+        $customerDetail[] = [
+            'order_data' => $order,
+            'cancel_products' => $cancelProducts
+        ];
+    }
+}
+
+$customerDetailHtml = view('front.common.customer-orders2', compact('customerDetail'))->render();
 return response()->json([
     'success' => true,
     'customerDetailHtml' => $customerDetailHtml,
@@ -603,6 +655,7 @@ return response()->json([
 public function removeOrderItem($id, Request $request)
 {
     $qtyToRemove = (int) $request->qtyToRemove;
+    $cancelorreturn = $request->cancelorreturn;
 
     if (auth()->check() && auth()->user()->hasRole('Customer')) {
         $customer = auth()->user();
@@ -625,18 +678,30 @@ public function removeOrderItem($id, Request $request)
 
         // Reduce quantity
         $orderItem->quantity -= $qtyToRemove;
-
+        $order=Order::find($orderItem->order_id);
+        $statusOforder = $order->status_id;
         // If quantity drops to 0 or below, set status to Cancelled (e.g., 7)
+        if($statusOforder!=6){
         $statusChanged = false;
         if ($orderItem->quantity <= 0) {
             $orderItem->status_id = 7; // Cancelled
             $orderItem->quantity = 0;
             $statusChanged = true;
         }
+    }else{
+        $statusChanged = false;
+        if ($orderItem->quantity <= 0) {
+            $orderItem->status_id = 9; // Return
+            $orderItem->quantity = 0;
+            $statusChanged = true;
+        }
+    }
 
+        // If cancelorreturn is 'cancel', set status to Cancelled (7)
         $orderItem->save();
 
         // Log cancellation in OrderCancelItem
+         if($statusOforder!=6){
         $cancelItem = OrderCancelItem::firstOrNew([
             'order_id' => $orderItem->order_id,
             'order_item_id' => $orderItem->id,
@@ -646,6 +711,17 @@ public function removeOrderItem($id, Request $request)
         $cancelItem->qty = $cancelItem->qty + $qtyToRemove;
         $cancelItem->price = $orderItem->price;
         $cancelItem->save();
+    }else{
+        $returnItem = RetrunItems::firstOrNew([
+            'order_id' => $orderItem->order_id,
+            'order_item_id' => $orderItem->id,
+        ]);
+
+        $returnItem->status_id = 9;
+        $returnItem->qty = $returnItem->qty + $qtyToRemove;
+        $returnItem->price = $orderItem->price;
+        $returnItem->save();
+    }
 
         return response()->json([
             'success' => true,

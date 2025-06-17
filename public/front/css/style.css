@@ -1323,7 +1323,6 @@
        .order-info-product-image {
             width: 40px;
             height: 40px;
-            background-color: #8B0000;
             border-radius: 4px;
             margin-right: 12px;
         }
@@ -1935,4 +1934,4 @@
         .social-icon:hover {
             transform: scale(1.05);
         }
-        
+  .cartProductblock1 .content a{float:left;width:100%;font-size:18px;font-family:'Nunito-Bold';color:#000;margin-bottom:12px}      

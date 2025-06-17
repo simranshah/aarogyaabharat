@@ -1,12 +1,18 @@
 <div class="order-info-pop-upmodal-container">
             <div class="order-info-pop-upmodal-header">
-                <h2 class="order-info-pop-upmodal-title">Cancel Items</h2>
+                @if($order->status_id==2)
+                <h2 class="order-info-pop-upmodal-title" id="headeroforderinfopopup">Cancel/Return Items</h2>
+                @else
+                 <h2 class="order-info-pop-upmodal-title" id="headeroforderinfopopup">Return Items</h2>
+                @endif
                 <button class="order-info-pop-upclose-button" onclick="closeModal()">&times;</button>
             </div>
             
             <div class="order-info-pop-upmodal-content">
                 <div class="order-info-pop-upleft-section">
+                    
                     @foreach ($order->orderItems as $orderItem)
+                    @if($orderItem->quantity>0)
                     <div class="order-info-pop-upitem-card" 
      onclick="toggleItem(this, '{{$loop->index}}')" 
      data-index="{{$loop->index}}" 
@@ -34,6 +40,7 @@
                         </div>
                         <div class="order-info-pop-upproduct-price">Rs {{ $orderItem->product->our_price}}</div>
                     </div>
+                    @endif
                     @endforeach
                 </div>
 
@@ -41,10 +48,19 @@
                     <div class="order-info-pop-upreason-title">Cancellation reason</div>
                     
                     <div class="order-info-pop-updropdown">
-                        <button class="order-info-pop-updropdown-button">
-                            <span>Select reason</span>
-                            <span class="order-info-pop-updropdown-icon">✓</span>
-                        </button>
+                <select id="cancel-reason" class="order-info-pop-updropdown-button">
+                  <option value="">Select Reason</option>
+        <option value="Ordered by Mistake">Ordered by Mistake</option>
+        <option value="Found a Better Price Elsewhere">Found a Better Price Elsewhere</option>
+        <option value="Expected Delivery Time is Too Long">Expected Delivery Time is Too Long</option>
+        <option value="Ordered Wrong Product">Ordered Wrong Product</option>
+        <option value="Changed My Mind">Changed My Mind</option>
+        <option value="Placed Duplicate Order">Placed Duplicate Order</option>
+        <option value="Shipping Charges Too High">Shipping Charges Too High</option>
+        <option value="Wrong Delivery Address">Wrong Delivery Address</option>
+        <option value="Concern About Product Authenticity">Concern About Product Authenticity</option>
+    </select>
+     <div class="error-message" id="select-error-msg" style="color:red;"></div>
                     </div>
 
                     <div class="order-info-pop-uprefund-option">
@@ -57,7 +73,7 @@
                         </div>
                     </div>
 
-                    <button class="order-info-pop-upcancel-button" onclick="cancelItems()">Cancel checked items</button>
+                    <button class="order-info-pop-upcancel-button" onclick=" document.getElementById('logoutPopup6').style.display = 'flex';">Cancel checked items</button>
                 </div>
             </div>
         </div>

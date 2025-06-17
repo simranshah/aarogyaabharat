@@ -39,7 +39,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product.status', 'orderOffer'])->findOrFail($id);
+        $order = Order::with(['customer', 'status', 'orderAddress', 'orderItems.product', 'orderItems.status', 'orderOffer'])->findOrFail($id);
         // dd($order);
         $statuses = Status::all();  
         return view('admin.order.show', compact('order', 'statuses'));
@@ -52,6 +52,12 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
+        $orderItems = OrderItem::where('order_id', $id)->get();
+        foreach ($orderItems as $item) {
+            $item->status_id = $request->status_id;
+            $item->save();
+        }
+          
         $order->status_id = $request->status_id;
         $order->save();
 

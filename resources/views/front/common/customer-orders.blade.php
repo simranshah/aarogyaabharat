@@ -1,7 +1,8 @@
-@if(isset($customerDetail->orders) && $customerDetail->orders)
-    <div class="order-info-container">
+@if(isset($customerDetail->orders) && $customerDetail->orders && $totalOrderItems > 0)
+    <div class="order-info-container" id='orderinfoid'>
         <!-- Order 1 -->
         @foreach ($customerDetail->orders as $orders)
+        @if($orders->item_count > 0)
         
         <div class="order-info-order-card" onclick="openorderdetails({{$orders->id}});"
             data-index="{{$loop->index}}" 
@@ -11,13 +12,14 @@
                 <span class="order-info-order-id">Order ID: {{$orders->id}}</span>
                 <div>
                     <span class="order-info-order-date">Date: {{ \Carbon\Carbon::parse($orders->created_at)->format('d-m-Y') }}</span>
-                    <span class="order-info-order-status">Order Placed</span>
+                    <span class="order-info-order-status">{{$orders->status->name}}</span>
                 </div>
             </div>
             <div class="order-info-delivery-info">
                 Arriving in 4-7 days. We appreciate your patience
             </div>
             @foreach ($orders->orderItems as $orderItems)
+            @if($orderItems->quantity>0)
             <div class="order-info-product-item">
                 <div class="order-info-product-image">
                          @if(  $orderItems->product &&  $orderItems->product->image)
@@ -32,9 +34,11 @@
                     <div class="order-info-product-price">Rs {{ $orderItems->product->our_price}}</div>
                 </div>
                 <button class="order-info-cancel-btn">Cancel Item</button>
-            </div>         
+            </div> 
+            @endif        
             @endforeach
         </div>
+        @endif
         @endforeach
     </div>
 @else

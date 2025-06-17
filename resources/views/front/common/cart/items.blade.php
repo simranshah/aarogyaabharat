@@ -20,7 +20,7 @@
             <img src="{{ asset('storage/' . $cartItem->product->image) }}" alt="{{ $cartItem->product->name }}" />
         </div>
         <div class="content">
-            <p>{{ $cartItem->product->name }}</p>
+            <p><a href="{{ route('products.sub.category.wise', ['slug' => $cartItem->product->category->slug,'subSlug'=>$cartItem->product->slug]) }}">{{ $cartItem->product->name }}</a></p>
             <strong>₹ {{$cartItem->price}}</strong>
             <div class="countProduct">
                 <a href="javascript:void(0);" class="countMinus" data-id="{{ $cartItem->id }}" data-sign="minus"

@@ -7,7 +7,7 @@
                     <span class="order-info-order-date">
                         Date: {{ isset($orderGroup['order_data']->created_at) ? \Carbon\Carbon::parse($orderGroup['order_data']->created_at)->format('d-m-Y') : 'N/A' }}
                     </span>
-                     <span class="order-info-order-status" style="background-color: red;">Order Cancelled</span>
+                     <span class="order-info-order-status" style="background-color: red;">Order Return</span>
                 </div>
             </div>
             

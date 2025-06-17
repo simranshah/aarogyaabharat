@@ -26,7 +26,7 @@ class CartController2 extends Controller
         $session_id = session()->get('cart_id');
         \Log::channel('cart_log')->info('Index method - Session ID:', ['session_id' => $session_id]);
         $customer = Auth::user();
-        $cartProducts = Cart::with(['cartProducts.product', 'offer'])->where(function ($query) use ($customer, $session_id) {
+        $cartProducts = Cart::with(['cartProducts.product.category', 'offer'])->where(function ($query) use ($customer, $session_id) {
             if ($customer) {
                 $query->where('user_id', $customer->id);
             }

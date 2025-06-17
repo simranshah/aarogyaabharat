@@ -135,7 +135,7 @@
                                     </ul>
                                 </div>
                                 <div id="orders">
-                                    @include('front.common.customer-orders')
+                                    {{-- @include('front.common.customer-orders') --}}
                                 </div>
                             </div>
                         </div>
@@ -355,6 +355,20 @@
       <p class="popup-text">Address was successfully saved.</p>
       <div class="popup-buttons">
         <button class="btn cancel-btn" onclick="closePopupadressadd()">OK</button>
+      </div>
+    </div>
+  </div>
+ </div>
+ <div class="log-out">
+<div class="popup-overlay" id="logoutPopup6" style="display: none;">
+    <div class="popup">
+     <a href="{{url()->current()}}"> <button class="close-btn" >&times;</button></a>
+      {{-- <img src="{{asset('front/images/add_adress_success.svg')}}" alt="Logout" class="popup-image1" /> --}}
+      {{-- <h2 class="popup-title">Come back soon!</h2> --}}
+      <p class="popup-text">That hurts a little, talk to us before you go?</p>
+      <div class="popup-buttons">
+    <a href="{{route('raise.query')}}"><button class="btn yes-btn" style="padding: 10px 1px;" >Raise Query</button></a>
+       <button class="btn cancel-btn" onclick="cancelItems();">Cancel</button>
       </div>
     </div>
   </div>
@@ -948,8 +962,8 @@ function chekPincodeAvil(pincode) {
     qtyElement.textContent = newQty;
 
     // Update QTY display
-    const qtyDisplay = card.querySelector('.order-info-pop-upproduct-qty');
-    qtyDisplay.textContent = `QTY : ${newQty}`;
+    // const qtyDisplay = card.querySelector('.order-info-pop-upproduct-qty');
+    // qtyDisplay.textContent = `QTY : ${newQty}`;
 }
 
 
@@ -964,10 +978,14 @@ function chekPincodeAvil(pincode) {
 
     function cancelItems() {
         const reason = document.getElementById('cancel-reason')?.value;
-        // if (!reason) {
-        //     alert("Please select a cancellation reason.");
-        //     return;
-        // }
+        if (!reason) {
+           document.getElementById('select-error-msg').innerHTML='Please select a cancellation reason.';
+            document.getElementById('logoutPopup6').style.display = 'none';
+            return;
+        }
+
+        let ajaxCalls = selectedItems.length;
+        let completedCalls = 0;
 
         selectedItems.forEach(index => {
             const card = document.querySelector(`.order-info-pop-upitem-card[data-index="${index}"]`);
@@ -982,16 +1000,24 @@ function chekPincodeAvil(pincode) {
                     reason: reason
                 },
                 success: function(response) {
+                    completedCalls++;
                     if (response.success) {
                         // Example: You can show a message or reload
                         console.log('Cancelled:', response.message);
-                        // location.reload();
                     } else {
                         document.getElementById('logoutPopup3').style.display = 'flex';
                     }
+                    if (completedCalls === ajaxCalls) {
+                        location.reload();
+                       
+                    }
                 },
                 error: function(xhr, status, error) {
+                    completedCalls++;
                     document.getElementById('logoutPopup3').style.display = 'flex';
+                    if (completedCalls === ajaxCalls) {
+                        location.reload();
+                    }
                 }
             });
         });

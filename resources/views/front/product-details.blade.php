@@ -36,10 +36,10 @@
                         @endforeach
                     @else
                         <div class="prod_slide"><img src="{{ asset('storage/' . $productDetails->image) }}"
-                                alt="{{$productDetails->slug}}" /></div>
+                                alt="{{ $productDetails->slug }}" /></div>
                     @endif
                     <!--<div class="prod_slide"><img src="{{ asset('front/images/wheelchair_2.png') }}" alt="" /></div>
-                                        <div class="prod_slide"><img src="{{ asset('front/images/wheelchair_2.png') }}" alt="" /></div> -->
+                                                    <div class="prod_slide"><img src="{{ asset('front/images/wheelchair_2.png') }}" alt="" /></div> -->
                 </div>
                 <div class="product_details_data">
                     <!-- <div class="rentorpurchase"><img src="images/info-circle_svg.svg" alt="" /><p>Rent or Purchase this product now.!</p></div> -->
@@ -47,8 +47,9 @@
                         <div class="product_details">
                             <div class="nameshare">
                                 <h1>{{ $productDetails->title }}</h1>
-                                <a target="_blank" href="https://wa.me/?text={{ urlencode('Check out this product: ' .$productDetails->title . ' ' .route('products.sub.category.wise', ['slug' => $productDetails->category->slug,'subSlug'=>$productDetails->slug])) }}">
-                                    <img src="{{ asset('front/images/Share.svg') }}" alt="Share on WhatsApp" >
+                                <a target="_blank"
+                                    href="https://wa.me/?text={{ urlencode('Check out this product: ' . $productDetails->title . ' ' . route('products.sub.category.wise', ['slug' => $productDetails->category->slug, 'subSlug' => $productDetails->slug])) }}">
+                                    <img src="{{ asset('front/images/Share.svg') }}" alt="Share on WhatsApp">
                                 </a>
                             </div>
                             <div class="product_description">
@@ -58,51 +59,53 @@
                                 <h2>
                                     ₹ @indianCurrency($productDetails->our_price)
                                     <del class="original-price" style="font-size: 13px;">₹ @indianCurrency($productDetails->original_price)</del>
-                                    <span class="discount" style="color: green; font-size:16px; display: inline-flex; align-items: center; gap: 5px;">(@indianCurrency($productDetails->discount_percentage)% OFF)
-                                        
+                                    <span class="discount"
+                                        style="color: green; font-size:16px; display: inline-flex; align-items: center; gap: 5px;">(@indianCurrency($productDetails->discount_percentage)%
+                                        OFF)
+
                                     </span>
                                 </h2>
-                                
+
                             </div>
-                            @if($productDetails->features_specification!="")
-                            <div class="features_specification">
-                                <h2>Features & Specification</h2>
-                                <ul>
-                                    {!! html_entity_decode($productDetails->features_specification) !!}
-                                </ul>
-                            </div>
+                            @if ($productDetails->features_specification != '')
+                                <div class="features_specification">
+                                    <h2>Features & Specification</h2>
+                                    <ul>
+                                        {!! html_entity_decode($productDetails->features_specification) !!}
+                                    </ul>
+                                </div>
                             @endif
-                            @if($productDetails->about_item!="")
-                            <div class="features_specification">
-                                <h2>About this item</h2>
-                                <ul>
-                                    {!! html_entity_decode($productDetails->about_item) !!}
-                                </ul>
-                            </div>
+                            @if ($productDetails->about_item != '')
+                                <div class="features_specification">
+                                    <h2>About this item</h2>
+                                    <ul>
+                                        {!! html_entity_decode($productDetails->about_item) !!}
+                                    </ul>
+                                </div>
                             @endif
-                            @if($productDetails->measurements!="")
-                            <div class="features_specification">
-                                <h2>Measurements</h2>
-                                <ul>
-                                    {!! html_entity_decode($productDetails->measurements) !!}
-                                </ul>
-                            </div>
+                            @if ($productDetails->measurements != '')
+                                <div class="features_specification">
+                                    <h2>Measurements</h2>
+                                    <ul>
+                                        {!! html_entity_decode($productDetails->measurements) !!}
+                                    </ul>
+                                </div>
                             @endif
-                            @if($productDetails->usage_instructions!="")
-                            <div class="features_specification">
-                                <h2>Usage instructions</h2>
-                                <ul>
-                                    {!! html_entity_decode($productDetails->usage_instructions) !!}
-                                </ul>
-                            </div>
+                            @if ($productDetails->usage_instructions != '')
+                                <div class="features_specification">
+                                    <h2>Usage instructions</h2>
+                                    <ul>
+                                        {!! html_entity_decode($productDetails->usage_instructions) !!}
+                                    </ul>
+                                </div>
                             @endif
-                            @if($productDetails->why_choose_this_product!="")
-                            <div class="features_specification">
-                                <h2>Why Choose This Product</h2>
-                                <ul>
-                                    {!! html_entity_decode($productDetails->why_choose_this_product) !!}
-                                </ul>
-                            </div>
+                            @if ($productDetails->why_choose_this_product != '')
+                                <div class="features_specification">
+                                    <h2>Why Choose This Product</h2>
+                                    <ul>
+                                        {!! html_entity_decode($productDetails->why_choose_this_product) !!}
+                                    </ul>
+                                </div>
                             @endif
                             {{-- <div class="details">
                                 
@@ -116,11 +119,11 @@
                         <div class="cart_buy">
                             @if (!isset($productDetails->productAttributes) || $productDetails->productAttributes->stock == 0)
                                 {{-- <span style="color: red; font-weight: bold;">Out of Stock</span> --}}
-                                    {{-- <button type="submit" class="addtocart" onclick="toastr.error(
+                                {{-- <button type="submit" class="addtocart" onclick="toastr.error(
                                                 'Product is out of stock!'
                                                 );">Add to Cart</button> --}}
-                                <a href="#;" class="addtocart disabled"  style="background-color: #d7d7d7 !importent;color: red;"
-                                    >Sold out</a>
+                                <a href="#;" class="addtocart disabled"
+                                    style="background-color: #d7d7d7 !importent;color: red;">Sold out</a>
                             @else
                                 <form action="{{ route('cart.add', ['productId' => $productDetails->id]) }}" method="POST"
                                     style="display:inline;">
@@ -164,20 +167,21 @@
         </div>
     </section>
     @if (isset($offerAndDiscounts) && $offerAndDiscounts->isNotEmpty())
-    <section class="offer_Part">
-        <div class="container">
-            <div class="titlePart">
-                <h4>Offer & Discount</h4>
-                <a href="#;">View All <img src="{{ asset('front/images/orange_arrow.svg') }}" alt="orange_arrow"> </a>
-            </div>
-            <div class="rowMob">
-                <div class="offer_slider getprogressWidth arrowOnProgress">
-                    @include('front.common.offer-discounts')
+        <section class="offer_Part">
+            <div class="container">
+                <div class="titlePart">
+                    <h4>Offer & Discount</h4>
+                    <a href="#;">View All <img src="{{ asset('front/images/orange_arrow.svg') }}" alt="orange_arrow">
+                    </a>
                 </div>
-                <div class="progressBar"></div>
+                <div class="rowMob">
+                    <div class="offer_slider getprogressWidth arrowOnProgress">
+                        @include('front.common.offer-discounts')
+                    </div>
+                    <div class="progressBar"></div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
     @endif
     @include('front.common.recentview')
 
@@ -191,30 +195,29 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="application/ld+json">
         {
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "{{ url('/') }}"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "{{$productDetails->category->name }}",
-              "item": "{{ url('/categories/' .$productDetails->category->slug) }}"
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "{{ $productDetails->name }}",
-              "item": "{{ url()->current() }}"
-            }
-          ]
-        }
-        </script>        
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "{{$productDetails->name}}",
+        "image": [
+          "{{url('/')}}{{ asset('storage/' . $productDetails->image) }}"
+          ],
+       "description": "{{$productDetails->description}}",
+      "offers": {
+      "@type": "Offer",
+    "url": "{{ url()->current() }}",
+     "priceCurrency": "INR",
+     "price": "{{$productDetails->our_price}}",
+     "priceValidUntil": "2027-12-31",
+     "itemCondition": "https://schema.org/NewCondition",
+     "availability": "https://schema.org/InStock",
+     "seller": {
+      "@type": "Organization",
+      "name": "Aarogyaa Bharat"
+    }
+  }
+},
+
+        </script>
     <script>
         $(document).ready(function() {
             $('#buy-now-button').on('click', function(e) {
@@ -236,17 +239,18 @@
                     success: function(data) {
                         if (data.error) {
                             // if(data.error=='')
-                             document.getElementById('logoutPopup3').style.display='flex';
+                            document.getElementById('logoutPopup3').style.display = 'flex';
                             // toastr.error(data.error);
                             return;
                         }
-                     
+
                         var options = {
                             "key": razorpayKey,
                             "amount": data.amount,
                             "currency": "INR",
                             "name": "Aarogyaa Bharat",
-                            "description": "Purchase product {{$productDetails->name}}: "+data.amount,
+                            "description": "Purchase product {{ $productDetails->name }}: " +
+                                data.amount,
                             "order_id": data.id,
                             "handler": function(response) {
                                 $.ajax({
@@ -268,14 +272,15 @@
                                             'Payment Verified') {
                                             // toastr.success(
                                             //     'Payment successful!');
-                                             var form = $('<form>', {
+                                            var form = $('<form>', {
                                                 'action': "{{ route('thanks') }}",
                                                 'method': 'GET'
                                             });
                                             form.append($('<input>', {
                                                 'type': 'hidden',
                                                 'name': 'order_id',
-                                                'value': response.order_id
+                                                'value': response
+                                                    .order_id
                                             }));
                                             $('body').append(form);
                                             form.submit();
@@ -284,14 +289,18 @@
                                             // toastr.error(
                                             //     'Payment verification failed!'
                                             //     );
-                                             document.getElementById('logoutPopup3').style.display='flex';
+                                            document.getElementById(
+                                                    'logoutPopup3').style
+                                                .display = 'flex';
                                         }
                                     },
                                     error: function(xhr) {
                                         // toastr.error(
                                         //     'Payment verification error: ' +
                                         //     xhr.responseJSON.error);
-                                         document.getElementById('logoutPopup3').style.display='flex';
+                                        document.getElementById(
+                                                'logoutPopup3').style
+                                            .display = 'flex';
                                     }
                                 });
                             },
@@ -311,19 +320,22 @@
                     error: function(xhr) {
                         //   document.getElementById('logoutPopup3').style.display='flex';
                         // toastr.error(xhr.responseJSON.error|| xhr.responseJSON.message || 'An error occurred.');
-                        if( xhr.responseJSON.message=='Please add an address to proceed with payment.') {
-                            document.getElementById('text-btween-cartpopup').innerHTML='Let’s add your address first.'
+                        if (xhr.responseJSON.message ==
+                            'Please add an address to proceed with payment.') {
+                            document.getElementById('text-btween-cartpopup').innerHTML =
+                                'Let’s add your address first.'
                             cartPopup();
-                                localStorage.setItem('address_required', '1');
-                                window.location.href = "{{ route('customers.profile') }}";
-                            
-                            
-                        }else if(xhr.responseJSON.message=='Please login to proceed with payment.') {
-                           window.location.href="{{route('login')}}"
-                    }else{
-                        document.getElementById('logoutPopup3').style.display='flex';
+                            localStorage.setItem('address_required', '1');
+                            window.location.href = "{{ route('customers.profile') }}";
+
+
+                        } else if (xhr.responseJSON.message ==
+                            'Please login to proceed with payment.') {
+                            window.location.href = "{{ route('login') }}"
+                        } else {
+                            document.getElementById('logoutPopup3').style.display = 'flex';
+                        }
                     }
-                }
                 });
             });
         });
