@@ -11,11 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('blog', function (Blueprint $table) {
-            $table->string('meta_title')->nullable()->after('title');
-            $table->string('meta_description')->nullable()->after('meta_title');
-           
-        });
+        
     }
 
     /**
@@ -23,8 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('blog', function (Blueprint $table) {
-            $table->dropColumn(['meta_title', 'meta_description']);
-        });
+        
     }
 };
