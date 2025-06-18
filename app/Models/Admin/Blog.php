@@ -21,7 +21,8 @@ class Blog extends Model
         'views',
         'seo_meta_tag',
         'seo_meta_tag_title',
-        'page_title'
+        'page_title',
+        'blog_product_ids',
     ];
 
 

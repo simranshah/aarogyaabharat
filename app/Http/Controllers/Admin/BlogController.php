@@ -10,6 +10,7 @@ use Yajra\DataTables\DataTables;
 use Str;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Admin\Page;
+use App\Models\Admin\Product;
 
 class BlogController extends Controller
 {
@@ -205,7 +206,8 @@ class BlogController extends Controller
     }
      public function newcreate()
     {
-        return view('admin.blogs.new-add-form');
+        $products=Product::with('category')->get();
+        return view('admin.blogs.new-add-form', compact('products'));
     }
     public function newstore(Request $request)
     {
@@ -216,6 +218,8 @@ class BlogController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content_html' => 'required|string',
+            'meta_description' => 'required|string|max:255',
+            'meta_title' => 'required|string|max:255',
             
         ]);
     //   dd($request->all());
@@ -227,9 +231,10 @@ class BlogController extends Controller
         $blog->content_html = $request->content_html;
         $blog->author = $request->article_author;
         $blog->tagname = $request->tagename;
-        $blog->seo_meta_tag = $request->seo_meta_tag;
-        $blog->seo_meta_tag_title = $request->seo_meta_tag_title;
+        $blog->seo_meta_tag = $request->meta_description;
+        $blog->seo_meta_tag_title = $request->meta_title;
         $blog->page_title = $request->title;
+        $blog->blog_product_ids = $request->product_ids; // Store product IDs as JSON
         $blog->save();
 
         // Handle file upload
@@ -246,7 +251,8 @@ class BlogController extends Controller
     public function newedit($id)
     {
         $blog = Blog::findOrFail($id);
-        return view('admin.blogs.new-edit-form', compact('blog'));
+        $products = Product::with('category')->get();
+        return view('admin.blogs.new-edit-form', compact('blog', 'products'));
     }
     public function newupdate(Request $request, $id)
     {
@@ -255,6 +261,8 @@ class BlogController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content_html' => 'required|string',
+            'meta_description' => 'required|string|max:255',
+            'meta_title' => 'required|string|max:255',
             // 'image' => 'required',
             // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -266,9 +274,10 @@ class BlogController extends Controller
         $blog->content_html = $request->content_html;
         $blog->author = $request->article_author;
         $blog->tagname = $request->tagename;
-        $blog->seo_meta_tag = $request->seo_meta_tag;
-        $blog->seo_meta_tag_title = $request->seo_meta_tag_title;
+        $blog->seo_meta_tag = $request->meta_description;
+        $blog->seo_meta_tag_title = $request->meta_title;
         $blog->page_title = $request->title;
+        $blog->blog_product_ids = $request->product_ids; // Store product IDs as JSON
         $blog->save();
         if ($request->hasFile('image')) {
             // Delete the old image if it exists

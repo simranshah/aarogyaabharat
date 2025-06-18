@@ -103,6 +103,10 @@ Route::get('/register', function () {
 Route::get('/write-to-us', function () {
     return view('front.write-to-us');
 })->name('write.to.us');
+Route::post('/', function () {
+    // Let the middleware handle the login logic
+    return redirect('/');
+});
 Route::controller(BannerController::class)->group(function () {
     // Display a list of banners
     Route::get('/banners', 'index')->name('banners.index');
@@ -150,7 +154,7 @@ Route::controller(FrontCustomerController::class)->group(function () {
     Route::post('/customers/store', 'store')->name('customers.store');
     Route::post('/customers/login', 'login')->name('customer.login');
     Route::get('/customer/save-address', 'saveAddress')->name('save.address');
-    Route::get('/customer/resendotp', 'resendOtp')->name('customer.resendotp');
+    // Route::get('/customer/resendotp', 'resendOtp')->name('customer.resendotp');
     Route::get('/customer/get-address/{id}', 'getAddress')->name('get.address');
     Route::get('/customer/get-update-address/{id}', 'getUpdateAddress')->name('get.update.address');
     Route::get('/customer/update-address', 'UpdateAddress')->name('customers.profile.address.update');
@@ -160,7 +164,9 @@ Route::controller(FrontCustomerController::class)->group(function () {
     Route::get('/customer/remove-order-item/{id}', 'removeOrderItem')->name('remove.order.item');
     Route::get('/get-order-data/{id}', 'getOrderData')->name('order.getOrderData');
 });
-
+Route::middleware(['custom.throttle:4,60'])->group(function () {
+     Route::get('/customer/resendotp', [FrontCustomerController::class, 'resendOtp'])->name('customer.resendotp');
+});
 Route::controller(FrontContactUsController::class)->group(function () {
     Route::get('/contact-us', 'frontIndex')->name('front.contact');
 });

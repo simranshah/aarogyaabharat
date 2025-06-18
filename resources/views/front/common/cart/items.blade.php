@@ -17,7 +17,9 @@
             <a href="#;"><img src="{{ asset('front/images/Share.svg') }}" alt="Share" /></a>
         </div>
         <div class="prodImg">
+            <a href="{{ route('products.sub.category.wise', ['slug' => $cartItem->product->category->slug,'subSlug'=>$cartItem->product->slug]) }}">
             <img src="{{ asset('storage/' . $cartItem->product->image) }}" alt="{{ $cartItem->product->name }}" />
+            </a>
         </div>
         <div class="content">
             <p><a href="{{ route('products.sub.category.wise', ['slug' => $cartItem->product->category->slug,'subSlug'=>$cartItem->product->slug]) }}">{{ $cartItem->product->name }}</a></p>

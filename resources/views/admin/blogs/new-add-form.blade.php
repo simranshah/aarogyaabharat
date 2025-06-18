@@ -92,6 +92,96 @@
       padding: 10px;
       text-align: left;
     }
+       .dropdown-container {
+            position: relative;
+          
+            font-family: Arial, sans-serif;
+            
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .dropdown-wrapper {
+            position: relative;
+        }
+        .dropdown-arrow {
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            cursor: pointer;
+            color: #666;
+            font-size: 12px;
+            pointer-events: none;
+        }
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            background: white;
+            z-index: 1000;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 5px;
+        }
+        .dropdown-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .dropdown-item:hover {
+            background-color: #f8f8f8;
+        }
+        .dropdown-item .product-name {
+            font-weight: 500;
+        }
+        .dropdown-item .category {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+        .selected-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .selected-tag {
+            background: #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+        }
+        .remove-btn {
+            margin-left: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 12px;
+            padding: 0;
+        }
+        .remove-btn:hover {
+            color: #333;
+        }
+        .no-results {
+            padding: 12px;
+            color: #666;
+            font-size: 13px;
+            text-align: center;
+        }
+        .hidden-input {
+            display: none;
+        }
 </style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -177,6 +267,38 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="blogDescription">Meta Title</label>
+                                    <textarea name="meta_title" class="form-control @error('meta_title') is-invalid @enderror" id="meta_title" placeholder="Enter Meta Title">{{ old('meta_title') }}</textarea>
+                                    @error('meta_title')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="blogDescription">Meta Description</label>
+                                    <textarea name="meta_description" class="form-control @error('meta_description') is-invalid @enderror" id="meta_description" placeholder="Enter Meta description">{{ old('meta_title') }}</textarea>
+                                    @error('meta_description')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="dropdown-container">
+        <div class="selected-items" id="selectedItems"></div>
+        
+        <div class="dropdown-wrapper">
+            <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput" 
+                placeholder="Search or select product"
+                autocomplete="off"
+            >
+            <div class="dropdown-arrow" id="dropdownArrow">▼</div>
+            <div class="dropdown-list" id="dropdownList"></div>
+        </div>
+        
+        <input type="text" class="hidden-input" id="selectedIds" name="selectedIds">
+        <input type="hidden"  id="selectedIds1" name="product_ids">
+    </div>
                                 <div class="form-group">
                                     <div class="editormain-container">
                                         <div class="toolbar">
@@ -630,5 +752,176 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
+<script>
+        // This is what you would get from Laravel (PHP array converted to JSON)
+        // In your actual implementation, use: 
+        const laravelProducts = @json($products);
+        // Conversion function - Laravel array to your required format
+        function convertLaravelArray(laravelArray) {
+            const converted = {};
+            laravelArray.forEach(product => {
+                converted[product.id] = {
+                    id: product.id,
+                    name: product.name,
+                    category: product.category.name || 'Uncategorized' // Handle case where category might be null
+                };
+            });
+            return converted;
+        }
 
+        class SearchableDropdown {
+            constructor() {
+                // Convert the Laravel array to your required format
+                this.products = convertLaravelArray(laravelProducts);
+                
+                this.selectedProducts = {};
+                this.filteredProducts = Object.values(this.products);
+                this.isOpen = false;
+                
+                this.initElements();
+                this.bindEvents();
+                this.renderDropdownItems();
+            }
+            
+            initElements() {
+                this.searchInput = document.getElementById('searchInput');
+                this.dropdownList = document.getElementById('dropdownList');
+                this.dropdownArrow = document.getElementById('dropdownArrow');
+                this.selectedItems = document.getElementById('selectedItems');
+                this.selectedIdsInput = document.getElementById('selectedIds');
+            }
+            
+            bindEvents() {
+                this.searchInput.addEventListener('input', (e) => {
+                    this.handleSearch(e.target.value);
+                });
+                
+                this.searchInput.addEventListener('focus', () => {
+                    this.openDropdown();
+                });
+                
+                this.searchInput.addEventListener('click', () => {
+                    this.openDropdown();
+                });
+                
+                this.dropdownArrow.addEventListener('click', () => {
+                    this.toggleDropdown();
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!this.dropdownList.contains(e.target) && 
+                        !this.searchInput.contains(e.target) && 
+                        !this.dropdownArrow.contains(e.target)) {
+                        this.closeDropdown();
+                    }
+                });
+            }
+            
+            handleSearch(query) {
+                this.filteredProducts = Object.values(this.products).filter(product => 
+                    product.name.toLowerCase().includes(query.toLowerCase()) &&
+                    !this.selectedProducts[product.id]
+                );
+                this.renderDropdownItems();
+                this.openDropdown();
+            }
+            
+            toggleDropdown() {
+                this.isOpen ? this.closeDropdown() : this.openDropdown();
+            }
+            
+            openDropdown() {
+                this.dropdownList.style.display = 'block';
+                this.isOpen = true;
+                this.dropdownArrow.textContent = '▲';
+            }
+            
+            closeDropdown() {
+                this.dropdownList.style.display = 'none';
+                this.isOpen = false;
+                this.dropdownArrow.textContent = '▼';
+            }
+            
+            renderDropdownItems() {
+                if (this.filteredProducts.length === 0) {
+                    this.dropdownList.innerHTML = '<div class="no-results">No matching products found</div>';
+                    return;
+                }
+                
+                this.dropdownList.innerHTML = this.filteredProducts
+                    .map(product => `
+                        <div class="dropdown-item" data-id="${product.id}">
+                            <div class="product-name">${product.name}</div>
+                            <div class="category">${product.category}</div>
+                        </div>
+                    `).join('');
+                
+                this.dropdownList.querySelectorAll('.dropdown-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const id = parseInt(item.dataset.id);
+                        this.selectProduct(id);
+                    });
+                });
+            }
+            
+            selectProduct(id) {
+                if (!this.selectedProducts[id]) {
+                    this.selectedProducts[id] = this.products[id];
+                    this.renderSelectedItems();
+                    this.updateSelectedIds();
+                    this.closeDropdown();
+                    this.searchInput.value = '';
+                    this.handleSearch('');
+                    this.searchInput.focus();
+                }
+            }
+            
+            removeProduct(id) {
+                delete this.selectedProducts[id];
+                this.renderSelectedItems();
+                this.updateSelectedIds();
+                this.filteredProducts = Object.values(this.products).filter(p => 
+                    !this.selectedProducts[p.id]
+                );
+                this.renderDropdownItems();
+            }
+            
+            renderSelectedItems() {
+                const selectedProducts = Object.values(this.selectedProducts);
+                
+                if (selectedProducts.length === 0) {
+                    this.selectedItems.innerHTML = '';
+                    return;
+                }
+                
+                this.selectedItems.innerHTML = selectedProducts
+                    .map(product => `
+                        <div class="selected-tag">
+                            ${product.name}
+                            <button class="remove-btn" data-id="${product.id}">✕</button>
+                        </div>
+                    `).join('');
+                
+                this.selectedItems.querySelectorAll('.remove-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const productId = parseInt(btn.dataset.id);
+                        this.removeProduct(productId);
+                    });
+                });
+            }
+            
+            updateSelectedIds() {
+                const idsString = Object.keys(this.selectedProducts).join('|');
+                this.selectedIdsInput.value = idsString;
+                console.log("Selected IDs:", idsString);
+                document.getElementById('selectedIds1').value=idsString;
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new SearchableDropdown();
+        });
+    </script>
 @endsection

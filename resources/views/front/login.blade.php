@@ -250,6 +250,7 @@
                                                 and
                                                 Conditions</a>.
                                         </div>
+                                        <div class="errormsg" style="color: red;margin-bottom:0px;" id="msg-for-otp-send1"></div>
                                         <button class="submitBTN">Submit</button>
                                     </div>
                                     <a href="">Need Help!</a>
@@ -421,6 +422,8 @@
                     success: function(response) {
                         if (response.success) {
                             otpResendCount++;
+                            document.getElementById("msg-for-otp-send1").style.color = 'orange';
+                            document.getElementById("msg-for-otp-send1").innerHTML = 'Attempts left: ' + (maxOtpResend - otpResendCount);
                             // toastr.success(response.message);
                             // location.reload();
                         } else {
@@ -429,7 +432,17 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        document.getElementById('logoutPopup3').style.display = 'flex';
+                        // console.log(response);
+                        // document.getElementById('logoutPopup3').style.display = 'flex';
+                        if (xhr.status === 429) {
+                            let errorMsg = "You have exceeded your request limit. Please try again later.";
+                            // if (xhr.responseJSON && xhr.responseJSON.message) {
+                            //     errorMsg = xhr.responseJSON.message;
+                            // }
+                             document.getElementById("msg-for-otp-send1").style.color = 'red';
+                            document.getElementById("msg-for-otp-send1").innerHTML = errorMsg;
+                            // console.log(xhr.responseText);
+                        }
                         // toastr.error('Something went wrong. Please try again.');
                     }
                 });

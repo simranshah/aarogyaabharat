@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\UATLoginMiddleware::class,
         ],
 
         'api' => [
@@ -66,5 +67,6 @@ class Kernel extends HttpKernel
         'check.admin.access' => \App\Http\Middleware\CheckAdminAccess::class,
         'auth.customer' => \App\Http\Middleware\CheckCustomerAuth::class,
         'auth.customer' => \App\Http\Middleware\AuthCustomer::class,
+        'custom.throttle' => \App\Http\Middleware\CustomThrottleMiddleware::class,
     ];
 }

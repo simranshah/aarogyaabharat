@@ -153,6 +153,7 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
+    'require_uat_login' => env('ENABLE_UAT_LOGIN', false),
 
     'providers' => [
 

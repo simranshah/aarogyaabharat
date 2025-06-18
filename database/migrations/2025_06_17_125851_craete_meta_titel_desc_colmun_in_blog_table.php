@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
+        Schema::table('blogs', function (Blueprint $table) {
+            $table->string('blog_product_ids')->nullable();
+        });
     }
 
     /**
@@ -19,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+        Schema::table('blogs', function (Blueprint $table) {
+            $table->dropColumn('blog_product_ids');
+        });
     }
 };
