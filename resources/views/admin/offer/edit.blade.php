@@ -48,6 +48,24 @@
                     @enderror
                   </div>
                   <div class="form-group">
+                    <label for="valueInput">Up-to Off</label>
+                    <input type="number" name="up_to_off" class="form-control" id="valueInput" placeholder="Enter Up-to Off" value="{{ old('up_to_off', $offerAndDiscount->up_to_off) }}">
+                    @error('up_to_off')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="completeOffInput">Complete Off On</label>
+                    <select name="complete_off_on" class="form-control" id="completeOffInput">
+                      <option value="">Select Option</option>
+                      <option value="delivery" {{ old('complete_off_on', $offerAndDiscount->complete_off_on) == 'delivery' ? 'selected' : '' }}>Delivery</option>
+                      <option value="gst" {{ old('complete_off_on', $offerAndDiscount->complete_off_on) == 'gst' ? 'selected' : '' }}>GST</option>
+                    </select>
+                    @error('complete_off_on')
+                      <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                  </div>
+                  <div class="form-group">
                     <label for="valueInput">Code</label>
                     <input type="text" name="code" class="form-control" id="valueInput" placeholder="Enter Code" value="{{ old('code', $offerAndDiscount->value) }}">
                     @error('code')

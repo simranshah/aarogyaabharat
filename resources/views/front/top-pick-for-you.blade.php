@@ -7,7 +7,7 @@
     <div class="container">
         <ul>
             <li><a href="{{ route('home') }}">Home</a> </li>
-            <li><a href="{{ route('products.category') }}">Top Pick For You</a> </li>
+            <li><a href="">Top Pick For You</a> </li>
         </ul>
     </div>    
 </div>

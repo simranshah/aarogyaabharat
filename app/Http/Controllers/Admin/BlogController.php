@@ -80,7 +80,13 @@ class BlogController extends Controller
         $seoMetaTag = $blogDetails->description ?? '';
         $seoMetaTagTitle = $blogDetails->page_title ?? '';
         $pageTitle = $blogDetails->page_title ?? '';
-        return view('front.blog-details', compact('blogDetails', 'twoBlogs', 'seoMetaTag','seoMetaTagTitle', 'pageTitle'));
+        $productIds = explode('|', $blogDetails->blog_product_ids); // Split the IDs by the pipe
+        if($productIds!=null){
+        $products = Product::with('category')->whereIn('id', $productIds)->get();
+        }else{
+           $products = Product::with('category')->get(6); 
+        }   
+        return view('front.blog-details', compact('blogDetails', 'twoBlogs', 'seoMetaTag','seoMetaTagTitle', 'pageTitle','products'));
     }
 
     public function create()

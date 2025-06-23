@@ -7,7 +7,7 @@
     <div class="container">
         <ul>
             <li><a href="{{ route('home') }}">Home</a> </li>
-            <li><a href="{{ route('products.category') }}">Product Cateogry</a> </li>
+            <li><a href="">Product Cateogry</a> </li>
         </ul>
     </div>    
 </div>
@@ -16,7 +16,7 @@
     <div class="container">
        <div class="titlePart">
             <h4>Category</h4>
-            <a href="{{route('products.category')}}">View All <img src="{{ asset('front/images/orange_arrow.svg')}}" alt="orange_arrow"> </a>
+            <a href="">View All <img src="{{ asset('front/images/orange_arrow.svg')}}" alt="orange_arrow"> </a>
         </div>
         <div class="category_all_box catgory_slider getprogressWidth">
             @foreach ($categories as $category)

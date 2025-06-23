@@ -11,21 +11,27 @@
                             <ul>
                                 <li><a href="{{ route('customer.about.us') }}">About</a></li>
                                 <li><a href="{{ route('privacy.policy') }}">Privacy Policy</a></li>
-                                <li><a href="{{ route('terms.and.conditions') }}">Terms and Condtions</a></li>
+                                
                             </ul>
                         </div>
                         <div class="links_text">
                             <ul>
                                 <li><a href="{{ route('blogs') }}">Blogs</a></li>
-                                <li><a href="{{ route('faqs') }}">Frequently Asked Questions</a></li>
-                                <li><a href="{{ route('front.contact') }}">Contact us</a></li>
+                                <li><a href="{{ route('faqs') }}">FAQ's</a></li>
+                               
                             </ul>
                         </div>
                         <div class="links_text">
                             <ul>
                                 <li><a href="{{ route('write.to.us') }}">Write For Us</a></li>
+                                <li><a href="{{ route('front.contact') }}">Contact us</a></li>
                                 {{-- <li><a href="{{ route('faqs') }}">Frequently Asked Questions</a></li>
                                 <li><a href="{{ route('front.contact') }}">Contact us</a></li> --}}
+                            </ul>
+                        </div>
+                        <div class="links_text">
+                            <ul>
+                               <li><a href="{{ route('terms.and.conditions') }}">Terms and Condtions</a></li>
                             </ul>
                         </div>
                     </div>

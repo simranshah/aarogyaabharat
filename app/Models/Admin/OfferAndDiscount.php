@@ -20,6 +20,8 @@ class OfferAndDiscount extends Model
         'title',
         'description',
         'image',
+        'up_to_off',
+        'complete_off_on',
     ];
 
     protected $dates = [

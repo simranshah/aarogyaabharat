@@ -73,7 +73,7 @@
         <div class="container">
             <div class="titlePart">
                 <h4>Category</h4>
-                <a href="{{ route('products.category') }}">View All <img src="{{ asset('front/images/orange_arrow.svg') }}"
+                <a href="">View All <img src="{{ asset('front/images/orange_arrow.svg') }}"
                         alt="orange_arrow"> </a>
             </div>
             <div class="category_all_box catgory_slider getprogressWidth arrowOnProgress">

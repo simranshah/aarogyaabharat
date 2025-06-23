@@ -709,22 +709,33 @@
                         type: 'POST',
                         data: {
                             _token: "{{ csrf_token() }}", // CSRF token for security
+                            cartId:"{{ $cartProducts[0]->id }}",
                             couponCode: couponCode // Coupon code entered by the user
                         },
                         success: function(response) {
-                            if (response.success) {
-                                // toastr.success(response.message);
-                                // Perform additional actions, such as updating the cart or showing a modal
-                                // $('#offerModal').hide();
-                                $('.flatDicountPop').css('display', 'flex');
+                        if (response.success) {
+                            // toastr.success(response.message);
+                            document.getElementById('offerModal').style.display='none';
+                            if (single) {
+                                $('.flatOffer .removeDiscount').css('display', 'block');
+                                $('#applyCoupon').hide();
+                                $('.offer-apply-success').show();
                             } else {
-                                toastr.error(response.message); // Display error message if any
+                                $('#apply-' + couponCode).hide();
+                                $('#removeDiscount-' + couponCode).show();
+                                $('.offer-apply-success').show();
                             }
-                        },
-                        error: function(xhr, status, error) {
-                             document.getElementById('logoutPopup3').style.display='flex';
-                            // toastr.error('Something went wrong. Please try again later.');
+                            $('#orderSummery').html(response.orderSummaryResponse);
+                            $('#offer-html').html(response.couponHtml);
+                            $('.flatDicountPop').css('display', 'flex');
+                        } else {
+                            // toastr.error(response.message);
                         }
+                    },
+                    error: function(xhr, status, error) {
+                         document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error('Something went wrong. Please try again later.');
+                    }
                     });
                 });
             });

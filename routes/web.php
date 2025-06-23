@@ -81,7 +81,7 @@ Route::controller(FrontProductController::class)->group(function () {
     Route::get('/search/products','searchProducts')->name('search.products');
     Route::get('/search/products/results/{query}', 'searchProductsResult')->name('search.products.result');
      Route::get('/search/products/results/{query}/{offset}', 'searchloadmore')->name('search.products.result.more');
-    Route::get('/categories', 'productCatogory')->name('products.category');
+    // Route::get('/categories', 'productCatogory')->name('products.category');
     Route::get('/categories/{slug}', 'productCatogoryWise')->name('products.category.wise');
     Route::get('/categories/{slug}/{subSlug}', 'productSubCatogoryWise')->name('products.sub.category.wise');
     Route::get('/sale', 'flashSale')->name('products.flash.sale');
@@ -177,7 +177,7 @@ Route::controller(CartController2::class)->group(function () {
     Route::delete('/cart/delete-item/{cartItemId}', [CartController2::class, 'deleteItem'])->name('cart.delete-item');
     Route::post('/cart/update-quantity', [CartController2::class, 'updateCartItemQuantity'])->name('cart.update-quantity');
     Route::post('/cart/update-visibility', [CartController2::class, 'updateCartItemVisibility'])->name('cart.update-visibility');
-    Route::post('/cart/applycoupon', [CartController2::class, 'applyCoupon'])->name('applycoupon');
+    Route::post('/cart/applycoupon', [CartController2::class, 'applycoupon'])->name('applycoupon');
     Route::post('/cart/removecoupon}', [CartController2::class, 'removeCoupon'])->name('removecoupon');
     Route::get('/cart/getcoupon', [CartController2::class, 'getCoupons'])->name('getcoupons');
     Route::post('/cart/applycouponcode', [CartController2::class, 'applyCouponCode'])->name('applycouponcode');
@@ -218,7 +218,7 @@ Route::post('admin/login', [AdminController::class, 'loginAction'])->name('admin
 
 Route::get('/test-email', function () {
     Mail::raw('This is a test email from Laravel.', function ($message) {
-        $message->to('falamec589@lxheir.com')
+        $message->to('kalbhoromkar8@gmail.com')
                 ->subject('Test Email')
                 ->from('pankajvajipara5191@gmail.com', 'Aarogyaa Bharat');
     });

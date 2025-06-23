@@ -10,6 +10,8 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Notifications\UserNotification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotificationEmail;
 
 class CustomerNotification extends Controller
 {
@@ -53,38 +55,69 @@ class CustomerNotification extends Controller
         return view('admin.notifications.create');
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
+   public function store(Request $request)
+{
+    // Validate the type selection first
+    $validated = $request->validate([
+        'type' => 'required|array|min:1',
+        'type.*' => 'in:notification,email'
+    ]);
+
+    // Initialize variables
+    $title = null;
+    $message = null;
+    $emailSubject = null;
+    $emailBody = null;
+
+    // Conditional validation and data assignment
+    if (in_array('notification', $request->type)) {
+        $notificationData = $request->validate([
             'title' => 'required|string|max:100',
             'message' => 'required|string|max:255',
-            // 'send_to' => 'required|in:customers,guests,both'
         ]);
-
-        $title = $validated['title'];
-        $message = $validated['message'];
-        
-        // Send to registered customers if selected
-        if (true) {
-            $customers = User::role('Customer')->get();
-            foreach ($customers as $customer) {
-                $customer->notify(new UserNotification($title, $message));
-            }
-        }
-        
-        // Send to non-registered users if selected
-        if (true) {
-            $data = [
-                'title' => $title,
-                'message' => $message,
-                'created_at' => now(),
-                'updated_at' => now()
-            ];
-            
-            // Store in guest notifications table
-            DB::table('guest_notifications')->insert($data);
-        }
-
-        return redirect()->route('admin.notification')->with('success', 'Notification sent successfully.');
+        $title = $notificationData['title'];
+        $message = $notificationData['message'];
     }
+
+    if (in_array('email', $request->type)) {
+        $emailData = $request->validate([
+            'email_subject' => 'required|string|max:100',
+            'email_body' => 'required|string',
+        ]);
+        $emailSubject = $emailData['email_subject'];
+        $emailBody = $emailData['email_body'];
+    }
+
+    // Get all customers
+    $customers = User::get();
+
+    // Process notifications and emails
+    foreach ($customers as $customer) {
+        // Send notification if selected
+        if (in_array('notification', $request->type)) {
+            $customer->notify(new UserNotification($title, $message));
+        }
+
+        // Send email if selected
+        if (in_array('email', $request->type)) {
+            Mail::to($customer->email)->send(new NotificationEmail(
+                $emailSubject,
+                $emailBody
+            ));
+        }
+    }
+
+    // If you still want to store guest notifications (for non-registered users)
+    if (in_array('notification', $request->type)) {
+        DB::table('guest_notifications')->insert([
+            'title' => $title,
+            'message' => $message,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    }
+
+    return redirect()->route('admin.notification')
+        ->with('success', 'Notifications sent successfully.');
+}
 }

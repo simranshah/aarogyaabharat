@@ -56,6 +56,8 @@ class OfferAndDiscountOcntroller extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
+            'up_to_off'=>'nullable',
+            'complete_off_on'=>'nullable',
         ]);
 
         if ($request->hasFile('image')) {
@@ -90,6 +92,8 @@ class OfferAndDiscountOcntroller extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|max:2048',
+            'up_to_off'=>'nullable',
+            'complete_off_on'=>'nullable',
         ]);
 
         $offerAndDiscount->type = $validated['type'];
@@ -99,7 +103,8 @@ class OfferAndDiscountOcntroller extends Controller
         $offerAndDiscount->end_date = $validated['end_date'];
         $offerAndDiscount->title = $validated['title'];
         $offerAndDiscount->description = $validated['description'];
-
+        $offerAndDiscount->up_to_off= $validated['up_to_off'];
+        $offerAndDiscount->complete_off_on= $validated['complete_off_on'];
         if ($request->hasFile('image')) {
             if ($offerAndDiscount->image) {
                 Storage::delete($offerAndDiscount->image);

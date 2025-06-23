@@ -24,7 +24,8 @@ class Cart extends Model
         'discount_offer_id',
         'gst',
         'total_gst',
-        'razorpay_order_id'
+        'razorpay_order_id',
+        'total_delivery_charges',
     ];
 
     public function products()

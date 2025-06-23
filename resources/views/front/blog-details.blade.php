@@ -21,7 +21,26 @@
                 @endif
             </div>
         </div>
-        <div class="blogtext_title">
+        {{-- <div class="blogtext_title">
+            <h1>{{ $blogDetails->title  }}</h1>
+        </div>
+        <div class="blog_tag_name">
+          <p class="articalauthor">{{ $blogDetails->author  }}</p>
+            <ul>
+                <li class="tagBox"><p>{{ $blogDetails->tagname  }}</p></li>
+                <li class="blogdate"><img src="{{ asset('front/images/calendar.svg') }}" alt="calendar"><p>{{$blogDetails->created_at->format('m/d/y')}}</p></li>
+                <li class="blogview"><img src="{{ asset('front/images/carbon_view.svg') }}" alt="carbon_view"><p>{{ $blogDetails->views}}</p></li>
+                <li><a href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blogDetails->title . ' ' . route('blog.details', $blogDetails->slug)) }}"><img src="{{ asset('front/images/ri_share-line.svg') }}" alt="{{$blogDetails->title}}"></a></li>
+            </ul>
+        </div> --}}
+
+      {{-- <div class="blog-content" id="skipMe">
+                {!! html_entity_decode($blogDetails->content_html) !!}
+            </div> --}}
+            <div class="new-blog-container">
+        <main class="new-blog-main-content">
+            <div class="new-blog-product-header">
+                <div class="blogtext_title">
             <h1>{{ $blogDetails->title  }}</h1>
         </div>
         <div class="blog_tag_name">
@@ -33,10 +52,32 @@
                 <li><a href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blogDetails->title . ' ' . route('blog.details', $blogDetails->slug)) }}"><img src="{{ asset('front/images/ri_share-line.svg') }}" alt="{{$blogDetails->title}}"></a></li>
             </ul>
         </div>
-
-      <div class="blog-content" id="skipMe">
-                {!! html_entity_decode($blogDetails->content_html) !!}
             </div>
+
+            <div class="new-blog-content" id="skipMe">
+              {!! html_entity_decode($blogDetails->content_html) !!}
+            </div>
+        </main>
+
+        <aside class="new-blog-sidebar">
+            <section class="new-blog-related-section">
+                <h2 class="new-blog-related-title">Related Product</h2>
+                
+                <div class="new-blog-product-grid">
+                    @foreach ($products as $product)
+                    <div class="new-blog-product-card">
+                        <div class="new-blog-product-image"><a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="height: 100%;width:100%;">
+                                </a>  </div>
+                        <div class="new-blog-product-name"> {{ Str::limit($product->name,22 ) }}</div>
+                        <div class="new-blog-product-price">₹ @indianCurrency($product->our_price)</div>
+                       <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}"> <button class="new-blog-buy-btn">Buy Now</button> </a>
+                    </div>       
+                    @endforeach
+                </div>
+            </section>
+        </aside>
+    </div>
     </div>
 </section>
 

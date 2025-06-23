@@ -23,7 +23,7 @@
         <div class="card">
             <div class="card-header">
                 <a href="{{ route('admin.blogs.create') }}" class="btn btn-primary">Add Blog</a>
-                 <a href="{{ route('admin.blogs.create2') }}" class="btn btn-primary">New Add Blog</a>
+                <a href="{{ route('admin.blogs.create2') }}" class="btn btn-primary">New Add Blog</a>
             </div>
             <div class="card-body">
                 <table id="blogsTable" class="table table-bordered table-striped">
@@ -33,6 +33,8 @@
                             <th>Image</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Date</th>
+                            <th>View</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -53,14 +55,29 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: "{{ route('admin.blogs') }}",
+        order: [[4, 'desc']], // sort by loaded_on column
         columns: [
             { data: 'name', name: 'name' },
             { data: 'image', name: 'image', orderable: false, searchable: false },
             { data: 'title', name: 'title' },
             { data: 'description', name: 'description' },
-            { data: 'action', name: 'action', orderable: false, searchable: false }
+            {
+                data: 'created_at',
+                name: 'created_at',
+                render: function(data, type, row) {
+                    if (data) {
+                        return data.split('T')[0]; // Show only the date part
+                    }
+                    return '';
+                }
+            },
+            { data: 'views', name: 'views' },            
+            { data: 'action', name: 'action', orderable: false, searchable: false },
+           
         ]
     });
 });
+
+
 </script>
 @endsection
