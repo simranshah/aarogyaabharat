@@ -3,10 +3,8 @@
         <!-- Order 1 -->
         @foreach ($customerDetail->orders as $orders)
         @if($orders->item_count > 0)
-        
-        <div class="order-info-order-card" onclick="openorderdetails({{$orders->id}});"
-            data-index="{{$loop->index}}" 
-            data-product-id="{{ $orders->id }}"
+
+        <div class="order-info-order-card"
             >
             <div class="order-info-order-header">
                 <span class="order-info-order-id">Order ID: {{$orders->id}}</span>
@@ -33,9 +31,13 @@
                     <div class="order-info-product-name">  {{ $orderItems->product->name ?? 'Product name not available' }}</div>
                     <div class="order-info-product-price">Rs {{ $orderItems->product->our_price}}</div>
                 </div>
-                <button class="order-info-cancel-btn">Cancel Item</button>
-            </div> 
-            @endif        
+                <button class="order-info-cancel-btn"
+                 onclick="openorderdetails({{$orders->id}});"
+            data-index="{{$loop->index}}"
+            data-product-id="{{ $orders->id }}"
+                >Cancel Item</button>
+            </div>
+            @endif
             @endforeach
         </div>
         @endif

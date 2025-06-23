@@ -10,32 +10,32 @@
                 <a href="#;">
                     <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                     <p>Long product name</p>
-                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /> 
+                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" />
                 </a>
             </li>
             <li>
                 <a href="#;">
                     <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                     <p>Product name</p>
-                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /> 
+                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" />
                 </a>
             </li>
             <li>
                 <a href="#;">
                     <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                     <p>Product</p>
-                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /> 
+                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" />
                 </a>
             </li>
             <li>
                 <a href="#;">
                     <img src="{{ asset('front/images/search_fil.svg')}}" alt="search_fil" />
                     <p>Small product name</p>
-                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /> 
+                    <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" />
                 </a>
             </li>
         </ul>
-        
+
         <div class="popPro">
         <strong>Popular Products</strong>
         <a href="#;">Long product name <img src="{{ asset('front/images/curly_arrow.svg')}}" alt="curly_arrow" /></a>
@@ -54,9 +54,9 @@
             <li><a href="#;">Home</a> </li>
             <li><a href="#;">Profile</a> </li>
         </ul>
-    </div>    
+    </div>
 </div>
-    
+
 <section class="profilePart">
     <div class="container">
         <div class="row18">
@@ -66,7 +66,7 @@
                     @php
                         $nameParts = explode(' ', $customerDetail->name);
                         $initials = array_map(function($part) {
-                            return strtoupper($part[0]); 
+                            return strtoupper($part[0]);
                         }, $nameParts);
                         $formattedName = implode('', $initials);
                     @endphp
@@ -142,7 +142,7 @@
                         <div>
                             <a href="{{route('terms.and.conditions')}}" class="profileAccorClick">
                                 <img src="{{asset('front/images/terms_condition.svg')}}" alt="terms_condition" class="icon1" />
-                                <p>Terms & Condition</p> 
+                                <p>Terms & Condition</p>
                             </a>
                         </div>
                         <div>
@@ -164,7 +164,7 @@
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
 </section>
 <div class="locationPop winScrollStop">
@@ -183,7 +183,7 @@
         <button>Get Location</button>
     </div>
 </div>
- 
+
 <div class="areyousurePop winScrollStop" id='areyousurePop'>
     <div class="areyousureBlock">
         <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="cross" /></a>
@@ -235,7 +235,7 @@
 
 <div id="address">
         @include('front.common.update-customer-address')
-</div>                    
+</div>
 </div>
 <!-- <div class="addressFormPop winScrollStop">
     <div class="addressFormPopMiddle">
@@ -243,38 +243,38 @@
             <a href="#;"><img src="{{asset('front/images/cross.svg')}}" alt="" /> </a>
             <h4>Add New Address</h4>
             <p>Please enter pin code to get current location.</p>
-            <form id="addressForm"> 
+            <form id="addressForm">
                 <div class="inputMainBlock fullwidth">
                     <span>House Number</span>
-                    <input type="text" class="AnyValueVD" placeholder="004" name="house_number"> 
+                    <input type="text" class="AnyValueVD" placeholder="004" name="house_number">
                     <div class="errormsg house_numberError">Please enter House Number</div>
-                </div> 
+                </div>
                 <div class="inputMainBlock fullwidth">
                     <span>Society Name</span>
-                    <input type="text" class="AnyValueVD" placeholder="XYZ" name="society"> 
+                    <input type="text" class="AnyValueVD" placeholder="XYZ" name="society">
                     <div class="errormsg societyError">Please enter Society Name</div>
-                </div> 
+                </div>
                 <div class="inputMainBlock fullwidth">
                     <span>Locality</span>
-                    <input type="text" class="AnyValueVD" placeholder="XYZ" name="locality"> 
+                    <input type="text" class="AnyValueVD" placeholder="XYZ" name="locality">
                     <div class="errormsg localityError">Please enter Locality</div>
-                </div> 
+                </div>
                 <div class="inputMainBlock fullwidth">
                     <span>Landmark</span>
-                    <input type="text" class="AnyValueVD" placeholder="XYZ" name="landmark"> 
+                    <input type="text" class="AnyValueVD" placeholder="XYZ" name="landmark">
                     <div class="errormsg landmarkError">Please enter Landmark</div>
-                </div> 
+                </div>
                 <div class="inputMainBlock fullwidth">
                     <span>Pincode</span>
-                    <input type="text" class="AnyValueVD" placeholder="000000" name="pincode"> 
+                    <input type="text" class="AnyValueVD" placeholder="000000" name="pincode">
                     <div class="errormsg pincodeError">Please enter Pincode</div>
                 </div>
                 <div class="inputMainBlock fullwidth">
                     <span>City</span>
-                    <input type="text" class="AnyValueVD" placeholder="XYZ" name="city"> 
+                    <input type="text" class="AnyValueVD" placeholder="XYZ" name="city">
                     <div class="errormsg cityError">Please enter City</div>
                 </div>
-                <div class="checkboxPart fullwidth"> 
+                <div class="checkboxPart fullwidth">
                     <button class="submitBTN" type="submit" onClick="addAddress(event)">Save Address</button>
                 </div>
             </form>
@@ -292,25 +292,25 @@
             <form id="updatepro">
                 <div class="inputMainBlock fullwidth">
                     <span>Full Name<i>*</i></span>
-                    <input type="text" class="FullNameVD" name="full_name"  value="{{$customerDetail->name}}" placeholder="Full Name"> 
+                    <input type="text" class="FullNameVD" name="full_name"  value="{{$customerDetail->name}}" placeholder="Full Name">
                     <div class="perrormsg full_nameError"></div> <!-- Error message container -->
                 </div>
                 <div class="inputMainBlock fullwidth">
                     <span>E-mail ID<i>*</i></span>
-                    <input type="text" class="emailVD" name="email" placeholder="example@gmail.com" value="{{$customerDetail->email}}"> 
+                    <input type="text" class="emailVD" name="email" placeholder="example@gmail.com" value="{{$customerDetail->email}}">
                     <div class="perrormsg emailError"></div> <!-- Error message container -->
                 </div>
                 <div class="inputMainBlock fullwidth">
                     <span>Mobile Number<i>*</i></span>
-                    <input type="text" class="mobileVD" name="mobile" placeholder="00000 00000" value="{{$customerDetail->mobile}}"> 
+                    <input type="text" class="mobileVD" name="mobile" placeholder="00000 00000" value="{{$customerDetail->mobile}}">
                     <div class="perrormsg mobileError"></div> <!-- Error message container -->
                 </div>
                 <div class="inputMainBlock fullwidth">
                     <span>City<i>*</i></span>
-                    <input type="text" class="AnyValueVD" id="ccity" name="city" placeholder="City" value="{{$customerDetail->city}}"> 
+                    <input type="text" class="AnyValueVD" id="ccity" name="city" placeholder="City" value="{{$customerDetail->city}}">
                     <div class="perrormsg cityError"></div> <!-- Error message container -->
                 </div>
-                <div class="checkboxPart fullwidth"> 
+                <div class="checkboxPart fullwidth">
                     <button type="submit" class="submitBTN" onClick="updateProfile()">Save</button>
                 </div>
             </form>
@@ -362,7 +362,7 @@
  <div class="log-out">
 <div class="popup-overlay" id="logoutPopup6" style="display: none;">
     <div class="popup">
-     <a href="{{url()->current()}}"> <button class="close-btn" >&times;</button></a>
+     <button class="close-btn" onclick="document.getElementById('logoutPopup6').style.display='none';" >&times;</button>
       {{-- <img src="{{asset('front/images/add_adress_success.svg')}}" alt="Logout" class="popup-image1" /> --}}
       {{-- <h2 class="popup-title">Come back soon!</h2> --}}
       <p class="popup-text">That hurts a little, talk to us before you go?</p>
@@ -374,12 +374,12 @@
   </div>
  </div>
  <div class="order-info-pop-upmodal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
-        
+
     </div>
  <div class="add-adress-popup-overlay" id="add-adress-popup-overlay">
         <div class="add-adress-popup-container">
             <button class="add-adress-close-btn" onclick="closePopup5()">&times;</button>
-            
+
             <div class="add-adress-popup-header">
                 <h2 class="add-adress-popup-title" id="add-adress-popup-title">Edit Address</h2>
                 <p class="add-adress-popup-subtitle">Enter pincode to get accurate delivery info</p>
@@ -462,7 +462,7 @@
                 <button type="submit" class="add-adress-submit-btn">Submit</button>
             </form>
         </div>
-    </div>            
+    </div>
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>
@@ -490,7 +490,7 @@
             if (!wrapper) return;
 
             const isValid = field.value.trim() !== '';
-            
+
             if (field.type === 'tel') {
                 const phoneRegex = /^[6-9]\d{9}$/;
                 if (isValid && !phoneRegex.test(field.value)) {
@@ -540,7 +540,7 @@
         });
     </script>
 <script>
-    
+
      function closePopup() {
     document.getElementById("logoutPopup").style.display = "none";
   }
@@ -569,10 +569,10 @@ $(document).ready(function() {
             error: function(xhr) {
                 // Clear previous error messages
                 $('.errormsg').text('');
-                
+
                 // Handle error - display validation errors
                 var errors = xhr.responseJSON.errors;
-                
+
                 // Loop through the errors and show them under the respective fields
                 for (var field in errors) {
                     $('.' + field + 'Error').text(errors[field][0]);
@@ -583,7 +583,7 @@ $(document).ready(function() {
 });
 
 function updateProfile() {
-    
+
     // Gather form data
     var formData = {
         _token: "{{ csrf_token() }}", // Include CSRF token directly
@@ -615,7 +615,7 @@ function updateProfile() {
                 // Display error messages
                 $.each(errors, function(key, value) {
                     var errorMessage = Array.isArray(value) ? value[0] : value;
-                    var errorElement = $('.' + key + 'Error');                   
+                    var errorElement = $('.' + key + 'Error');
                     errorElement.text(errorMessage).show(); // Set text and show error
                 });
             } else {
@@ -647,7 +647,7 @@ function updateProfile() {
 
     $.ajax({
         url: "{{ route('customers.address.add') }}", // Update with your endpoint
-        type: 'GET', 
+        type: 'GET',
         data: formData,
         success: function(response) {
             $('.errormsg').text('');
@@ -658,7 +658,7 @@ function updateProfile() {
             if (xhr.status === 422) { // Unprocessable Entity
                 var errors = xhr.responseJSON.errors;
                 // Clear previous error messages
-                $('.errormsg').text(''); 
+                $('.errormsg').text('');
                 $.each(errors, function(key, value) {
                     // Check if value is an array or a single string
                     var errorMessage = Array.isArray(value) ? value[0] : value;
@@ -674,10 +674,10 @@ function updateProfile() {
 }
 
 function confirmLogout() {
-   
-       
+
+
             document.getElementById('logout-form').submit();
-        
+
 
 }
 
@@ -708,7 +708,7 @@ function removeAddress(addressId) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-            url: '/customer/remove-address/' + addressId,  
+            url: '/customer/remove-address/' + addressId,
             type: 'GET',
             success: function(response) {
                 if (response.success) {
@@ -725,7 +725,7 @@ function removeAddress(addressId) {
             }
         });
         }
-    });       
+    });
 }
 
 
@@ -740,7 +740,7 @@ function editAddress(id) {
                 // $('.add-address-popup-overlay').style.display="flex";
                  document.getElementById('add-adress-popup-title').innerHTML="Edit Address";
                 document.getElementById('add-adress-popup-overlay').style.display='flex';
-                
+
                 // Fill the form fields
                 $('#fullName').val(response.address.name);
                 $('#mobile').val(response.address.mobile);
@@ -750,17 +750,17 @@ function editAddress(id) {
                 $('#landmark').val(response.address.landmark);
                 $('#city').val(response.address.city);
                 $('#state').val(response.address.state);
-                
+
                 // Set default address checkbox if applicable
                 if (response.address.is_delivery_address) {
                     $('#defaultAddress').prop('checked', true);
                 } else {
                     $('#defaultAddress').prop('checked', false);
                 }
-                
+
                 // Store the address ID in a hidden field (you might want to add this to your form)
                 $('#addressForm5').append(`<input type="hidden" name="uuid" value="${id}">`);
-                
+
                 // Validate all fields that have values
                 $('#add-address-form input').each(function() {
                     if ($(this).val().trim() !== '') {
@@ -805,7 +805,7 @@ function updateAddress(event) {
                  document.getElementById('logoutPopup2').style.display='flex';
                 // $('.errormsg').text('');
                 $('#addressList').html(response.html);
-               
+
                 closePopup5(); // Use your popup closing function
             } else {
                 if (response.status == 401) {
@@ -928,7 +928,7 @@ function chekPincodeAvil(pincode) {
 
     function toggleItem(card, index) {
         const checkbox = document.getElementById(`checkbox-${index}`);
-        
+
         if (selectedItems.includes(index)) {
             selectedItems = selectedItems.filter(i => i !== index);
             checkbox.classList.remove('checked');
@@ -1009,7 +1009,7 @@ function chekPincodeAvil(pincode) {
                     }
                     if (completedCalls === ajaxCalls) {
                         location.reload();
-                       
+
                     }
                 },
                 error: function(xhr, status, error) {
@@ -1030,6 +1030,27 @@ function chekPincodeAvil(pincode) {
     });
 
     updateCancelButton();
+    function openpoupcancelpopup() {
+                // Logic to handle the cancel action
+                // const selectedItems = [];
+                const cancelReason = document.getElementById('cancel-reason').value;
+
+                if (!cancelReason) {
+                    document.getElementById('select-error-msg').textContent = 'Please select a cancellation reason.';
+                    return;
+                } else {
+                    document.getElementById('select-error-msg').textContent = '';
+                }
+
+                // Proceed with the cancellation logic (e.g., AJAX request)
+        if (selectedItems.length === 0) {
+           alert('Please select at least one item to cancel.');
+            return;
+        }
+
+               document.getElementById('logoutPopup6').style.display='flex';
+
+            }
 </script>
 
 @endsection('content')

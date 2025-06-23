@@ -306,7 +306,7 @@
   <div class="add-adress-popup-overlay" id="add-adress-popup-overlay">
         <div class="add-adress-popup-container">
             <button class="add-adress-close-btn" onclick="closePopup5()">&times;</button>
-            
+
             <div class="add-adress-popup-header">
                 <h2 class="add-adress-popup-title" id="add-adress-popup-title">Edit Address</h2>
                 <p class="add-adress-popup-subtitle">Enter pincode to get accurate delivery info</p>
@@ -389,7 +389,7 @@
                 <button type="submit" class="add-adress-submit-btn">Submit</button>
             </form>
         </div>
-    </div>            
+    </div>
 
         <script src="{{ asset('front/js/jquery.min.js') }}"></script>
         <script src="{{ asset('front/js/slick.js') }}"></script>
@@ -419,7 +419,7 @@
             if (!wrapper) return;
 
             const isValid = field.value.trim() !== '';
-            
+
             if (field.type === 'tel') {
                 const phoneRegex = /^[6-9]\d{9}$/;
                 if (isValid && !phoneRegex.test(field.value)) {
@@ -709,7 +709,9 @@
                         type: 'POST',
                         data: {
                             _token: "{{ csrf_token() }}", // CSRF token for security
+                            @if(isset($cartProducts[0]) && !empty($cartProducts[0]))
                             cartId:"{{ $cartProducts[0]->id }}",
+                            @endif
                             couponCode: couponCode // Coupon code entered by the user
                         },
                         success: function(response) {
@@ -1030,7 +1032,7 @@
                  document.getElementById('add-adress-popup-title').innerHTML="Add Address";
                  document.getElementById('add-adress-popup-overlay').style.display='flex';
             }
-           
+
             function closePopupadress() {
                 document.getElementById('logoutPopup1').style.display = 'none';
             }

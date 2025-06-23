@@ -383,7 +383,7 @@ $(document).ready(function () {
         $("#otp_form .submitBTN").click(function (e) {
             e.preventDefault();
             $("#otp_form .submitBTN").prop("disabled", !0).css({ "background": "#ccc", "color": "#fff", "cursor": "not-allowed" })
-                            .html(`<svg width="20" height="20" viewBox="0 0 50 50" style="vertical-align:middle;margin-right:8px;" fill="#fff"><circle cx="25" cy="25" r="20" stroke="#888" stroke-width="5" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/></circle></svg>Verifying Otp...`); 
+                            .html(`<svg width="20" height="20" viewBox="0 0 50 50" style="vertical-align:middle;margin-right:8px;" fill="#fff"><circle cx="25" cy="25" r="20" stroke="#888" stroke-width="5" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/></circle></svg>Verifying Otp...`);
 
             var t = "";
             (t += $("#codeBox1").val()),
@@ -409,7 +409,12 @@ $(document).ready(function () {
                             document.getElementById('msg-for-otp-send').style.color = 'red';
                             // document.getElementById('msg-for-otp-send').style.display = 'none';
                         } else {
-                            window.location.href = "/";
+                            // Redirect to previous URL if available, else to home
+                            if (document.referrer && document.referrer !== window.location.href) {
+                                window.location.href = document.referrer;
+                            } else {
+                                window.location.href = "/";
+                            }
                         }
                     },
                     error: function (s) {

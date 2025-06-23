@@ -7,15 +7,15 @@
                 @endif
                 <button class="order-info-pop-upclose-button" onclick="closeModal()">&times;</button>
             </div>
-            
+
             <div class="order-info-pop-upmodal-content">
                 <div class="order-info-pop-upleft-section">
-                    
+
                     @foreach ($order->orderItems as $orderItem)
                     @if($orderItem->quantity>0)
-                    <div class="order-info-pop-upitem-card" 
-     onclick="toggleItem(this, '{{$loop->index}}')" 
-     data-index="{{$loop->index}}" 
+                    <div class="order-info-pop-upitem-card"
+     onclick="toggleItem(this, '{{$loop->index}}')"
+     data-index="{{$loop->index}}"
      data-product-id="{{ $orderItem->id }}"
      data-max-qty="{{ $orderItem->quantity }}">
                         <div class="order-info-pop-upcheckbox-container">
@@ -46,8 +46,7 @@
 
                 <div class="order-info-pop-upright-section">
                     <div class="order-info-pop-upreason-title">Cancellation reason</div>
-                    
-                    <div class="order-info-pop-updropdown">
+                <div class="order-info-pop-updropdown">
                 <select id="cancel-reason" class="order-info-pop-updropdown-button">
                   <option value="">Select Reason</option>
         <option value="Ordered by Mistake">Ordered by Mistake</option>
@@ -73,7 +72,8 @@
                         </div>
                     </div>
 
-                    <button class="order-info-pop-upcancel-button" onclick=" document.getElementById('logoutPopup6').style.display = 'flex';">Cancel checked items</button>
+                    <button class="order-info-pop-upcancel-button" onclick="openpoupcancelpopup();">Cancel checked items</button>
                 </div>
             </div>
         </div>
+

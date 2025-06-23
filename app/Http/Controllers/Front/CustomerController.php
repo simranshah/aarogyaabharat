@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Customer;
 use App\Models\Admin\Order;
-use App\Models\Admin\Status; 
+use App\Models\Admin\Status;
 use App\Models\User;
 use App\Models\Front\Adress;
 use App\Models\Admin\OrderItem;
@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\orderCancelItem;
 use App\Models\RetrunItems;
 use League\OAuth1\Client\Server\Server;
+use App\Models\Front\Cart;
 
 class CustomerController extends Controller
 {
@@ -58,23 +59,23 @@ class CustomerController extends Controller
                     ->withInput();
             }
         }
-        
+
         $customer = User::create([
             'name' => $request->input('full_name'),
-            'password' => bcrypt($request->input('mobile')), 
+            'password' => bcrypt($request->input('mobile')),
             'email' => $request->input('email'),
-            'mobile' => $request->input('mobile'), 
-            'city' => $request->input('city'), 
-            'pin_code' => $request->input('pincode'), 
-            'state' => $request->input('state'), 
+            'mobile' => $request->input('mobile'),
+            'city' => $request->input('city'),
+            'pin_code' => $request->input('pincode'),
+            'state' => $request->input('state'),
         ]);
 
         $customerPin = PinOffice::where(['pin' => $request->input('pincode')])->first();
-        // $pin = PinOffice::create([ 
-        //     'district' => $request->input('city'), 
-        //     'pin' => $request->input('pincode'), 
-        //     'state' => $request->input('state'), 
-        //     'available' => 1, 
+        // $pin = PinOffice::create([
+        //     'district' => $request->input('city'),
+        //     'pin' => $request->input('pincode'),
+        //     'state' => $request->input('state'),
+        //     'available' => 1,
         // ]);
         if ($customerPin) {
             $customer->update(['pincode_id' => $customerPin->id]);
@@ -106,13 +107,13 @@ class CustomerController extends Controller
                 // $otpExpiry = Carbon::now()->addMinutes(5);
                 // $customer->otp = $otp;
                 // $customer->otp_expiry = $otpExpiry;
-                // $customer->otp_verified_at = null; 
+                // $customer->otp_verified_at = null;
                 // $customer->save();
-                
+
             return response()->json([
                 'success' => 'OTP sent to your mobile number!',
                 'number' => $customer->mobile,
-                'res' => json_decode($response->getBody(), true) 
+                'res' => json_decode($response->getBody(), true)
             ], 200);
             } catch (RequestException $e) {
                 return response()->json(['errors' => ['mobile' => ['No account found for this number. Please register.']]], 422);
@@ -143,17 +144,29 @@ class CustomerController extends Controller
             // $otpExpiry = Carbon::now()->addMinutes(5);
             // $customer->otp = $otp;
             // $customer->otp_expiry = $otpExpiry;
-            // $customer->otp_verified_at = null; 
+            // $customer->otp_verified_at = null;
             // $customer->save();
             $responseBody = json_decode($response->getBody(), true);
             if(isset($responseBody['Status']) && $responseBody['Status'] !== 'Success') {
                 return response()->json(['errors' => ['otp' => 'Invalid OTP.']], 422);
             }else{
             Auth::login($customer, true);
+            $session_id = session()->get('cart_id');
+        \Log::channel('cart_log')->info('AppServiceProvider method - Session ID:', ['session_id' => $session_id]);
+
+        // ✅ Fetch all cart records with session_id
+        $sessionCarts = Cart::where('session_id', $session_id)->get();
+
+        foreach ($sessionCarts as $cart) {
+            // Update cart records to be associated with logged-in user
+            $cart->user_id = Auth::id();
+            $cart->session_id = null;
+            $cart->save();
+        }
             return redirect()->route('home')->with('success', 'OTP verified successfully! Welcome back, ' . $customer->name);
             return response()->json([
                 'success' => 'OTP verified succesfully!',
-                'res' => json_decode($response->getBody(), true) 
+                'res' => json_decode($response->getBody(), true)
             ], 200);
         }
         } catch (RequestException $e) {
@@ -206,13 +219,13 @@ class CustomerController extends Controller
         }
         $deliveryAddressExists = Adress::where('customer_id', $customer->id)
                                 ->where('is_delivery_address', true)
-                                ->exists(); 
+                                ->exists();
         if ($request->delivery == 1) {
             Adress::where('customer_id', $customer->id)
-                    ->where('is_delivery_address', true)  
+                    ->where('is_delivery_address', true)
                     ->update(['is_delivery_address' => false]);
         }
-                                                     
+
         // Update or Create the address
         Adress::updateOrCreate(
             [
@@ -232,10 +245,10 @@ class CustomerController extends Controller
                 'is_delivery_address' => $request->delivery ?? 0,
             ]
         );
-        
+
         $customerAndAddresses = Auth::check() ? User::with(['addresses' => function ($query) {
             $query->where('is_delivery_address', true);
-        }])->where('id', Auth::id())->first()->addresses 
+        }])->where('id', Auth::id())->first()->addresses
         : null;
 
         $adressHtml = view('front.common.delivery-address', ['customerAndAddresses' => $customerAndAddresses])->render();
@@ -254,13 +267,13 @@ class CustomerController extends Controller
         $address = Adress::find($id);
         $isDeliver=$address->is_delivery_address;
         if ($address) {
-            $address->delete(); 
+            $address->delete();
             $customerDetail = User::with('orders', 'addresses')
             ->where('id', Auth::user()->id)
             ->first();
             if($isDeliver==true){
                 $Address=Adress::where('customer_id',Auth::user()->id)->first();
-                
+
                 if($Address){
                     $Address->update(['is_delivery_address' => 1]);
                     $Address->save();
@@ -313,14 +326,14 @@ class CustomerController extends Controller
         }
         if ($request->delivery == 1) {
             Adress::where('customer_id', $customer->id)
-                    ->where('is_delivery_address', true)  
+                    ->where('is_delivery_address', true)
                     ->update(['is_delivery_address' => false]);
         }
-                                                     
+
         // Update the address
         if ($request->delivery == 1) {
             Adress::where('customer_id',  $request->uuid)
-                    ->where('is_delivery_address', true)  
+                    ->where('is_delivery_address', true)
                     ->update(['is_delivery_address' => false]);
         }
         $address = Adress::where('id', $request->uuid)->first();
@@ -371,10 +384,10 @@ class CustomerController extends Controller
         //  $contactPageData = Page::where('slug', $lastSegment)->with('cms.images')->first();
         //  $seoMetaTag = $contactPageData->seo_meta_tag;
         //  $seoMetaTagTitle = $contactPageData->seo_meta_tag_title;
-        //  $pageTitle = $contactPageData->page_title;    
+        //  $pageTitle = $contactPageData->page_title;
         // if ($customerDetail && $customerDetail->hasRole('Customer')) {
             return view('front.profile', compact('customerDetail','statuses'));
-        // } 
+        // }
     }
 
     public function profileUpdate(Request $request)
@@ -389,13 +402,13 @@ class CustomerController extends Controller
 
         // Get the currently authenticated user
         $customer = Auth::user();
-        
+
         // Update user properties
         $customer->name = $validatedData['full_name'];
         $customer->email = $validatedData['email'];
         $customer->mobile = $validatedData['mobile'];
         $customer->city = $validatedData['city'];
-        
+
         // Save the user
         $customer->save();
         $profileHtml = view('front.common.profile-detail', ['customerDetail' => $customer])->render();
@@ -447,10 +460,10 @@ class CustomerController extends Controller
         }
         return redirect()->back()->with('message', 'You have been logged out successfully.');
     }
-    public function Notification(Request $request) 
+    public function Notification(Request $request)
 {
     $notifications = collect();
-    
+
     if (auth()->check() && auth()->user()->hasRole('Customer')) {
         // For logged-in customers
         $notifications = auth()->user()->notifications;
@@ -477,23 +490,26 @@ class CustomerController extends Controller
     public function OrderStatusWise($statusId)
     {
         if($statusId!=7 && $statusId!=9){
-          $customerDetail = User::with([
+         $customerDetail = User::with([
     'orders' => function($query) use ($statusId) {
         $query->whereHas('orderItems', function($q) use ($statusId) {
             $q->where('status_id', $statusId);
-        })->with([ // Eager load the related items that match the status
+        })
+        ->with([
             'orderItems' => function($q) use ($statusId) {
                 $q->where('status_id', $statusId);
             },
             'orderItems.product.images',
             'orderItems.status'
-        ]);
+        ])
+        ->orderBy('created_at', 'desc'); // Sort orders by latest first
     },
     'addresses',
-    'orders.status' // Assuming you want to include the status of the order
+    'orders.status'
 ])
 ->where('id', Auth::user()->id)
 ->first();
+
 
 $totalOrderItems = 0;
 if ($customerDetail && $customerDetail->orders) {
@@ -513,7 +529,7 @@ if ($customerDetail && $customerDetail->orders) {
     }
 }
 
-// \Log::info([$statusId => $customerDetail]);    
+// \Log::info([$statusId => $customerDetail]);
 $customerDetailHtml = view('front.common.customer-orders', compact('customerDetail', 'totalOrderItems'))->render();
 return response()->json([
     'success' => true,
@@ -522,7 +538,9 @@ return response()->json([
     'totalOrderItems' => $totalOrderItems
 ]);
 }else if($statusId!=9){
-$userOrderData = User::with(['orders'])->where('id', Auth::user()->id)->first();
+$userOrderData = User::with(['orders' => function($q) {
+    $q->orderBy('created_at', 'desc');
+}])->where('id', Auth::user()->id)->first();
 $customerDetail = [];
 
 foreach ($userOrderData->orders as $order) {
@@ -530,7 +548,7 @@ foreach ($userOrderData->orders as $order) {
         ->where('order_id', $order->id)
         ->where('status_id', $statusId)
         ->get();
-    
+
     if ($cancelProducts->isNotEmpty()) {
         // Include both order data and its canceled products
         $customerDetail[] = [
@@ -547,7 +565,9 @@ return response()->json([
     'message' => 'Fetch order status wise.'
 ]);
 }else{
-    $userOrderData = User::with(['orders'])->where('id', Auth::user()->id)->first();
+   $userOrderData = User::with(['orders' => function($q) {
+    $q->orderBy('created_at', 'desc');
+}])->where('id', Auth::user()->id)->first();
 $customerDetail = [];
 
 foreach ($userOrderData->orders as $order) {
@@ -555,7 +575,7 @@ foreach ($userOrderData->orders as $order) {
         ->where('order_id', $order->id)
         ->where('status_id', $statusId)
         ->get();
-    
+
     if ($cancelProducts->isNotEmpty()) {
         // Include both order data and its canceled products
         $customerDetail[] = [
@@ -592,7 +612,7 @@ return response()->json([
 
         $deliveryAddressExists = Adress::where('customer_id', $customer->id)
                                 ->where('is_delivery_address', true)
-                                ->exists(); 
+                                ->exists();
         // Create the address
         Adress::create([
             'customer_id' => $customer->id,
@@ -612,7 +632,7 @@ return response()->json([
         $userPincode = PinOffice::where('pin', $request->address['postcode'])->first();
         if ($userPincode) {
             if(Auth::check() && Auth::user()->hasRole('Customer')) {
-                Auth::user()->update(['pincode_id' => $userPincode->id]); 
+                Auth::user()->update(['pincode_id' => $userPincode->id]);
             }
             $userPincodeHtml = view('front.common.customer-pin', compact('userPincode'))->render();
             return response()->json(['success' => true, 'user' => $customer, 'userPincodeHtml' => $userPincodeHtml, 'message' => 'Address saved successfully.']);
@@ -627,7 +647,7 @@ return response()->json([
             $notification = auth()->user()->notifications()->find($id);
             if ($notification) {
                 $notification->delete();
-                $notifications = auth()->user()->notifications;   
+                $notifications = auth()->user()->notifications;
                 $notificationHtml = view('front.common.notification', compact('notifications'))->render();
                 return response()->json(['success' => true,'message' => 'Notification deleted successfully', 'notificationHtml' => $notificationHtml, 'count' => $notifications->count()], 200);
             }
@@ -749,7 +769,7 @@ public function resendOtp(Request $request)
             return response()->json([
                 'success' => 'OTP resent successfully!',
                 'number' => $customer->mobile,
-                'res' => json_decode($response->getBody(), true) 
+                'res' => json_decode($response->getBody(), true)
             ], 200);
         } catch (RequestException $e) {
             return response()->json(['errors' => ['mobile' => ['Failed to resend OTP. Please try again later.']]], 422);
