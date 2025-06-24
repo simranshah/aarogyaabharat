@@ -1302,12 +1302,13 @@
         }
          .order-info-container {
             width: 612px;
-            height: 300px;
+            height: auto;
             background-color: #e8e8e8;
             border-radius: 8px;
             overflow-y: auto;
             padding: 10px;
             box-sizing: border-box;
+            max-height: 300px;
         }
 
        .order-info-order-card {
@@ -1447,8 +1448,9 @@
 
         @media screen and (max-width: 480px) {
            .order-info-container {
-                height: 350px;
+                height: auto;
                 padding: 6px;
+                max-height: 200px;
             }
 
            .order-info-order-card {
@@ -2072,7 +2074,7 @@
         }
 
         .new-blog-related-section {
-            background: white;
+           
             border-radius: 12px;
             padding: 25px;
 
@@ -2129,7 +2131,7 @@
         .new-blog-product-price {
             font-size: 14px;
             font-weight: 600;
-            color: #e74c3c;
+            
             margin-bottom: 8px;
         }
 
@@ -2137,8 +2139,8 @@
             background: linear-gradient(135deg, #ffa500, #ff8c00);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 20px;
+            border-radius: 8px;
             font-size: 12px;
             cursor: pointer;
             transition: transform 0.3s;
@@ -2179,9 +2181,7 @@
                 font-size: 20px;
             }
 
-            .new-blog-product-grid {
-                grid-template-columns: 1fr;
-            }
+           
 
             .new-blog-author-info {
                 flex-wrap: wrap;

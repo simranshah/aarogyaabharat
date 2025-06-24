@@ -52,7 +52,11 @@
         @endforeach
     </div>
 @else
-<p>No products available for this order.</p>
+@if($statusId==2)
+<p>No orders placed yet. <a href="{{url('/')}}"> Start shopping </a> to place your first order!</p>
+@else
+<p>No delivered orders found.</p>
+@endif
 @endif
 <script>
     function openorderdetails(orderid){

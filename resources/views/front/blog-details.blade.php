@@ -61,7 +61,7 @@
 
         <aside class="new-blog-sidebar">
             <section class="new-blog-related-section">
-                <h2 class="new-blog-related-title">Related Product</h2>
+                <h2 class="new-blog-related-title">Recommended Product</h2>
                 
                 <div class="new-blog-product-grid">
                     @foreach ($products as $product)
@@ -69,7 +69,7 @@
                         <div class="new-blog-product-image"><a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="height: 100%;width:100%;">
                                 </a>  </div>
-                        <div class="new-blog-product-name"> {{ Str::limit($product->name,22 ) }}</div>
+                        <div class="new-blog-product-name"> {{ Str::limit($product->name,30 ) }}</div>
                         <div class="new-blog-product-price">₹ @indianCurrency($product->our_price)</div>
                        <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}"> <button class="new-blog-buy-btn">Buy Now</button> </a>
                     </div>       

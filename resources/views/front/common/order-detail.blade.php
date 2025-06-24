@@ -10,6 +10,7 @@
 
             <div class="order-info-pop-upmodal-content">
                 <div class="order-info-pop-upleft-section">
+                    <div id='selctproductid' style="color: red;"></div>
 
                     @foreach ($order->orderItems as $orderItem)
                     @if($orderItem->quantity>0)

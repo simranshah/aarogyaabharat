@@ -416,7 +416,12 @@ class CartController2 extends Controller
         // ]);
 
         $cart = Cart::find($request->cartId);
-        $coupon = OfferAndDiscount::where('code', $request->couponCode)->first();
+        $coupon = OfferAndDiscount::where('code', $request->couponCode)
+            ->where(function($query) {
+            $query->whereNull('end_date')
+                  ->orWhere('end_date', '>=', now());
+            })
+            ->first();
 
         if (!$cart) {
             return response()->json(['success' => false, 'message' => 'Invalid cart or Add products to cart']);
@@ -492,7 +497,12 @@ class CartController2 extends Controller
         if (!$couponCode) {
             return response()->json(['success' => false, 'message' => 'Coupon code is required.']);
         }
-        $coupon = OfferAndDiscount::where('code', $couponCode)->first();
+        $coupon = OfferAndDiscount::where('code', $request->couponCode)
+            ->where(function($query) {
+            $query->whereNull('end_date')
+                  ->orWhere('end_date', '>=', now());
+            })
+            ->first();
 
         $cart = Cart::find($request->cartId);
         if (!$cart) {
@@ -573,7 +583,12 @@ class CartController2 extends Controller
 
         // Find the cart
         $cart = Cart::find($request->cartId);
-        $coupon = OfferAndDiscount::where('code', $request->couponCode)->first();
+       $coupon = OfferAndDiscount::where('code', $request->couponCode)
+            ->where(function($query) {
+            $query->whereNull('end_date')
+                  ->orWhere('end_date', '>=', now());
+            })
+            ->first();
 
         if (!$cart) {
             return response()->json(['success' => false, 'message' => 'Invalid cart']);

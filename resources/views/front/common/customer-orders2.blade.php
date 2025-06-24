@@ -42,7 +42,7 @@
         </div>
     @empty
         <div class="no-orders-message">
-            No orders with canceled items found.
+            No returns made so far.
         </div>
     @endforelse
 </div>

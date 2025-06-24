@@ -1044,8 +1044,11 @@ function chekPincodeAvil(pincode) {
 
                 // Proceed with the cancellation logic (e.g., AJAX request)
         if (selectedItems.length === 0) {
-           alert('Please select at least one item to cancel.');
+            document.getElementById('selctproductid').textContent = 'Please select at least one item to cancel.';
+        //    alert('Please select at least one item to cancel.');
             return;
+        }else{
+              document.getElementById('selctproductid').textContent = '';
         }
 
                document.getElementById('logoutPopup6').style.display='flex';

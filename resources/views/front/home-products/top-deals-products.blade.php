@@ -24,7 +24,7 @@
                                     <del class="original-price">₹  @indianCurrency($product->original_price) </del>
                                     <strong class="discounted-price">₹
                                          @indianCurrency($product->our_price) </strong>
-                                    <span class="discount-percentage">( @indianCurrency($product->discount_percentage)%OFF)</span> 
+                                    <span class="discount-percentage">(@indianCurrency($product->discount_percentage)%OFF)</span> 
                                 @else
                                     <strong class="discounted-price">₹
                                         @indianCurrency($product->price)</strong> 
