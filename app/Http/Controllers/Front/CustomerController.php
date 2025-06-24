@@ -530,7 +530,7 @@ if ($customerDetail && $customerDetail->orders) {
 }
 
 // \Log::info([$statusId => $customerDetail]);
-$customerDetailHtml = view('front.common.customer-orders', compact('customerDetail', 'totalOrderItems'))->render();
+$customerDetailHtml = view('front.common.customer-orders', compact('customerDetail', 'totalOrderItems','statusId'))->render();
 return response()->json([
     'success' => true,
     'customerDetailHtml' => $customerDetailHtml,

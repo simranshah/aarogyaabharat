@@ -38,7 +38,7 @@
                                 <button class="order-info-pop-upqty-btn" onclick="changeQuantity(event, '{{$loop->index}}', 1)">+</button>
                             </div>
                         </div>
-                        <div class="order-info-pop-upproduct-price">Rs {{ $orderItem->product->our_price}}</div>
+                        <div class="order-info-pop-upproduct-price">Rs {{  $orderItem->product->our_price + (($orderItem->product->our_price * $orderItem->product->gst)/100)+ $orderItem->product->delivery_and_installation_fees}}</div>
                     </div>
                     @endif
                     @endforeach

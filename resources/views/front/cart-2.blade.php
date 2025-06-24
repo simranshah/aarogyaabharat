@@ -109,7 +109,13 @@
                         @endphp
 
 
-                        <h4>{{ $cartProductCount1 ?? 0 }} Item in your cart</h4>
+                        <h4>
+                            @if($cartProductCount1 > 1)
+                            {{ $cartProductCount1 ?? 0 }} Items in your cart
+                            @else
+                            {{ $cartProductCount1 ?? 0 }} Item in your cart
+                            @endif
+                        </h4>
                     </div>
                 </div>
                 @if (isset($cartProducts[0]) && !empty($cartProducts[0]))
@@ -265,6 +271,7 @@
                     <div class="couponInput">
                         <input type="text" id="couponCode" placeholder="Enter coupon code" />
                         <button id="applyCouponButton">Apply</button>
+                         <div id="errormsgoffer" style="color:red;"></div>
                     </div>
                     <div class="orLine">
                         <span>OR</span>
@@ -699,7 +706,7 @@
                     var couponCode = $('#couponCode').val();
 
                     if (couponCode === "") {
-                        // toastr.error("Please enter a coupon code.");
+                       document.getElementById('errormsgoffer').innerHTML="Please enter a coupon code.";
                         return;
                     }
 
@@ -718,19 +725,16 @@
                         if (response.success) {
                             // toastr.success(response.message);
                             document.getElementById('offerModal').style.display='none';
-                            if (single) {
-                                $('.flatOffer .removeDiscount').css('display', 'block');
-                                $('#applyCoupon').hide();
-                                $('.offer-apply-success').show();
-                            } else {
+                            
                                 $('#apply-' + couponCode).hide();
                                 $('#removeDiscount-' + couponCode).show();
                                 $('.offer-apply-success').show();
-                            }
+                            // 
                             $('#orderSummery').html(response.orderSummaryResponse);
                             $('#offer-html').html(response.couponHtml);
                             $('.flatDicountPop').css('display', 'flex');
                         } else {
+                            document.getElementById('errormsgoffer').innerHTML=response.message;
                             // toastr.error(response.message);
                         }
                     },
@@ -858,6 +862,7 @@
                             $('#offer-html').html(response.couponHtml);
                             $('.flatDicountPop').css('display', 'flex');
                         } else {
+                            document.getElementById('errormsgoffer').innerHTML=response.message;
                             // toastr.error(response.message);
                         }
                     },

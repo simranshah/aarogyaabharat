@@ -13,9 +13,11 @@
                     <span class="order-info-order-status">{{$orders->status->name}}</span>
                 </div>
             </div>
-            <div class="order-info-delivery-info">
+            @if($statusId==2)
+            <div class="order-info-delivery-info">  
                 Arriving in 4-7 days. We appreciate your patience
             </div>
+            @endif
             @foreach ($orders->orderItems as $orderItems)
             @if($orderItems->quantity>0)
             <div class="order-info-product-item">
@@ -29,13 +31,19 @@
                 </div>
                 <div class="order-info-product-details">
                     <div class="order-info-product-name">  {{ $orderItems->product->name ?? 'Product name not available' }}</div>
-                    <div class="order-info-product-price">Rs {{ $orderItems->product->our_price}}</div>
+                    <div class="order-info-product-price">Rs {{ $orderItems->product->our_price + (($orderItems->product->our_price * $orderItems->product->gst)/100)+ $orderItems->product->delivery_and_installation_fees}}</div>
                 </div>
                 <button class="order-info-cancel-btn"
                  onclick="openorderdetails({{$orders->id}});"
             data-index="{{$loop->index}}"
             data-product-id="{{ $orders->id }}"
-                >Cancel Item</button>
+                >
+                @if($statusId==2)
+                Cancel Item
+                @else
+                Return Item
+                @endif
+            </button>
             </div>
             @endif
             @endforeach

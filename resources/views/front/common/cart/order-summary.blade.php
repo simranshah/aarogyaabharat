@@ -27,12 +27,12 @@
                 <p>Total GST(18%)</p>
                 <strong>₹ {{ $gst}}</strong>
             </li>
-            <li class="discount_1">
+            <li >
                 @php
                     $offer = $cartProducts[0]->discount_offer_amount ? $cartProducts[0]->discount_offer_amount : 0;
                 @endphp
                 <p>Offer Discount</p>
-                <strong>- ₹ {{ $cartProducts[0]->discount_offer_amount }}</strong>
+                <strong>₹ {{ $cartProducts[0]->discount_offer_amount }}</strong>
             </li>
             <li >
                 <p>Delivery & Installation</p>

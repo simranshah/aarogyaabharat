@@ -34,7 +34,7 @@
                             {{ $product->name ?? 'Product name not available' }}
                         </div>
                         <div class="order-info-product-price">
-                            Rs {{ $product->our_price ?? '0.00' }}
+                            Rs {{  $product->our_price + (($product->our_price * $product->gst)/100)+$product->delivery_and_installation_fees ?? '0.00' }}
                         </div>
                     </div>
                 </div>

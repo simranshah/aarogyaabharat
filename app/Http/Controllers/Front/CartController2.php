@@ -118,6 +118,9 @@ class CartController2 extends Controller
                         'quantity' => $request->input('quantity', 1),
                         'total_price' => $product->our_price * $request->input('quantity', 1),
                     ]);
+                    $cart->sub_total += ($product->our_price * $request->input('quantity', 1));
+                    $cart->total_delivery_charges += ($product->delivery_and_installation_fees);
+                    $cart->total_gst +=  ($product->our_price * $request->input('quantity', 1) * $product->gst) / 100;
                     $cartProduct->save();
                 }
             } else {
@@ -208,7 +211,7 @@ class CartController2 extends Controller
             'new gst' => $newGST,
         ]);
          $cart->total_delivery_charges -=$product->delivery_and_installation_fees;
-        $cart->sub_total = $newSubTotal;
+        $cart->sub_total = $newSubTotal+$cart->discount_offer_amount;
         if ($cart->discount_offer_amount >= $newSubTotal) {
             $cart->discount_offer_amount = 0;
             $cart->discount_offer_id = null;
@@ -584,7 +587,7 @@ class CartController2 extends Controller
             // Restore the original subtotal based on the coupon type
             if ($coupon->type === 'percentage') {
                 // Calculate the original subtotal before the coupon was applied
-                $originalSubtotal = $cart->sub_total / (1 - ($coupon->value / 100));
+                $originalSubtotal = $cart->sub_total +$cart->discount_offer_amount;
             } else {
                 // Restore the subtotal by adding back the discount value
                 $originalSubtotal = $cart->sub_total + $coupon->value;

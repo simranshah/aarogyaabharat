@@ -67,7 +67,7 @@
                   </div>
                   <div class="form-group">
                     <label for="valueInput">Code</label>
-                    <input type="text" name="code" class="form-control" id="valueInput" placeholder="Enter Code" value="{{ old('code', $offerAndDiscount->value) }}">
+                    <input type="text" name="code" class="form-control" id="valueInput" placeholder="Enter Code" value="{{ old('code', $offerAndDiscount->code) }}">
                     @error('code')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

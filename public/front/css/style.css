@@ -1079,49 +1079,54 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             display: none;
         }
 
-       .add-adress-popup-container {
+        .add-adress-popup-container {
             background: white;
             border-radius: 8px;
-            border: 1px solid #e0e0e0; /* Changed from thick blue border to subtle gray */
-            max-width: 700px;
+            border: 2px solid #4A90E2;
+            max-width: 600px;
             width: 100%;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             position: relative;
+            margin: 20px auto;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-       .add-adress-popup-header {
+        .add-adress-popup-header {
             text-align: center;
             margin-bottom: 25px;
         }
 
-       .add-adress-popup-title {
+        .add-adress-popup-title {
             font-size: 24px;
             font-weight: 600;
             color: #333;
             margin-bottom: 8px;
         }
 
-       .add-adress-popup-subtitle {
+        .add-adress-popup-subtitle {
             font-size: 14px;
             color: #666;
         }
 
-       .add-adress-form-row {
+        .add-adress-form-row {
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
         }
 
-       .add-adress-form-group {
+        .add-adress-form-group {
             flex: 1;
             position: relative;
         }
 
-       .add-adress-form-group.full-width {
+        .add-adress-form-group.full-width {
             flex: 1 1 100%;
         }
 
@@ -1133,12 +1138,13 @@
             font-weight: 500;
         }
 
-       .add-adress-required {
+        .add-adress-required {
             color: #e74c3c;
         }
 
-      .add-adress-popup-container  input[type="text"],
-        input[type="tel"] {
+      .add-adress-popup-container   input[type="text"],
+        input[type="tel"],
+        select {
             width: 100%;
             padding: 12px 16px;
             border: 1px solid #ddd;
@@ -1150,16 +1156,17 @@
         }
 
       .add-adress-popup-container  input[type="text"]:focus,
-        input[type="tel"]:focus {
+        input[type="tel"]:focus,
+        select:focus {
             border-color: #4A90E2;
             box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
         }
 
-       .add-adress-input-wrapper {
+        .add-adress-input-wrapper {
             position: relative;
         }
 
-        /*.add-adress-validation-icon {
+        .add-adress-validation-icon {
             position: absolute;
             right: 12px;
             top: 50%;
@@ -1171,49 +1178,44 @@
             display: none;
             align-items: center;
             justify-content: center;
-        } */
-/*
-       .add-adress-validation-icon::after {
+        }
+
+        .add-adress-validation-icon::after {
             content: '✓';
             color: white;
             font-size: 12px;
             font-weight: bold;
-        } */
+        }
 
-       .add-adress-input-wrapper.valid.add-adress-validation-icon {
+        .add-adress-input-wrapper.valid .add-adress-validation-icon {
             display: flex;
         }
 
-       .add-adress-input-wrapper.valid input {
+        .add-adress-input-wrapper.valid input {
             padding-right: 45px;
         }
 
-       .add-adress-checkbox-container {
-            display: flex;
-            justify-content: center;
-            margin: 25px 0;
-        }
-
-       .add-adress-checkbox-group {
+        .add-adress-checkbox-group {
             display: flex;
             align-items: center;
             gap: 8px;
+            margin: 25px 0;
         }
 
-       .add-adress-checkbox-group input[type="checkbox"] {
+        .add-adress-checkbox-group input[type="checkbox"] {
             width: 16px;
             height: 16px;
             accent-color: #4A90E2;
         }
 
-       .add-adress-checkbox-group label {
+        .add-adress-checkbox-group label {
             margin: 0;
             font-size: 14px;
             color: #666;
             cursor: pointer;
         }
 
-       .add-adress-submit-btn {
+        .add-adress-submit-btn {
             background-color: #f39c12;
             color: white;
             border: none;
@@ -1227,15 +1229,15 @@
             transition: background-color 0.3s ease;
         }
 
-       .add-adress-submit-btn:hover {
+        .add-adress-submit-btn:hover {
             background-color: #e67e22;
         }
 
-       .add-adress-submit-btn:active {
+        .add-adress-submit-btn:active {
             background-color: #d35400;
         }
 
-       .add-adress-close-btn {
+        .add-adress-close-btn {
             position: absolute;
             top: 15px;
             right: 20px;
@@ -1248,19 +1250,54 @@
             line-height: 1;
         }
 
-       .add-adress-close-btn:hover {
+        .add-adress-close-btn:hover {
             color: #666;
         }
 
         @media (max-width: 600px) {
-           .add-adress-form-row {
+            .add-adress-popup-overlay {
+                align-items: flex-start;
+                padding: 10px;
+            }
+            
+            .add-adress-popup-container {
+                margin: 10px auto;
+                padding: 20px;
+                max-height: calc(100vh - 20px);
+                width: calc(100% - 20px);
+            }
+            
+            .add-adress-form-row {
                 flex-direction: column;
                 gap: 15px;
             }
+            
+            .add-adress-popup-title {
+                font-size: 20px;
+            }
+            
+            .add-adress-submit-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+       .add-adress-checkbox-container {
+            display: flex;
+            justify-content: center;
+           
+        }
 
-           .add-adress-popup-container {
-                margin: 20px;
-                padding: 20px;
+        @media (max-width: 480px) {
+            .add-adress-popup-overlay {
+                padding: 0;
+            }
+            
+            .add-adress-popup-container {
+                margin: 0;
+                border-radius: 0;
+                width: 100%;
+                max-height: 100vh;
+                padding: 15px;
             }
         }
          .order-info-container {
@@ -2168,5 +2205,18 @@
 
             .new-blog-product-title {
                 font-size: 18px;
+            }
+        }
+@media (max-width: 480px) {
+            .add-adress-popup-overlay {
+                padding: 0;
+            }
+            
+            .add-adress-popup-container {
+                margin: 0;
+                border-radius: 0;
+                width: 100%;
+                max-height: 100vh;
+                padding: 15px;
             }
         }
