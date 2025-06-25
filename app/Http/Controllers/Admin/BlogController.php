@@ -85,7 +85,7 @@ class BlogController extends Controller
         if (!empty($productIds) && $productIds[0] !== null && $productIds[0] !== '') {
         $products = Product::with('category')->whereIn('id', $productIds)->get();
        } else {
-       $products = Product::with('category')->inRandomOrder()->get(6);
+       $products = Product::with('category')->inRandomOrder()->limit(6)->get();
        }
 
         return view('front.blog-details', compact('blogDetails', 'twoBlogs', 'seoMetaTag','seoMetaTagTitle', 'pageTitle','products'));

@@ -116,4 +116,24 @@ function searchblogsinput(query) {
     }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    @foreach($blogs as $index => $blog)
+    {
+      "@type": "BlogPosting",
+      "headline": "{{ $blog->title }}",
+      "image": "{{ url('/') }}{{ asset('storage/' . $blog->images->first()->path) }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ $blog->author }}"
+      },
+      "datePublished": "{{ $blog->created_at->format('m/d/y') }}",
+      "url": "{{ route('blog.details', ['slug' => $blog->slug]) }}"
+    }@if(!$loop->last),@endif
+    @endforeach
+  ]
+}
+</script>
 @endsection

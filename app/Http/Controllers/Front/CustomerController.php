@@ -24,6 +24,7 @@ use App\Models\orderCancelItem;
 use App\Models\RetrunItems;
 use League\OAuth1\Client\Server\Server;
 use App\Models\Front\Cart;
+use Faker\Provider\ar_EG\Address;
 
 class CustomerController extends Controller
 {
@@ -225,7 +226,7 @@ class CustomerController extends Controller
                     ->where('is_delivery_address', true)
                     ->update(['is_delivery_address' => false]);
         }
-
+   
         // Update or Create the address
         Adress::updateOrCreate(
             [

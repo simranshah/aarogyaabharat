@@ -125,11 +125,7 @@
                                 <a href="#;" class="addtocart disabled"
                                     style="background-color: #d7d7d7 !importent;color: red;">Sold out</a>
                             @else
-                                <form action="{{ route('cart.add', ['productId' => $productDetails->id]) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    <button type="submit" onclick="cartPopup();" class="addtocart">Add to Cart</button>
-                                </form>
+                               <button type="button" class="addtocart" data-id="{{ $productDetails->id }}">Add to Cart</button>
                                 <a href="#;" class="btn_buynow" id="buy-now-button"
                                     data-productid="{{ $productDetails->id }}">Buy Now</a>
                             @endif
@@ -218,6 +214,42 @@
 },
 
         </script>
+        <script>
+      $(document).ready(function () {
+    $('.addtocart').on('click', function () {
+        var productId = $(this).data('id');
+        var $btn = $(this);
+        $btn.prop('disabled', true).addClass('disabled');
+        $.ajax({
+            url: "{{ route('cart.add', ['productId' => '__ID__']) }}".replace('__ID__', productId),
+            method: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function (response) {
+                // ✅ Handle success (e.g., update cart count, show toast, etc.)
+                if(response.success){
+                document.getElementById('cartproductcount').innerHTML=response.cartproductcount;
+                document.getElementById('text-btween-cartpopup').innerHTML=response.message;
+                document.getElementById('text-btween-cartpopup').style.color='#2d5a2d';
+                cartPopup();
+                }else{
+                document.getElementById('text-btween-cartpopup').innerHTML=response.message;
+                document.getElementById('text-btween-cartpopup').style.color='red';
+                cartPopup();
+                }
+                $btn.prop('disabled', false).removeClass('disabled');
+            },
+            error: function (xhr) {
+                // ❌ Handle error
+                $btn.prop('disabled', false).removeClass('disabled');
+                document.getElementById('logoutPopup3').style.display='flex';
+            }
+        });
+    });
+});
+</script>
+
     <script>
         $(document).ready(function() {
             $('#buy-now-button').on('click', function(e) {

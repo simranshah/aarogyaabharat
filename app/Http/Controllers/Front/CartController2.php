@@ -105,10 +105,12 @@ class CartController2 extends Controller
                     // $cartProduct->quantity += $request->input('quantity', 1);
                     // $cartProduct->total_price = $product->our_price * $cartProduct->quantity; // Update total price
                     $cartProduct->save();
+                    DB::commit();
+                   return response()->json(['success' => false, 'message' => 'Product already exists in cart']);
 
                     // Update the cart's subtotal as well
-                    $cart->sub_total += ($product->our_price * $request->input('quantity', 1));
-                    $cart->total_delivery_charges += ($$product->delivery_and_installation_fees);
+                    // $cart->sub_total += ($product->our_price * $request->input('quantity', 1));
+                    // $cart->total_delivery_charges += ($$product->delivery_and_installation_fees);
                     
                 } else {
                     $cartProduct = new CartProduct([
@@ -122,6 +124,9 @@ class CartController2 extends Controller
                     $cart->total_delivery_charges += ($product->delivery_and_installation_fees);
                     $cart->total_gst +=  ($product->our_price * $request->input('quantity', 1) * $product->gst) / 100;
                     $cartProduct->save();
+                    $cart->save();
+                    DB::commit();
+                    return response()->json(['success' => true, 'message' => 'Item Added to Cart','cartproductcount' => $cart->cartProducts->count()]);
                 }
             } else {
                 $cart = new Cart([
@@ -144,6 +149,8 @@ class CartController2 extends Controller
                     'total_price' => $product->our_price * $request->input('quantity', 1),
                 ]);
                 $cartProduct->save();
+                DB::commit();
+                return response()->json(['success' => true, 'message' => 'Item Added to Cart','cartproductcount' => $cart->cartProducts->count()]);
             }
 
             $cart->save();

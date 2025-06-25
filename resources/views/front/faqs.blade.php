@@ -32,4 +32,23 @@ var faqIcons = {
     };
 
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    @foreach($faqs as $index => $faq)
+    {
+      "@type": "Question",
+      "name": "{{ addslashes($faq->question) }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ addslashes($faq->answers[0]->answer ?? '') }}"
+      }
+    }@if(!$loop->last),@endif
+    @endforeach
+  ]
+}
+</script>
+
 @endsection('content')

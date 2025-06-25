@@ -190,7 +190,7 @@
                         {{-- @if (Auth::check() && Auth::user()->hasRole('Customer')) --}}
                             <!-- Display Cart Link -->
                             <a href="{{ route('cart') }}"><img src="{{ asset('front/images/cart.svg') }}"
-                                    alt="Cart"><span>{{ $cartProductCount1 ?? 0 }}</span></a>
+                                    alt="Cart"><span id='cartproductcount'>{{ $cartProductCount1 ?? 0 }}</span></a>
                         {{-- @else --}}
                             <!-- Trigger Login Popup -->
                             {{-- <a href="javascript:void(0)" class="trigger-login-popup"><img

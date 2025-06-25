@@ -209,4 +209,23 @@
         <div class="read_more_blogs"><a href="{{route('blogs')}}"><p>Read More Blogs</p><img src="{{asset('front/images/downArrow.svg')}}" alt="" /></a></div>
     </div>
 </section> --}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "url": "{{ url()->current() }}",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Aarogyaa Bharat",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-9921407039",
+      "contactType": "Customer Support",
+      "areaServed": "IN",
+      "availableLanguage": ["English", "Hindi", "Marathi"]
+    }
+  }
+}
+</script>
+
 @endsection('content')

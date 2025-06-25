@@ -111,4 +111,22 @@
         </div>
     </div>
 </section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "{{ $blogDetails->title  }}",
+"url": "{{ url()->current() }}",
+  "description": "{{$blogDetails->description}}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aarogyaa Bharat",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{url('/')}}{{ asset('front/images/Favicon-new.svg') }}"
+    }
+  }
+}
+</script>
+
 @endsection

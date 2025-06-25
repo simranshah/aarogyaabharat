@@ -142,5 +142,29 @@
 <section class="customer_part">
 @include('front.common.happy-customer') 
 </section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ $category->name }}",
+  "url": "{{ url()->current() }}",
+  "mainEntity": [
+    @foreach ($category->products as $index => $product)
+    {
+      "@type": "Product",
+      "name": "{{ $product->name }}",
+      "image": "{{ url('/') }}{{ asset('storage/' . $product->image) }}",
+      "url": "{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "INR",
+        "price": "{{ $product->our_price }}",
+        "availability": "https://schema.org/InStock"
+      }
+    }@if(!$loop->last),@endif
+    @endforeach
+  ]
+}
+</script>
 
 @endsection

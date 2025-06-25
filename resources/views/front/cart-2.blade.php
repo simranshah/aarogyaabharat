@@ -255,9 +255,9 @@
         <div class="addressFormPop winScrollStop" style="display: none;">
             @include('front.common.change-delivery-adress')
         </div>
-        <div class="addressFormPop1 winScrollStop">
+        {{-- <div class="addressFormPop1 winScrollStop">
             @include('front.common.add-adress')
-        </div>
+        </div> --}}
         <div class="offer-apply-success" style="display:none;">
             <div id="offer-html">
                 @include('front.common.offer-success')
