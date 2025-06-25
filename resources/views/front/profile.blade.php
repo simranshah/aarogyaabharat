@@ -154,13 +154,13 @@
                                 @csrf
                             </form>
                         </div>
-                        <div>
+                        {{-- <div>
                             <div class="needaneme">
                                 <h2>Need an emergency help</h2>
                                 <a href="tel:{{ env('HELP_LINE_NO') }}" class="phone_eme"><img src="{{asset('front/images/phone_call.svg')}}" alt="phone_call"><p>{{ env('HELP_LINE_NO') }}</p><span>Call Now</span></a>
                                 <a href="mailto:{{ env('HELP_LINE_EMAIL') }}" class="mail_eme"><img src="{{asset('front/images/mail.svg')}}" alt="mail"><p>{{ env('HELP_LINE_EMAIL') }}</p></a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -1009,7 +1009,6 @@ function chekPincodeAvil(pincode) {
                     }
                     if (completedCalls === ajaxCalls) {
                         location.reload();
-
                     }
                 },
                 error: function(xhr, status, error) {

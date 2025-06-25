@@ -1281,11 +1281,7 @@
                 margin-top: 10px;
             }
         }
-       .add-adress-checkbox-container {
-            display: flex;
-            justify-content: center;
-           
-        }
+       
 
         @media (max-width: 480px) {
             .add-adress-popup-overlay {
@@ -1961,8 +1957,7 @@
         .new-blog-main-content {
 
             border-radius: 12px;
-            padding: 30px;
-
+          
         }
 
         .new-blog-product-header {
@@ -2068,9 +2063,16 @@
         }
 
         .new-blog-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+               flex: 1;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    display: flex
+;
+    flex-direction: column;
+    gap: 25px;
         }
 
         .new-blog-related-section {

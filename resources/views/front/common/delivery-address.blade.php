@@ -44,6 +44,7 @@
                             </div> --}}
                         </div>
                     @else
+                    @if(Auth::user())
                         <div class="addAddress" onclick="addNewDeliveryAddress1();">
                             <div class="addressNote">
                                 <img src="{{asset('front/images/info-circle.svg')}}" alt="info-circle" />
@@ -55,6 +56,21 @@
                             </div>
                             <button>Add Delivery Address <img src="{{asset('front/images/jam_plus.svg')}}" alt="jam_plus" /></button>
                         </div>
+                        @else
+                        <a href="{{route('login')}}">
+                        <div class="addAddress">
+                            <div class="addressNote">
+                                <img src="{{asset('front/images/info-circle.svg')}}" alt="info-circle" />
+                                <p>Please add your delivery address</p>
+                            </div>
+                            <div class="addressNoteError">
+                                <img src="{{asset('front/images/alert_svgrepo.svg')}}" alt="alert_svgrepo" />
+                                <p>Please add your delivery address</p>
+                            </div>
+                            <button>Add Delivery Address <img src="{{asset('front/images/jam_plus.svg')}}" alt="jam_plus" /></button>
+                        </div>
+                        </a>
+                        @endif
                     @endif
                     <script>
                 
