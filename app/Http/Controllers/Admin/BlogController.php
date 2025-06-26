@@ -123,8 +123,15 @@ class BlogController extends Controller
         // Handle file upload
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('blogs', 'public');
+            // Convert the image to webp for better performance
+            $image = $request->file('image');
+            $imageResource = imagecreatefromstring(file_get_contents($image->getRealPath()));
+            $webpPath = 'blogs/' . pathinfo($image->hashName(), PATHINFO_FILENAME) . '.webp';
+            imagewebp($imageResource, storage_path('app/public/' . $webpPath), 80);
+            imagedestroy($imageResource);
+
             $blog->images()->create([
-                'path' => $imagePath,
+                'path' => $webpPath,
                 'alt' => $request->alt
             ]);
         }
@@ -167,7 +174,12 @@ class BlogController extends Controller
             }
 
             // Store the new image
-            $imagePath = $request->file('image')->store('blogs', 'public');
+            $image = $request->file('image');
+            $imageResource = imagecreatefromstring(file_get_contents($image->getRealPath()));
+            $webpPath = 'blogs/' . pathinfo($image->hashName(), PATHINFO_FILENAME) . '.webp';
+            imagewebp($imageResource, storage_path('app/public/' . $webpPath), 80);
+            imagedestroy($imageResource);
+            $imagePath = $webpPath;
             $blog->images()->create([
                 'path' => $imagePath,
                 'alt' => $request->alt
@@ -248,8 +260,15 @@ class BlogController extends Controller
         // Handle file upload
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('blogs', 'public');
+            // Convert the image to webp for better performance
+            $image = $request->file('image');
+            $imageResource = imagecreatefromstring(file_get_contents($image->getRealPath()));
+            $webpPath = 'blogs/' . pathinfo($image->hashName(), PATHINFO_FILENAME) . '.webp';
+            imagewebp($imageResource, storage_path('app/public/' . $webpPath), 80);
+            imagedestroy($imageResource);
+
             $blog->images()->create([
-                'path' => $imagePath,
+                'path' => $webpPath,
                 'alt' => $request->alt
             ]);
         }
@@ -295,7 +314,13 @@ class BlogController extends Controller
             }
 
             // Store the new image
-            $imagePath = $request->file('image')->store('blogs', 'public');
+            // Convert the image to webp for better performance
+            $image = $request->file('image');
+            $imageResource = imagecreatefromstring(file_get_contents($image->getRealPath()));
+            $webpPath = 'blogs/' . pathinfo($image->hashName(), PATHINFO_FILENAME) . '.webp';
+            imagewebp($imageResource, storage_path('app/public/' . $webpPath), 80);
+            imagedestroy($imageResource);
+            $imagePath = $webpPath;
             $blog->images()->create([
                 'path' => $imagePath,
                 'alt' => $request->alt

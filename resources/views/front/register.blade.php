@@ -75,9 +75,10 @@
     <div class="LoginPop winScrollStop" style="display: block;">
         <div class="LoginPopMiddle">
             <div class="LoginPopInner">
-                 <div style="position: absolute;top: 37px; right: 405px;z-index: 10;" class="close-login-pop">
-                          <a href="{{url('/')}}" class="close-login-pop"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
-                     </div>   
+                 <div style="position: absolute;top: 37px; z-index: 10;" class="close-login-pop" id="closebtnid">
+                    <a href="{{ url('/') }}" class="close-login-pop"><img
+                            src="{{ asset('front/images/cross.svg') }}" alt="cross" /></a>
+                </div>  
                 <div class="Sign_up_form_container">
                     @if(!$isMobile)
                     <div class="Sign_up_form info-box" style="padding: 0px;">
@@ -205,14 +206,15 @@
                                     @enderror
                                     
                                 </div>
-                                    <div class="checkboxPart fullwidth">
+                                    <div class="checkboxPart">
                                         <div class="">
                                             <label>
                                                 <input type="checkbox" checked="" id="agree" name="agree"
                                                    required>
                                                 <i></i>
+                                                <span>I read and understand <a href="{{ route('terms.and.conditions') }}">T&C</a>.</span>
                                             </label>
-                                            I read and understand <a href="{{ route('terms.and.conditions') }}">T&C</a>.
+                                               
                                         </div>
                                        
                                     </div>
@@ -232,6 +234,10 @@
         <script src="{{ asset('front/js/slick.js') }}"></script>
         <script src="{{ asset('front/js/script.js') }}"></script>
         <script>
+              const element = document.querySelector('.LoginPopInner');
+            const width = element.offsetWidth;
+            console.log(width);
+            document.getElementById('closebtnid').style.marginLeft = width-18 + 'px';
             document.getElementById("register_form").addEventListener("submit", function(event) {
                 let name = document.getElementById("name").value.trim();
                 let email = document.getElementById("email").value.trim();

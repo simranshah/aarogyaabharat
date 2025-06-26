@@ -653,7 +653,7 @@ class CartController2 extends Controller
             }
             $query->orWhere('session_id', $session_id);
         })->get();
-        $offers = OfferAndDiscount::inRandomOrder()->take(3)->get();
+        $offers = OfferAndDiscount::inRandomOrder()->get();
         return view('front.common.more-offer', compact('offers', 'cartProducts'))->render();
     }
 }

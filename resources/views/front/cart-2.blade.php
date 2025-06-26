@@ -276,7 +276,7 @@
                     <div class="orLine">
                         <span>OR</span>
                     </div>
-                    <div id="offers-container">
+                    <div class="offers-grid" id="offers-container">
                         @include('front.common.more-offer')
                     </div>
                 </div>

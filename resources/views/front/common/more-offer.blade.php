@@ -1,27 +1,29 @@
 @if(isset($offers) && count($offers) > 0)
     @foreach($offers as $offer)
-        <div class="flatOffer">
-            <img src="{{ asset('front/images/flat_offer.svg') }}" alt="flat_offer" />
-            <div class="flatCon">
-                <strong>{{ $offer->title }}</strong>
-                <p>{{ $offer->description }}</p>
+      <div class="promo-card">
+                <div class="header">
+                    <div class="left-section">
+                        <div class="radio-circle"> <img src="{{ asset('front/images/discount-icon.png') }}" alt="Discount Icon" style="width: 100%;height:100%"></div>
+                        <div class="discount-text">{{ $offer->code }}</div>
+                    </div>
+                    <div class="right-section">
+                        <div class="terms">T&c Apply*</div>
+                         @if(!empty($cartProducts) && !empty($cartProducts[0]) && $cartProducts[0]->discount_offer_id != $offer->id)
+                        <button data-cart-id="{{ !empty($cartProducts) && !empty($cartProducts[0]) ?  $cartProducts[0]->id : 0 }}" data-coupon-code="{{ $offer->code }}" id="apply-{{ $offer->code }}" onclick="applyOffer(this)"  class="apply-btn-card">Apply Now</button>
+                        @else
+                          <button data-cart-id="{{ !empty($cartProducts) && !empty($cartProducts[0]) ?  $cartProducts[0]->id : 0 }}" data-coupon-code="{{ $offer->code }}" id="remove-{{ $offer->code }}" onclick="removeOffer(this)" class="apply-btn-card">Remove</button>
+                        @endif
+                    </div>
+                </div>
+                
+                <div class="card-divider"></div>
+                
+                <div class="offer-section">
+                    <div class="offer-title">{{ $offer->title }}</div>
+                    <div class="offer-description">
+                        {{ $offer->description }}      </div>
+                </div>
             </div>
-            <div class="linkPart" id="linkPart-{{ $offer->code }}">
-                <span>*T&C apply</span>
-                @if(!empty($cartProducts) && !empty($cartProducts[0]) && $cartProducts[0]->discount_offer_id != $offer->id)
-                    <a href="javascript:void(0)" data-cart-id="{{ !empty($cartProducts) && !empty($cartProducts[0]) ?  $cartProducts[0]->id : 0 }}" data-coupon-code="{{ $offer->code }}" id="apply-{{ $offer->code }}" onclick="applyOffer(this)">Apply Now</a>
-                @endif
-            </div>
-            @if(!empty($cartProducts) && !empty($cartProducts[0]) && $cartProducts[0]->discount_offer_id == $offer->id)
-            <div class="removeDiscount"   id="removeDiscount-{{ $offer->code }}" style="display:block;">
-                <a href="javascript:void(0)" data-cart-id="{{ !empty($cartProducts) && !empty($cartProducts[0]) ?  $cartProducts[0]->id : 0 }}" data-coupon-code="{{ $offer->code }}" id="remove-{{ $offer->code }}" onclick="removeOffer(this)">Remove</a>
-            </div>
-            @else
-            <div class="removeDiscount"   id="removeDiscount-{{ $offer->code }}" style="display:none;">
-                <a href="javascript:void(0)" data-cart-id="{{ !empty($cartProducts) && !empty($cartProducts[0]) ?  $cartProducts[0]->id : 0 }}" data-coupon-code="{{ $offer->code }}" id="remove-{{ $offer->code }}" onclick="removeOffer(this)">Remove</a>
-            </div>
-            @endif
-        </div>
     @endforeach
 @else
     <p>No offers available.</p>
