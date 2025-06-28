@@ -11,14 +11,14 @@
                             <ul>
                                 <li><a href="{{ route('customer.about.us') }}">About</a></li>
                                 <li><a href="{{ route('privacy.policy') }}">Privacy Policy</a></li>
-                                
+
                             </ul>
                         </div>
                         <div class="links_text">
                             <ul>
                                 <li><a href="{{ route('blogs') }}">Blogs</a></li>
                                 <li><a href="{{ route('faqs') }}">FAQ's</a></li>
-                               
+
                             </ul>
                         </div>
                         <div class="links_text">
@@ -71,7 +71,7 @@
                                         alt="Insta" /></a></li>
                             <li><a href="{{ env('X_PAGE_URI') }}"><img src="{{ asset('front/images/Xtwit.svg') }}"
                                         alt="X" /></a></li>
-                             <li><a href="{{ env('YOUTUBE_PAGE_URL') }}" target="_blank"><img 
+                             <li><a href="{{ env('YOUTUBE_PAGE_URL') }}" target="_blank"><img
                                 src="{{ asset('front/images/youtube.png') }}" alt="youtube" /></a></li>
                             <li><a href="https://wa.me/{{ env('HELP_LINE_NO') }}" target="_blank"><img
                                         src="{{ asset('front/images/whatsapp.svg') }}" alt="WhatsApp" /></a></li>
@@ -228,6 +228,22 @@
     gtag('js', new Date());
 
     gtag('config', 'G-D1GEF2BB22');
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const blogTitleLinks = document.querySelectorAll('section.our_blog h2 > a');
+
+  blogTitleLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'blog_title_click',
+        blog_title: link.textContent.trim(),
+        blog_url: link.href
+      });
+    });
+  });
+});
 </script>
 <script>
     $.ajaxSetup({
@@ -465,12 +481,12 @@
                                 stateInput.value = data.state;
                                 errorMsg.innerHTML = ""; // Clear error message
                             } else {
-                    
+
                                 cityInput.value = "";
                                 stateInput.value = "";
                                 errorMsg.innerHTML = data.message;
-                                $(this).parents('.inputMainBlock').removeClass("valid").addClass("invalid"); 
-                                                           
+                                $(this).parents('.inputMainBlock').removeClass("valid").addClass("invalid");
+
                             }
                         })
                         .catch(() => {
