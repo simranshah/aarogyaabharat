@@ -83,7 +83,7 @@ class CartController2 extends Controller
                 $query->orWhere('session_id', $session_id);
             })->first();
 
-            \Log::channel('cart_log')->info('addToCart method - Cart Detail:', 
+            \Log::channel('cart_log')->info('addToCart method - Cart Detail:',
             [
                 '$product->our_price' => $product->our_price,
                 'quantity' => $request->input('quantity', 1),
@@ -94,12 +94,12 @@ class CartController2 extends Controller
                 // $cart->quantity += $request->input('quantity', 1);
                 // $cart->sub_total += ($product->our_price * $request->input('quantity', 1));
                 // $cart->total_gst += ($product->our_price * $request->input('quantity', 1) * $product->gst) / 100;
-                
-                
+
+
                 $cartProduct = CartProduct::where('cart_id', $cart->id)
                 ->where('product_id', $product->id)
                 ->first();
-                
+
                 if ($cartProduct) {
                     // Product exists, update quantity and subtotal
                     // $cartProduct->quantity += $request->input('quantity', 1);
@@ -111,7 +111,7 @@ class CartController2 extends Controller
                     // Update the cart's subtotal as well
                     // $cart->sub_total += ($product->our_price * $request->input('quantity', 1));
                     // $cart->total_delivery_charges += ($$product->delivery_and_installation_fees);
-                    
+
                 } else {
                     $cartProduct = new CartProduct([
                         'cart_id' => $cart->id,
@@ -211,7 +211,7 @@ class CartController2 extends Controller
         $productGST = ($cartItemTotal * $product->gst) / 100;
         $newGST = $cart->total_gst - $productGST;
         $cart->total_gst = $newGST;
-        \Log::channel('cart_log')->info('deleteItem method - Cart Detail:', 
+        \Log::channel('cart_log')->info('deleteItem method - Cart Detail:',
         [
             '$cartItemTotal' => $cartItemTotal,
             'product gst' => $productGST,
@@ -271,7 +271,7 @@ class CartController2 extends Controller
         $product = Product::where('id', $cartItem->product_id)->first();
         $productGST = ($cartItemTotal * $product->gst) / 100;
         $productdelivercharg=$product->delivery_and_installation_fees;
-        \Log::channel('cart_log')->info('updateCartItemVisibility method - Cart Detail:', 
+        \Log::channel('cart_log')->info('updateCartItemVisibility method - Cart Detail:',
         [
             'cartItemTotal' => $cartItemTotal,
             'product gst' => $product->gst,
@@ -363,7 +363,7 @@ class CartController2 extends Controller
         $productDel=$product->delivery_and_installation_fees;
         // $newGST = $cart->total_gst - $productGST;
         // $cart->total_gst = $newGST;
-        \Log::channel('cart_log')->info('updateCartItemQuantity method - Cart Detail:', 
+        \Log::channel('cart_log')->info('updateCartItemQuantity method - Cart Detail:',
         [
             'cartItem->price' => $cartItem->price,
             'product gst' => $productGST,
@@ -436,6 +436,9 @@ class CartController2 extends Controller
         if (!empty($cart->discount_offer_amount) && !empty($cart->discount_offer_id)) {
             return response()->json(['success' => false, 'message' => 'Already offer/coupon applied, please remove it, try again']);
         }
+       if ($coupon->usage_limit !== null && $coupon->usage_limit <= 0) {
+         return response()->json(['success' => false, 'message' => 'Coupon usage limit exceeded']);
+  }
         if (!$cart || !$coupon) {
             return response()->json(['success' => false, 'message' => 'Invalid coupon']);
         }
@@ -498,7 +501,7 @@ class CartController2 extends Controller
     public function applyCouponCode(Request $request)
     {
         $couponCode = $request->input('couponCode');
-        
+
 
         // Validate the coupon code
         if (!$couponCode) {
@@ -518,6 +521,10 @@ class CartController2 extends Controller
         if (!empty($cart->discount_offer_amount) && !empty($cart->discount_offer_id)) {
             return response()->json(['success' => false, 'message' => 'Already offer/coupon applied, please remove it, try again']);
         }
+        if ($coupon->usage_limit !== null && $coupon->usage_limit <= 0) {
+         return response()->json(['success' => false, 'message' => 'Coupon usage limit exceeded']);
+  }
+
         if (!$cart || !$coupon) {
             return response()->json(['success' => false, 'message' => 'Invalid coupon']);
         }
@@ -575,7 +582,7 @@ class CartController2 extends Controller
         $couponHtml = view('front.common.offer-success', compact('couponAmount', 'coupon'))->render();
         $orderSummaryHtml = view('front.common.cart.order-summary', compact('cartProducts', 'total', 'gst', 'offer'))->render();
         return response()->json(['success' => true, 'cart' => $cartProducts, 'code' => $request->couponCode, 'total' => $total, 'orderSummaryResponse' => $orderSummaryHtml, 'couponHtml' => $couponHtml, 'message' => 'Coupon applied successfully']);
-    
+
     }
 
 
@@ -653,7 +660,7 @@ class CartController2 extends Controller
             }
             $query->orWhere('session_id', $session_id);
         })->get();
-        $offers = OfferAndDiscount::inRandomOrder()->get();
+        $offers = OfferAndDiscount::where('show_on_site', true)->get();
         return view('front.common.more-offer', compact('offers', 'cartProducts'))->render();
     }
 }

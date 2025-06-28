@@ -269,10 +269,48 @@
                     <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /> </a>
                     <h4>Offer & Benefits</h4>
                     <div class="couponInput">
-                        <input type="text" id="couponCode" placeholder="Enter coupon code" />
-                        <button id="applyCouponButton">Apply</button>
-                         <div id="errormsgoffer" style="color:red;"></div>
-                    </div>
+                        <input type="text" id="couponCode" placeholder="Enter coupon code" @if(isset($cartProducts[0]) && !empty($cartProducts[0]->discount_offer_id)) value="{{ $cartProducts[0]->offer->code ?? '' }}" disabled @endif />
+                        @if(isset($cartProducts[0]) && !empty($cartProducts[0]->discount_offer_id))
+                            <button id="removeCouponButton" data-cart-id="{{ $cartProducts[0]->id }}" data-coupon-code="{{ $cartProducts[0]->offer->code ?? '' }}">Remove</button>
+                        @else
+                            <button id="applyCouponButton">Apply</button>
+                            <button id="removeCouponButton" style="display:none;">Remove</button>
+                        @endif
+                        <div id="errormsgoffer" style="color:red;"></div>
+                        </div>
+                        <script>
+                            $(document).ready(function() {
+                                $('#removeCouponButton').click(function(e) {
+                                    e.preventDefault();
+                                    var cartId = $(this).data('cart-id');
+                                    var couponCode = $(this).data('coupon-code');
+                                    @if(isset($cartProducts[0]) && !empty($cartProducts[0]))
+                                     cartId="{{ $cartProducts[0]->id }}"
+                                      @endif
+                                    $.ajax({
+                                        url: "{{ route('removecoupon', '') }}",
+                                        type: 'POST',
+                                        data: {
+                                            cartId: cartId,
+                                            couponCode: couponCode,
+                                            _token: '{{ csrf_token() }}'
+                                        },
+                                        success: function(response) {
+                                            if (response.success) {
+                                                document.getElementById('offerModal').style.display='none';
+                                                $('#orderSummery').html(response.orderSummaryResponse);
+                                                window.location.reload();
+                                            } else {
+                                                document.getElementById('errormsgoffer').innerHTML = response.message;
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            document.getElementById('logoutPopup3').style.display='flex';
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
                     <div class="orLine">
                         <span>OR</span>
                     </div>
@@ -723,13 +761,21 @@
                         },
                         success: function(response) {
                         if (response.success) {
+                            console.log('cartId: ' + response.cart.id);
                             // toastr.success(response.message);
                             document.getElementById('offerModal').style.display='none';
-                            
+                            $('#couponCode').prop('disabled', true); // Disable the input field
+
+                            $('#applyCouponButton').hide();
+                           $('#removeCouponButton')
+                             .attr('data-cart-id', response.cart.id)
+                           .attr('data-coupon-code', couponCode)
+                             .show();
+
                                 $('#apply-' + couponCode).hide();
                                 $('#removeDiscount-' + couponCode).show();
                                 $('.offer-apply-success').show();
-                            // 
+                            //
                             $('#orderSummery').html(response.orderSummaryResponse);
                             $('#offer-html').html(response.couponHtml);
                             $('.flatDicountPop').css('display', 'flex');
@@ -888,15 +934,8 @@
                         if (response.success) {
                             // toastr.success(response.message);
                              document.getElementById('offerModal').style.display='none';
-                            if (single) {
-                                $('.flatOffer .removeDiscount').css('display', 'none');
-                                $('.linkPart #applyCoupon').css('display', 'block');
-                            } else {
-                                $('#apply-' + couponCode).show();
-                                $('#removeDiscount-' + couponCode).hide();
-                                $('.offer-apply-success').hide();
-                            }
-                            $('#orderSummery').html(response.orderSummaryResponse);
+                             $('#orderSummery').html(response.orderSummaryResponse);
+                             window.location.reload();
                             // $('#apply-' + couponCode).show();
                             // $('#removeDiscount-' + couponCode).hide();
                         } else {

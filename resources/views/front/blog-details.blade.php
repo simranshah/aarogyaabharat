@@ -7,7 +7,7 @@
             <li><a href="{{route('blogs')}}">Blog</a> </li>
             <li><a href="#;">Blog Details</a> </li>
         </ul>
-    </div>    
+    </div>
 </div>
 
 <section class="blog_text_data">
@@ -60,9 +60,9 @@
         </main>
 
         <aside class="new-blog-sidebar">
+             <h2 class="new-blog-related-title" >Recommended Product</h2>
             <section class="new-blog-related-section">
-                <h2 class="new-blog-related-title">Recommended Product</h2>
-                
+
                 <div class="new-blog-product-grid">
                     @foreach ($products as $product)
                     <div class="new-blog-product-card">
@@ -72,7 +72,7 @@
                         <div class="new-blog-product-name"> {{ Str::limit($product->name,30 ) }}</div>
                         <div class="new-blog-product-price">₹ @indianCurrency($product->our_price)</div>
                        <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}"> <button class="new-blog-buy-btn">Buy Now</button> </a>
-                    </div>       
+                    </div>
                     @endforeach
                 </div>
             </section>
@@ -84,7 +84,7 @@
 <section class="our_blog">
     <div class="container">
        <div class="titlePart">
-            <h4>Our Blogs</h4> 
+            <h4>Our Blogs</h4>
         </div>
         <div class="our_blog_all_box">
             @foreach($twoBlogs as $blog)
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            @endforeach   
+            @endforeach
         </div>
     </div>
 </section>

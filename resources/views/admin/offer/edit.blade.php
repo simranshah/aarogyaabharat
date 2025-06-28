@@ -86,6 +86,23 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                   </div>
+                    <div class="form-group">
+                      <label for="showOnSiteInput">Show on Site</label>
+                      <select name="show_on_site" class="form-control" id="showOnSiteInput">
+                        <option value="0" {{ old('show_on_site', $offerAndDiscount->show_on_site) == '0' ? 'selected' : '' }}>False</option>
+                        <option value="1" {{ old('show_on_site', $offerAndDiscount->show_on_site) == '1' ? 'selected' : '' }}>True</option>
+                      </select>
+                      @error('show_on_site')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                    <div class="form-group">
+                      <label for="usageLimitInput">Usage Limit</label>
+                      <input type="number" name="usage_limit" class="form-control" id="usageLimitInput" placeholder="Enter Usage Limit" value="{{ old('usage_limit', $offerAndDiscount->usage_limit) }}">
+                      @error('usage_limit')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
                   <div class="form-group">
                     <label for="titleInput">Title</label>
                     <input type="text" name="title" class="form-control" id="titleInput" placeholder="Enter Title" value="{{ old('title', $offerAndDiscount->title) }}">

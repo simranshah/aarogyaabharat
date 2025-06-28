@@ -196,10 +196,10 @@
                             {{-- <a href="javascript:void(0)" class="trigger-login-popup"><img
                                     src="{{ asset('front/images/cart.svg') }}"
                                     alt="cart" style="margin-top:3px;"><span>{{ $cartProductCount1 ?? 0 }}</span></a> --}}
-                                    
+
                         {{-- @endif --}}
                     </li>
-                   
+
                     @if (Auth::check() && Auth::user()->hasRole('Customer'))
                         <li>
                             <a href="{{ route('customers.profile') }}">
@@ -230,7 +230,7 @@
                     <a href="#;"><img src="{{ asset('front/images/cross.svg') }}" alt="cross" /> </a>
                 </div>
             </div>
-            
+
         </div>
         {{-- <div class="headerBlock" style="padding: 1px;background-color: #220D6D;color: white; text-align: right;">
             <div class="nav-emg-header-inner">
@@ -345,8 +345,8 @@
     {{-- <form id="demo-form">
 
     @csrf
-    <button class="g-recaptcha" 
-            data-sitekey="{{ env('GOOGLE_RECATCHA_SITE_KEY') }}" 
+    <button class="g-recaptcha"
+            data-sitekey="{{ env('GOOGLE_RECATCHA_SITE_KEY') }}"
             data-callback="onSubmit" style="display: none;">Submit
     </button>
 </form> --}}
@@ -388,7 +388,7 @@
             document.getElementById("mins").innerText = mins.toString().padStart(2, '0');
             document.getElementById("secs").innerText = secs.toString().padStart(2, '0');
         };
-        
+
         const toggleBtn = document.getElementById('chat-toggle');
         const closeBtn = document.getElementById('close-chat');
         const chatbox = document.getElementById('chatbox');
@@ -554,19 +554,39 @@
         addMessage("Hi! I'm Aarogyaa. How can I help you today?", "bot");
     </script>
      <script>
-        const input = document.getElementById('searchInput');
+        const input1 = document.getElementById('searchInput');
         const placeholderText = "Search best deals on medical equipment...";
         let i = 0;
-        
+
         function typePlaceholder() {
             if (i < placeholderText.length) {
-                input.placeholder += placeholderText.charAt(i);
+                input1.placeholder += placeholderText.charAt(i);
                 i++;
                 setTimeout(typePlaceholder, 100); // Adjust speed here (milliseconds)
             }
         }
         // Start the animation
+        function resetPlaceholder() {
+            input1.placeholder = "";
+            i = 0;
+            typePlaceholder();
+        }
         typePlaceholder();
+        input1.addEventListener('focus', resetPlaceholder);
+        input1.addEventListener('blur', resetPlaceholder);
+        // Loop the animation
+        input1.addEventListener('input', function() {
+            if (input1.value === "") {
+            resetPlaceholder();
+            }
+        });
+        // Restart typing animation when finished
+        let observer = new MutationObserver(function() {
+            if (i < input1.placeholder.length === placeholderText.length) {
+            setTimeout(resetPlaceholder, 1500); // Wait before restarting
+            }
+        });
+        observer.observe(input1, { attributes: true, attributeFilter: ['placeholder'] });
     </script>
     <script>
         $(document).ready(function() {

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('offers_and_discounts', function (Blueprint $table) {
-            $table->boolean(column: 'show_on_site')->default(false);
+            $table->integer(column: 'usage_limit');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('offers_and_discounts', function (Blueprint $table) {
-            $table->dropColumn('show_on_site');
+            $table->dropColumn('usage_limit');
         });
     }
 };

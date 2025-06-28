@@ -122,7 +122,7 @@ class NewPaymentController extends Controller
                     'amount' => intval($total * 100),
                     'currency' => 'INR',
                 ]);
-                
+
                 if (isset($res['id'])) {
                     $order->update([
                         'payment_response' => json_encode($res),
@@ -137,7 +137,7 @@ class NewPaymentController extends Controller
                 DB::rollBack();
                 return response()->json(['error' => 'Payment gateway error', 'message' => $e->getMessage()], 500);
             }
-            
+
             DB::commit();
             $cacheKey = 'cart_' . Auth::id() . '_' . $order->razorpay_order_id;
             Cache::put($cacheKey, $cart->id, now()->addMinutes(15));
@@ -240,19 +240,26 @@ class NewPaymentController extends Controller
             $deliveradress['order_id'] = $order->id;
             $orderAddress = OrderAddress::create($deliveradress->toArray());
             Log::channel('payment_log')->info('Order address created', ['order_address_id' => $orderAddress->id]);
-            
+
 
             foreach ($orderItemsData as $item) {
                 $item['order_id'] = $order->id; // Associate the item with the created order
                 $item['status_id'] = 2; // Set initial status to 'Pending'
                 OrderItem::create($item);
             }
-            $orderitemData=OrderItem::where('order_id',$order->id)->get()->toArray();  
+            $orderitemData=OrderItem::where('order_id',$order->id)->get()->toArray();
             // print_r($orderitemData);
             foreach ($orderitemData as $item) {
                 $atribute=ProductAttribute::where('product_id',$item['product_id'])->first();
                 $atribute->stock -= $item['quantity'];
                 $atribute->save();
+            }
+            $cartData = Cart::with('offer')->where('id', $cacheCartId)->first();
+            if($cartData->offer) {
+                  if($cartData->offer->usage_limit) {
+                      $cartData->offer->usage_limit -= 1;
+                      $cartData->offer->save();
+                  }
             }
             Cart::where('id', $cacheCartId)->delete();
             Cache::forget($cacheKey);
@@ -410,7 +417,7 @@ class NewPaymentController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-            $orderitemData=OrderItem::where('order_id',$order->id)->get()->toArray();  
+            $orderitemData=OrderItem::where('order_id',$order->id)->get()->toArray();
             // print_r($orderitemData);
             foreach ($orderitemData as $item) {
                 $atribute=ProductAttribute::where('product_id',$item['product_id'])->first();

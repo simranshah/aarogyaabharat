@@ -11,13 +11,12 @@
                          @if(!empty($cartProducts) && !empty($cartProducts[0]) && $cartProducts[0]->discount_offer_id != $offer->id)
                         <button data-cart-id="{{ !empty($cartProducts) && !empty($cartProducts[0]) ?  $cartProducts[0]->id : 0 }}" data-coupon-code="{{ $offer->code }}" id="apply-{{ $offer->code }}" onclick="applyOffer(this)"  class="apply-btn-card">Apply Now</button>
                         @else
-                          <button data-cart-id="{{ !empty($cartProducts) && !empty($cartProducts[0]) ?  $cartProducts[0]->id : 0 }}" data-coupon-code="{{ $offer->code }}" id="remove-{{ $offer->code }}" onclick="removeOffer(this)" class="apply-btn-card">Remove</button>
+                          <button data-cart-id="{{ !empty($cartProducts) && !empty($cartProducts[0]) ?  $cartProducts[0]->id : 0 }}" data-coupon-code="{{ $offer->code }}" id="remove-{{ $offer->code }}" onclick="removeOffer(this)" class="remove-btn-card">Remove</button>
                         @endif
                     </div>
                 </div>
-                
-                <div class="card-divider"></div>
-                
+
+
                 <div class="offer-section">
                     <div class="offer-title">{{ $offer->title }}</div>
                     <div class="offer-description">

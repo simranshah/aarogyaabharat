@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
         //home page products end
         $recentViewedProducts = Product::with('images','category')->orderBy('updated_at', 'desc')->take(7)->get();
         $popularProducts = Product::with('images','category')->where('is_popular', true)->orderBy('updated_at', 'desc')->take(7)->get();
-        $offerAndDiscounts = OfferAndDiscount::orderBy('updated_at', 'desc')->take(10)->get();
+        $offerAndDiscounts = OfferAndDiscount::where('show_on_site', true)->orderBy('updated_at', 'desc')->take(10)->get();
         $contactusBlog = Blog::with('images')->inRandomOrder()->take(4)->get();
         $faqs = FAQ::with('answers')->get();
         $bannerImages = Banner::select('*')->where('is_mobile', false)->get();
@@ -75,21 +75,21 @@ class AppServiceProvider extends ServiceProvider
         View::share('sportsHealthcareMoreProducts', $sportsHealthcareMoreProducts);
         View::share('topDealsProducts', $topDealsProducts);
         View::share('topPickForYouProducts', $topPickForYouProducts);
-        
+
         //home page products end
         //cart count
         $session_id = session()->get('cart_id');
         \Log::channel('cart_log')->info('AppserviceProvider method - Session ID:', ['session_id' => $session_id]);
         $cartProductCount = Cart::where('user_id', Auth::id())
         ->orWhere('session_id', $session_id)
-        ->withCount('cartProducts') 
+        ->withCount('cartProducts')
         ->get()
     ->sum('cart_products_count');
         View::share('cartProductCount', $cartProductCount);
-    
+
         Blade::directive('indianCurrency', function ($amount) {
             return "<?php echo (new class { use \App\Traits\FormatsIndianCurrency; })->formatIndianCurrency($amount); ?>";
         });
-    
+
     }
 }
