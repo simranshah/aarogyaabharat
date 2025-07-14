@@ -115,8 +115,17 @@
 {
   "@context": "https://schema.org",
   "@type": "Blog",
-  "name": "{{ $blogDetails->title  }}",
-"url": "{{ url()->current() }}",
+  "headline": "{{ $blogDetails->title  }}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{url('/')}}{{ asset('storage/' . $blogDetails->images->first()->path) }}",
+    "alt": "{{url('/')}}{{ $blogDetails->images->first()->alt }}"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Aarogyaa Bharat"
+  },
+  "url": "{{ url()->current() }}",
   "description": "{{$blogDetails->description}}",
   "publisher": {
     "@type": "Organization",

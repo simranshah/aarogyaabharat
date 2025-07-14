@@ -60,11 +60,11 @@
                     <div class="bannerBlock">
                     <a href="{{$banner->link}}" target="_blank">
                         <img src="{{ asset('storage/' . $banner->image) }}" alt="Banner Image">
-                    </a>    
+                    </a>
                     </div>
             @endforeach
             @endif
-        </div> 
+        </div>
         <div class="progressBar"></div>
     </div>
 </section> --}}
@@ -1212,7 +1212,7 @@
             }else{
             const interval = setInterval(() => {
             load++;
-            
+
 
             if (load <= 100) {
               progress.style.width = load + "%";
@@ -1318,6 +1318,7 @@
   "@type": "WebSite",
   "name": "Aarogyaa Bharat",
   "url": "{{url('/')}}",
+  "logo": "{{url('/')}}/front/images/Favicon-new.svg",
   "potentialAction": {
     "@type": "SearchAction",
     "target": "{{url('/')}}/search/products/results/{search_term_string}",
