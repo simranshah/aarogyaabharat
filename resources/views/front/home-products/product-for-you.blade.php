@@ -13,20 +13,20 @@
                             <div class="imagePart">
                                 <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-                                </a>   
+                                </a>
                             </div>
                             <h5>
-                                <span> <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">{{ $product->name }}</a> </span> 
+                                <span> <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">{{ $product->name }}</a> </span>
                             </h5>
                             <div class="discounted-product-price">
                                 @if (isset($product->discount_percentage) && $product->discount_percentage > 0)
                                     <del class="original-price">₹  @indianCurrency($product->original_price) </del>
                                     <strong class="discounted-price">₹
                                          @indianCurrency($product->our_price) </strong>
-                                    <span class="discount-percentage">(@indianCurrency($product->discount_percentage)%OFF)</span> 
+                                    <span class="discount-percentage">(@indianCurrency($product->discount_percentage)%OFF)</span>
                                 @else
                                     <strong class="discounted-price">₹
-                                        @indianCurrency($product->price)</strong> 
+                                        @indianCurrency($product->price)</strong>
                                 @endif
 
                                 <div class="view-details">

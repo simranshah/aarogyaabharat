@@ -59,6 +59,40 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
+                                        <label for="productCategory">Sub Category</label>
+                                        <select name="subcategory_id"
+                                            class="form-control @error('subcategory_id') is-invalid @enderror"
+                                            id="productCategory">
+                                            <option value="">Select Category</option>
+                                            @foreach ($subcategories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ old('subcategory_id') == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('subcategory_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productBrand">Brand</label>
+                                        <select name="brand_id"
+                                            class="form-control @error('brand_id') is-invalid @enderror"
+                                            id="productBrand">
+                                            <option value="">Select Brand</option>
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}"
+                                                    {{ old('brand_id') == $brand->id ? 'selected' : '' }}>
+                                                    {{ $brand->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('brand_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
                                         <label for="productTitle">Title</label>
                                         <input type="text" name="title"
                                             class="form-control @error('title') is-invalid @enderror" id="productTitle"
@@ -131,7 +165,7 @@
                                             class="form-control" id="prouctourprize"
                                             placeholder="Enter Product Discount (%)" value="" readonly>
                                             <div class="invalid-feedback"></div>
-                                     
+
                                     </div>
                                     <div class="form-group">
                                         <label for="weeklyPrice">Monthly Price</label>
@@ -153,7 +187,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label for="gst">GST Percentage</label>
                                         <input type="number" name="gst" min="0"

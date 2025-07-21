@@ -8,6 +8,7 @@ use App\Models\Admin\Category;
 use App\Models\Admin\Product;
 use App\Models\Admin\Page;
 use Illuminate\Support\Facades\Config;
+use App\Models\Brand;
 
 class FrontProductController extends Controller
 {
@@ -15,10 +16,10 @@ class FrontProductController extends Controller
     {
         $categoriesAndProducts = Category::with('products')->get();
         $products = Product::with('category')->take(12)->get();
-        $seoMeta = Page::where('slug', 'products')->first(); 
-        $seoMetaTag = $seoMeta->seo_meta_tag ?? ''; 
-        $seoMetaTagTitle = $seoMeta->seo_meta_tag_title ?? ''; 
-        $pageTitle = $seoMeta->page_title ?? ''; 
+        $seoMeta = Page::where('slug', 'products')->first();
+        $seoMetaTag = $seoMeta->seo_meta_tag ?? '';
+        $seoMetaTagTitle = $seoMeta->seo_meta_tag_title ?? '';
+        $pageTitle = $seoMeta->page_title ?? '';
         return view('front.products', compact('categoriesAndProducts', 'products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
     }
 
@@ -29,9 +30,9 @@ class FrontProductController extends Controller
         // dd(isset($productDetails->productAttributes));
         $products = Product::with('category', 'images')->take(12)->get();
         // dd($productDetails);
-        $seoMetaTag = $productDetails->seo_meta_tag ?? ''; 
-        $seoMetaTagTitle = $productDetails->seo_meta_tag_title ?? ''; 
-        $pageTitle = $productDetails->page_title ?? ''; 
+        $seoMetaTag = $productDetails->seo_meta_tag ?? '';
+        $seoMetaTagTitle = $productDetails->seo_meta_tag_title ?? '';
+        $pageTitle = $productDetails->page_title ?? '';
         return view('front.product-details', compact('productDetails', 'products', 'faqFilters', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
     }
 
@@ -63,16 +64,98 @@ class FrontProductController extends Controller
         $categoriesAndProducts = Category::with('products')->get();
         return view('front.product-category', compact('categoriesAndProducts'));
     }
-    public function productCatogoryWise($slug)
+    public function productCatogoryWise(Request $request, $slug)
     {
         $categories = Category::take(12)->get();
-        $categoriesAndProducts = Category::with('products')->where('slug',$slug)->get();
-        $categoriesmain= Category::where('slug',$slug)->first();
-        // dd($categoriesAndProducts);
-        $seoMetaTagTitle = $categoriesmain->name.' Products';
-        $pageTitle = $categoriesmain->name.' Products';
-        $seoMetaTag = $categoriesmain->name .' Category All Products From Aarogyaa Bharat'; 
-        return view('front.category-product', compact('categoriesAndProducts', 'categories', 'slug', 'seoMetaTagTitle', 'pageTitle', 'seoMetaTag'));
+        $categoriesAndProducts = Category::with(['products' => function($query) use ($request) {
+            // Apply filters here based on $request->input('stock'), 'brand', etc.
+            // Example:
+
+            if ($request->filled('brand')) {
+                $brandNames = explode('|', $request->input('brand'));
+                $query->whereHas('brand', function($q) use ($brandNames) {
+                    $q->whereIn('name', $brandNames);
+                });
+            }
+            if ($request->filled('gender')) {
+                $genders = explode('|', $request->input('gender'));
+                $query->where(function($q) use ($genders) {
+                    $q->whereIn('gender', $genders)
+                      ->orWhereNull('gender');
+                });
+            }
+            // ...add other filters similarly...
+            if ($request->filled('min_price')) {
+                $query->where('our_price', '>=', $request->input('min_price'));
+            }
+            if ($request->filled('max_price')) {
+                $query->where('our_price', '<=', $request->input('max_price'));
+            }
+
+            if ($request->filled('stock')) {
+                $stocks = explode('|', $request->input('stock'));
+                $query->where(function($q) use ($stocks) {
+                    if (in_array('in stock', $stocks)) {
+                        $q->whereHas('productAttributes', function($attrQ) {
+                            $attrQ->where('stock', '>', 0);
+                        });
+                    }
+                    if (in_array('out of stock', $stocks)) {
+                        $q->orWhereDoesntHave('productAttributes', function($attrQ) {
+                            $attrQ->where('stock', '>', 0);
+                        });
+                    }
+                });
+
+            }
+            if ($request->filled('discount')) {
+                $discounts = explode('|', $request->input('discount'));
+                $query->where(function($q) use ($discounts) {
+                    foreach ($discounts as $discount) {
+                        $q->orWhere('discount_percentage', '<=', (float)$discount);
+                    }
+                });
+            }
+            if ($request->filled('subcategory')) {
+                $subcategories = explode('|', $request->input('subcategory'));
+
+                $query->whereHas('SubCategories', function($subQ) use ($subcategories) {
+                    $subQ->whereIn('name', $subcategories);
+                });
+            }
+            if ($request->filled('sort')) {
+                switch ($request->input('sort')) {
+                    case 'price-low':
+                        $query->orderBy('our_price', 'asc');
+                        break;
+                    case 'price-high':
+                        $query->orderBy('our_price', 'desc');
+                        break;
+                    case 'rating':
+                        $query->orderBy('rating', 'desc');
+                        break;
+                    case 'newest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    // 'relevance' or default: do not apply any order, or use your own logic
+                }
+            }
+
+        }],'SubCategories')->where('slug', $slug)->get();
+
+        $categoriesmain = Category::where('slug', $slug)->first();
+        $seoMetaTagTitle = $categoriesmain->name . ' Products';
+        $pageTitle = $categoriesmain->name . ' Products';
+        $seoMetaTag = $categoriesmain->name . ' Category All Products From Aarogyaa Bharat';
+
+        // If AJAX, return only the product grid partial
+        if ($request->ajax()) {
+            $html = view('front.common.product_grid', compact('categoriesAndProducts'))->render();
+            return response()->json(['html' => $html]);
+        }
+        $brands = Brand::orderBy('name', 'asc')->get();
+        // Otherwise, return the full page
+        return view('front.product-list', compact('categoriesAndProducts', 'categories', 'slug', 'seoMetaTagTitle', 'pageTitle', 'seoMetaTag','brands'));
     }
     public function productSubCatogoryWise($slug,$subSlug)
     {
@@ -81,10 +164,10 @@ class FrontProductController extends Controller
         // dd(isset($productDetails->productAttributes));
         $products = Product::with('category', 'images')->take(12)->get();
         // dd($productDetails);
-        $seoMetaTag = $productDetails->seo_meta_tag ?? ''; 
-        $seoMetaTagTitle = $productDetails->seo_meta_tag_title ?? ''; 
-        $pageTitle = $productDetails->page_title ?? ''; 
-        return view('front.product-details', compact('productDetails', 'products', 'faqFilters', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+        $seoMetaTag = $productDetails->seo_meta_tag ?? '';
+        $seoMetaTagTitle = $productDetails->seo_meta_tag_title ?? '';
+        $pageTitle = $productDetails->page_title ?? '';
+        return view('front.new-product-page', compact('productDetails', 'products', 'faqFilters', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
     }
     public function searchloadmore($query,$offset){
         $offset=$offset+10;
@@ -102,13 +185,13 @@ class FrontProductController extends Controller
      public function getProductInfo(Request $request)
     {
         $products = Product::all();
-    
+
         if ($products->isEmpty()) {
             return response()->json(['error' => 'No products found'], 404);
         }
-    
+
         $response = [];
-    
+
         foreach ($products as $product) {
             $response[] = [
                 'name' => $product->name,
@@ -123,9 +206,9 @@ class FrontProductController extends Controller
                 'is_new' => str_replace("\n", " ", strip_tags($product->is_new)),
             ];
         }
-    
+
         return response()->json($response);
-    } 
+    }
      public function flashSale()
     {
         $products = Product::with('category')->where('flash_sale',1)->get();
@@ -181,5 +264,11 @@ class FrontProductController extends Controller
         $seoMetaTagTitle = 'New Arrivals Products';
         $pageTitle = 'New Arrivals Products';
         return view('front.new-added-prouct', compact('products', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+    }
+    function productCategory(Request $request)
+    {
+      $category_id = $request->input('category_id');
+      $products = Product::with('category')->where('category_id', $category_id)->get();
+      return view('front.common.category-products', compact('products'));
     }
 }

@@ -67,7 +67,40 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
+                                    <div class="form-group">
+                                        <label for="productBrand">Brand</label>
+                                        <select name="brand_id"
+                                            class="form-control @error('brand_id') is-invalid @enderror"
+                                            id="productBrand">
+                                            <option value="">Select Brand</option>
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}"
+                                                    {{ old('brand_id', $product->brand_id) == $brand->id ? 'selected' : '' }}>
+                                                    {{ $brand->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('brand_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productCategory">Sub Category</label>
+                                        <select name="subcategory_id"
+                                            class="form-control @error('subcategory_id') is-invalid @enderror"
+                                            id="productCategory">
+                                            <option value="">Select Sub Category</option>
+                                            @foreach ($subcategories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ old('subcategory_id', $product->subcategory_id) == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('subcategory_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                     <!-- Title -->
                                     <div class="form-group">
                                         <label for="productTitle">Title</label>
@@ -160,7 +193,7 @@
                                         <input type="number" name="" min="0"
                                             class="form-control" id="prouctourprize"
                                             placeholder="Enter Product Discount (%)" value="" readonly>
-                                            <div class="invalid-feedback"></div> 
+                                            <div class="invalid-feedback"></div>
                                     </div>
                                     <!-- Weekly Price -->
                                     <div class="form-group">
@@ -384,7 +417,7 @@
             CKEDITOR.replace('why_choose_this_product');
             CKEDITOR.replace('measurements');
             CKEDITOR.replace('usage_instructions');
-            CKEDITOR.replace('features_specification'); 
+            CKEDITOR.replace('features_specification');
         });
         function calculateourprice() {
             var price = parseFloat(document.getElementById('productPrice').value);

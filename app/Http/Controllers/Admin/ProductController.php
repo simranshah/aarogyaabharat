@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
+use App\Models\Admin\SubCategories;
+use App\Models\Brand;
 
 
 class ProductController extends Controller
@@ -20,7 +22,7 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
             $products = Product::with('category');
-    
+
             return DataTables::of($products)
                 ->addColumn('image', function ($product) {
                     return $product->image
@@ -37,24 +39,28 @@ class ProductController extends Controller
                 ->rawColumns(['image', 'action'])
                 ->make(true);
         }
-    
+
         return view('admin.product.index');
     }
-    
+
     public function create() {
         $categories = Category::all();
         $attributes = ProductAttribute::all();
-        return view('admin.product.create', compact('categories', 'attributes'));
+        $subcategories= SubCategories::all();
+        $brands = Brand::all();
+        return view('admin.product.create', compact('categories', 'attributes', 'subcategories','brands'));
     }
 
     public function store(StoreProductRequest $request)
     {
-    
+
         $validated = $request->validated();
         $product = new Product();
         $product->name = $request->name;
         $product->slug = \Str::slug($request->name);
         $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
+        $product->brand_id = $request->brand_id;
         $product->title = $request->title;
         $product->description = $request->description;
         $product->features_specification = $request->features_specification;
@@ -76,7 +82,7 @@ class ProductController extends Controller
         $product->measurements = $request->measurements ?? null;
         $product->usage_instructions = $request->usage_instructions ?? null;
         $product->why_choose_this_product = $request->why_choose_this_product ?? null;
-       
+
         $product->discount_percentage = $request->dicount_percentage ?? null;
         $product->page_title = $request->page_title ?? null;
         $product->seo_meta_tag_title = $request->seo_meta_tag_title ??  null;
@@ -84,11 +90,11 @@ class ProductController extends Controller
         $product->delivery_and_installation_fees = $request->delivery_and_installation_fees;
         $product->save();
         if ($request->hasFile('image')) {
-            $firstFile = $request->file('image')[0]; 
-            $firstImagePath = $firstFile->store('products', 'public'); 
+            $firstFile = $request->file('image')[0];
+            $firstImagePath = $firstFile->store('products', 'public');
             $product->update(['image' => $firstImagePath]);
             foreach ($request->file('image') as $key => $file) {
-                $imagePath = $file->store('products', 'public'); 
+                $imagePath = $file->store('products', 'public');
                 $product->images()->create([
                     'path' => $imagePath,
                     'alt' => $request->alt
@@ -103,7 +109,9 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $product = Product::findOrFail($id);
-        return view('admin.product.edit', compact('product', 'categories'));
+        $subcategories = SubCategories::all();
+        $brands = Brand::all();
+        return view('admin.product.edit', compact('product', 'categories','subcategories','brands'));
     }
 
     public function update(Request $request, $id) {
@@ -122,17 +130,19 @@ class ProductController extends Controller
             // 'about_item' => 'nullable|string',
             // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         $product = Product::where('id',$id)->first();
         // dd($product ,$id, $request->all());
         $product->name = $request->name;
         $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
+        $product->brand_id = $request->brand_id;
         $product->title = $request->title;
         $product->description = $request->description;
         $product->features_specification = $request->features_specification;
         $product->price = $request->price;
         $product->original_price = $request->price;
-        $product->our_price = $request->price - ($request->price * $request->dicount_percentage / 100);    
+        $product->our_price = $request->price - ($request->price * $request->dicount_percentage / 100);
         $product->weekly_price = $request->weekly_price;
         $product->gst = $request->gst;
         $product->is_rentable = $request->has('is_rentable') ? true : false ;
@@ -162,20 +172,20 @@ class ProductController extends Controller
                         $image->delete();
                     }
                 }
-            
-                $firstFile = $request->file('image')[0]; 
-                $firstImagePath = $firstFile->store('products', 'public'); 
+
+                $firstFile = $request->file('image')[0];
+                $firstImagePath = $firstFile->store('products', 'public');
                 $product->image = $firstImagePath;
                 $product->update(['image' => $firstImagePath]);
                 foreach ($request->file('image') as $key => $file) {
-                    $imagePath = $file->store('products', 'public'); 
+                    $imagePath = $file->store('products', 'public');
                     $product->images()->create([
                         'path' => $imagePath,
                         'alt' => $request->alt
                     ]);
                 }
         }
-    
+
         return redirect()->route('admin.products')->with('success', 'Product updated successfully.');
     }
 
@@ -207,8 +217,8 @@ class ProductController extends Controller
             foreach ($attributes as $attribute) {
                 $attribute->name = $attribute->product->name ?? 'Unknown';
             }
-            
-            
+
+
             return DataTables::of($attributes)
                 ->addColumn('action', function ($attribute) {
                     return '<a href="' . route('admin.products.attribute.edit', $attribute->id) . '" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>

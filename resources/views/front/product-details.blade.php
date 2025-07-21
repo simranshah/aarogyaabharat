@@ -108,7 +108,7 @@
                                 </div>
                             @endif
                             {{-- <div class="details">
-                                
+
                             </div> --}}
                         </div>
                         <div class="more_details">
@@ -215,7 +215,7 @@
 
         </script>
         <script>
-      $(document).ready(function () {
+$(document).ready(function () {
     $('.addtocart').on('click', function () {
         var productId = $(this).data('id');
         var $btn = $(this);

@@ -31,7 +31,7 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-         
+
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="true">
                 <!-- Add icons to the links using the .nav-icon class
@@ -70,6 +70,13 @@
                                 class="nav-link {{ Request::is('admin/admin.sub-categories') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Sub Categories</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.brand') }}"
+                                class="nav-link {{ Request::is('admin/brand') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Brand</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -243,7 +250,7 @@
         </p>
     </a>
 </li> --}}
-@if(auth()->user()->hasRole('admin')) 
+@if(auth()->user()->hasRole('admin'))
                 <li class="nav-item">
                     <a href="{{ route('admin.pins') }}"
                         class="nav-link {{ Request::is('admin/pincodes') ? 'active' : '' }}">

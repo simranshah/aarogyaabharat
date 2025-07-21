@@ -62,7 +62,7 @@ class CartController2 extends Controller
         try {
             $product = Product::with('productAttributes')->where('id', $productId)->first();
             if (!$product || $product->productAttributes->stock < 1) {
-                return redirect()->back()->with('error', 'Product is out of stock!');
+                return response()->json(['success' => false, 'message' => 'Product is out of stock!']);
             }
 
             $customer = Auth::user();

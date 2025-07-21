@@ -36,7 +36,7 @@ use App\Http\Controllers\contactController;
 use App\Http\Controllers\Front\CartController2;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ArticleSubmissionController;
-
+use App\Http\Controllers\BrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,9 +66,10 @@ Route::post('/submit-article', [ArticleSubmissionController::class, 'store'])->n
 Route::post('/contact-us', [contactController::class, 'store'])->name('contact.store');
 //front routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/new-home',[HomeController::class, 'index1'])->name('new.home');
 // Route::get('/products', [HomeController::class, 'productPage'])->name('products');
 
-//Social login 
+//Social login
 Route::get('auth/google', [SocialLoginController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [SocialLoginController::class, 'handleGoogleCallback']);
 Route::get('auth/facebook', [SocialLoginController::class, 'redirectToFacebook'])->name('facebook.login');
@@ -84,6 +85,7 @@ Route::controller(FrontProductController::class)->group(function () {
     // Route::get('/categories', 'productCatogory')->name('products.category');
     Route::get('/categories/{slug}', 'productCatogoryWise')->name('products.category.wise');
     Route::get('/categories/{slug}/{subSlug}', 'productSubCatogoryWise')->name('products.sub.category.wise');
+    Route::get('/product-category', 'productCategory')->name('products.category');
     Route::get('/sale', 'flashSale')->name('products.flash.sale');
     Route::get('/top-pick-for-you', 'topPickForYou')->name('products.top.pick.for.you');
     Route::get('/best-sellers', 'bestSellers')->name('products.best.sellers');
@@ -125,14 +127,14 @@ Route::controller(RaiseQueryController::class)->group(function () {
 });
 
 Route::controller(FAQController::class)->group(function () {
-    Route::get('/faqs', 'fontIndex')->name('faqs');  
+    Route::get('/faqs', 'fontIndex')->name('faqs');
 });
 
 Route::controller(BlogController::class)->group(function () {
-    Route::get('/blogs', 'fontIndex')->name('blogs');  
+    Route::get('/blogs', 'fontIndex')->name('blogs');
     Route::get('/blogs/details/{slug}', 'blogDetials')->name('blog.details');
-    Route::get('/search-blog', 'blogSearch')->name('blog.search'); 
-    Route::get('/search-blog-list/{query}', 'blogSearchResult')->name('blog.search.result'); 
+    Route::get('/search-blog', 'blogSearch')->name('blog.search');
+    Route::get('/search-blog-list/{query}', 'blogSearchResult')->name('blog.search.result');
 });
 
 Route::get('/customer/notification', [FrontCustomerController::class, 'Notification'])->name('customer.notification');
@@ -256,7 +258,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/orders/update-order-item-status/{id}/{status}', [OrderController::class, 'updateOrderItemStatus'])->name('admin.order.updateOrderItemStatus');
             Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('admin.order.updateStatus');
         });
-       
+
         // Sub Category Routes
         Route::controller(SubCategory::class)->group(function () {
             Route::get('/sub-categories', 'index')->name('admin.sub.categories');
@@ -269,6 +271,14 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/pincodes/import', 'import')->name('admin.pinOffices.importForm');
             Route::post('/admin/pin-offices/import','importStore')->name('admin.pinOffices.importstore');
         });
+        Route::controller(BrandController::class)->group(function () {
+            Route::get('/brand', 'index')->name('admin.brand');
+            Route::get('/brand/create', 'create')->name('admin.brand.create');
+            Route::post('/brand/store', 'store')->name('admin.brand.store');
+            Route::get('/brand/edit/{id}', 'edit')->name('admin.brand.edit');
+            Route::post('/brand/update/{id}', 'update')->name('admin.brand.update');
+            Route::get('/brand/{id}', 'destroy')->name('admin.brand.destroy');
+        });
 
         // Product Routes
         Route::controller(ProductController::class)->group(function () {
@@ -277,8 +287,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/products/store', 'store')->name('admin.products.store');
             Route::get('/products/edit/{id}', 'edit')->name('admin.products.edit');
             Route::post('/products/update/{id}', 'update')->name('admin.products.update');
-            Route::get('/products/{id}', 'destroy')->name('admin.products.destroy');   
-            Route::get('import-product', 'importProduct')->name('products.import');  
+            Route::get('/products/{id}', 'destroy')->name('admin.products.destroy');
+            Route::get('import-product', 'importProduct')->name('products.import');
             Route::post('/products/import', 'import')->name('admin.products.importstore');
              Route::get('out-of-stock', 'outofstock')->name('products.outofstock');
         });
@@ -289,7 +299,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/products-attribute/store', 'store')->name('admin.products.attribute.store');
             Route::get('/products-attribute/edit/{id}', 'edit')->name('admin.products.attribute.edit');
             Route::post('/products-attribute/update/{id}', 'update')->name('admin.products.attribute.update');
-            Route::get('/products-attribute/{id}', 'destroy')->name('admin.products.attribute.destroy');  
+            Route::get('/products-attribute/{id}', 'destroy')->name('admin.products.attribute.destroy');
         });
 
         // Pages Routes
@@ -299,7 +309,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/page/store', 'store')->name('admin.page.store');
             Route::get('/page/edit/{id}', 'edit')->name('admin.page.edit');
             Route::post('/page/update/{id}', 'update')->name('admin.page.update');
-            Route::get('/page/{id}', 'destroy')->name('admin.page.destroy');  
+            Route::get('/page/{id}', 'destroy')->name('admin.page.destroy');
         });
         // Cms Routes
         Route::controller(CMSController::class)->group(function () {
@@ -308,7 +318,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/cms/store', 'store')->name('admin.cms.store');
             Route::get('/cms/edit/{id}', 'edit')->name('admin.cms.edit');
             Route::post('/cms/update/{id}', 'update')->name('admin.cms.update');
-            Route::get('/cms/{id}', 'destroy')->name('admin.cms.destroy');  
+            Route::get('/cms/{id}', 'destroy')->name('admin.cms.destroy');
             Route::delete('admin/cms/image/{id}', [CmsController::class, 'destroyImage'])->name('admin.cms.image.destroy');
         });
 
@@ -323,9 +333,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/blogs/edit2/{id}', 'newedit')->name('admin.blogs.edit2');
             Route::post('/blogs/update/{id}', 'update')->name('admin.blogs.update');
             Route::post('/blogs/update2/{id}', 'newupdate')->name('admin.blogs.update2');
-            Route::get('/blogs/{id}', 'destroy')->name('admin.blogs.destroy');  
+            Route::get('/blogs/{id}', 'destroy')->name('admin.blogs.destroy');
         });
-        
+
         // Customer Routes
         Route::controller(CustomerController::class)->group(function () {
             Route::get('/customers', 'index')->name('admin.customers');
@@ -357,7 +367,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/happy-customers/update/{id}', 'update')->name('admin.happy.customers.update');
             Route::get('/happy-customers/{id}', 'destroy')->name('admin.happy.customers.destroy');
         });
-        
+
 
         // User Routes
         Route::controller(UserController::class)->group(function () {
@@ -393,7 +403,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/offer/store', 'store')->name('admin.offer.store');
             Route::get('/offer/edit/{id}', 'edit')->name('admin.offer.edit');
             Route::post('/offer/update/{id}', 'update')->name('admin.offer.update');
-            Route::get('/offer/{id}', 'destroy')->name('admin.offer.destroy');  
+            Route::get('/offer/{id}', 'destroy')->name('admin.offer.destroy');
         });
         //Offer Routes
         Route::controller(FAQController::class)->group(function () {
@@ -402,7 +412,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/faqs/store', 'store')->name('admin.faqs.store');
             Route::get('/faqs/edit/{id}', 'edit')->name('admin.faqs.edit');
             Route::post('/faqs/update/{id}', 'update')->name('admin.faqs.update');
-            Route::get('/faqs/{id}', 'destroy')->name('admin.faqs.destroy');  
+            Route::get('/faqs/{id}', 'destroy')->name('admin.faqs.destroy');
         });
 
         Route::controller(StatusController::class)->group(function () {
