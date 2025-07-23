@@ -119,6 +119,42 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
+                                        <label for="image_1">Extra Image 1</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="image_1" class="custom-file-input" id="image_1">
+                                                <label class="custom-file-label" for="image_1">Choose file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image_2">Extra Image 2</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="image_2" class="custom-file-input" id="image_2">
+                                                <label class="custom-file-label" for="image_2">Choose file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image_3">Extra Image 3</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="image_3" class="custom-file-input" id="image_3">
+                                                <label class="custom-file-label" for="image_3">Choose file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image_4">Extra Image 4</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="image_4" class="custom-file-input" id="image_4">
+                                                <label class="custom-file-label" for="image_4">Choose file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="imagealt">Image Alt</label>
                                         <input type="text" name="alt" class="form-control @error('alt') is-invalid @enderror" id="imagealt" placeholder="Image Alt" value="{{ old('alt') }}">
                                         @error('alt')

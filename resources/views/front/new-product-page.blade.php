@@ -29,21 +29,31 @@ $isMobile =
                 <div class="product-image-info-container">
                 @if(!$isMobile)
                 <div class="product-image1">
-                    @if ($productDetails->images->isNotEmpty())
-                    @foreach ($productDetails->images as $image)
-                        @if (!empty($image->path))
-                            <img style="width: 100%;" src="{{ asset('storage/' . $image->path) }}" alt="Product Image" />
-                        @endif
-                    @endforeach
-                    @else
-                        <img style="width: 100%;" src="{{ asset('storage/' . $productDetails->image) }}"
-                            alt="{{ $productDetails->slug }}" />
-                    @endif
+                    @php
+                        $thumbnails = [];
+                        if (!empty($productDetails->image)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image);
+                        }
+                        if (!empty($productDetails->image_1)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image_1);
+                        }
+                        if (!empty($productDetails->image_2)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image_2);
+                        }
+                        if (!empty($productDetails->image_3)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image_3);
+                        }
+                        if (!empty($productDetails->image_4)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image_4);
+                        }
+                    @endphp
+                    <img id="mainProductImage" style="width: 100%; min-height: 419px; max-height: 419px; object-fit: contain;" src="{{ $thumbnails[0] ?? '' }}" alt="Product Image" />
                     <div class="thumbnail-row">
-                        <div class="thumbnail active"></div>
-                        <div class="thumbnail"></div>
-                        <div class="thumbnail"></div>
-                        <div class="thumbnail"></div>
+                        @foreach($thumbnails as $i => $thumb)
+                            <div class="thumbnail{{ $i === 0 ? ' active' : '' }}" onclick="changeMainImage('{{ $thumb }}', this)">
+                                <img src="{{ $thumb }}" alt="Product Thumbnail" style="width: 100%; min-height: 60px; max-height: 80px; object-fit: cover;" />
+                            </div>
+                        @endforeach
                     </div>
                 </div>
                 @endif
@@ -54,22 +64,32 @@ $isMobile =
                     </p>
                     @if($isMobile)
                     <div class="product-image1">
-                        @if ($productDetails->images->isNotEmpty())
-                        @foreach ($productDetails->images as $image)
-                            @if (!empty($image->path))
-                                <img style="width: 100%;" src="{{ asset('storage/' . $image->path) }}" alt="Product Image" />
-                            @endif
+                        @php
+                        $thumbnails = [];
+                        if (!empty($productDetails->image)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image);
+                        }
+                        if (!empty($productDetails->image_1)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image_1);
+                        }
+                        if (!empty($productDetails->image_2)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image_2);
+                        }
+                        if (!empty($productDetails->image_3)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image_3);
+                        }
+                        if (!empty($productDetails->image_4)) {
+                            $thumbnails[] = asset('storage/' . $productDetails->image_4);
+                        }
+                    @endphp
+                    <img id="mainProductImage" style="width: 100%; min-height: 419px; max-height: 419px; object-fit: contain;" src="{{ $thumbnails[0] ?? '' }}" alt="Product Image" />
+                    <div class="thumbnail-row">
+                        @foreach($thumbnails as $i => $thumb)
+                            <div class="thumbnail{{ $i === 0 ? ' active' : '' }}" onclick="changeMainImage('{{ $thumb }}', this)">
+                                {{-- <img src="{{ $thumb }}" alt="Product Thumbnail" style="width: 100%; min-height: 60px; max-height: 80px; object-fit: cover;" /> --}}
+                            </div>
                         @endforeach
-                        @else
-                            <img style="width: 100%;" src="{{ asset('storage/' . $productDetails->image) }}"
-                                alt="{{ $productDetails->slug }}" />
-                        @endif
-                        <div class="thumbnail-row">
-                            <div class="thumbnail active"></div>
-                            <div class="thumbnail"></div>
-                            <div class="thumbnail"></div>
-                            <div class="thumbnail"></div>
-                        </div>
+                    </div>
                     </div>
                     @endif
                     <div class="rating-section">
@@ -179,12 +199,14 @@ $isMobile =
                         <div class="pincode-section">
                             <label class="pincode-label">Pin Code Availability</label>
                             <div class="pincode-controls">
-                                <input type="text" class="pincode-input" placeholder="Enter Pincode" maxlength="6">
-                                <button class="check-btn" onclick="checkPincode()">Check</button>
+                                <input type="text" id="pinCode" class="pincode-input" placeholder="Enter Pincode" maxlength="6">
+                                <button class="check-btn" id="check-btn" onclick="checkPincode()">Check</button>
+                             
                             </div>
+                            <div id="pincode-error-sucess"></div>
                         </div>
-                        <button class="pay-btn" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
-                            <button class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
+                        <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                            <button class="pay-btn" onclick="buynowProduct({{ $productDetails->id }})" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                                 to Pay</button>
                        </div>
                        <div class="content1" id="rentnowsection" style="display: none; height: auto;">
@@ -233,8 +255,8 @@ $isMobile =
                                 <span>₹ 1,596.00</span>
                             </div>
                         </div>
-                        <button class="pay-btn" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
-                            <button class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
+                        <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                            <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                                 to Pay</button>
                     </div>
 
@@ -255,18 +277,38 @@ $isMobile =
                         </div>
                     </div>
                     @endif
-                <div class="features-section">
-                    <h3 class="section-title">Features & Specification</h3>
-                    <div class="feature-list">
-                        {!! html_entity_decode($productDetails->features_specification) !!}
+                    @if ($productDetails->about_item != '')
+                    <div class="features_specification">
+                        <h2>About this item</h2>
+                        <ul>
+                            {!! html_entity_decode($productDetails->about_item) !!}
+                        </ul>
                     </div>
-                </div>
-                <div class="features-section">
-                    <h3 class="section-title">Features & Specification</h3>
-                    <div class="feature-list">
-                        {!! html_entity_decode($productDetails->features_specification) !!}
+                @endif
+                @if ($productDetails->measurements != '')
+                    <div class="features_specification">
+                        <h2>Measurements</h2>
+                        <ul>
+                            {!! html_entity_decode($productDetails->measurements) !!}
+                        </ul>
                     </div>
-                </div>
+                @endif
+                @if ($productDetails->usage_instructions != '')
+                    <div class="features_specification">
+                        <h2>Usage instructions</h2>
+                        <ul>
+                            {!! html_entity_decode($productDetails->usage_instructions) !!}
+                        </ul>
+                    </div>
+                @endif
+                @if ($productDetails->why_choose_this_product != '')
+                    <div class="features_specification">
+                        <h2>Why Choose This Product</h2>
+                        <ul>
+                            {!! html_entity_decode($productDetails->why_choose_this_product) !!}
+                        </ul>
+                    </div>
+                @endif
                 <section class="frequently_asked_questions" style="margin-top: 41px;">
                     {{-- <div class="containerforfilters" style="display: block;"> --}}
                         <div class="faq_title"><h2>Frequently asked questions</h2></div>
@@ -383,12 +425,14 @@ $isMobile =
                 <div class="pincode-section">
                     <label class="pincode-label">Pin Code Availability</label>
                     <div class="pincode-controls">
-                        <input type="text" class="pincode-input" placeholder="Enter Pincode" maxlength="6">
-                        <button class="check-btn" onclick="checkPincode()">Check</button>
+                        <input type="text" id="pinCode" class="pincode-input" placeholder="Enter Pincode" maxlength="6">
+                        <button class="check-btn" id="check-btn" onclick="checkPincode()">Check</button>
+                     
                     </div>
+                    <div id="pincode-error-sucess"></div>
                 </div>
-                <button class="pay-btn" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
-                    <button class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
+                <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                    <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                         to Pay</button>
                </div>
                <div class="content1" id="rentnowsection" style="display: none; height: auto;">
@@ -437,8 +481,8 @@ $isMobile =
                         <span>₹ 1,596.00</span>
                     </div>
                 </div>
-                <button class="pay-btn" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
-                    <button class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
+                <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                    <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                         to Pay</button>
             </div>
 
@@ -472,7 +516,7 @@ $isMobile =
             <div class="recent-product-product-name">{{ $product->name }}</div>
             <div class="recent-product-product-price">
               <span class="recent-product-currency">₹</span>{{ $product->price }}
-              <span class="recent-product-price-details">/ Per week</span>
+            
             </div>
           </div>
             @endforeach
@@ -786,12 +830,140 @@ $isMobile =
     justify-content: center;
     gap: 16px;
 ">
-            <button type="button" class="addtocart" data-id="2283">Add to Cart</button>
-<a href="#;" class="btn_buynow" id="buy-now-button" data-productid="2283">Proceed to Pay</a>
+            <button type="button" onclick="addToCart({{ $productDetails->id }})" class="addtocart" data-id="2283">Add to Cart</button>
+<a href="#;" class="btn_buynow" onclick="buynowProduct({{ $productDetails->id }})" id="buy-now-button" data-productid="2283">Proceed to Pay</a>
      </div>
      @endif
     </div>
+    <input type="hidden" id="razorpay-key" value="{{ env('RAZORPAY_KEY') }}">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" data-reload="true"></script>
+    <script src="{{ asset('front/js/jquery.min.js') }}"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
+    function buynowProduct(productId) {
+        
+                // e.preventDefault();
+
+                // var productId = $(this).data('productid');
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                var razorpayKey = $('#razorpay-key').val();
+
+                $.ajax({
+                    url: `/create-order/${productId}`,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    data: {
+                        amount: 50000 * 100 // Convert INR to paise
+                    },
+                    success: function(data) {
+                        if (data.error) {
+                            // if(data.error=='')
+                            document.getElementById('logoutPopup3').style.display = 'flex';
+                            // toastr.error(data.error);
+                            return;
+                        }
+
+                        var options = {
+                            "key": razorpayKey,
+                            "amount": data.amount,
+                            "currency": "INR",
+                            "name": "Aarogyaa Bharat",
+                            "description": "Purchase product {{ $productDetails->name }}: " +
+                                data.amount,
+                            "order_id": data.id,
+                            "handler": function(response) {
+                                $.ajax({
+                                    url: '/verify-payment',
+                                    type: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': csrfToken
+                                    },
+                                    data: {
+                                        razorpay_payment_id: response
+                                            .razorpay_payment_id,
+                                        razorpay_order_id: response
+                                            .razorpay_order_id,
+                                        razorpay_signature: response
+                                            .razorpay_signature
+                                    },
+                                    success: function(response) {
+                                        if (response.message ===
+                                            'Payment Verified') {
+                                            // toastr.success(
+                                            //     'Payment successful!');
+                                            var form = $('<form>', {
+                                                'action': "{{ route('thanks') }}",
+                                                'method': 'GET'
+                                            });
+                                            form.append($('<input>', {
+                                                'type': 'hidden',
+                                                'name': 'order_id',
+                                                'value': response
+                                                    .order_id
+                                            }));
+                                            $('body').append(form);
+                                            form.submit();
+                                            // window.location.href = "{{ route('thanks') }}?order_id=" + response.order_id;
+                                        } else {
+                                            // toastr.error(
+                                            //     'Payment verification failed!'
+                                            //     );
+                                            document.getElementById(
+                                                    'logoutPopup3').style
+                                                .display = 'flex';
+                                        }
+                                    },
+                                    error: function(xhr) {
+                                        // toastr.error(
+                                        //     'Payment verification error: ' +
+                                        //     xhr.responseJSON.error);
+                                        document.getElementById(
+                                                'logoutPopup3').style
+                                            .display = 'flex';
+                                    }
+                                });
+                            },
+                            "prefill": {
+                                "name": data.customer.name,
+                                "email": data.customer.email,
+                                "contact": data.customer.mobile
+                            },
+                            "theme": {
+                                "color": "#F37254"
+                            }
+                        };
+
+                        var rzp1 = new Razorpay(options);
+                        rzp1.open();
+                    },
+                    error: function(xhr) {
+                        //   document.getElementById('logoutPopup3').style.display='flex';
+                        // toastr.error(xhr.responseJSON.error|| xhr.responseJSON.message || 'An error occurred.');
+                        if (xhr.responseJSON.message ==
+                            'Please add an address to proceed with payment.') {
+                            document.getElementById('text-btween-cartpopup').innerHTML =
+                                'Let’s add your address first.'
+                            cartPopup();
+                            localStorage.setItem('address_required', '1');
+                            window.location.href = "{{ route('customers.profile') }}";
+
+
+                        } else if (xhr.responseJSON.message ==
+                            'Please login to proceed with payment.') {
+                            window.location.href = "{{ route('login') }}"
+                        } else if(xhr.responseJSON.error ==
+                        'Product is out of stock!'){
+                            document.getElementById('text-btween-cartpopup').innerHTML = xhr.responseJSON.error;
+                            document.getElementById('text-btween-cartpopup').style.color = 'red';
+                            cartPopup();
+                        } else{
+                            document.getElementById('logoutPopup3').style.display = 'flex';
+                        }
+                    }
+                });
+            }
         function increaseQuantity() {
             const quantityInput = document.getElementById('quantity');
             const currentValue = parseInt(quantityInput.value);
@@ -810,13 +982,46 @@ $isMobile =
 
         function checkPincode() {
             const pincodeInput = document.querySelector('.pincode-input');
-            const pincode = pincodeInput.value.trim();
+            const pinCode = pincodeInput.value.trim();
 
-            if (pincode.length === 6 && /^\d+$/.test(pincode)) {
-                alert(`Delivery available for pincode: ${pincode}`);
-            } else {
-                alert('Please enter a valid 6-digit pincode');
-            }
+            // var pinCode = $('#pinCode').val();
+
+// Clear previous styles
+$('#pincode-error-sucess').removeClass('text-success text-danger');
+
+// Simple validation for empty input
+if (pinCode === '' || pinCode.length !== 6) {
+    $('#pincode-error-sucess')
+        .text('Please enter a valid 6-digit pin code.')
+        .removeClass('text-success') // Remove success if previously added
+        .addClass('text-danger');
+    return;
+}
+
+
+$.ajax({
+    url: "{{ route('checkpin') }}",
+    method: 'GET',
+    data: {
+        pin: pinCode,
+    },
+    success: function (response) {
+        if (response.available) {
+            $('#pincode-error-sucess')
+                .text('Delivery is available at this pin code.')
+                .addClass('text-success');
+        } else {
+            $('#pincode-error-sucess')
+                .text('Sorry, we do not deliver to this pin code.')
+                .addClass('text-danger');
+        }
+    },
+    error: function () {
+        $('#pincode-error-sucess')
+            .text('An error occurred while checking the pin code.')
+            .addClass('text-danger');
+    }
+});
         }
 
         // Add click handlers for thumbnails
@@ -857,6 +1062,80 @@ $isMobile =
                 document.getElementById('buynowsummery').style.display="none";
             }
         }
+    </script>
+    <script>
+        function changeMainImage(src, el) {
+            document.getElementById('mainProductImage').src = src;
+            document.querySelectorAll('.thumbnail').forEach(function(thumb) {
+                thumb.classList.remove('active');
+            });
+            el.classList.add('active');
+        }
+        $('#check-btn').on('click', function () {
+    var pinCode = $('#pinCode').val();
+
+    // Clear previous styles
+    $('#pincode-error-sucess').removeClass('text-success text-danger');
+
+    // Simple validation for empty input
+    if (pinCode === '') {
+        $('#pincode-error-sucess')
+            .text('Please enter a pin code.')
+            .addClass('text-danger');
+        return;
+    }
+
+    $.ajax({
+        url: "{{ route('checkpin') }}",
+        method: 'GET',
+        data: {
+            pin: pinCode,
+        },
+        success: function (response) {
+            if (response.available) {
+                $('#pincode-error-sucess')
+                    .text('Delivery is available at this pin code.')
+                    .addClass('text-success');
+            } else {
+                $('#pincode-error-sucess')
+                    .text('Sorry, we do not deliver to this pin code.')
+                    .addClass('text-danger');
+            }
+        },
+        error: function () {
+            $('#pincode-error-sucess')
+                .text('An error occurred while checking the pin code.')
+                .addClass('text-danger');
+        }
+    });
+});
+function addToCart(productId) {
+    $.ajax({
+        url: "{{ route('cart.add', ['productId' => '__ID__']) }}".replace('__ID__', productId),
+        method: 'POST',
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        success: function (response) {
+            if (response.success) {
+                document.getElementById('cartproductcount').innerHTML = response.cartproductcount;
+                document.getElementById('text-btween-cartpopup').innerHTML = response.message;
+                document.getElementById('text-btween-cartpopup').style.color = '#2d5a2d';
+            } else {
+                document.getElementById('text-btween-cartpopup').innerHTML = response.message;
+                document.getElementById('text-btween-cartpopup').style.color = 'red';
+            }
+            cartPopup();
+        },
+        error: function () {
+            document.getElementById('logoutPopup3').style.display = 'flex';
+        }
+    });
+}
+
+
+    
+
     </script>
 </div>
 @endsection('content')

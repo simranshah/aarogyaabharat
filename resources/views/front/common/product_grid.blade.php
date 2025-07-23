@@ -52,7 +52,7 @@
                 </div>
                 <div class="frame-25">
                   <div class="frame-26">
-                    <div class="text-wrapper-15 addtocart" data-id="{{ $product->id }}">Add to cart</div>
+                    <div class="text-wrapper-15 addtocart" onclick="addToCart({{ $product->id }})" data-id="{{ $product->id }}">Add to cart</div>
                   </div>
                 </div>
               </div>

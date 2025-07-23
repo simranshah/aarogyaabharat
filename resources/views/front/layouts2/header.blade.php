@@ -1,26 +1,115 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
 
-    @php
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D1GEF2BB22"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-TEY1CCE82S');
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+    </script>
+    <!-- Google tag-manger (gtag.js) -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-P8QHT45N');
+    </script>
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
+    @if (isset($seoMetaTagTitle))
+        <meta name="title" content="{{ $seoMetaTagTitle }}">
+    @endif
+    @if (isset($seoMetaTag))
+        <meta name="description" content="{{ $seoMetaTag }}">
+    @endif
+    <title>
+        @if (isset($pageTitle))
+            {{ $pageTitle }}
+        @endif
+    </title>
+
+    {{-- <link rel="stylesheet" href="{{ asset('front/css/slick.css') }}?v={{ time() }}" type="text/css"
+        media="screen" />
+    <link rel="stylesheet" href="{{ asset('front/css/slick-theme.css') }}?v={{ time() }}" type="text/css"
+        media="screen" /> --}}
+       
+    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}?v={{ time() }}" type="text/css"
+        media="screen" />
+        <link rel="stylesheet" href="{{ asset('front/css/new-home.css') }}?v={{ time() }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('front/css/sweetalert.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('front/css/toaster.css') }}?v={{ time() }}">
+    <link rel="icon" href="{{ asset('front/images/Favicon-new.svg') }}" type="image/x-icon">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16811101057"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-16811101057');
+    </script>
+    <link rel="preload" href="{{ asset('front/images/pentagon_img.png') }}" as="image" type="image/webp">
+    <link rel="preload" href="{{ asset('front/images/qtback.png') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/qtback.png') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/slider_orange_arrow.svg') }}" as="image"
+        type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/slider_orange_arrow_2.svg') }}" as="image"
+        type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/grean_tick.png') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/carbon_view.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/ri_share-line.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/pin.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/notification.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/arogya_bharat.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/orange_arrow.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/samll_chat_gpt.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/empty_star.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/cart.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/cross.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/search.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/downArrow.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/Wp_me.png') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/chat_bot_img.png') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/calendar.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/images/logo_mini.svg') }}" as="image" type="image/svg+xml">
+    <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Regular.ttf') }}" as="font"
+        type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Medium.ttf') }}" as="font"
+        type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Bold.ttf') }}" as="font" type="font/ttf"
+        crossorigin="anonymous">
+        
+        @php
         $isMobile =
             request()->header('User-Agent') &&
             preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
     @endphp
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="{{ asset('front/css/globals.css') }}?v={{ time() }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('front/css/styleguide.css') }}?v={{ time() }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}?v={{ time() }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ asset('front/css/new-home.css') }}?v={{ time() }}" type="text/css" media="screen" />
-    <script src="{{ asset('front/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('front/js/script.js') }}?v={{ time() }}"></script>
-    {{-- <!-- CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
-    <!-- JavaScript -->
-    <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script> --}}
-  </head>
+</head>
   <body>
     <div class="home-d">
      
@@ -38,47 +127,50 @@
                   <span class="close-btn" onclick="toggleSidebar()">✕</span>
                 </div>
                 <div class="signin-register">
-                  <a href="#">Sign in</a> |
-                  <a href="#">Register</a>
+                  @if (Auth::check() && Auth::user()->hasRole('Customer'))
+                  <a href="{{ route('customers.profile') }}">
+                    <div class="profile-inline-vertical">
+                      <img src="{{ asset('front/images/Profile_img.svg') }}" alt="Profile" class="profile_fil" />
+                      <span class="profile-name">{{ ucfirst(strtolower(explode(' ', Auth::user()->name)[0])) }}</span>
+                    </div>
+                  </a>
+                  @else
+                  <a href="{{ route('login') }}">Sign in</a> |
+                  <a href="{{ route('register') }}">Register</a>
+                  @endif
                 </div>
                 <ul class="menu-section">
                   <li>
-                    <strong>Products</strong>
-                    <span class="toggle">+</span>
+                    <a href="{{ route('products.list') }}"> <strong>Products</strong></a>
+                    {{-- <span class="toggle">+</span> --}}
                   </li>
                   <li>
                     <strong>Offers</strong>
                   </li>
-                  <li>
+                  <li class="category-toggle">
                     <strong>Category</strong>
-                    <span class="toggle">-</span>
+                    <span class="toggle" id="categoryToggleBtn">+</span>
                   </li>
-                  <li class="sub-item">Long product name
-                    <span class="arrow">›</span>
-                  </li>
-                  <li class="sub-item">Long product name
-                    <span class="arrow">›</span>
-                  </li>
-                  <li class="sub-item">Long product name
-                    <span class="arrow">›</span>
-                  </li>
-                  <li class="sub-item">Long product name
-                    <span class="arrow">›</span>
-                  </li>
-                  <li class="sub-item">Long product name
-                    <span class="arrow">›</span>
-                  </li>
+                  <ul class="sub-menu" id="categorySubMenu" style="display: none;">
+                    @foreach ($categories as $category)
+  @if (is_object($category) && isset($category->slug))
+    <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">
+      <li class="sub-item">{{ $category->name }}<span class="arrow">›</span></li>
+    </a>
+  @endif
+@endforeach
+
+                  </ul>
                 </ul>
               </div>
               <!-- Overlay -->
               <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-        @endif
+             @endif
 
               <div class="">
                 <img src="{{ asset('front/images/arogya_bharat.svg') }}" class="logo-AB" />
               </div>
-            @if (!$isMobile)
-
+              @if (!$isMobile)
               <div class="frame-4">
                 <div class="div-wrapper">
                   <a href="{{ route('new.home') }}">
@@ -101,7 +193,7 @@
                   </a>
                 </div>
               </div>
-            @endif
+              @endif
 
             </div>
             <div class="frame-5">
@@ -117,9 +209,9 @@
               <div class="recent-search-dropdown" id="recentSearch">
                 <ul id="searchResultList"></ul>
               </div>
-   @if (!$isMobile)
-
-              <svg
+              @if (!$isMobile)
+<div class="notificationpopupjs">
+              <svg 
                 xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 22 24" fill="none">
                 <g clip-path="url(#clip0_1_2260)">
                   <path d="M10.7998 0.75C14.833 0.75 18.1494 4.14933 18.1494 8.40039V9.24512C18.1494 10.401 18.4789 11.5332 19.0996 12.499L20.4287 14.5674C21.3843 16.0541 20.633 18.0391 19.0312 18.4922C13.642 20.0165 7.95772 20.0166 2.56836 18.4922C0.967027 18.0389 0.2157 16.054 1.1709 14.5674L2.49902 12.499L2.5 12.5C3.12098 11.534 3.45115 10.4012 3.45117 9.24512V8.40039C3.45117 4.14944 6.76675 0.750183 10.7998 0.75Z" stroke="#233F8C" stroke-width="1.5"/>
@@ -132,9 +224,9 @@
                   </clipPath>
                 </defs>
               </svg>
-
-@endif
- @php
+            </div>
+             @endif
+              @php
                             $customer = Auth::user();
                             $session_id = session()->get('cart_id');
 
@@ -183,7 +275,8 @@
                     <div class="text-wrapper-4">Login</div>
                   </a>
                 </button>
-            @endif
+                @endif
+            {{-- @endif --}}
 
               </div>
             </div>

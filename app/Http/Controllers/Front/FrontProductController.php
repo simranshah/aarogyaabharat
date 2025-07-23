@@ -9,6 +9,7 @@ use App\Models\Admin\Product;
 use App\Models\Admin\Page;
 use Illuminate\Support\Facades\Config;
 use App\Models\Brand;
+use App\Models\Admin\SubCategories;
 
 class FrontProductController extends Controller
 {
@@ -155,7 +156,7 @@ class FrontProductController extends Controller
         }
         $brands = Brand::orderBy('name', 'asc')->get();
         // Otherwise, return the full page
-        return view('front.product-list', compact('categoriesAndProducts', 'categories', 'slug', 'seoMetaTagTitle', 'pageTitle', 'seoMetaTag','brands'));
+        return view('front.product-list', compact('categoriesAndProducts', 'categories', 'slug', 'seoMetaTagTitle', 'pageTitle', 'seoMetaTag','brands','categoriesmain'));
     }
     public function productSubCatogoryWise($slug,$subSlug)
     {
@@ -176,11 +177,189 @@ class FrontProductController extends Controller
             ->get();
         return view('front.common.search-result', compact('products','query','offset'));
     }
-    public function productList()
+    public function productList(Request $request)
     {
-        $categoriesAndProducts = Category::with('products')->get();
-        $products = Product::with('category')->get();
-        return view('front.product-list', compact('categoriesAndProducts', 'products'));
+        if ($request->filled('categories')) {
+            $categorySlugs = explode('|', $request->input('categories'));
+        $categoriesAndProducts = Category::whereIn('name', $categorySlugs)->with(['products' => function($query) use ($request) {
+            // Apply filters here based on $request->input('stock'), 'brand', etc.
+            // Example:
+
+            if ($request->filled('brand')) {
+                $brandNames = explode('|', $request->input('brand'));
+                $query->whereHas('brand', function($q) use ($brandNames) {
+                    $q->whereIn('name', $brandNames);
+                });
+            }
+            if ($request->filled('gender')) {
+                $genders = explode('|', $request->input('gender'));
+                $query->where(function($q) use ($genders) {
+                    $q->whereIn('gender', $genders)
+                      ->orWhereNull('gender');
+                });
+            }
+            // ...add other filters similarly...
+            if ($request->filled('min_price')) {
+                $query->where('our_price', '>=', $request->input('min_price'));
+            }
+            if ($request->filled('max_price')) {
+                $query->where('our_price', '<=', $request->input('max_price'));
+            }
+
+            if ($request->filled('stock')) {
+                $stocks = explode('|', $request->input('stock'));
+                $query->where(function($q) use ($stocks) {
+                    if (in_array('in stock', $stocks)) {
+                        $q->whereHas('productAttributes', function($attrQ) {
+                            $attrQ->where('stock', '>', 0);
+                        });
+                    }
+                    if (in_array('out of stock', $stocks)) {
+                        $q->orWhereDoesntHave('productAttributes', function($attrQ) {
+                            $attrQ->where('stock', '>', 0);
+                        });
+                    }
+                });
+
+            }
+            if ($request->filled('discount')) {
+                $discounts = explode('|', $request->input('discount'));
+                $query->where(function($q) use ($discounts) {
+                    foreach ($discounts as $discount) {
+                        $q->orWhere('discount_percentage', '<=', (float)$discount);
+                    }
+                });
+            }
+            if ($request->filled('subcategory')) {
+                $subcategories = explode('|', $request->input('subcategory'));
+
+                $query->whereHas('SubCategories', function($subQ) use ($subcategories) {
+                    $subQ->whereIn('name', $subcategories);
+                });
+            }
+            if ($request->filled('tag')) {
+                $tags = explode('|', $request->input('tag'));
+                $query->where(function($q) use ($tags) {
+                    foreach ($tags as $tag) {
+                        $q->orWhere($tag, true); // assuming column values are 1/0 or true/false
+                    }
+                });
+            }
+            if ($request->filled('sort')) {
+                switch ($request->input('sort')) {
+                    case 'price-low':
+                        $query->orderBy('our_price', 'asc');
+                        break;
+                    case 'price-high':
+                        $query->orderBy('our_price', 'desc');
+                        break;
+                    case 'rating':
+                        $query->orderBy('rating', 'desc');
+                        break;
+                    case 'newest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    // 'relevance' or default: do not apply any order, or use your own logic
+                }
+            }
+
+        }],'SubCategories')->get();
+    }else{
+        $categoriesAndProducts = Category::with(['products' => function($query) use ($request) {
+            // Apply filters here based on $request->input('stock'), 'brand', etc.
+            // Example:
+
+            if ($request->filled('brand')) {
+                $brandNames = explode('|', $request->input('brand'));
+                $query->whereHas('brand', function($q) use ($brandNames) {
+                    $q->whereIn('name', $brandNames);
+                });
+            }
+            if ($request->filled('gender')) {
+                $genders = explode('|', $request->input('gender'));
+                $query->where(function($q) use ($genders) {
+                    $q->whereIn('gender', $genders)
+                      ->orWhereNull('gender');
+                });
+            }
+            // ...add other filters similarly...
+            if ($request->filled('min_price')) {
+                $query->where('our_price', '>=', $request->input('min_price'));
+            }
+            if ($request->filled('max_price')) {
+                $query->where('our_price', '<=', $request->input('max_price'));
+            }
+
+            if ($request->filled('stock')) {
+                $stocks = explode('|', $request->input('stock'));
+                $query->where(function($q) use ($stocks) {
+                    if (in_array('in stock', $stocks)) {
+                        $q->whereHas('productAttributes', function($attrQ) {
+                            $attrQ->where('stock', '>', 0);
+                        });
+                    }
+                    if (in_array('out of stock', $stocks)) {
+                        $q->orWhereDoesntHave('productAttributes', function($attrQ) {
+                            $attrQ->where('stock', '>', 0);
+                        });
+                    }
+                });
+
+            }
+            if ($request->filled('discount')) {
+                $discounts = explode('|', $request->input('discount'));
+                $query->where(function($q) use ($discounts) {
+                    foreach ($discounts as $discount) {
+                        $q->orWhere('discount_percentage', '<=', (float)$discount);
+                    }
+                });
+            }
+            if ($request->filled('subcategory')) {
+                $subcategories = explode('|', $request->input('subcategory'));
+
+                $query->whereHas('SubCategories', function($subQ) use ($subcategories) {
+                    $subQ->whereIn('name', $subcategories);
+                });
+            }
+            if ($request->filled('tag')) {
+                $tags = explode('|', $request->input('tag'));
+                $query->where(function($q) use ($tags) {
+                    foreach ($tags as $tag) {
+                        $q->orWhere($tag, true); // assuming column values are 1/0 or true/false
+                    }
+                });
+            }
+            if ($request->filled('sort')) {
+                switch ($request->input('sort')) {
+                    case 'price-low':
+                        $query->orderBy('our_price', 'asc');
+                        break;
+                    case 'price-high':
+                        $query->orderBy('our_price', 'desc');
+                        break;
+                    case 'rating':
+                        $query->orderBy('rating', 'desc');
+                        break;
+                    case 'newest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    // 'relevance' or default: do not apply any order, or use your own logic
+                }
+            }
+
+        }],'SubCategories')->get();
+
+    }
+        if ($request->ajax()) {
+            $html = view('front.common.product_grid', compact('categoriesAndProducts'))->render();
+            return response()->json(['html' => $html]);
+        }
+        $categoriesData = Category::all();
+        $brands = Brand::orderBy('name', 'asc')->get();
+        $subCategoriess = SubCategories::orderBy('name', 'asc')->get();
+        $categories = Category::all();
+        
+        return view('front.main-product-listing', compact('categoriesAndProducts', 'categoriesData','brands','subCategoriess','categories'));
     }
      public function getProductInfo(Request $request)
     {
@@ -267,8 +446,8 @@ class FrontProductController extends Controller
     }
     function productCategory(Request $request)
     {
-      $category_id = $request->input('category_id');
-      $products = Product::with('category')->where('category_id', $category_id)->get();
+      $Brand_id = $request->input('Brand_id');
+      $products = Product::with('category')->where('brand_id', $Brand_id)->get();
       return view('front.common.category-products', compact('products'));
     }
 }

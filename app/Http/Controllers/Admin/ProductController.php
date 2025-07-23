@@ -90,10 +90,26 @@ class ProductController extends Controller
         $product->delivery_and_installation_fees = $request->delivery_and_installation_fees;
         $product->save();
         if ($request->hasFile('image')) {
-            $firstFile = $request->file('image')[0];
+            $images = $request->file('image');
+            $firstFile = $images[0];
             $firstImagePath = $firstFile->store('products', 'public');
             $product->update(['image' => $firstImagePath]);
-            foreach ($request->file('image') as $key => $file) {
+
+            // Save up to 4 extra images in image_1 to image_4 columns
+            $extraImages = [null, null, null, null];
+            for ($i = 1; $i <= 4; $i++) {
+                if (isset($images[$i])) {
+                    $extraImages[$i-1] = $images[$i]->store('products', 'public');
+                }
+            }
+            $product->update([
+                'image_1' => $extraImages[0],
+                'image_2' => $extraImages[1],
+                'image_3' => $extraImages[2],
+                'image_4' => $extraImages[3],
+            ]);
+
+            foreach ($images as $key => $file) {
                 $imagePath = $file->store('products', 'public');
                 $product->images()->create([
                     'path' => $imagePath,
@@ -162,6 +178,23 @@ class ProductController extends Controller
         $product->measurements = $request->measurements ?? null;
         $product->usage_instructions = $request->usage_instructions ?? null;
         $product->why_choose_this_product = $request->why_choose_this_product ?? null;
+
+        if ($request->hasFile('image_1')) {
+            $image1Path = $request->file('image_1')->store('products', 'public');
+            $product->image_1 = $image1Path;
+        }
+        if ($request->hasFile('image_2')) {
+            $image2Path = $request->file('image_2')->store('products', 'public');
+            $product->image_2 = $image2Path;
+        }
+        if ($request->hasFile('image_3')) {
+            $image3Path = $request->file('image_3')->store('products', 'public');
+            $product->image_3 = $image3Path;
+        }
+        if ($request->hasFile('image_4')) {
+            $image4Path = $request->file('image_4')->store('products', 'public');
+            $product->image_4 = $image4Path;
+        }
         $product->save();
             if ($request->hasFile('image')) {
                 if ($product->images->isNotEmpty()) {

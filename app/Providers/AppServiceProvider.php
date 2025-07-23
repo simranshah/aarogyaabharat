@@ -15,6 +15,7 @@ use App\Models\Banner;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Admin\Page;
+use App\Models\Admin\Category;
 use App\Traits\FormatsIndianCurrency;
 use Illuminate\Support\Facades\Blade;
 
@@ -34,7 +35,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //home page products start
-       $productForYou = Product::with('images','category')->where('product_for_you', true)->orderBy('updated_at', 'desc')->take(7)->get();
+        $categories = Category::with('subcategories')->get();
+        $productForYou = Product::with('images','category')->where('product_for_you', true)->orderBy('updated_at', 'desc')->take(7)->get();
         $flashSaleProducts = Product::with('images','category')->where('flash_sale', true)->orderBy('updated_at', 'desc')->take(7)->get();
         $bestSellingProducts = Product::with('images','Category')->where('best_selling_products', true)->orderBy('updated_at', 'desc')->take(7)->get();
         $sportsHealthcareMoreProducts = Product::with('images','Category')->where('sports_healthcare_more', true)->orderBy('updated_at', 'desc')->take(7)->get();
@@ -56,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
         $whyAarogyaBharat = Page::where('slug', 'why-aarogya-bharat')->with('cms.images')->first();
         $aboutAarogyaBharat = Page::where('slug', 'about-aarogya-bharat')->with('cms.images')->first();
 
-
+        View::share('categories',$categories);
         View::share('recentViewedProducts', $recentViewedProducts);
         View::share('popularProducts', $popularProducts);
         View::share('faqs', $faqs);

@@ -48,6 +48,10 @@ class Product extends Model
         'gender',
         'rating',
         'brand_id',
+        'image_1',
+        'image_2',
+        'image_3',
+        'image_4',
     ];
 
 

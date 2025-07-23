@@ -8,7 +8,9 @@ use App\Models\Admin\Category;
 use App\Models\Admin\Product;
 use App\Models\Admin\Blog;
 use App\Models\Admin\Page;
+use App\Models\Admin\SubCategories;
 use App\Models\Banner;
+use App\Models\Brand;
 
 class HomeController extends Controller
 {
@@ -21,26 +23,31 @@ class HomeController extends Controller
         $seoMetaTag = $seoMeta->seo_meta_tag ?? '';
         $seoMetaTagTitle = $seoMeta->seo_meta_tag_title ?? '';
         $pageTitle = $seoMeta->page_title ?? '';
+        $brandsWithProducts = Brand::has('product')->with('product')->get();
 
-        return view('front.home', compact('categories', 'products', 'blogs', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+        return view('front.home', compact('categories', 'products', 'blogs', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle', 'brandsWithProducts'));
     }
      public function index1()
     {
-        $categories = Category::take(12)->get();
+       // Controller (example)
+$categories = Category::with('subcategories')->get();
         $products =  Product::with('images','Category')->where('is_new', true)->orderBy('updated_at', 'desc')->take(10)->get();
         $blogs = Blog::with('images')->latest()->take(6)->get();
         $seoMeta = Page::where('slug', 'home')->first();
         $seoMetaTag = $seoMeta->seo_meta_tag ?? '';
         $seoMetaTagTitle = $seoMeta->seo_meta_tag_title ?? '';
         $pageTitle = $seoMeta->page_title ?? '';
-        $homecareproducts = Category::with(['products' => function ($query) {
-    $query->limit(8)->with('images');
-}])->where('slug', 'home-care')->first();
+        $homecareproducts = SubCategories::whereHas('category', function ($query) {
+            $query->where('slug', 'home-care');
+        })->with(['category', 'images'])->get();
 
-$medicalequipmentproducts = Category::with(['products' => function ($query) {
-    $query->limit(8)->with('images');
-}])->where('slug', 'medical-equipment')->first();
-  return view('front.new-home', compact('categories', 'products', 'blogs', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle', 'homecareproducts', 'medicalequipmentproducts'));
+        $medicalequipmentproducts = SubCategories::whereHas('category', function ($query) {
+            $query->where('slug', 'medical-equipment');
+        })->with(['category', 'images'])->get();
+        $brandsWithProducts = Brand::whereHas('product.Category')->with('product.Category')->get();
+        $brandsWithFirstProduct = $brandsWithProducts->first();
+
+  return view('front.new-home', compact('categories', 'products', 'blogs', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle', 'homecareproducts', 'medicalequipmentproducts','brandsWithProducts','brandsWithFirstProduct'));
     }
 
     public function productPage()

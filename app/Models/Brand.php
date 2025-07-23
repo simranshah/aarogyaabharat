@@ -14,4 +14,11 @@ class Brand extends Model
         "image",
         "slug"
     ];
+    public function product(){
+        return $this->hasMany(\App\Models\Admin\Product::class, 'brand_id', 'id');
+    }
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

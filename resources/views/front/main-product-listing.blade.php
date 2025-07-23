@@ -13,18 +13,7 @@
               <div style="align-self: stretch; padding-top: 50px;  justify-content: flex-start; align-items: flex-start; gap: 18px; ">
 
             @endif
-<div class="new-home-hero-section">
-        <nav class="new-home-breadcrumb">
-            <a href="{{url('/');}}">Home</a> / <a href="#">Categories</a>
-        </nav>
-
-        <main class="new-home-main-content">
-            <h1 class="new-home-title">{{$categoriesmain->name}}</h1>
-            <p class="new-home-subtitle">Felaptas hashtag tqament antroposition.</p>
-            <p class="new-home-description">Bel krokanat och ren diter clicks tiejkott.</p>
-        </main>
-    </div>
-    </div>
+  
 <div class="containerforfilters">
 @if($isMobile)
     <div class="mobile-header">
@@ -70,8 +59,8 @@
                 <h3>Price Range</h3>
                 <div class="price-range">
                     <div class="price-inputs">
-                        <input type="number" class="price-input" placeholder="Min"  value="1000">
-                        <input type="number" class="price-input" placeholder="Max" value="5000">
+                        <input type="number" class="price-input" placeholder="Min" value="">
+                        <input type="number" class="price-input" placeholder="Max" value="">
                     </div>
                     <div class="price-slider">
                         <div class="price-slider-track"></div>
@@ -80,125 +69,155 @@
                     </div>
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Stock</h3>
                 <div class="filter-options">
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileInStock" >
-                        <label for="mobileInStock">In Stock</label>
+                        <input type="checkbox" value="in stock" name="stock" id="inStock" >
+                        <label for="inStock">In Stock</label>
                         <span class="filter-count">12</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileOutOfStock">
-                        <label for="mobileOutOfStock">Out of Stock</label>
+                        <input type="checkbox" value="out of stock" name="stock" id="outOfStock">
+                        <label for="outOfStock">Out of Stock</label>
                         <span class="filter-count">3</span>
                     </div>
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Gender</h3>
                 <div class="filter-options">
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileUnisex" >
-                        <label for="mobileUnisex">Unisex</label>
+                        <input type="checkbox" value="Unisex" name="gender" id="unisex" >
+                        <label for="unisex">Unisex</label>
                         <span class="filter-count">8</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileMale">
-                        <label for="mobileMale">Male</label>
+                        <input type="checkbox" value="Male" name="gender" id="male">
+                        <label for="male">Male</label>
                         <span class="filter-count">4</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileFemale">
-                        <label for="mobileFemale">Female</label>
+                        <input type="checkbox" value="Female" name="gender" id="female">
+                        <label for="female">Female</label>
                         <span class="filter-count">3</span>
                     </div>
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Brand</h3>
                 <div class="filter-options">
                     @foreach ($brands as $brand)
                         <div class="filter-option">
-                            <input type="checkbox" value="{{ $brand->id }}" name="brand[]" id="brand_{{ $brand->id }}">
+                            <input type="checkbox" value="{{ $brand->name }}" name="brand" id="brand_{{ $brand->id }}">
                             <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
                             {{-- Optionally, add a count if available: <span class="filter-count">{{ $brand->products_count ?? '' }}</span> --}}
                         </div>
                     @endforeach
                 </div>
             </div>
-
+            <div class="filter-section">
+                <h3>Category</h3>
+                <div class="filter-options">
+                    {{-- @foreach ( $categoriesAndProducts as $category  ) --}}
+                    @foreach ( $categoriesData as $categories)
+                    <div class="filter-option">
+                        <input type="checkbox" value="{{  $categories->name }}" name="categories" id="{{  $categories->slug }}" >
+                        <label for="{{  $categories->slug }}">{{  $categories->name }}</label>
+                        <span class="filter-count">8</span>
+                    </div>
+                    @endforeach
+                    {{-- @endforeach --}}
+                </div>
+            </div>
             <div class="filter-section">
                 <h3>Type</h3>
                 <div class="filter-options">
+                    {{-- @foreach ( $categoriesAndProducts as $category  ) --}}
+                    @foreach ( $subCategoriess as $SubCategories)
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileFolding" >
-                        <label for="mobileFolding">Folding Wheelchair</label>
+                        <input type="checkbox" value="{{  $SubCategories->name }}" name="subcategory" id="{{  $SubCategories->slug }}" >
+                        <label for="{{  $SubCategories->slug }}">{{  $SubCategories->name }}</label>
                         <span class="filter-count">8</span>
                     </div>
-                    <div class="filter-option">
-                        <input type="checkbox" id="mobileStandard">
-                        <label for="mobileStandard">Standard Wheelchair</label>
-                        <span class="filter-count">4</span>
-                    </div>
-                    <div class="filter-option">
-                        <input type="checkbox" id="mobileLightweight">
-                        <label for="mobileLightweight">Lightweight</label>
-                        <span class="filter-count">3</span>
-                    </div>
-                    <div class="filter-option">
-                        <input type="checkbox" id="mobileHeavyduty">
-                        <label for="mobileHeavyduty">Heavy Duty</label>
-                        <span class="filter-count">2</span>
-                    </div>
+                    @endforeach
+                    {{-- @endforeach --}}
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Rating</h3>
                 <div class="filter-options">
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileRating4">
-                        <label for="mobileRating4">4 Stars & Above</label>
+                        <input type="checkbox" value="4" name="rateing" id="rating4">
+                        <label for="rating4">4 Stars & Above</label>
                         <span class="filter-count">8</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileRating3">
-                        <label for="mobileRating3">3 Stars & Above</label>
+                        <input type="checkbox" value="3" name="rateing" id="rating3">
+                        <label for="rating3">3 Stars & Above</label>
                         <span class="filter-count">12</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileRating2">
-                        <label for="mobileRating2">2 Stars & Above</label>
+                        <input type="checkbox" value="2" name="rateing" id="rating2">
+                        <label for="rating2">2 Stars & Above</label>
                         <span class="filter-count">15</span>
                     </div>
                 </div>
             </div>
-
+            <div class="filter-section">
+                <h3>Product Tags</h3>
+                <div class="filter-options">
+                    <div class="filter-option">
+                        <input type="checkbox" value="product_for_you" name="tag" id="product_for_you">
+                        <label for="product_for_you">Product For You</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="flash_sale" name="tag" id="flash_sale">
+                        <label for="flash_sale">Flash Sale</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="best_selling_products" name="tag" id="best_selling_products">
+                        <label for="best_selling_products">Best Selling</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="sports_healthcare_more" name="tag" id="sports_healthcare_more">
+                        <label for="sports_healthcare_more">Sports, Healthcare & More</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="top_deals" name="tag" id="top_deals">
+                        <label for="top_deals">Top Deals</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="top_pick_for_you" name="tag" id="top_pick_for_you">
+                        <label for="top_pick_for_you">Top Pick For You</label>
+                    </div>
+                </div>
+            </div>
             <div class="filter-section">
                 <h3>Discount</h3>
                 <div class="filter-options">
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileDiscount50">
-                        <label for="mobileDiscount50">50% or more</label>
+                        <input type="checkbox" value="50" name="discount" id="discount50">
+                        <label for="discount50">50% or more</label>
                         <span class="filter-count">2</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileDiscount30">
-                        <label for="mobileDiscount30">30% or more</label>
+                        <input type="checkbox" value="30" name="discount" id="discount30">
+                        <label for="discount30">30% or more</label>
                         <span class="filter-count">5</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileDiscount20">
-                        <label for="mobileDiscount20">20% or more</label>
+                        <input type="checkbox"  value="20" name="discount" id="discount20">
+                        <label for="discount20">20% or more</label>
                         <span class="filter-count">8</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileDiscount10">
-                        <label for="mobileDiscount10">10% or more</label>
+                        <input type="checkbox" value="10" name="discount" id="discount10">
+                        <label for="discount10">10% or more</label>
                         <span class="filter-count">12</span>
                     </div>
                 </div>
@@ -278,19 +297,32 @@
                 @endforeach
             </div>
         </div>
-
+        <div class="filter-section">
+            <h3>Category</h3>
+            <div class="filter-options">
+                {{-- @foreach ( $categoriesAndProducts as $category  ) --}}
+                @foreach ( $categoriesData as $categories)
+                <div class="filter-option">
+                    <input type="checkbox" value="{{  $categories->name }}" name="categories" id="{{  $categories->slug }}" >
+                    <label for="{{  $categories->slug }}">{{  $categories->name }}</label>
+                    <span class="filter-count">8</span>
+                </div>
+                @endforeach
+                {{-- @endforeach --}}
+            </div>
+        </div>
         <div class="filter-section">
             <h3>Type</h3>
             <div class="filter-options">
-                @foreach ( $categoriesAndProducts as $category  )
-                @foreach ( $category->SubCategories as $SubCategories)
+                {{-- @foreach ( $categoriesAndProducts as $category  ) --}}
+                @foreach ( $subCategoriess as $SubCategories)
                 <div class="filter-option">
                     <input type="checkbox" value="{{  $SubCategories->name }}" name="subcategory" id="{{  $SubCategories->slug }}" >
                     <label for="{{  $SubCategories->slug }}">{{  $SubCategories->name }}</label>
                     <span class="filter-count">8</span>
                 </div>
                 @endforeach
-                @endforeach
+                {{-- @endforeach --}}
             </div>
         </div>
 
@@ -314,7 +346,35 @@
                 </div>
             </div>
         </div>
-
+        <div class="filter-section">
+            <h3>Product Tags</h3>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" value="product_for_you" name="tag" id="product_for_you">
+                    <label for="product_for_you">Product For You</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="flash_sale" name="tag" id="flash_sale">
+                    <label for="flash_sale">Flash Sale</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="best_selling_products" name="tag" id="best_selling_products">
+                    <label for="best_selling_products">Best Selling</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="sports_healthcare_more" name="tag" id="sports_healthcare_more">
+                    <label for="sports_healthcare_more">Sports, Healthcare & More</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="top_deals" name="tag" id="top_deals">
+                    <label for="top_deals">Top Deals</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="top_pick_for_you" name="tag" id="top_pick_for_you">
+                    <label for="top_pick_for_you">Top Pick For You</label>
+                </div>
+            </div>
+        </div>
         <div class="filter-section">
             <h3>Discount</h3>
             <div class="filter-options">
@@ -429,6 +489,7 @@
             </div>
         </div>
     </div>
+</div>
 <div class="recent-product-recently-viewed recent-products">
     <div class="recent-product-section-title">Recently Viewed</div>
     <div class="recent-product-products-slider">
@@ -968,8 +1029,10 @@ document.addEventListener('DOMContentLoaded', function() {
     checkByNameAndValue('gender', params.gender);
     checkByNameAndValue('brand', params.brand);
     checkByNameAndValue('subcategory', params.subcategory);
+    checkByNameAndValue('categories', params.categories);
     checkByNameAndValue('discount', params.discount);
     checkByNameAndValue('rateing', params.rateing);
+    checkByNameAndValue('tag', params.tag);
     
 
     // After setting, update the applied filters UI and filter products

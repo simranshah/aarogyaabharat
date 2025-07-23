@@ -149,6 +149,63 @@
                                         </div>
                                     @endif
 
+                                    <div class="form-group">
+                                        <label for="image_1">Extra Image 1</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="image_1" class="custom-file-input" id="image_1">
+                                                <label class="custom-file-label" for="image_1">Choose file</label>
+                                            </div>
+                                        </div>
+                                        @if ($product->image_1)
+                                            <div class="mt-2">
+                                                <img src="{{ asset('storage/' . $product->image_1) }}" alt="Extra Image 1" width="100">
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image_2">Extra Image 2</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="image_2" class="custom-file-input" id="image_2">
+                                                <label class="custom-file-label" for="image_2">Choose file</label>
+                                            </div>
+                                        </div>
+                                        @if ($product->image_2)
+                                            <div class="mt-2">
+                                                <img src="{{ asset('storage/' . $product->image_2) }}" alt="Extra Image 2" width="100">
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image_3">Extra Image 3</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="image_3" class="custom-file-input" id="image_3">
+                                                <label class="custom-file-label" for="image_3">Choose file</label>
+                                            </div>
+                                        </div>
+                                        @if ($product->image_3)
+                                            <div class="mt-2">
+                                                <img src="{{ asset('storage/' . $product->image_3) }}" alt="Extra Image 3" width="100">
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image_4">Extra Image 4</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="image_4" class="custom-file-input" id="image_4">
+                                                <label class="custom-file-label" for="image_4">Choose file</label>
+                                            </div>
+                                        </div>
+                                        @if ($product->image_4)
+                                            <div class="mt-2">
+                                                <img src="{{ asset('storage/' . $product->image_4) }}" alt="Extra Image 4" width="100">
+                                            </div>
+                                        @endif
+                                    </div>
+
                                     <!-- Description -->
                                     <div class="form-group">
                                         <label for="productDescription">Description</label>
