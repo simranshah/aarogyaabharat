@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('gender')->nullable(); // Replace 'some_existing_column' with the actual column name after which you want to add
             // $table->string('brand_name')->nullable()->after('gender');
             $table->unsignedBigInteger('subcategory_id')->nullable()->after('gender');
-            $table->decimal('rating', 3, 2)->nullable()->after('brand_name');
+            $table->decimal('rating', 3, 2)->nullable();
         });
     }
 
