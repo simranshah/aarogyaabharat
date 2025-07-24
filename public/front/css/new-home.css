@@ -5787,7 +5787,7 @@ font-size: 21.4px;
     font-family: "Nunito Sans", Helvetica;
     font-weight: 600;
     color: #000000;
-    font-size: 7px;
+    font-size: 10px;
     text-align: center;
     letter-spacing: 0;
     line-height: normal;
@@ -5898,8 +5898,7 @@ font-size: 21.4px;
     position: absolute;
     width: 85px;
     height: 23px;
-    top: 14px;
-    left: 5px;
+   
 }
 .home-d .overlap-group {
     position: relative;
@@ -6030,13 +6029,13 @@ font-size: 21.4px;
     border-radius: 12px;
     box-shadow: 0px 0px 5px #233f8c1a;
 }
-       .home-d .pngwing {
-        margin-left: 11px;
-        position: relative;
-        width: 116.47px;
-        height: 122px;
-        object-fit: cover;
-    }
+.home-d .pngwing {
+  margin-left: 10px;
+  position: relative;
+  width: 97.47px;
+  height: 99px;
+  object-fit: cover;
+}
     .home-d .frame-9 {
   display: flex;
   align-items: center;
@@ -6045,7 +6044,7 @@ font-size: 21.4px;
   align-self: stretch;
   width: 100%;
   flex: 0 0 auto;
-  gap: 25px;
+  gap: 9px;
 }
 .home-d .frame-17 {
     margin: 4px;
@@ -6059,6 +6058,12 @@ font-size: 21.4px;
     width: 100%;
     flex: 0 0 auto;
 }
+.home-d .rectangle-3 {
+  position: absolute;
+  width: 98px;
+  height: 95px;
+}
+
 .home-d .frame-83 {
     display: flex;
     width: 315px;
@@ -7404,9 +7409,7 @@ input {
         font-weight: 600;
     }
 
-    .discount-badge {
-        margin-left: 90px;
-    }
+ 
 
     .delivery-info {
         display: flex;
@@ -8668,4 +8671,361 @@ margin-bottom: 10px;
 
 .text-danger {
   color: red;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+      opacity: 0;
+      transform: translateY(-50px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 16px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #f1f3f4;
+  color: #333;
+}
+
+.login-required {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.login-icon {
+  font-size: 48px;
+  color: #1a73e8;
+  margin-bottom: 16px;
+}
+
+.login-message {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.login-submessage {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.login-btn {
+  background: #1a73e8;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+}
+
+.login-btn:hover {
+  background: #1557b0;
+}
+
+.signup-btn {
+  background: white;
+  color: #1a73e8;
+  border: 1px solid #1a73e8;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signup-btn:hover {
+  background: #f8f9fa;
+}
+
+.review-form {
+  display: none;
+}
+
+.review-form.active {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.star-rating {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.star-rating-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.star-rating-btn:hover,
+.star-rating-btn.active {
+  color: #ffa500;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-btn {
+  background: white;
+  color: #5f6368;
+  border: 1px solid #dadce0;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #f8f9fa;
+}
+
+.submit-btn {
+  background: #1a73e8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #1557b0;
+}
+
+.submit-btn:disabled {
+  background: #dadce0;
+  cursor: not-allowed;
+}
+
+/* Right Section - Reviews */
+.right-section {
+  border-left: 1px solid #f0f0f0;
+  padding-left: 20px;
+}
+
+.reviews-section {
+  margin-bottom: 20px;
+}
+
+.review-item {
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.review-stars {
+  color: #ffa500;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.review-text {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reviewer-name {
+  font-size: 11px;
+  color: #1a73e8;
+  font-weight: 500;
+}
+
+.review-date {
+  font-size: 11px;
+  color: #999;
+}
+
+.load-more-btn {
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #1a73e8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.load-more-btn:hover {
+  background: #f8f9fa;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .reviews-content {
+      grid-template-columns: 1fr;
+      gap: 24px;
+  }
+
+  .left-section {
+      padding-right: 0;
+  }
+
+  .right-section {
+      border-left: none;
+      padding-left: 0;
+      border-top: 1px solid #f0f0f0;
+      padding-top: 24px;
+  }
+
+  .recommended-section {
+      justify-content: flex-start;
+  }
+
+  .rating-summary {
+      flex-wrap: wrap;
+  }
+
+  .rating-score {
+      font-size: 32px;
+  }
+
+  .percentage {
+      font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reviews-container {
+      padding: 16px;
+  }
+
+  .rating-score {
+      font-size: 16px;
+  }
+
+  .percentage {
+      font-size: 20px;
+  }
+
+  .star {
+      font-size: 16px;
+  }
 }

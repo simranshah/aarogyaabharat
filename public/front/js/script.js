@@ -1,27 +1,5 @@
 // Filter button functionality
-$(document).ready(function() {
-    $('.filter-toggle').on('click', function(e) {
-        e.preventDefault();
-        showFilterAlert();
-        toggleMobileFilters();
-    });
-});
 
-function showFilterAlert() {
-    alert('Filter options are now available!');
-}
-
-function toggleMobileFilters() {
-    const $mobileFilters = $('#mobileFilters');
-    const $filterOverlay = $('#filterOverlay');
-
-    if ($mobileFilters.length && $filterOverlay.length) {
-        const isVisible = $mobileFilters.css('transform') === 'translateX(0%)';
-
-        $mobileFilters.css('transform', isVisible ? 'translateX(100%)' : 'translateX(0%)');
-        $filterOverlay.css('display', isVisible ? 'none' : 'block');
-    }
-}
 
 function getCodeBoxElement(s) {
     return document.getElementById("codeBox" + s);

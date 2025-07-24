@@ -226,6 +226,7 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
 </body>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
+<script src="{{ asset('front/js/script.js') }}"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" data-reload="true"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js" data-reload="true"></script>
@@ -332,7 +333,7 @@ slidesToScroll: 1
 {
 breakpoint: 768,
 settings: {
-slidesToShow: 5,
+slidesToShow:5 ,
 slidesToScroll: 4
 }
 }

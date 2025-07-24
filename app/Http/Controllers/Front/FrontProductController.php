@@ -9,7 +9,11 @@ use App\Models\Admin\Product;
 use App\Models\Admin\Page;
 use Illuminate\Support\Facades\Config;
 use App\Models\Brand;
+use App\Models\reviews;
 use App\Models\Admin\SubCategories;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FrontProductController extends Controller
 {
@@ -162,13 +166,40 @@ class FrontProductController extends Controller
     {
         $faqFilters = Config::get('custom.faq_filter');
         $productDetails = Product::with('productAttributes')->where('slug',$subSlug)->first();
+        $latestReviews = reviews::where('product_id', $productDetails->id)
+        ->latest()
+        ->take(2)
+        ->get();
+
+    // 2. Total number of reviews
+    $totalReviews = reviews::where('product_id',  $productDetails->id)->count();
+
+    // 3. Rating distribution (1–5)
+    $ratingCounts = reviews::select('rating', DB::raw('count(*) as total'))
+        ->where('product_id',  $productDetails->id)
+        ->groupBy('rating')
+        ->pluck('total', 'rating')
+        ->toArray();
+
+    // Fill missing rating levels with 0
+    $completeRatingCounts = [];
+    foreach (range(1, 5) as $star) {
+        $completeRatingCounts[$star] = $ratingCounts[$star] ?? 0;
+    }
+
+    // Prepare array to pass to view
+    $reviewData = [
+        'latestReviews' => $latestReviews,
+        'totalReviews' => $totalReviews,
+        'ratingDistribution' => $completeRatingCounts,
+    ];
         // dd(isset($productDetails->productAttributes));
         $products = Product::with('category', 'images')->take(12)->get();
         // dd($productDetails);
         $seoMetaTag = $productDetails->seo_meta_tag ?? '';
         $seoMetaTagTitle = $productDetails->seo_meta_tag_title ?? '';
         $pageTitle = $productDetails->page_title ?? '';
-        return view('front.new-product-page', compact('productDetails', 'products', 'faqFilters', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle'));
+        return view('front.new-product-page', compact('productDetails', 'products', 'faqFilters', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle','reviewData'));
     }
     public function searchloadmore($query,$offset){
         $offset=$offset+10;
@@ -450,4 +481,48 @@ class FrontProductController extends Controller
       $products = Product::with('category')->where('brand_id', $Brand_id)->get();
       return view('front.common.category-products', compact('products'));
     }
+    function addreview(Request $request){
+
+          // Validate input
+          $validator = Validator::make($request->all(), [
+            'product_id' => 'required|exists:products,id',
+            'rating'     => 'required|integer|min:1|max:5',
+            'review'     => 'required|string|max:1000',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $validator->errors()
+            ], 422);
+        }
+
+        // Check if user is logged in (or adapt to your auth method)
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You must be logged in to submit a review'
+            ], 401);
+        }
+
+        // Create review
+        $review = reviews::create([
+            'user_id'    => Auth::id(),
+            'product_id' => $request->product_id,
+            'rating'     => $request->rating,
+            'review'     => $request->review,
+        ]);
+        $avgRating = reviews::where('product_id', $request->product_id)->avg('rating');
+
+        // Update product
+        Product::where('id', $request->product_id)->update([
+            'rating' => $avgRating,
+        ]);
+        return response()->json([
+            'success' => true,
+            'review'  => $review
+        ]);
+    }
+
+    
 }

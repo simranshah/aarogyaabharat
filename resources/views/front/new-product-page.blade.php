@@ -184,7 +184,11 @@ $isMobile =
                         </div>
                        <div id="buynowsummery" class="byunowsection">
                         <div class="purchase-price">₹ {{ $productDetails->our_price }}</div>
+                        @if (!isset($productDetails->productAttributes) || $productDetails->productAttributes->stock == 0)
+                        <div class="stock-status" style="color:red;">Out of Stock</div>
+                        @else
                         <div class="stock-status">In Stock</div>
+                        @endif
                         <div class="delivery-text">FREE delivery in india</div>
 
                         <div class="quantity-section">
@@ -410,7 +414,11 @@ $isMobile =
                 </div>
                <div id="buynowsummery" class="byunowsection">
                 <div class="purchase-price">₹ {{ $productDetails->our_price }}</div>
+                @if (!isset($productDetails->productAttributes) || $productDetails->productAttributes->stock == 0)
+                <div class="stock-status" style="color:red;">Out of Stock</div>
+                @else
                 <div class="stock-status">In Stock</div>
+                @endif
                 <div class="delivery-text">FREE delivery in india</div>
 
                 <div class="quantity-section">
@@ -420,6 +428,7 @@ $isMobile =
                         <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="10">
                         <button class="quantity-btn" onclick="increaseQuantity()">+</button>
                     </div>
+                    
                 </div>
 
                 <div class="pincode-section">
@@ -777,7 +786,7 @@ $isMobile =
                 </div>
 
                 <div class="write-review-container">
-                    <button class="write-review-btn">Write a review</button>
+                    <button class="write-review-btn" onclick="openReviewModal()">Write a review</button>
                 </div>
             </div>
 
@@ -835,6 +844,284 @@ $isMobile =
      </div>
      @endif
     </div>
+    <div class="modal-overlay" id="reviewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Write a Review</h3>
+                <button class="close-btn" onclick="closeReviewModal()">&times;</button>
+            </div>
+
+            <!-- Login Required Section -->
+            <div class="login-required" id="loginSection">
+                <div class="login-icon">👤</div>
+                <div class="login-message">Please log in to write a review</div>
+                <div class="login-submessage">You need to be logged in to share your thoughts</div>
+                <div>
+                  <a href="{{ route('login') }}">  <button class="login-btn" >Log In</button></a>
+                  <a href="{{ route('register') }}" > <button class="signup-btn" >Sign Up</button> </a>
+                </div>
+            </div>
+
+            <!-- Review Form Section -->
+            <div class="review-form" id="reviewForm">
+                <form onsubmit="submitReview(event)">
+                    <div class="form-group">
+                        <label class="form-label">Rating</label>
+                        <div class="star-rating" id="starRating">
+                            <button type="button" class="star-rating-btn" data-rating="1">★</button>
+                            <button type="button" class="star-rating-btn" data-rating="2">★</button>
+                            <button type="button" class="star-rating-btn" data-rating="3">★</button>
+                            <button type="button" class="star-rating-btn" data-rating="4">★</button>
+                            <button type="button" class="star-rating-btn" data-rating="5">★</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reviewText">Your Review</label>
+                        <textarea 
+                            class="form-textarea" 
+                            id="reviewText" 
+                            placeholder="Share your thoughts about this movie..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="closeReviewModal()">Cancel</button>
+                        <button type="submit" class="submit-btn" id="submitBtn" disabled>Submit Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    // Simulate user login status (change to true to test logged in state)
+    @if (Auth::check() && Auth::user()->hasRole('Customer'))
+    let isUserLoggedIn = true;
+    @else
+    let isUserLoggedIn = false;
+    @endif
+    let selectedRating = 0;
+
+    function openReviewModal() {
+        const modal = document.getElementById('reviewModal');
+        const loginSection = document.getElementById('loginSection');
+        const reviewForm = document.getElementById('reviewForm');
+
+        if (isUserLoggedIn) {
+            loginSection.style.display = 'none';
+            reviewForm.classList.add('active');
+        } else {
+            loginSection.style.display = 'block';
+            reviewForm.classList.remove('active');
+        }
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeReviewModal() {
+        const modal = document.getElementById('reviewModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        
+        // Reset form
+        resetForm();
+    }
+
+    function handleLogin() {
+        // Simulate login process
+        alert('Login functionality would be implemented here');
+        // After successful login:
+        // isUserLoggedIn = true;
+        // openReviewModal();
+    }
+
+    function handleSignup() {
+        // Simulate signup process
+        alert('Signup functionality would be implemented here');
+        // After successful signup:
+        // isUserLoggedIn = true;
+        // openReviewModal();
+    }
+
+    function resetForm() {
+        selectedRating = 0;
+        document.getElementById('reviewText').value = '';
+        document.getElementById('submitBtn').disabled = true;
+        
+        // Reset stars
+        const stars = document.querySelectorAll('.star-rating-btn');
+        stars.forEach(star => star.classList.remove('active'));
+    }
+
+    function submitReview(event) {
+            event.preventDefault();
+            
+            const reviewText = document.getElementById('reviewText').value;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (selectedRating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+
+            if (!reviewText.trim()) {
+                alert('Please write a review');
+                return;
+            }
+
+            // Disable submit button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            // Get product ID (you can set this dynamically based on your page)
+            const productId = {{ $productDetails->id }}; // You'll need to implement this function
+
+            // Prepare data for Laravel backend
+            const reviewData = {
+                product_id: productId,
+                rating: selectedRating,
+                review: reviewText.trim(),
+                _token: '{{ csrf_token() }}'
+            };
+
+            // Make AJAX request to Laravel
+            fetch('/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(reviewData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Success response
+                    alert('Review submitted successfully!');
+                    closeReviewModal();
+                    
+                    // Optionally refresh the reviews section
+                    // loadReviews();
+                    
+                    // Or add the review to the current list without refresh
+                    // addReviewToList(data.review);
+                } else {
+                    // Handle validation errors
+                    if (data.errors) {
+                        let errorMessage = 'Validation errors:\n';
+                        Object.keys(data.errors).forEach(key => {
+                            errorMessage += `- ${data.errors[key].join(', ')}\n`;
+                        });
+                        alert(errorMessage);
+                    } else {
+                        alert(data.message || 'Failed to submit review');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting review:', error);
+                
+                if (error.message.includes('401')) {
+                    alert('You need to be logged in to submit a review');
+                    // Redirect to login or show login modal
+                    isUserLoggedIn = false;
+                    openReviewModal();
+                } else if (error.message.includes('422')) {
+                    alert('Please check your input and try again');
+                } else if (error.message.includes('500')) {
+                    alert('Server error. Please try again later');
+                } else {
+                    alert('Failed to submit review. Please check your connection and try again');
+                }
+            })
+            .finally(() => {
+                // Reset submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Review';
+            });
+        }
+
+    function updateSubmitButton() {
+        const reviewText = document.getElementById('reviewText').value;
+        const submitBtn = document.getElementById('submitBtn');
+        
+        submitBtn.disabled = selectedRating === 0 || !reviewText.trim();
+    }
+
+    // Star rating functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star-rating-btn');
+        const reviewTextarea = document.getElementById('reviewText');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.rating);
+                
+                // Update star display
+                stars.forEach((s, index) => {
+                    if (index < selectedRating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+                
+                updateSubmitButton();
+            });
+
+            star.addEventListener('mouseover', function() {
+                const hoverRating = parseInt(this.dataset.rating);
+                stars.forEach((s, index) => {
+                    if (index < hoverRating) {
+                        s.style.color = '#ffa500';
+                    } else {
+                        s.style.color = '#ddd';
+                    }
+                });
+            });
+        });
+
+        // Reset hover effect
+        document.getElementById('starRating').addEventListener('mouseleave', function() {
+            stars.forEach((s, index) => {
+                if (index < selectedRating) {
+                    s.style.color = '#ffa500';
+                } else {
+                    s.style.color = '#ddd';
+                }
+            });
+        });
+
+        // Update submit button on text change
+        reviewTextarea.addEventListener('input', updateSubmitButton);
+
+        // Close modal on overlay click
+        document.getElementById('reviewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeReviewModal();
+            }
+        });
+
+        // Toggle login status for testing (remove in production)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'L' && e.ctrlKey) {
+                isUserLoggedIn = !isUserLoggedIn;
+                console.log('Login status:', isUserLoggedIn ? 'Logged In' : 'Logged Out');
+            }
+        });
+    });
+</script>
     <input type="hidden" id="razorpay-key" value="{{ env('RAZORPAY_KEY') }}">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" data-reload="true"></script>
     <script src="{{ asset('front/js/jquery.min.js') }}"></script>

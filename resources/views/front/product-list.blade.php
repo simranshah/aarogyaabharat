@@ -58,20 +58,15 @@
         </div>
         <div class="mobile-filters-content">
             <div class="applied-filters" id="appliedFilters">
-                <div class="filter-tag">
-                    ₹1,000 - ₹5,000 <span class="remove" onclick="removeFilter('price')">&times;</span>
-                </div>
-                <div class="filter-tag">
-                    Medicos <span class="remove" onclick="removeFilter('brand')">&times;</span>
-                </div>
+                
             </div>
 
             <div class="filter-section">
                 <h3>Price Range</h3>
                 <div class="price-range">
                     <div class="price-inputs">
-                        <input type="number" class="price-input" placeholder="Min"  value="1000">
-                        <input type="number" class="price-input" placeholder="Max" value="5000">
+                        <input type="number" class="price-input" placeholder="Min" >
+                        <input type="number" class="price-input" placeholder="Max" >
                     </div>
                     <div class="price-slider">
                         <div class="price-slider-track"></div>
@@ -704,22 +699,56 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
         }
 
         // Mobile filter functions
-        function toggleMobileFilters() {
-            console.log('Mobile filters toggled');
-            const overlay = document.getElementById('filterOverlay');
-            const filters = document.getElementById('mobileFilters');
-            overlay.classList.add('show');
-            filters.classList.add('show');
-            document.body.classList.add('noscroll');
-        }
+        $(document).ready(function() {
+    $('.filter-toggle').on('click', function(e) {
+        // e.preventDefault();
+        // showFilterAlert();
+        toggleMobileFilters();
+    });
+});
 
-        function closeMobileFilters() {
-            const overlay = document.getElementById('filterOverlay');
-            const filters = document.getElementById('mobileFilters');
-            overlay.classList.remove('show');
-            filters.classList.remove('show');
-            document.body.classList.remove('noscroll');
-        }
+function showFilterAlert() {
+    alert('Filter options are now available!');
+}
+
+function toggleMobileFilters() {
+    // alert('in thisss');
+    const $mobileFilters = $('#mobileFilters');
+    const $filterOverlay = $('#filterOverlay');
+
+    if ($mobileFilters.length && $filterOverlay.length) {
+        const isVisible = $mobileFilters.css('transform') === 'translateX(0%)';
+
+        $mobileFilters.css('transform', isVisible ? 'translateX(100%)' : 'translateX(0%)');
+        $filterOverlay.css('display', isVisible ? 'none' : 'block');
+    }
+}
+function closeMobileFilters() {
+    const overlay = document.getElementById('filterOverlay');
+    const filters = document.getElementById('mobileFilters');
+
+    // Remove CSS classes
+    overlay.classList.remove('show');
+    filters.classList.remove('show');
+    document.body.classList.remove('noscroll');
+
+    // Reset inline styles
+    $('#mobileFilters').css({
+        'transform': '',
+        'transition': '',
+        'opacity': '',
+        'visibility': '',
+        'position': ''
+    });
+
+    $('#filterOverlay').css({
+        'display': '',
+        'background': '',
+        'opacity': '',
+        'visibility': '',
+        'position': ''
+    });
+}
 
         function applyMobileFilters() {
             // Sync mobile filters with desktop filters
@@ -768,13 +797,13 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
         }
 
         // Close sort dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('sortDropdown');
-            const button = document.querySelector('.mobile-sort-btn');
-            if (!dropdown.contains(e.target) && !button.contains(e.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
+        // document.addEventListener('click', function(e) {
+        //     const dropdown = document.getElementById('sortDropdown');
+        //     const button = document.querySelector('.mobile-sort-btn');
+        //     if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+        //         dropdown.classList.remove('show');
+        //     }
+        // });
 
         // Sort option selection
         document.addEventListener('DOMContentLoaded', function() {

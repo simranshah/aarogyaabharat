@@ -76,6 +76,7 @@ Route::get('auth/facebook', [SocialLoginController::class, 'redirectToFacebook']
 Route::get('auth/facebook/callback', [SocialLoginController::class, 'handleFacebookCallback']);
 
 Route::controller(FrontProductController::class)->group(function () {
+    Route::post('/reviews','addreview')->name('adsreview');
     Route::get('/products-list', 'productList')->name('products.list');
     Route::get('/products', 'index')->name('products');
     // Route::get('/products/details/{slug}', 'productDetail')->name('products.detail');

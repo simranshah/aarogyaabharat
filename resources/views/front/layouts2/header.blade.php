@@ -168,7 +168,7 @@
              @endif
 
               <div class="">
-                <img src="{{ asset('front/images/arogya_bharat.svg') }}" class="logo-AB" />
+               <a href="{{ url('/new-home') }}"> <img src="{{ asset('front/images/arogya_bharat.svg') }}" class="logo-AB" /></a>
               </div>
               @if (!$isMobile)
               <div class="frame-4">
@@ -269,12 +269,21 @@
                 </div>
             @if (!$isMobile)
 
-
+            @if (Auth::check() && Auth::user()->hasRole('Customer'))
+            <a href="{{ route('customers.profile') }}">
+              <img src="{{ asset('front/images/Profile_img.svg') }}" alt="Profile"
+                  class="profile_fil">
+              <div class="text-center mt-1 text-sm font-low" style="font-size: 9px;font-weight: bold;">
+                  {{ ucfirst(strtolower(explode(' ', Auth::user()->name)[0])) }}
+              </div>
+          </a>
+            @else
                 <button class="login-button">
                   <a href="{{ route('login') }}">
                     <div class="text-wrapper-4">Login</div>
                   </a>
                 </button>
+                @endif
                 @endif
             {{-- @endif --}}
 

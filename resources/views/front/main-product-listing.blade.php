@@ -23,7 +23,7 @@
                 <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
             </svg>
         </button>
-        <div class="mobile-sort">
+        <div class="mobile-sort ">
             <label style="width: 85px;">Sort by:</label>
             <select class="sort-select mobile-sort-select">
                 <option value="relevance">Relevance</option>
@@ -174,6 +174,10 @@
                     <div class="filter-option">
                         <input type="checkbox" value="product_for_you" name="tag" id="product_for_you">
                         <label for="product_for_you">Product For You</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="is_new" name="tag" id="is_new">
+                        <label for="is_new">Newly Product</label>
                     </div>
                     <div class="filter-option">
                         <input type="checkbox" value="flash_sale" name="tag" id="flash_sale">
@@ -352,6 +356,10 @@
                 <div class="filter-option">
                     <input type="checkbox" value="product_for_you" name="tag" id="product_for_you">
                     <label for="product_for_you">Product For You</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="is_new" name="tag" id="is_new">
+                    <label for="is_new">Newly Product</label>
                 </div>
                 <div class="filter-option">
                     <input type="checkbox" value="flash_sale" name="tag" id="flash_sale">
@@ -550,6 +558,7 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
     </div>
   </div>
    <script src="https://code.jquery.com/jquery-3.7.0.min.js" data-reload="true"></script>
+
     {{-- <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js" data-reload="true"></script> --}}
 
 
@@ -765,22 +774,57 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
         }
 
         // Mobile filter functions
-        function toggleMobileFilters() {
-            console.log('Mobile filters toggled');
-            const overlay = document.getElementById('filterOverlay');
-            const filters = document.getElementById('mobileFilters');
-            overlay.classList.add('show');
-            filters.classList.add('show');
-            document.body.classList.add('noscroll');
-        }
+        $(document).ready(function() {
+    $('.filter-toggle').on('click', function(e) {
+        // e.preventDefault();
+        // showFilterAlert();
+        toggleMobileFilters();
+    });
+});
 
-        function closeMobileFilters() {
-            const overlay = document.getElementById('filterOverlay');
-            const filters = document.getElementById('mobileFilters');
-            overlay.classList.remove('show');
-            filters.classList.remove('show');
-            document.body.classList.remove('noscroll');
-        }
+function showFilterAlert() {
+    alert('Filter options are now available!');
+}
+
+function toggleMobileFilters() {
+    // alert('in thisss');
+    const $mobileFilters = $('#mobileFilters');
+    const $filterOverlay = $('#filterOverlay');
+
+    if ($mobileFilters.length && $filterOverlay.length) {
+        const isVisible = $mobileFilters.css('transform') === 'translateX(0%)';
+
+        $mobileFilters.css('transform', isVisible ? 'translateX(100%)' : 'translateX(0%)');
+        $filterOverlay.css('display', isVisible ? 'none' : 'block');
+    }
+}
+function closeMobileFilters() {
+    const overlay = document.getElementById('filterOverlay');
+    const filters = document.getElementById('mobileFilters');
+
+    // Remove CSS classes
+    overlay.classList.remove('show');
+    filters.classList.remove('show');
+    document.body.classList.remove('noscroll');
+
+    // Reset inline styles
+    $('#mobileFilters').css({
+        'transform': '',
+        'transition': '',
+        'opacity': '',
+        'visibility': '',
+        'position': ''
+    });
+
+    $('#filterOverlay').css({
+        'display': '',
+        'background': '',
+        'opacity': '',
+        'visibility': '',
+        'position': ''
+    });
+}
+
 
         function applyMobileFilters() {
             // Sync mobile filters with desktop filters
@@ -829,13 +873,13 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
         }
 
         // Close sort dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('sortDropdown');
-            const button = document.querySelector('.mobile-sort-btn');
-            if (!dropdown.contains(e.target) && !button.contains(e.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
+        // document.addEventListener('click', function(e) {
+        //     const dropdown = document.getElementById('sortDropdown');
+        //     const button = document.querySelector('.mobile-sort-btn');
+        //     if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+        //         dropdown.classList.remove('show');
+        //     }
+        // });
 
         // Sort option selection
         document.addEventListener('DOMContentLoaded', function() {

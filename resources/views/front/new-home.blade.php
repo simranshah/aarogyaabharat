@@ -1,10 +1,10 @@
 @extends('front.layouts2.layout2')
 @section('content')
-@php
-$isMobile =
-    request()->header('User-Agent') &&
-    preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
-@endphp
+    @php
+        $isMobile =
+            request()->header('User-Agent') &&
+            preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
+    @endphp
           <div class="frame-8">
           @if(!$isMobile)
 
@@ -18,30 +18,31 @@ $isMobile =
 
                 <div class="list-container">
                       @foreach ($categories as $category)
-
+                      
                   <div class="list-item category-hover-wrapper" style="position: relative;">
                     <div class="avatar-container">
-                      <img class="avatar1" src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"  />
+                      <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">  <img class="avatar1" src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"  /></a>
                     </div>
                     <div class="content">
-                      <div class="text">{{ $category->name }}</div>
+                      <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">  <div class="text">{{ $category->name }}</div></a>
                     </div>
+                  
                     {{-- @if($category->subcategories && $category->subcategories->count())
-                    <div class="subcategory-popup">
+                      <div class="subcategory-popup">
                         <div class="row" style="display: flex; flex-wrap: nowrap;">
                             @foreach($category->subcategories->take(3) as $sub)
                                 <div class="col-md-4" style="flex: 0 0 33.33%; padding: 0 15px; margin-bottom: 20px;">
                                     <div style="font-weight: bold; margin-bottom: 8px;">
-                                        <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
-                                            {{ $sub->name }}
-                                        </a>
+                              <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
+                                {{ $sub->name }}
+                              </a>
                                     </div>
                                     <ul style="padding-left: 18px;">
                                         <li>Product 1</li>
                                         <li>Product 2</li>
                                         <li>Product 3</li>
-                                    </ul>
-                                </div>
+                        </ul>
+                      </div>
                             @endforeach
                         </div>
                     </div>
@@ -82,10 +83,12 @@ $isMobile =
                   <div class="div-2">
                     <div class="frame-9" style="justify-content: space-between;">
                       <div class="text-wrapper-5">Category</div>
+                      <a href="{{ url('/products-list') }}">
                       <div class="frame-10">
                         <div class="text-wrapper-6">View All</div>
                         <img src="/front/images/orange_arrow.svg" alt="orange_arrow">
                       </div>
+                    </a>
                     </div>
                     <div class="frame-11 categories">
              @foreach ($categories as $category)
@@ -99,49 +102,21 @@ $isMobile =
                             <div class="text-wrapper-7">{{ $category->name }}</div>
                           </div>
                         </a>
-                        @if($category->subcategories && $category->subcategories->count())
-                          <div class="subcategory-popup">
-                            <div class="row">
-                              @foreach($category->subcategories->take(3) as $sub)
-                                <div class="col-md-4" style="margin-bottom: 20px;">
-                                  <div style="font-weight: bold; margin-bottom: 8px;">
-                                    <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
-                                      {{ $sub->name }}
-                                    </a>
-                                  </div>
-                                  <ul style="padding-left: 18px;">
-                                    <li>Product 1</li>
-                                    <li>Product 2</li>
-                                    <li>Product 3</li>
-                                  </ul>
-                                </div>
-                              @endforeach
-                            </div>
-                          </div>
-                        @endif
+                      
                       </div>
             @endforeach
-            @foreach ($categories as $category)
-
-            <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}"
-                  style="text-decoration: none;">
-              <div class="frame-12">
-                <div class="image-wrapper">
-                  <img class="image" src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" />
-                </div>
-                <div class="text-wrapper-7">{{ $category->name }}</div>
-              </div>
-            </a>
-  @endforeach
+       
                     </div>
                   </div>
                   <div class="div-2">
                     <div class="frame-14">
                       <div class="text-wrapper-8">Newly Product</div>
+                      <a href="{{ url('/products-list?tag=is_new') }}">
                       <div class="frame-10">
                         <div class="text-wrapper-6">View All</div>
                         <img src="/front/images/orange_arrow.svg" alt="orange_arrow">
                       </div>
+                    </a>
                     </div>
                     <div class="frame-15 products">
              @foreach ($products as $product)
@@ -225,8 +200,8 @@ $isMobile =
                         </div>
                         @endforeach
                         
-                          </div>
-                        </div>
+                            </div>
+                            </div>
                         @endif
         {{--
                         <div class="div-4">
@@ -248,10 +223,12 @@ $isMobile =
                           <div class="div-3" style="gap:0px">
                             <div class="frame-27">
                               <div class="text-wrapper-26">Home Care</div>
+                              <a href="{{ url('/categories/home-care') }}">
                               <div class="frame-10">
                                 <div class="text-wrapper-6">View All</div>
                                 <img src="/front/images/orange_arrow.svg" alt="orange_arrow">
                               </div>
+                            </a>
                             </div>
                             <div class="frame-43">
                               <div class="frame-44">
@@ -290,10 +267,12 @@ $isMobile =
                           <div class="div-3" >
                             <div class="frame-27">
                               <div class="text-wrapper-26">Medical Equipment</div>
+                              <a href="{{ url('/categories/medical-equipment') }}">
                               <div class="frame-10">
                                 <div class="text-wrapper-6">View All</div>
                                 <img src="/front/images/orange_arrow.svg" alt="orange_arrow">
                               </div>
+                            </a>
                             </div>
                             <div class="frame-43">
                               <div class="frame-44">
@@ -386,18 +365,18 @@ $isMobile =
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                           <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
-                                </svg>
-                                <div class="text-wrapper-14">Get it May 29</div>
+                                        </svg>
+                                        <div class="text-wrapper-14">Get it May 29</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="frame-25">
+                                  <div class="frame-26">
+                                    <div class="text-wrapper-15 addtocart" data-id="{{ $product->id }}">Add to cart</div>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="frame-25">
-                          <div class="frame-26">
-                            <div class="text-wrapper-15 addtocart" data-id="{{ $product->id }}">Add to cart</div>
-                          </div>
-                        </div>
-                      </div>
             @endforeach
 
                             </div>
@@ -454,21 +433,23 @@ $isMobile =
                             <div class="div-3">
                               <div class="frame-27">
                                 <div class="text-wrapper-5">Product by Brands</div>
+                                <a href="{{ url('/products-list') }}">
                                 <div class="frame-10">
                                   <div class="text-wrapper-6">View All</div>
                                   <img src="/front/images/orange_arrow.svg" alt="orange_arrow">
                                 </div>
+                              </a>
                               </div>
                               <div class="frame-57">
                                 @php
                                 $firstBrandId = $brandsWithProducts->first()->id ?? null;
                             @endphp
-                            
+
                             @foreach ($brandsWithProducts as $index => $Brand)
                                 <div class="frame-59 category-tab" onclick="changeProductsByCategory({{ $Brand->id }}, this)">
-                                    <img class="image-6" src="{{ asset('storage/Brand/' . $Brand->image) }}" />
+                                   <img class="image-6" src="{{ asset('storage/Brand/' . $Brand->image) }}" />
                                 </div>
-                            @endforeach
+            @endforeach
                             
                             @if ($firstBrandId)
                                 <script>
@@ -847,7 +828,7 @@ $isMobile =
                                             this.carousel = document.getElementById('carousel');
                                             this.prevBtn = document.getElementById('prevBtn');
                                             this.nextBtn = document.getElementById('nextBtn');
-                                            this.dotsContainer = document.getElementById('dotsContainer');
+                                            // this.dotsContainer = document.getElementById('dotsContainer');
                                             this.reviews = this.carousel.children;
                                             this.currentIndex = 0;
                                             this.reviewsToShow = this.getReviewsToShow();
@@ -864,7 +845,7 @@ $isMobile =
                                         }
 
                                         init() {
-                                            this.createDots();
+                                            // this.createDots();
                                             this.updateCarousel();
                                             this.bindEvents();
                                             window.addEventListener('resize', () => {
@@ -879,26 +860,26 @@ $isMobile =
                                             });
                                         }
 
-                                        createDots() {
-                                            this.dotsContainer.innerHTML = '';
-                                            for (let i = 0; i < this.totalSlides; i++) {
-                                                const dot = document.createElement('div');
-                                                dot.className = 'dot';
-                                                if (i === this.currentIndex) dot.classList.add('active');
-                                                dot.addEventListener('click', () => this.goToSlide(i));
-                                                this.dotsContainer.appendChild(dot);
-                                            }
-                                        }
+                                        // createDots() {
+                                        //     this.dotsContainer.innerHTML = '';
+                                        //     for (let i = 0; i < this.totalSlides; i++) {
+                                        //         const dot = document.createElement('div');
+                                        //         dot.className = 'dot';
+                                        //         if (i === this.currentIndex) dot.classList.add('active');
+                                        //         dot.addEventListener('click', () => this.goToSlide(i));
+                                        //         this.dotsContainer.appendChild(dot);
+                                        //     }
+                                        // }
 
                                         updateCarousel() {
                                             const translateX = -(this.currentIndex * 100);
                                             this.carousel.style.transform = `translateX(${translateX}%)`;
 
                                             // Update dots
-                                            const dots = this.dotsContainer.querySelectorAll('.dot');
-                                            dots.forEach((dot, index) => {
-                                                dot.classList.toggle('active', index === this.currentIndex);
-                                            });
+                                            // const dots = this.dotsContainer.querySelectorAll('.dot');
+                                            // dots.forEach((dot, index) => {
+                                            //     dot.classList.toggle('active', index === this.currentIndex);
+                                            // });
 
                                             // Update button states
                                             this.prevBtn.disabled = this.currentIndex === 0;
@@ -1103,18 +1084,18 @@ $isMobile =
 
                                               <g clip-path="url(#clip0_367_327)">
                                                 <path d="M0 9.33327C0 6.81859 -7.94731e-08 5.56259 0.781336 4.78125C1.56267 3.99992 2.81868 3.99992 5.33335 3.99992H18.6667C21.1814 3.99992 22.4374 3.99992 23.2187 4.78125C24.0001 5.56259 24.0001 6.81859 24.0001 9.33327H0Z" fill="#233F8C"/>
-                                              <path d="M2.66694 4.9999H21.3336C22.254 4.99998 23.0005 5.74642 23.0005 6.66686V21.3336C23.0004 22.2539 22.2539 22.9994 21.3336 22.9995H2.66694C1.74653 22.9995 1.00011 22.2539 0.99998 21.3336V6.66686C0.99998 5.74637 1.74645 4.9999 2.66694 4.9999Z" stroke="#233F8C" stroke-width="2"/>
-                                              <path d="M5.33436 1.49997V5.49998M18.6677 1.49997V5.49998" stroke="#233F8C" stroke-width="2" stroke-linecap="round"/>
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_367_327">
-                                                <rect width="24.0006" height="24" fill="white"/>
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                          <div class="text-wrapper-50">{{ $blog->created_at->format('d/m/Y') }}</div>
-                                        </div>
-                                        <div class="frame-86">
+                                                <path d="M2.66694 4.9999H21.3336C22.254 4.99998 23.0005 5.74642 23.0005 6.66686V21.3336C23.0004 22.2539 22.2539 22.9994 21.3336 22.9995H2.66694C1.74653 22.9995 1.00011 22.2539 0.99998 21.3336V6.66686C0.99998 5.74637 1.74645 4.9999 2.66694 4.9999Z" stroke="#233F8C" stroke-width="2"/>
+                                                <path d="M5.33436 1.49997V5.49998M18.6677 1.49997V5.49998" stroke="#233F8C" stroke-width="2" stroke-linecap="round"/>
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_367_327">
+                                                  <rect width="24.0006" height="24" fill="white"/>
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                            <div class="text-wrapper-50">{{ $blog->created_at->format('d/m/Y') }}</div>
+                                          </div>
+                                          <div class="frame-86">
                       @if ($isMobile)
 
                                             <svg
@@ -1126,11 +1107,11 @@ $isMobile =
                     @endif
 
                                                 <path d="M23.2049 11.745C22.3228 9.46324 20.7914 7.48996 18.8 6.06906C16.8086 4.64817 14.4445 3.84193 11.9999 3.75C9.55531 3.84193 7.19122 4.64817 5.19983 6.06906C3.20844 7.48996 1.67705 9.46324 0.794925 11.745C0.73535 11.9098 0.73535 12.0902 0.794925 12.255C1.67705 14.5368 3.20844 16.51 5.19983 17.9309C7.19122 19.3518 9.55531 20.1581 11.9999 20.25C14.4445 20.1581 16.8086 19.3518 18.8 17.9309C20.7914 16.51 22.3228 14.5368 23.2049 12.255C23.2645 12.0902 23.2645 11.9098 23.2049 11.745ZM11.9999 18.75C8.02492 18.75 3.82492 15.8025 2.30242 12C3.82492 8.1975 8.02492 5.25 11.9999 5.25C15.9749 5.25 20.1749 8.1975 21.6974 12C20.1749 15.8025 15.9749 18.75 11.9999 18.75Z" fill="#233F8C"/>
-                                              <path d="M12 7.5C11.11 7.5 10.24 7.76392 9.49994 8.25839C8.75991 8.75285 8.18314 9.45566 7.84254 10.2779C7.50195 11.1002 7.41283 12.005 7.58647 12.8779C7.7601 13.7508 8.18869 14.5526 8.81802 15.182C9.44736 15.8113 10.2492 16.2399 11.1221 16.4135C11.995 16.5872 12.8998 16.4981 13.7221 16.1575C14.5443 15.8169 15.2471 15.2401 15.7416 14.5001C16.2361 13.76 16.5 12.89 16.5 12C16.5 10.8065 16.0259 9.66193 15.182 8.81802C14.3381 7.97411 13.1935 7.5 12 7.5ZM12 15C11.4067 15 10.8266 14.8241 10.3333 14.4944C9.83994 14.1648 9.45543 13.6962 9.22836 13.148C9.0013 12.5999 8.94189 11.9967 9.05765 11.4147C9.1734 10.8328 9.45912 10.2982 9.87868 9.87868C10.2982 9.45912 10.8328 9.1734 11.4147 9.05764C11.9967 8.94189 12.5999 9.0013 13.1481 9.22836C13.6962 9.45542 14.1648 9.83994 14.4944 10.3333C14.8241 10.8266 15 11.4067 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7957 15 12 15Z" fill="#233F8C"/>
-                                            </svg>
-                                            <div class="text-wrapper-50">{{ $blog->views }}</div>
-                                          </div>
-                                          <div class="share">
+                                                <path d="M12 7.5C11.11 7.5 10.24 7.76392 9.49994 8.25839C8.75991 8.75285 8.18314 9.45566 7.84254 10.2779C7.50195 11.1002 7.41283 12.005 7.58647 12.8779C7.7601 13.7508 8.18869 14.5526 8.81802 15.182C9.44736 15.8113 10.2492 16.2399 11.1221 16.4135C11.995 16.5872 12.8998 16.4981 13.7221 16.1575C14.5443 15.8169 15.2471 15.2401 15.7416 14.5001C16.2361 13.76 16.5 12.89 16.5 12C16.5 10.8065 16.0259 9.66193 15.182 8.81802C14.3381 7.97411 13.1935 7.5 12 7.5ZM12 15C11.4067 15 10.8266 14.8241 10.3333 14.4944C9.83994 14.1648 9.45543 13.6962 9.22836 13.148C9.0013 12.5999 8.94189 11.9967 9.05765 11.4147C9.1734 10.8328 9.45912 10.2982 9.87868 9.87868C10.2982 9.45912 10.8328 9.1734 11.4147 9.05764C11.9967 8.94189 12.5999 9.0013 13.1481 9.22836C13.6962 9.45542 14.1648 9.83994 14.4944 10.3333C14.8241 10.8266 15 11.4067 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7957 15 12 15Z" fill="#233F8C"/>
+                                              </svg>
+                                              <div class="text-wrapper-50">{{ $blog->views }}</div>
+                                            </div>
+                                            <div class="share">
                      @if ($isMobile)
 
                                               <svg
@@ -1194,8 +1175,8 @@ $isMobile =
 
                          <g clip-path="url(#clip0_367_327)">
                            <path d="M0 9.33327C0 6.81859 -7.94731e-08 5.56259 0.781336 4.78125C1.56267 3.99992 2.81868 3.99992 5.33335 3.99992H18.6667C21.1814 3.99992 22.4374 3.99992 23.2187 4.78125C24.0001 5.56259 24.0001 6.81859 24.0001 9.33327H0Z" fill="#233F8C"/>
-                         <path d="M2.66694 4.9999H21.3336C22.254 4.99998 23.0005 5.74642 23.0005 6.66686V21.3336C23.0004 22.2539 22.2539 22.9994 21.3336 22.9995H2.66694C1.74653 22.9995 1.00011 22.2539 0.99998 21.3336V6.66686C0.99998 5.74637 1.74645 4.9999 2.66694 4.9999Z" stroke="#233F8C" stroke-width="2"/>
-                         <path d="M5.33436 1.49997V5.49998M18.6677 1.49997V5.49998" stroke="#233F8C" stroke-width="2" stroke-linecap="round"/>
+                           <path d="M2.66694 4.9999H21.3336C22.254 4.99998 23.0005 5.74642 23.0005 6.66686V21.3336C23.0004 22.2539 22.2539 22.9994 21.3336 22.9995H2.66694C1.74653 22.9995 1.00011 22.2539 0.99998 21.3336V6.66686C0.99998 5.74637 1.74645 4.9999 2.66694 4.9999Z" stroke="#233F8C" stroke-width="2"/>
+                           <path d="M5.33436 1.49997V5.49998M18.6677 1.49997V5.49998" stroke="#233F8C" stroke-width="2" stroke-linecap="round"/>
                          </g>
                          <defs>
                            <clipPath id="clip0_367_327">
@@ -1217,33 +1198,33 @@ $isMobile =
 @endif
 
                            <path d="M23.2049 11.745C22.3228 9.46324 20.7914 7.48996 18.8 6.06906C16.8086 4.64817 14.4445 3.84193 11.9999 3.75C9.55531 3.84193 7.19122 4.64817 5.19983 6.06906C3.20844 7.48996 1.67705 9.46324 0.794925 11.745C0.73535 11.9098 0.73535 12.0902 0.794925 12.255C1.67705 14.5368 3.20844 16.51 5.19983 17.9309C7.19122 19.3518 9.55531 20.1581 11.9999 20.25C14.4445 20.1581 16.8086 19.3518 18.8 17.9309C20.7914 16.51 22.3228 14.5368 23.2049 12.255C23.2645 12.0902 23.2645 11.9098 23.2049 11.745ZM11.9999 18.75C8.02492 18.75 3.82492 15.8025 2.30242 12C3.82492 8.1975 8.02492 5.25 11.9999 5.25C15.9749 5.25 20.1749 8.1975 21.6974 12C20.1749 15.8025 15.9749 18.75 11.9999 18.75Z" fill="#233F8C"/>
-                         <path d="M12 7.5C11.11 7.5 10.24 7.76392 9.49994 8.25839C8.75991 8.75285 8.18314 9.45566 7.84254 10.2779C7.50195 11.1002 7.41283 12.005 7.58647 12.8779C7.7601 13.7508 8.18869 14.5526 8.81802 15.182C9.44736 15.8113 10.2492 16.2399 11.1221 16.4135C11.995 16.5872 12.8998 16.4981 13.7221 16.1575C14.5443 15.8169 15.2471 15.2401 15.7416 14.5001C16.2361 13.76 16.5 12.89 16.5 12C16.5 10.8065 16.0259 9.66193 15.182 8.81802C14.3381 7.97411 13.1935 7.5 12 7.5ZM12 15C11.4067 15 10.8266 14.8241 10.3333 14.4944C9.83994 14.1648 9.45543 13.6962 9.22836 13.148C9.0013 12.5999 8.94189 11.9967 9.05765 11.4147C9.1734 10.8328 9.45912 10.2982 9.87868 9.87868C10.2982 9.45912 10.8328 9.1734 11.4147 9.05764C11.9967 8.94189 12.5999 9.0013 13.1481 9.22836C13.6962 9.45542 14.1648 9.83994 14.4944 10.3333C14.8241 10.8266 15 11.4067 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7957 15 12 15Z" fill="#233F8C"/>
-                     </svg>
-                     <div class="text-wrapper-50">{{ $blog->views }}</div>
-                   </div>
-                   <div class="share">
+                           <path d="M12 7.5C11.11 7.5 10.24 7.76392 9.49994 8.25839C8.75991 8.75285 8.18314 9.45566 7.84254 10.2779C7.50195 11.1002 7.41283 12.005 7.58647 12.8779C7.7601 13.7508 8.18869 14.5526 8.81802 15.182C9.44736 15.8113 10.2492 16.2399 11.1221 16.4135C11.995 16.5872 12.8998 16.4981 13.7221 16.1575C14.5443 15.8169 15.2471 15.2401 15.7416 14.5001C16.2361 13.76 16.5 12.89 16.5 12C16.5 10.8065 16.0259 9.66193 15.182 8.81802C14.3381 7.97411 13.1935 7.5 12 7.5ZM12 15C11.4067 15 10.8266 14.8241 10.3333 14.4944C9.83994 14.1648 9.45543 13.6962 9.22836 13.148C9.0013 12.5999 8.94189 11.9967 9.05765 11.4147C9.1734 10.8328 9.45912 10.2982 9.87868 9.87868C10.2982 9.45912 10.8328 9.1734 11.4147 9.05764C11.9967 8.94189 12.5999 9.0013 13.1481 9.22836C13.6962 9.45542 14.1648 9.83994 14.4944 10.3333C14.8241 10.8266 15 11.4067 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7957 15 12 15Z" fill="#233F8C"/>
+                         </svg>
+                         <div class="text-wrapper-50">{{ $blog->views }}</div>
+                       </div>
+                       <div class="share">
 @if ($isMobile)
 
-                     <svg
-                       xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                         <svg
+                           xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
 @else
 
-                       <svg
-                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                           <svg
+                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 @endif
 
-                         <path d="M13.12 17.0232L8.92096 14.7332C8.37276 15.3193 7.66095 15.7269 6.87803 15.9031C6.09512 16.0793 5.27731 16.0159 4.53088 15.7212C3.78445 15.4266 3.14392 14.9142 2.69253 14.2506C2.24114 13.5871 1.99976 12.8032 1.99976 12.0007C1.99976 11.1982 2.24114 10.4143 2.69253 9.75076C3.14392 9.08725 3.78445 8.57486 4.53088 8.28017C5.27731 7.98548 6.09512 7.92211 6.87803 8.09832C7.66095 8.27452 8.37276 8.68214 8.92096 9.2682L13.121 6.97821C12.8829 6.03417 12.9973 5.0357 13.4427 4.16997C13.8881 3.30424 14.634 2.63069 15.5405 2.27557C16.447 1.92046 17.452 1.90816 18.3669 2.24098C19.2818 2.57381 20.044 3.2289 20.5105 4.08347C20.977 4.93804 21.1157 5.9334 20.9008 6.88299C20.6859 7.83257 20.132 8.67116 19.343 9.24158C18.554 9.81199 17.5841 10.0751 16.615 9.98147C15.6459 9.88789 14.7442 9.44406 14.079 8.7332L9.87896 11.0232C10.0402 11.6646 10.0402 12.3358 9.87896 12.9772L14.079 15.2672C14.7446 14.5567 15.6464 14.1133 16.6156 14.0202C17.5847 13.9271 18.5545 14.1906 19.3432 14.7614C20.1319 15.3322 20.6854 16.171 20.8999 17.1207C21.1143 18.0703 20.9751 19.0656 20.5083 19.9199C20.0414 20.7743 19.279 21.429 18.3639 21.7615C17.4489 22.0939 16.444 22.0812 15.5376 21.7257C14.6313 21.3702 13.8857 20.6964 13.4406 19.8305C12.9955 18.9646 12.8815 17.9661 13.12 17.0222V17.0232ZM5.99996 14.0002C6.5304 14.0002 7.0391 13.7895 7.41418 13.4144C7.78925 13.0393 7.99996 12.5306 7.99996 12.0002C7.99996 11.4698 7.78925 10.9611 7.41418 10.586C7.0391 10.2109 6.5304 10.0002 5.99996 10.0002C5.46953 10.0002 4.96082 10.2109 4.58575 10.586C4.21068 10.9611 3.99996 11.4698 3.99996 12.0002C3.99996 12.5306 4.21068 13.0393 4.58575 13.4144C4.96082 13.7895 5.46953 14.0002 5.99996 14.0002ZM17 8.00021C17.5304 8.00021 18.0391 7.78949 18.4142 7.41442C18.7892 7.03935 19 6.53064 19 6.00021C19 5.46977 18.7892 4.96107 18.4142 4.58599C18.0391 4.21092 17.5304 4.00021 17 4.00021C16.4695 4.00021 15.9608 4.21092 15.5857 4.58599C15.2107 4.96107 15 5.46977 15 6.00021C15 6.53064 15.2107 7.03935 15.5857 7.41442C15.9608 7.78949 16.4695 8.00021 17 8.00021ZM17 20.0002C17.5304 20.0002 18.0391 19.7895 18.4142 19.4144C18.7892 19.0393 19 18.5306 19 18.0002C19 17.4698 18.7892 16.9611 18.4142 16.586C18.0391 16.2109 17.5304 16.0002 17 16.0002C16.4695 16.0002 15.9608 16.2109 15.5857 16.586C15.2107 16.9611 15 17.4698 15 18.0002C15 18.5306 15.2107 19.0393 15.5857 19.4144C15.9608 19.7895 16.4695 20.0002 17 20.0002Z" fill="#F2A602"/>
-                     </svg>
-                   </div>
-                 </div>
+                             <path d="M13.12 17.0232L8.92096 14.7332C8.37276 15.3193 7.66095 15.7269 6.87803 15.9031C6.09512 16.0793 5.27731 16.0159 4.53088 15.7212C3.78445 15.4266 3.14392 14.9142 2.69253 14.2506C2.24114 13.5871 1.99976 12.8032 1.99976 12.0007C1.99976 11.1982 2.24114 10.4143 2.69253 9.75076C3.14392 9.08725 3.78445 8.57486 4.53088 8.28017C5.27731 7.98548 6.09512 7.92211 6.87803 8.09832C7.66095 8.27452 8.37276 8.68214 8.92096 9.2682L13.121 6.97821C12.8829 6.03417 12.9973 5.0357 13.4427 4.16997C13.8881 3.30424 14.634 2.63069 15.5405 2.27557C16.447 1.92046 17.452 1.90816 18.3669 2.24098C19.2818 2.57381 20.044 3.2289 20.5105 4.08347C20.977 4.93804 21.1157 5.9334 20.9008 6.88299C20.6859 7.83257 20.132 8.67116 19.343 9.24158C18.554 9.81199 17.5841 10.0751 16.615 9.98147C15.6459 9.88789 14.7442 9.44406 14.079 8.7332L9.87896 11.0232C10.0402 11.6646 10.0402 12.3358 9.87896 12.9772L14.079 15.2672C14.7446 14.5567 15.6464 14.1133 16.6156 14.0202C17.5847 13.9271 18.5545 14.1906 19.3432 14.7614C20.1319 15.3322 20.6854 16.171 20.8999 17.1207C21.1143 18.0703 20.9751 19.0656 20.5083 19.9199C20.0414 20.7743 19.279 21.429 18.3639 21.7615C17.4489 22.0939 16.444 22.0812 15.5376 21.7257C14.6313 21.3702 13.8857 20.6964 13.4406 19.8305C12.9955 18.9646 12.8815 17.9661 13.12 17.0222V17.0232ZM5.99996 14.0002C6.5304 14.0002 7.0391 13.7895 7.41418 13.4144C7.78925 13.0393 7.99996 12.5306 7.99996 12.0002C7.99996 11.4698 7.78925 10.9611 7.41418 10.586C7.0391 10.2109 6.5304 10.0002 5.99996 10.0002C5.46953 10.0002 4.96082 10.2109 4.58575 10.586C4.21068 10.9611 3.99996 11.4698 3.99996 12.0002C3.99996 12.5306 4.21068 13.0393 4.58575 13.4144C4.96082 13.7895 5.46953 14.0002 5.99996 14.0002ZM17 8.00021C17.5304 8.00021 18.0391 7.78949 18.4142 7.41442C18.7892 7.03935 19 6.53064 19 6.00021C19 5.46977 18.7892 4.96107 18.4142 4.58599C18.0391 4.21092 17.5304 4.00021 17 4.00021C16.4695 4.00021 15.9608 4.21092 15.5857 4.58599C15.2107 4.96107 15 5.46977 15 6.00021C15 6.53064 15.2107 7.03935 15.5857 7.41442C15.9608 7.78949 16.4695 8.00021 17 8.00021ZM17 20.0002C17.5304 20.0002 18.0391 19.7895 18.4142 19.4144C18.7892 19.0393 19 18.5306 19 18.0002C19 17.4698 18.7892 16.9611 18.4142 16.586C18.0391 16.2109 17.5304 16.0002 17 16.0002C16.4695 16.0002 15.9608 16.2109 15.5857 16.586C15.2107 16.9611 15 17.4698 15 18.0002C15 18.5306 15.2107 19.0393 15.5857 19.4144C15.9608 19.7895 16.4695 20.0002 17 20.0002Z" fill="#F2A602"/>
+                           </svg>
+                         </div>
+                       </div>
 @if(!$isMobile)
 
-                 <div class="text-wrapper-51">Read Now</div>
+                       <div class="text-wrapper-51">Read Now</div>
 @endif
 
+                     </div>
+                   </div>
                  </div>
-               </div>
-             </div>
 @endforeach
            @endif
 
@@ -1262,13 +1243,17 @@ $isMobile =
                                       <img class="frame-88" src="https://c.animaapp.com/mciusnbpgZSJMg/img/frame-1707486595.svg" /> --}}
 
                                     </div>
+                                    
                                     <div class="frame-89">
+                                      <a href="{{ route('blogs') }}">
                                       <div class="text-wrapper-6">Read More Blogs</div>
+                                      </a>
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg" width="19" height="11" viewBox="0 0 19 11" fill="none">
                                         <path d="M1.28378 1.28378L9.50001 9.5L17.7162 1.28378" stroke="#F2A602" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                                       </svg>
                                     </div>
+                                 
                                   </div>
                                   <div class="div-3">
                                     <div class="frame-27">

@@ -1,4 +1,4 @@
-@extends('front.layouts.layout')
+@extends('front.layouts2.layout2')
 @section('content')
 @php
     $isMobile = request()->header('User-Agent') && preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
