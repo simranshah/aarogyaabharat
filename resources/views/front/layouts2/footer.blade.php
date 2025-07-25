@@ -1,3 +1,8 @@
+@php
+$isMobile =
+request()->header('User-Agent') &&
+preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
+@endphp
 <footer class="footer">
   <div class="div-3">
     <div class="all_footer_parts">

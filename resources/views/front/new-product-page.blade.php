@@ -47,7 +47,9 @@ $isMobile =
                             $thumbnails[] = asset('storage/' . $productDetails->image_4);
                         }
                     @endphp
-                    <img id="mainProductImage" style="width: 100%; min-height: 419px; max-height: 419px; object-fit: contain;" src="{{ $thumbnails[0] ?? '' }}" alt="Product Image" />
+                    <img id="mainProductImage" 
+                    style="width: 100%; min-height: 419px; max-height: 419px; object-fit: contain;"
+                     src="{{ $thumbnails[0] ?? '' }}" alt="Product Image" />
                     <div class="thumbnail-row">
                         @foreach($thumbnails as $i => $thumb)
                             <div class="thumbnail{{ $i === 0 ? ' active' : '' }}" onclick="changeMainImage('{{ $thumb }}', this)">
@@ -82,7 +84,13 @@ $isMobile =
                             $thumbnails[] = asset('storage/' . $productDetails->image_4);
                         }
                     @endphp
-                    <img id="mainProductImage" style="width: 100%; min-height: 419px; max-height: 419px; object-fit: contain;" src="{{ $thumbnails[0] ?? '' }}" alt="Product Image" />
+                    <img id="mainProductImage" 
+                    @if($isMobile)
+                    style="width: 100%; min-height: 200px; max-height: 200px; object-fit: contain;" 
+                    @else
+                    style="width: 100%; min-height: 419px; max-height: 419px; object-fit: contain;" 
+                    @endif
+                    src="{{ $thumbnails[0] ?? '' }}" alt="Product Image" />
                     <div class="thumbnail-row">
                         @foreach($thumbnails as $i => $thumb)
                             <div class="thumbnail{{ $i === 0 ? ' active' : '' }}" onclick="changeMainImage('{{ $thumb }}', this)">
@@ -92,34 +100,45 @@ $isMobile =
                     </div>
                     </div>
                     @endif
-                    <div class="rating-section">
-                        <div class="stars">
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star empty">★</span>
-                        </div>
-                        <span class="rating-divider">|</span>
-                        <span class="rating-score">4.5</span>
-                    </div>
-
-                    <div class="price-section">
-                        <span class="current-price">₹ {{ $productDetails->our_price }}</span>
-                        <span class="original-price">₹ {{ $productDetails->price }}</span>
-                        <span class="discount-badge">14% OFF</span>
-                    </div>
-
-                    <div class="delivery-info">
-                        <div class="frame-23">
-                            <div class="frame-24">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
-                                <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"></path>
-                              </svg>
-                              <div class="text-wrapper-14">Get it May 29</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div class="rating-section">
+                            <div class="stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star empty">★</span>
                             </div>
-                          </div>
+                            <span class="rating-divider">|</span>
+                            <span class="rating-score">4.5</span>
+                        </div>
+                        <div class="delivery-info">
+                            <div class="frame-23" style="margin-top: 5px; background-color: unset;">
+                                <div class="frame-24">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
+                                        <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"></path>
+                                    </svg>
+                                    <div class="text-wrapper-14">
+                                        Get it by 
+                                        @if($isMobile)
+                                        <span style="font-size: 12px; font-weight: 600;">{{ \Carbon\Carbon::now()->addDays(7)->format('D, M d') }}</span>
+                                        @else
+                                        <span style="font-size: 16px; font-weight: 600;">{{ \Carbon\Carbon::now()->addDays(7)->format('D, M d') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="price-section" style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <span class="current-price">₹ {{ $productDetails->our_price }}</span>
+                            <span class="original-price">₹ {{ $productDetails->price }}</span>
+                        </div>
+                        <span class="discount-badge">@indianCurrency($productDetails->discount_percentage) % OFF</span>
+                    </div>
+
+                  
 
                     {{-- <div class="tax-info">
                         Inclusive of all taxes
@@ -176,7 +195,7 @@ $isMobile =
                         {{-- <div class="share-icon">🔗</div> --}}
         <div style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                         <div class="buy-rent-buttons">
-                            <button class="buy-btn buynowborder-show" id="buynowsummerybtn" onclick="chnagesection('buy',this);">Buy at Now</button>
+                            <button class="buy-btn buynowborder-show" id="buynowsummerybtn" onclick="chnagesection('buy',this);">Purchase</button>
                             <button class="rent-btn buynowborder-noshow" id="rentnowsectionbtn" onclick="chnagesection('rent',this);">
                                 Rent Now
                                 <span class="save-badge">Save 30%</span>
@@ -195,10 +214,11 @@ $isMobile =
                             <label class="quantity-label">Quantity:</label>
                             <div class="quantity-controls">
                                 <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
-                                <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="10">
+                                <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="1">
                                 <button class="quantity-btn" onclick="increaseQuantity()">+</button>
                             </div>
                         </div>
+                        <div id="quantity-error-sucess" style="margin-top: 10px; margin-bottom: 10px; color: red;"></div>
 
                         <div class="pincode-section">
                             <label class="pincode-label">Pin Code Availability</label>
@@ -207,11 +227,20 @@ $isMobile =
                                 <button class="check-btn" id="check-btn" onclick="checkPincode()">Check</button>
                              
                             </div>
-                            <div id="pincode-error-sucess"></div>
+                            <div id="pincode-error-sucess" style="margin-top: 10px;"></div>
                         </div>
-                        <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
-                            <button class="pay-btn" onclick="buynowProduct({{ $productDetails->id }})" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
-                                to Pay</button>
+                        @if($productDetails->productAttributes->stock == 0)
+                <button class="pay-btn"  style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                @else
+                <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                @endif
+                @if($productDetails->productAttributes->stock == 0)
+                <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
+    border: 1.5px solid #FFCC5C; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
+                @else
+                    <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
+                        to Pay</button>
+                @endif
                        </div>
                        <div class="content1" id="rentnowsection" style="display: none; height: auto;">
                         <div class="tenure-section">
@@ -269,7 +298,7 @@ $isMobile =
                         <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                             <div class="also-available-header">
                                 <h3>Also Available On:</h3>
-                                <div class="warning-icon">⚠</div>
+                                <div class="warning-icon"><img src="/front/images/amzon.svg" alt="amzon"></div>
                             </div>
                             <div class="related-item">
                                 <div class="related-image">🩼</div>
@@ -317,37 +346,8 @@ $isMobile =
                     {{-- <div class="containerforfilters" style="display: block;"> --}}
                         <div class="faq_title"><h2>Frequently asked questions</h2></div>
                         <div class="filter">
-                    <div class="filtertitle">
-                        <p>Filter</p>
-                        <img src="/front/images/Filter.svg" alt="Filter">
-                    </div>
-                    <ul>
-                                            <li>
-                                <a href="javascript:void(0);" onclick="changeTab('1')">
-                                    <span>General</span>
-                                    <img src="/front/images/Vector_plus.svg" alt="Vector_plus">
-                                </a>
-                            </li>
-                                    <li>
-                                <a href="javascript:void(0);" onclick="changeTab('2')">
-                                    <span>Cancel</span>
-                                    <img src="/front/images/Vector_plus.svg" alt="Vector_plus">
-                                </a>
-                            </li>
-                                    <li>
-                                <a href="javascript:void(0);" onclick="changeTab('3')">
-                                    <span>Refund</span>
-                                    <img src="/front/images/Vector_plus.svg" alt="Vector_plus">
-                                </a>
-                            </li>
-                                    <li>
-                                <a href="javascript:void(0);" onclick="changeTab('4')">
-                                    <span>Aarogyaa bharat</span>
-                                    <img src="/front/images/Vector_plus.svg" alt="Vector_plus">
-                                </a>
-                            </li>
-                                    </ul>
-                </div>
+                    
+                       </div>
                                                                         <div class="faq_box" id="category_1">
                             <a href="javascript:void(0)"><p>Do you provide after-sales support?</p><img src="/front/images/jam_plus.svg" alt="jam_plus"></a>
                             <div class="faq_box_text" style="display: none;">
@@ -406,7 +406,7 @@ $isMobile =
                 {{-- <div class="share-icon">🔗</div> --}}
 <div style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                 <div class="buy-rent-buttons">
-                    <button class="buy-btn buynowborder-show" id="buynowsummerybtn" onclick="chnagesection('buy',this);">Buy Now</button>
+                    <button class="buy-btn buynowborder-show" id="buynowsummerybtn" onclick="chnagesection('buy',this);">Purchase</button>
                     <button class="rent-btn buynowborder-noshow" id="rentnowsectionbtn" onclick="chnagesection('rent',this);">
                         Rent Now
                         <span class="save-badge">Save 30%</span>
@@ -425,12 +425,12 @@ $isMobile =
                     <label class="quantity-label">Quantity:</label>
                     <div class="quantity-controls">
                         <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
-                        <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="10">
+                        <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="1">
                         <button class="quantity-btn" onclick="increaseQuantity()">+</button>
                     </div>
                     
                 </div>
-
+                <div id="quantity-error-sucess" style="margin-top: 10px; margin-bottom: 10px; color: red;"></div>
                 <div class="pincode-section">
                     <label class="pincode-label">Pin Code Availability</label>
                     <div class="pincode-controls">
@@ -438,11 +438,20 @@ $isMobile =
                         <button class="check-btn" id="check-btn" onclick="checkPincode()">Check</button>
                      
                     </div>
-                    <div id="pincode-error-sucess"></div>
+                    <div id="pincode-error-sucess" style="margin-top: 10px;"></div>
                 </div>
+                @if($productDetails->productAttributes->stock == 0)
+                <button class="pay-btn"  style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                @else
                 <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                @endif
+                @if($productDetails->productAttributes->stock == 0)
+                <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
+    border: 1.5px solid #FFCC5C; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
+                @else
                     <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                         to Pay</button>
+                @endif
                </div>
                <div class="content1" id="rentnowsection" style="display: none; height: auto;">
                 <div class="tenure-section">
@@ -490,9 +499,18 @@ $isMobile =
                         <span>₹ 1,596.00</span>
                     </div>
                 </div>
+                @if($productDetails->productAttributes->stock == 0)
+                <button class="pay-btn"  style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                @else
                 <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                @endif
+                @if($productDetails->productAttributes->stock == 0)
+                <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
+    border: 1.5px solid #FFCC5C; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
+                @else
                     <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                         to Pay</button>
+                @endif
             </div>
 
 </div>
@@ -500,7 +518,7 @@ $isMobile =
                 <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                     <div class="also-available-header">
                         <h3>Also Available On:</h3>
-                        <div class="warning-icon">⚠</div>
+                        <div class="warning-icon"><img src="/front/images/amzon.svg" alt="amzon"></div>
                     </div>
                     <div class="related-item">
                         <div class="related-image">🩼</div>
@@ -522,7 +540,7 @@ $isMobile =
           @foreach ($recentViewedProducts as $product)
           <div class="recent-product-product-card">
             <img src="{{ asset('storage/' . $product->image) }}" class="recent-product-product-image" alt="{{ $product->name }}"/>
-            <div class="recent-product-product-name">{{ $product->name }}</div>
+            <div class="recent-product-product-name"> {{ Str::limit($product->name, 35) }}</div>
             <div class="recent-product-product-price">
               <span class="recent-product-currency">₹</span>{{ $product->price }}
             
@@ -839,8 +857,16 @@ $isMobile =
     justify-content: center;
     gap: 16px;
 ">
+@if($productDetails->productAttributes->stock == 0)
+            <button type="button"  class="addtocart" data-id="2283">Add to Cart</button>
+
+            <a href="#;" class="btn_buynow" id="buy-now-button" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
+    border: 1.5px solid #FFCC5C; color:red;">Sold Out</a>
+            @else
             <button type="button" onclick="addToCart({{ $productDetails->id }})" class="addtocart" data-id="2283">Add to Cart</button>
-<a href="#;" class="btn_buynow" onclick="buynowProduct({{ $productDetails->id }})" id="buy-now-button" data-productid="2283">Proceed to Pay</a>
+
+            <a href="#;" class="btn_buynow" onclick="buynowProduct({{ $productDetails->id }})" id="buy-now-button" data-productid="2283">Proceed to Pay</a>
+            @endif
      </div>
      @endif
     </div>
@@ -1252,20 +1278,47 @@ $isMobile =
                 });
             }
         function increaseQuantity() {
-            const quantityInput = document.getElementById('quantity');
-            const currentValue = parseInt(quantityInput.value);
-            if (currentValue < 10) {
-                quantityInput.value = currentValue + 1;
+            var input = document.getElementById('quantity');
+            var max = parseInt(input.max, 10);
+            var current = parseInt(input.value, 10);
+            var errorDiv = document.getElementById('quantity-error-sucess');
+            if (current < max) {
+                input.value = current + 1;
+                errorDiv.textContent = '';
+            } else {
+                errorDiv.textContent = 'You cannot order more than ' + max + ' item(s) for this product.';
             }
         }
 
         function decreaseQuantity() {
-            const quantityInput = document.getElementById('quantity');
-            const currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
+            var input = document.getElementById('quantity');
+            var min = parseInt(input.min, 10);
+            var current = parseInt(input.value, 10);
+            var errorDiv = document.getElementById('quantity-error-sucess');
+            if (current > min) {
+                input.value = current - 1;
+                errorDiv.textContent = '';
+            } else {
+                errorDiv.textContent = '';
             }
         }
+
+        document.getElementById('quantity').addEventListener('input', function() {
+            var input = this;
+            var min = parseInt(input.min, 10);
+            var max = parseInt(input.max, 10);
+            var val = parseInt(input.value, 10);
+            var errorDiv = document.getElementById('quantity-error-sucess');
+            if (val > max) {
+                errorDiv.textContent = 'You cannot order more than ' + max + ' item(s) for this product.';
+                input.value = max;
+            } else if (val < min) {
+                errorDiv.textContent = 'You must order at least ' + min + ' item(s).';
+                input.value = min;
+            } else {
+                errorDiv.textContent = '';
+            }
+        });
 
         function checkPincode() {
             const pincodeInput = document.querySelector('.pincode-input');
@@ -1295,7 +1348,7 @@ $.ajax({
     success: function (response) {
         if (response.available) {
             $('#pincode-error-sucess')
-                .text('Delivery is available at this pin code.')
+                .text('Delivery is available.')
                 .addClass('text-success');
         } else {
             $('#pincode-error-sucess')
@@ -1358,44 +1411,7 @@ $.ajax({
             });
             el.classList.add('active');
         }
-        $('#check-btn').on('click', function () {
-    var pinCode = $('#pinCode').val();
 
-    // Clear previous styles
-    $('#pincode-error-sucess').removeClass('text-success text-danger');
-
-    // Simple validation for empty input
-    if (pinCode === '') {
-        $('#pincode-error-sucess')
-            .text('Please enter a pin code.')
-            .addClass('text-danger');
-        return;
-    }
-
-    $.ajax({
-        url: "{{ route('checkpin') }}",
-        method: 'GET',
-        data: {
-            pin: pinCode,
-        },
-        success: function (response) {
-            if (response.available) {
-                $('#pincode-error-sucess')
-                    .text('Delivery is available at this pin code.')
-                    .addClass('text-success');
-            } else {
-                $('#pincode-error-sucess')
-                    .text('Sorry, we do not deliver to this pin code.')
-                    .addClass('text-danger');
-            }
-        },
-        error: function () {
-            $('#pincode-error-sucess')
-                .text('An error occurred while checking the pin code.')
-                .addClass('text-danger');
-        }
-    });
-});
 function addToCart(productId) {
     $.ajax({
         url: "{{ route('cart.add', ['productId' => '__ID__']) }}".replace('__ID__', productId),

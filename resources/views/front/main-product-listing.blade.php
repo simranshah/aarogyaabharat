@@ -34,6 +34,9 @@
             </select>
         </div>
     </div>
+    <div class="applied-filters" id="appliedFilters">
+                
+    </div>
 @endif
     <!-- Filter Overlay -->
     <div class="filter-overlay" id="filterOverlay" onclick="closeMobileFilters()"></div>
@@ -41,27 +44,29 @@
     <!-- Mobile Filters -->
     @if($isMobile)
     <div class="mobile-filters" id="mobileFilters">
-        <div class="mobile-filters-header">
-            <h3 class="mobile-filters-title">Filters</h3>
-            <button class="close-filters" onclick="closeMobileFilters()">&times;</button>
+        <div style="padding: 0 8px; display: flex; flex-direction: column; position: sticky; top: 0; z-index: 10; background: #fff;">
+            <div style="display: flex; justify-content: flex-end;">
+                <button onclick="closeMobileFilters()" style="font-size: 24px; line-height: 1; background: none; border: none; cursor: pointer; margin: 8px 0 8px 0;">&times;</button>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="margin: 0; font-size: 1.2em;">Filters</h3>
+                <span id="clear-all-filters" onclick="clearAllFilters()" style="color: red; text-decoration: underline; cursor: pointer; font-size: 15px; font-weight: 500;">Clear All</span>
+            </div>
+            <hr style="    margin-top: 10px;
+    margin-bottom: 4px;">
         </div>
         <div class="mobile-filters-content">
-            <div class="applied-filters" id="appliedFilters">
-                <div class="filter-tag">
-                    ₹1,000 - ₹5,000 <span class="remove" onclick="removeFilter('price')">&times;</span>
-                </div>
-                <div class="filter-tag">
-                    Medicos <span class="remove" onclick="removeFilter('brand')">&times;</span>
-                </div>
-            </div>
+            
 
             <div class="filter-section">
                 <h3>Price Range</h3>
                 <div class="price-range">
                     <div class="price-inputs">
-                        <input type="number" class="price-input" placeholder="Min" value="">
-                        <input type="number" class="price-input" placeholder="Max" value="">
+                        <input type="number" class="price-input" id="minPrice" placeholder="Min" min="0">
+                        <input type="number" class="price-input" id="maxPrice" placeholder="Max" min="0">                        
+                        
                     </div>
+                    <span id="price-error" style="color: red; font-size: 12px;"></span>
                     <div class="price-slider">
                         <div class="price-slider-track"></div>
                         <div class="price-slider-thumb min"></div>
@@ -78,11 +83,11 @@
                         <label for="inStock">In Stock</label>
                         <span class="filter-count">12</span>
                     </div>
-                    <div class="filter-option">
+                    {{-- <div class="filter-option">
                         <input type="checkbox" value="out of stock" name="stock" id="outOfStock">
                         <label for="outOfStock">Out of Stock</label>
                         <span class="filter-count">3</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
     
@@ -227,23 +232,28 @@
                 </div>
             </div>
         </div>
-        <div class="mobile-filters-footer">
+        {{-- <div class="mobile-filters-footer">
             <button class="clear-mobile-filters" onclick="clearAllMobileFilters()">Clear All</button>
             <button class="apply-filters" onclick="applyMobileFilters()">Apply Filters</button>
-        </div>
+        </div> --}}
     </div>
     @endif
     @if(!$isMobile)
     <div class="filters-sidebar">
-
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+            <span style="font-size: 18px; font-weight: 700;">Filter</span>
+            <span id="clear-all-filters"  onclick="clearAllFilters()" style="color: red; text-decoration: underline; cursor: pointer; font-size: 15px; font-weight: 500;">Clear All</span>
+        </div>
 
         <div class="filter-section">
             <h3>Price Range</h3>
             <div class="price-range">
                 <div class="price-inputs">
-                    <input type="number" class="price-input" placeholder="Min" value="">
-                    <input type="number" class="price-input" placeholder="Max" value="">
+                    <input type="number" class="price-input" id="minPrice" placeholder="Min" min="0">
+                    <input type="number" class="price-input" id="maxPrice" placeholder="Max" min="0">                        
+                    
                 </div>
+                <span id="price-error" style="color: red; font-size: 12px;"></span>
                 <div class="price-slider">
                     <div class="price-slider-track"></div>
                     <div class="price-slider-thumb min"></div>
@@ -260,11 +270,11 @@
                     <label for="inStock">In Stock</label>
                     <span class="filter-count">12</span>
                 </div>
-                <div class="filter-option">
+                {{-- <div class="filter-option">
                     <input type="checkbox" value="out of stock" name="stock" id="outOfStock">
                     <label for="outOfStock">Out of Stock</label>
                     <span class="filter-count">3</span>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -415,7 +425,7 @@
         <div class="products-section">
             <div class="products-header">
                 <div>
-                    <h2>Wheelchairs (15 products)</h2>
+                    <h2 id="category-name">All Products ( products)</h2>
                 </div>
                 <div class="sort-options">
                     <label style="width: 85px;">Sort by:</label>
@@ -479,7 +489,9 @@
                                           xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                           <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
                                         </svg>
-                                        <div class="text-wrapper-14">Get it May 29</div>
+                                        <div class="text-wrapper-14">
+                                            Get it {{ \Carbon\Carbon::now()->addDays(7)->format('M d') }}
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -586,7 +598,7 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
         }
 
         function clearAllFilters() {
-            alert('All filters cleared!');
+            // alert('All filters cleared!');
             // Clear all checkboxes
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(checkbox => checkbox.checked = false);
@@ -597,6 +609,7 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
 
             // Clear applied filters
             document.getElementById('appliedFilters').innerHTML = '';
+            updateAppliedFilters();
         }
 
         // Add event listeners for real-time filtering
@@ -610,9 +623,16 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
 
             const priceInputs = document.querySelectorAll('.price-input');
             priceInputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    updateAppliedFilters();
-                });
+                input.addEventListener('input', function () {
+    const minPriceInput = document.querySelector('.price-input[placeholder="Min"]');
+    const maxPriceInput = document.querySelector('.price-input[placeholder="Max"]');
+    const minPrice = parseFloat(minPriceInput.value);
+    const maxPrice = parseFloat(maxPriceInput.value);
+
+    if (isNaN(minPrice) || isNaN(maxPrice) || maxPrice > minPrice) {
+        updateAppliedFilters();
+    }
+});
             });
         });
 
@@ -621,12 +641,28 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
             const filters = [];
 
             // Check price range
-            const minPrice = document.querySelector('.price-input[placeholder="Min"]').value;
-            const maxPrice = document.querySelector('.price-input[placeholder="Max"]').value;
-            if (minPrice || maxPrice) {
+            const minPriceInput = document.querySelector('.price-input[placeholder="Min"]');
+            const maxPriceInput = document.querySelector('.price-input[placeholder="Max"]');
+            const minPrice = parseFloat(minPriceInput.value);
+            const maxPrice = parseFloat(maxPriceInput.value);
+
+            if ((minPriceInput.value && minPrice < 0) || (maxPriceInput.value && maxPrice < 0)) {
+                // alert("Price cannot be negative.");
+                document.getElementById('price-error').textContent = "Price cannot be negative.";
+                if (minPrice < 0) minPriceInput.value = 0;
+                if (maxPrice < 0) maxPriceInput.value = 0;
+                // Optionally, return here to prevent further processing
+            } else if (
+                minPriceInput.value && maxPriceInput.value && maxPrice < minPrice
+            ) {
+                // alert("Maximum price cannot be less than minimum price.");
+                document.getElementById('price-error').textContent = "Maximum price cannot be less than minimum price.";
+                // maxPriceInput.value = ; // Optionally set max = min, or clear max
+                // Optionally, return here to prevent further processing
+            } else if (minPriceInput.value || maxPriceInput.value) {
                 filters.push({
                     type: 'price',
-                    text: `₹${minPrice || '0'} - ₹${maxPrice || '∞'}`
+                    text: `₹${minPriceInput.value || '0'} - ₹${maxPriceInput.value || '∞'}`
                 });
             }
 
@@ -656,7 +692,6 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                 </div>`
             ).join('');
         }
-
         function removeSpecificFilter(filterType) {
             if (filterType === 'price') {
                 document.querySelector('.price-input[placeholder="Min"]').value = '';
@@ -702,6 +737,8 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                     }
 
                     updateSliderTrack();
+                    updateAppliedFilters();
+                    filterProducts();
                 }
                     // e.preventDefault();
                 });
@@ -766,6 +803,15 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                 },
                 success: function(response) {
                     $('.products-grid').html(response.html);
+                    $('#category-name').text('All Products (' + response.total_count + ' products)');
+                    @if($isMobile)
+                    document.querySelectorAll('.group-2').forEach(badge => {
+        badge.style.top = "14px";
+    });
+    @else
+    adjustGroup2BadgePosition();
+    @endif
+
                 },
                 error: function(xhr) {
                     alert('Error filtering products');
@@ -797,6 +843,7 @@ function toggleMobileFilters() {
         $mobileFilters.css('transform', isVisible ? 'translateX(100%)' : 'translateX(0%)');
         $filterOverlay.css('display', isVisible ? 'none' : 'block');
     }
+    document.body.classList.add('noscroll');
 }
 function closeMobileFilters() {
     const overlay = document.getElementById('filterOverlay');
@@ -1105,6 +1152,48 @@ function addToCart(productId) {
         }
     });
 }
+@if(!$isMobile)
+function setProductsGridHeight() {
+    var sidebar = document.querySelector('.filters-sidebar');
+    var grid = document.querySelector('.products-grid');
+    if (sidebar && grid) {
+        var sidebarHeight = sidebar.offsetHeight;
+        grid.style.maxHeight = sidebarHeight - 70 + 'px';
+    }
+}
+
+// Run on page load
+window.addEventListener('DOMContentLoaded', setProductsGridHeight);
+// Run on window resize
+window.addEventListener('resize', setProductsGridHeight);
+
+function adjustGroup2BadgePosition() {
+    const baseTop = 1;   // base value for top
+    const baseLeft = -12; // base value for left
+    const width = window.innerWidth;
+    const increment = Math.floor(width / 900); // 1px per 100px
+
+    const newTop = baseTop + increment;
+    const newLeft = baseLeft + increment;
+
+    document.querySelectorAll('.group-2').forEach(badge => {
+        badge.style.top = newTop + "px";
+        badge.style.left = newLeft + "px";
+    });
+}
+
+// Run on load and on resize
+window.addEventListener('DOMContentLoaded', adjustGroup2BadgePosition);
+window.addEventListener('resize', adjustGroup2BadgePosition);
+@endif
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.querySelectorAll('.group-2').forEach(badge => {
+//         badge.style.top = "14px";
+//     });
+// });
+
+
+
 </script>
 
 @endsection

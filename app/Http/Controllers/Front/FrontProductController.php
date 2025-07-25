@@ -387,8 +387,12 @@ class FrontProductController extends Controller
 
     }
         if ($request->ajax()) {
+            $total_count = 0;
+            foreach ($categoriesAndProducts as $cat) {
+                $total_count += $cat->products->count();
+            }
             $html = view('front.common.product_grid', compact('categoriesAndProducts'))->render();
-            return response()->json(['html' => $html]);
+            return response()->json(['html' => $html, 'total_count' => $total_count]);
         }
         $categoriesData = Category::all();
         $brands = Brand::orderBy('name', 'asc')->get();

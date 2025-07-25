@@ -123,29 +123,42 @@
               </div>
               <div class="sidebar" id="sidebarMenu">
                 <div class="sidebar-header">
-                  <span>Account</span>
+                  <span></span>
                   <span class="close-btn" onclick="toggleSidebar()">✕</span>
                 </div>
-                <div class="signin-register">
+                <div class="signin-register" style="text-align: center; padding: 0 0 16px 0;">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <img src="/front/images/Profile_img.svg" alt="Account" style="width: 32px; height: 32px; margin-left:20px;margin-top:20px" />
+                    @if (Auth::check() && Auth::user()->hasRole('Customer'))
+                      {{-- {{ ucfirst(strtolower(explode(' ', Auth::user()->name)[0])) }} --}}
+                    <span style="font-size: 20px; font-weight: 600; color: #111; margin-top:20px">{{ ucfirst(strtolower(explode(' ', Auth::user()->name)[0])) }}</span>
+                    @else
+                    <span style="font-size: 20px; font-weight: 600; color: #111; margin-top:20px">Account</span>
+                    @endif
+                  </div>
+                  <hr style="flex: 1; margin: 12px 0; border: none; border-top: 1px solid #e0e0e0;" />
                   @if (Auth::check() && Auth::user()->hasRole('Customer'))
-                  <a href="{{ route('customers.profile') }}">
-                    <div class="profile-inline-vertical">
-                      <img src="{{ asset('front/images/Profile_img.svg') }}" alt="Profile" class="profile_fil" />
-                      <span class="profile-name">{{ ucfirst(strtolower(explode(' ', Auth::user()->name)[0])) }}</span>
-                    </div>
-                  </a>
+                  <form id="logout-form1" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                    <a onclick="document.getElementById('logout-form1').submit();" style="color: #b71c1c; text-decoration: underline; font-size: 15px; font-weight: 500;">Logout</a>
                   @else
-                  <a href="{{ route('login') }}">Sign in</a> |
-                  <a href="{{ route('register') }}">Register</a>
+                    <div style="color: #b71c1c; font-size: 15px; font-weight: 500;">
+                      <a href="{{ route('login') }}" style="color: #b71c1c; text-decoration: underline;">Sign in</a> |
+                      <a href="{{ route('register') }}" style="color: #b71c1c; text-decoration: underline;">Register</a>
+                    </div>
                   @endif
                 </div>
                 <ul class="menu-section">
                   <li>
-                    <a href="{{ route('products.list') }}"> <strong>Products</strong></a>
+                    <a href="{{ route('products.list') }}" style="text-decoration: none; color: #111;"> <strong>Products</strong></a>
                     {{-- <span class="toggle">+</span> --}}
                   </li>
                   <li>
                     <strong>Offers</strong>
+                  </li>
+                  <li>
+                    <a href="{{ route('blogs') }}" style="text-decoration: none; color: #111;"> <strong>Blogs</strong></a>  
                   </li>
                   <li class="category-toggle">
                     <strong>Category</strong>

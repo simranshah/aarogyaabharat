@@ -601,7 +601,7 @@
                                                     <img src="/front/images/googlefull.svg" alt="Google Icon" width="124" height="84" style="height: 59px; margin-top: 8px;" />
                                                     <div class="rating-section">
                                                         <span class="rating-number" style="font-size: 14px">4.7</span>
-                                                        <span class="stars">★★★★★</span>
+                                                        <span class="stars" style="margin-right:-9px;">★★★★★</span>
                                                         <span class="review-count">(18)</span>
                                                     </div>
                                                 </div>
@@ -1434,7 +1434,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="div-3">
+                                  <div class="div-3" style="margin-top:17px;">
                                     <div class="frame-64">
                                       <div class="text-wrapper-8">Why Aarogya Bharat ..?</div>
                                       <p class="text-wrapper-55">
