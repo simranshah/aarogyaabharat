@@ -143,7 +143,11 @@
                             <div class="wheel-chair-hashtag-wrapper">
                               <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                 <p class="wheel-chair-hashtag">
+                      @if($isMobile)
                       {{ Str::limit($product->name, 40) }}
+                      @else
+                      {{ Str::limit($product->name,50) }}
+                      @endif
                     </p>
                               </a>
                             </div>
@@ -164,11 +168,19 @@
                             </div>
                             <div class="frame-23">
                               <div class="frame-24">
+                                @if (!isset($product->productAttributes) || $product->productAttributes->stock == 0)
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                   <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
                                 </svg>
-                                <div class="text-wrapper-14">Get it May 29</div>
+                                <div class="text-wrapper-14">
+                                  Get it {{ \Carbon\Carbon::now()->addDays(7)->format('M d') }}
+                              </div>
+                              @else
+                              <div class="text-wrapper-14" style="color: red;">
+                                Sold out
+                            </div>
+                              @endif
                               </div>
                             </div>
                           </div>
@@ -341,7 +353,11 @@
                                     <div class="wheel-chair-hashtag-wrapper">
                                       <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                         <p class="wheel-chair-hashtag">
-                      {{ Str::limit($product->name, 40) }}
+                                          @if($isMobile)
+                                          {{ Str::limit($product->name, 40) }}
+                                          @else
+                                          {{ Str::limit($product->name,50) }}
+                                          @endif
                     </p>
                                       </a>
                                     </div>
@@ -362,11 +378,19 @@
                                     </div>
                                     <div class="frame-23">
                                       <div class="frame-24">
+                                        @if (!isset($product->productAttributes) || $product->productAttributes->stock == 0)
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                           <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
                                         </svg>
-                                        <div class="text-wrapper-14">Get it May 29</div>
+                                        <div class="text-wrapper-14">
+                                          Get it {{ \Carbon\Carbon::now()->addDays(7)->format('M d') }}
+                                      </div>
+                                      @else
+                                      <div class="text-wrapper-14" style="color: red;">
+                                        Sold out
+                                    </div>
+                                      @endif
                                       </div>
                                     </div>
                                   </div>
@@ -473,9 +497,9 @@
                             @endif
                             <div class="div-3">
                             @if(!$isMobile)
-                              <img src="{{ asset('front/images/Raise_Query.png') }}" alt="Raise_Query" width="100%">
+                            <a href="{{route('raise.query')}}">  <img src="{{ asset('front/images/Raise_Query.png') }}" alt="Raise_Query" width="100%"> </a>
                             @else
-                            <img src="{{ asset('front/images/Raise_Query_mobile.png') }}" alt="Raise_Query" width="100%">
+                            <a href="{{route('raise.query')}}"> <img src="{{ asset('front/images/Raise_Query_mobile.png') }}" alt="Raise_Query" width="100%"></a>
                             @endif
                             </div>
                             <div class="div-2">
@@ -512,7 +536,11 @@
                                       <div class="wheel-chair-hashtag-wrapper">
                                         <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                           <p class="wheel-chair-hashtag">
-                      {{ Str::limit($product->name, 40) }}
+                                            @if($isMobile)
+                                            {{ Str::limit($product->name, 40) }}
+                                            @else
+                                            {{ Str::limit($product->name,50) }}
+                                            @endif
                     </p>
                                         </a>
                                       </div>
@@ -533,11 +561,19 @@
                                       </div>
                                       <div class="frame-23">
                                         <div class="frame-24">
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
-                                            <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
-                                          </svg>
-                                          <div class="text-wrapper-14">Get it May 29</div>
+                                          @if (!isset($product->productAttributes) || $product->productAttributes->stock == 0)
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
+                                  <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
+                                </svg>
+                                <div class="text-wrapper-14">
+                                  Get it {{ \Carbon\Carbon::now()->addDays(7)->format('M d') }}
+                              </div>
+                              @else
+                              <div class="text-wrapper-14" style="color: red;">
+                                Sold out
+                            </div>
+                              @endif
                                         </div>
                                       </div>
                                     </div>
@@ -808,7 +844,110 @@
                                                         Helpful service 👍
                                                     </div>
                                                 </div>
-
+                                                <div class="review-card">
+                                                  <div class="review-header">
+                                                      <div class="avatar">AR</div>
+                                                    <div class="reviewer-info">
+                                                      <div class="reviewer-name">Avinash Rupnure <span class="verified">✓</span></div>
+                                                        <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24" height="24"> a week ago</div>
+                                                              </div>
+                                                          </div>
+                                                                  <div class="review-stars">★★★★</div>
+                                                                      <div class="review-text">
+                                                                          Highly satisfied! Rented a Cpap bipap machine for my uncle—good price, fast delivery, and great support.
+                                                          </div>
+                                               </div>
+                                               <div class="review-card">
+                                                  <div class="review-header">
+                                                      <div class="avatar">SS</div>
+                                                    <div class="reviewer-info">
+                                                      <div class="reviewer-name">Saniya Shah <span class="verified">✓</span></div>
+                                                        <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24" height="24"> a week ago</div>
+                                                              </div>
+                                                          </div>
+                                                                  <div class="review-stars">★★★★★</div>
+                                                                      <div class="review-text">
+                                                                          Amazing service
+                                                          </div>
+                                               </div>
+                                                <div class="review-card">
+                                                  <div class="review-header">
+                                                      <div class="avatar">RS</div>
+                                                    <div class="reviewer-info">
+                                                      <div class="reviewer-name">Ritesh Singh <span class="verified">✓</span></div>
+                                                        <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24" height="24"> a week ago</div>
+                                                              </div>
+                                                          </div>
+                                                                  <div class="review-stars">★★★★★</div>
+                                                                      <div class="review-text">
+                                                                          
+                                                          </div>
+                                               </div>
+                                                 <div class="review-card">
+                                                  <div class="review-header">
+                                                      <div class="avatar">SR</div>
+                                                    <div class="reviewer-info">
+                                                      <div class="reviewer-name">Ritesh Singh <span class="verified">✓</span></div>
+                                                        <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24" height="24"> a week ago</div>
+                                                              </div>
+                                                          </div>
+                                                                  <div class="review-stars">★★★★★</div>
+                                                                      <div class="review-text">
+                                                                          Best services and fast delivery for innovative medical devices
+                                                          </div>
+                                               </div>
+                                                  <div class="review-card">
+                                                  <div class="review-header">
+                                                      <div class="avatar">SR</div>
+                                                    <div class="reviewer-info">
+                                                      <div class="reviewer-name">Ritesh Singh <span class="verified">✓</span></div>
+                                                        <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24" height="24"> a week ago</div>
+                                                              </div>
+                                                          </div>
+                                                                  <div class="review-stars">★★★★★</div>
+                                                                      <div class="review-text">
+                                                                          Best services and fast delivery for innovative medical devices
+                                                          </div>
+                                               </div>
+                                                   <div class="review-card">
+                                                  <div class="review-header">
+                                                      <div class="avatar">AH</div>
+                                                    <div class="reviewer-info">
+                                                      <div class="reviewer-name">akshay harihar <span class="verified">✓</span></div>
+                                                        <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24" height="24"> a week ago</div>
+                                                              </div>
+                                                          </div>
+                                                                  <div class="review-stars">★★★★★</div>
+                                                                      <div class="review-text">
+                                                                          Best
+                                                          </div>
+                                               </div>
+                                               <div class="review-card">
+                                                  <div class="review-header">
+                                                      <div class="avatar">SG</div>
+                                                    <div class="reviewer-info">
+                                                      <div class="reviewer-name">Sandeep Godse <span class="verified">✓</span></div>
+                                                        <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24" height="24"> a week ago</div>
+                                                              </div>
+                                                          </div>
+                                                                  <div class="review-stars">★★★★★</div>
+                                                                      <div class="review-text">
+                                                                          Nice
+                                                          </div>
+                                               </div>
+                                               <div class="review-card">
+                                                  <div class="review-header">
+                                                      <div class="avatar">AS</div>
+                                                    <div class="reviewer-info">
+                                                      <div class="reviewer-name">Aparna Sanas <span class="verified">✓</span></div>
+                                                        <div class="review-date"><img src="/front/images/google-icon.svg" alt="Google Icon" width="24" height="24"> 4 weeks ago</div>
+                                                              </div>
+                                                          </div>
+                                                                  <div class="review-stars">★★★★</div>
+                                                                      <div class="review-text">
+                                                                          Excellent Service, Amazing Product Quality.
+                                                          </div>
+                                               </div>
                                                 <!-- Add more cards here if needed -->
 
                                             </div>
@@ -817,7 +956,7 @@
 
                                         <div class="carousel-controls">
                                             <button class="nav-button" id="prevBtn">‹</button>
-                                            {{-- <div class="dots" id="dotsContainer"></div> --}}
+                                            <div class="dots" id="dotsContainer"></div>
                                             <button class="nav-button" id="nextBtn">›</button>
                                         </div>
                                     </div>
@@ -828,7 +967,7 @@
                                             this.carousel = document.getElementById('carousel');
                                             this.prevBtn = document.getElementById('prevBtn');
                                             this.nextBtn = document.getElementById('nextBtn');
-                                            // this.dotsContainer = document.getElementById('dotsContainer');
+                                            this.dotsContainer = document.getElementById('dotsContainer');
                                             this.reviews = this.carousel.children;
                                             this.currentIndex = 0;
                                             this.reviewsToShow = this.getReviewsToShow();
@@ -845,7 +984,7 @@
                                         }
 
                                         init() {
-                                            // this.createDots();
+                                            this.createDots();
                                             this.updateCarousel();
                                             this.bindEvents();
                                             window.addEventListener('resize', () => {
@@ -860,26 +999,26 @@
                                             });
                                         }
 
-                                        // createDots() {
-                                        //     this.dotsContainer.innerHTML = '';
-                                        //     for (let i = 0; i < this.totalSlides; i++) {
-                                        //         const dot = document.createElement('div');
-                                        //         dot.className = 'dot';
-                                        //         if (i === this.currentIndex) dot.classList.add('active');
-                                        //         dot.addEventListener('click', () => this.goToSlide(i));
-                                        //         this.dotsContainer.appendChild(dot);
-                                        //     }
-                                        // }
+                                        createDots() {
+                                            this.dotsContainer.innerHTML = '';
+                                            for (let i = 0; i < this.totalSlides; i++) {
+                                                const dot = document.createElement('div');
+                                                dot.className = 'dot';
+                                                if (i === this.currentIndex) dot.classList.add('active');
+                                                dot.addEventListener('click', () => this.goToSlide(i));
+                                                this.dotsContainer.appendChild(dot);
+                                            }
+                                        }
 
                                         updateCarousel() {
                                             const translateX = -(this.currentIndex * 100);
                                             this.carousel.style.transform = `translateX(${translateX}%)`;
 
-                                            // Update dots
-                                            // const dots = this.dotsContainer.querySelectorAll('.dot');
-                                            // dots.forEach((dot, index) => {
-                                            //     dot.classList.toggle('active', index === this.currentIndex);
-                                            // });
+                                            Update dots
+                                            const dots = this.dotsContainer.querySelectorAll('.dot');
+                                            dots.forEach((dot, index) => {
+                                                dot.classList.toggle('active', index === this.currentIndex);
+                                            });
 
                                             // Update button states
                                             this.prevBtn.disabled = this.currentIndex === 0;
@@ -1072,27 +1211,7 @@
                                     <div class="frame-9">
                                       <div class="frame-84">
                                         <div class="frame-85">
-                    @if ($isMobile)
-
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    @else
-
-                                            <svg
-                                              xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    @endif
-
-                                              <g clip-path="url(#clip0_367_327)">
-                                                <path d="M0 9.33327C0 6.81859 -7.94731e-08 5.56259 0.781336 4.78125C1.56267 3.99992 2.81868 3.99992 5.33335 3.99992H18.6667C21.1814 3.99992 22.4374 3.99992 23.2187 4.78125C24.0001 5.56259 24.0001 6.81859 24.0001 9.33327H0Z" fill="#233F8C"/>
-                                                <path d="M2.66694 4.9999H21.3336C22.254 4.99998 23.0005 5.74642 23.0005 6.66686V21.3336C23.0004 22.2539 22.2539 22.9994 21.3336 22.9995H2.66694C1.74653 22.9995 1.00011 22.2539 0.99998 21.3336V6.66686C0.99998 5.74637 1.74645 4.9999 2.66694 4.9999Z" stroke="#233F8C" stroke-width="2"/>
-                                                <path d="M5.33436 1.49997V5.49998M18.6677 1.49997V5.49998" stroke="#233F8C" stroke-width="2" stroke-linecap="round"/>
-                                              </g>
-                                              <defs>
-                                                <clipPath id="clip0_367_327">
-                                                  <rect width="24.0006" height="24" fill="white"/>
-                                                </clipPath>
-                                              </defs>
-                                            </svg>
+                   
                                             <div class="text-wrapper-50">{{ $blog->created_at->format('d/m/Y') }}</div>
                                           </div>
                                           <div class="frame-86">
@@ -1126,10 +1245,7 @@
                                                 </svg>
                                               </div>
                                             </div>
-                  @if(!$isMobile)
-
-                                            <div class="text-wrapper-51">Read Now</div>
-                  @endif
+                 
 
                                           </div>
                                         </div>
@@ -1163,27 +1279,7 @@
                <div class="frame-9">
                  <div class="frame-84">
                    <div class="frame-85">
-@if ($isMobile)
 
-                     <svg
-                       xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
-@else
-
-                       <svg
-                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-@endif
-
-                         <g clip-path="url(#clip0_367_327)">
-                           <path d="M0 9.33327C0 6.81859 -7.94731e-08 5.56259 0.781336 4.78125C1.56267 3.99992 2.81868 3.99992 5.33335 3.99992H18.6667C21.1814 3.99992 22.4374 3.99992 23.2187 4.78125C24.0001 5.56259 24.0001 6.81859 24.0001 9.33327H0Z" fill="#233F8C"/>
-                           <path d="M2.66694 4.9999H21.3336C22.254 4.99998 23.0005 5.74642 23.0005 6.66686V21.3336C23.0004 22.2539 22.2539 22.9994 21.3336 22.9995H2.66694C1.74653 22.9995 1.00011 22.2539 0.99998 21.3336V6.66686C0.99998 5.74637 1.74645 4.9999 2.66694 4.9999Z" stroke="#233F8C" stroke-width="2"/>
-                           <path d="M5.33436 1.49997V5.49998M18.6677 1.49997V5.49998" stroke="#233F8C" stroke-width="2" stroke-linecap="round"/>
-                         </g>
-                         <defs>
-                           <clipPath id="clip0_367_327">
-                             <rect width="24.0006" height="24" fill="white"/>
-                           </clipPath>
-                         </defs>
-                       </svg>
                        <div class="text-wrapper-50">{{ $blog->created_at->format('d/m/Y') }}</div>
                      </div>
                      <div class="frame-86">
@@ -1217,11 +1313,6 @@
                            </svg>
                          </div>
                        </div>
-@if(!$isMobile)
-
-                       <div class="text-wrapper-51">Read Now</div>
-@endif
-
                      </div>
                    </div>
                  </div>
@@ -1229,6 +1320,15 @@
            @endif
 
 
+                                    </div>
+                                    <div class="frame-89">
+                                      <a href="{{ route('blogs') }}">
+                                      <div class="text-wrapper-6">Read More Blogs</div>
+                                      </a>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg" width="19" height="11" viewBox="0 0 19 11" fill="none">
+                                        <path d="M1.28378 1.28378L9.50001 9.5L17.7162 1.28378" stroke="#F2A602" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>
                                     </div>
                                     <div class="frame-87">
                                       <div class="frame-87">
@@ -1244,30 +1344,22 @@
 
                                     </div>
                                     
-                                    <div class="frame-89">
-                                      <a href="{{ route('blogs') }}">
-                                      <div class="text-wrapper-6">Read More Blogs</div>
-                                      </a>
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg" width="19" height="11" viewBox="0 0 19 11" fill="none">
-                                        <path d="M1.28378 1.28378L9.50001 9.5L17.7162 1.28378" stroke="#F2A602" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                      </svg>
-                                    </div>
+                                    
                                  
                                   </div>
                                   <div class="div-3">
                                     <div class="frame-27">
                                       <div class="text-wrapper-26">In the news</div>
-                                      <div class="frame-10">
+                                      {{-- <div class="frame-10">
                                         <div class="text-wrapper-6">View All</div>
                                         <img src="/front/images/orange_arrow.svg" alt="orange_arrow">
-                                      </div>
+                                      </div> --}}
                                     </div>
                                     <div class="partners_we_work_logo1">
-                                        <a href=" https://republicnewsindia.com/aarogyaa-bharat-the-pune-based-startup-revolutionizing-access-to-medical-equipment-across-india/">
+                                        <a target="_blank" href=" https://republicnewsindia.com/aarogyaa-bharat-the-pune-based-startup-revolutionizing-access-to-medical-equipment-across-india/">
                                         <img src="{{ asset('front/images/Republic-News-India-New-Logo-PNG.png') }}" alt="image">
                                     </a>
-                                    <a href=" https://theindianbulletin.com/aarogyaa-bharat-the-pune-based-startup-revolutionizing-access-to-medical-equipment-across-india/">
+                                    <a target="_blank" href=" https://theindianbulletin.com/aarogyaa-bharat-the-pune-based-startup-revolutionizing-access-to-medical-equipment-across-india/">
                                         <img src="{{ asset('front/images/The-Indian-Bulletin-LOGO-02-300x75.jpg') }}" alt="image">
                                     </a>
                                         <!-- <img src="/front/images/Frame_1.png" alt="" /><img src="/front/images/Frame_2.png" alt="" /><img src="/front/images/Frame_3.png" alt="" /><img src="/front/images/Frame_4.png" alt="" /><img src="/front/images/Frame_5.png" alt="" /><img src="/front/images/Frame_6.png" alt="" /> -->
@@ -1276,10 +1368,10 @@
                                   <div class="div-3">
                                     <div class="frame-27">
                                       <div class="text-wrapper-5">Related Videos</div>
-                                      <div class="frame-10">
+                                      {{-- <div class="frame-10">
                                         <div class="text-wrapper-6">View All</div>
                                         <img src="/front/images/orange_arrow.svg" alt="orange_arrow">
-                                      </div>
+                                      </div> --}}
                                     </div>
                                     <div class="frame-95">
                                       <div class="frame-96">
@@ -1442,16 +1534,16 @@
               wheelchair is a chair fitted with wheels. The device comes in variations allowing either manual propulsion
               by the seated occupant turning the rear wheels by hand or electric propulsion by motors.
             </p>
-                                      <p class="a-wheelchair-is-a">
+                                      <p class="text-wrapper-58">
                                         <span class="text-wrapper-59"
                 >A wheelchair is a chair fitted with wheels. The device comes in variations allowing either manual
                 propulsion by the seated occupant turning the rear wheels by hand or electric propulsion by motors. A
                 wheelchair is a chair fitted with wheels. The device comes in variations allowing either manual
                 propulsion by the seated occupant turning the rear wheels by hand or electric propulsion by motors
               </span>
-                                        <span class="text-wrapper-60">Read More..</span>
+                                        {{-- <span class="text-wrapper-60">Read More..</span> --}}
                                       </p>
-                                      <p class="text-wrapper-61">
+                                      <p class="text-wrapper-58">
               A wheelchair is a chair fitted with wheels. The device comes in variations allowing either manual
               propulsion by the seated occupant turning the rear wheels by hand or electric propulsion by motors. A
               wheelchair is a chair fitted with wheels. The device comes in variations allowing either manual propulsion
@@ -1467,7 +1559,7 @@
               comes in variations allowing either manual propulsion by the seated occupant turning the rear wheels by
               hand or electric propulsion by motors.
             </p>
-                                      <p class="text-wrapper-62">
+                                      <p class="text-wrapper-58">
               A wheelchair is a chair fitted with wheels. The device comes in variations allowing either manual
               propulsion by the seated occupant turning the rear wheels by hand or electric propulsion by motors.A
               wheelchair is a chair fitted with wheels. The device comes in variations allowing either manual propulsion

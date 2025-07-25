@@ -35,7 +35,10 @@
             </svg>
         </button>
         <div class="mobile-sort">
-            <label style="width: 85px;">Sort by:</label>
+            <label style="
+    font-size: 11px;
+    width: 58px;
+">Sort by:</label>
             <select class="sort-select mobile-sort-select">
                 <option value="relevance">Relevance</option>
                 <option value="price-low">Price: Low to High</option>
@@ -45,6 +48,9 @@
             </select>
         </div>
     </div>
+    <div class="applied-filters" id="appliedFilters">
+                
+    </div>
 @endif
     <!-- Filter Overlay -->
     <div class="filter-overlay" id="filterOverlay" onclick="closeMobileFilters()"></div>
@@ -53,21 +59,22 @@
     @if($isMobile)
     <div class="mobile-filters" id="mobileFilters">
         <div class="mobile-filters-header">
-            <h3 class="mobile-filters-title">Filters</h3>
+            <h3 class="mobile-filters-title">Filters</h3> 
+                <span id="clear-all-filters" style="color: red; text-decoration: underline; cursor: pointer; font-size: 15px; font-weight: 500;">Clear All</span>
             <button class="close-filters" onclick="closeMobileFilters()">&times;</button>
         </div>
         <div class="mobile-filters-content">
-            <div class="applied-filters" id="appliedFilters">
-                
-            </div>
+            
 
             <div class="filter-section">
                 <h3>Price Range</h3>
                 <div class="price-range">
                     <div class="price-inputs">
-                        <input type="number" class="price-input" placeholder="Min" >
-                        <input type="number" class="price-input" placeholder="Max" >
+                        <input type="number" class="price-input" id="minPrice" placeholder="Min" min="0">
+                        <input type="number" class="price-input" id="maxPrice" placeholder="Max" min="0">                        
+                        
                     </div>
+                    <span id="price-error" style="color: red; font-size: 12px;"></span>
                     <div class="price-slider">
                         <div class="price-slider-track"></div>
                         <div class="price-slider-thumb min"></div>
@@ -178,44 +185,49 @@
                 <div class="filter-options">
                     <div class="filter-option">
                         <input type="checkbox" id="mobileDiscount50">
-                        <label for="mobileDiscount50">50% or more</label>
+                        <label for="mobileDiscount50">Up to50%</label>
                         <span class="filter-count">2</span>
                     </div>
                     <div class="filter-option">
                         <input type="checkbox" id="mobileDiscount30">
-                        <label for="mobileDiscount30">30% or more</label>
+                        <label for="mobileDiscount30">Up to 30%</label>
                         <span class="filter-count">5</span>
                     </div>
                     <div class="filter-option">
                         <input type="checkbox" id="mobileDiscount20">
-                        <label for="mobileDiscount20">20% or more</label>
+                        <label for="mobileDiscount20">Up to 20%</label>
                         <span class="filter-count">8</span>
                     </div>
                     <div class="filter-option">
                         <input type="checkbox" id="mobileDiscount10">
-                        <label for="mobileDiscount10">10% or more</label>
+                        <label for="mobileDiscount10">Up to 10%</label>
                         <span class="filter-count">12</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="mobile-filters-footer">
+        {{-- <div class="mobile-filters-footer">
             <button class="clear-mobile-filters" onclick="clearAllMobileFilters()">Clear All</button>
             <button class="apply-filters" onclick="applyMobileFilters()">Apply Filters</button>
-        </div>
+        </div> --}}
     </div>
     @endif
     @if(!$isMobile)
     <div class="filters-sidebar">
-
-
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+            <span style="font-size: 18px; font-weight: 700;">Filter</span>
+            <span id="clear-all-filters"  onclick="clearAllFilters()" style="color: red; text-decoration: underline; cursor: pointer; font-size: 15px; font-weight: 500;">Clear All</span>
+        </div>
+        
         <div class="filter-section">
             <h3>Price Range</h3>
             <div class="price-range">
                 <div class="price-inputs">
                     <input type="number" class="price-input" placeholder="Min" value="">
                     <input type="number" class="price-input" placeholder="Max" value="">
+                    
                 </div>
+                <span id="price-error" style="color: red; font-size: 12px;"></span>
                 <div class="price-slider">
                     <div class="price-slider-track"></div>
                     <div class="price-slider-thumb min"></div>
@@ -315,34 +327,35 @@
             <div class="filter-options">
                 <div class="filter-option">
                     <input type="checkbox" value="50" name="discount" id="discount50">
-                    <label for="discount50">50% or more</label>
+                    <label for="discount50">Up to 50%</label>
                     <span class="filter-count">2</span>
                 </div>
                 <div class="filter-option">
                     <input type="checkbox" value="30" name="discount" id="discount30">
-                    <label for="discount30">30% or more</label>
+                    <label for="discount30">Up to 30%</label>
                     <span class="filter-count">5</span>
                 </div>
                 <div class="filter-option">
                     <input type="checkbox"  value="20" name="discount" id="discount20">
-                    <label for="discount20">20% or more</label>
+                    <label for="discount20">Up to 20%</label>
                     <span class="filter-count">8</span>
                 </div>
                 <div class="filter-option">
                     <input type="checkbox" value="10" name="discount" id="discount10">
-                    <label for="discount10">10% or more</label>
+                    <label for="discount10">Up to 10%</label>
                     <span class="filter-count">12</span>
                 </div>
             </div>
         </div>
 
-        <button class="clear-filters" onclick="clearAllFilters()">Clear All Filters</button>
+        {{-- <button class="clear-filters" onclick="clearAllFilters()">Clear All Filters</button> --}}
     </div>
 @endif
         <div class="products-section">
+
             <div class="products-header">
                 <div>
-                    <h2>Wheelchairs (15 products)</h2>
+                    <h2 id="category-name">{{$categoriesmain->name}}( products)</h2>
                 </div>
                 <div class="sort-options">
                     <label style="width: 85px;">Sort by:</label>
@@ -535,9 +548,17 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
 
             const priceInputs = document.querySelectorAll('.price-input');
             priceInputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    updateAppliedFilters();
-                });
+                input.addEventListener('input', function () {
+    const minPriceInput = document.querySelector('.price-input[placeholder="Min"]');
+    const maxPriceInput = document.querySelector('.price-input[placeholder="Max"]');
+    const minPrice = parseFloat(minPriceInput.value);
+    const maxPrice = parseFloat(maxPriceInput.value);
+
+    if (isNaN(minPrice) || isNaN(maxPrice) || maxPrice > minPrice) {
+        updateAppliedFilters();
+    }
+});
+
             });
         });
 
@@ -546,12 +567,28 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
             const filters = [];
 
             // Check price range
-            const minPrice = document.querySelector('.price-input[placeholder="Min"]').value;
-            const maxPrice = document.querySelector('.price-input[placeholder="Max"]').value;
-            if (minPrice || maxPrice) {
+            const minPriceInput = document.querySelector('.price-input[placeholder="Min"]');
+            const maxPriceInput = document.querySelector('.price-input[placeholder="Max"]');
+            const minPrice = parseFloat(minPriceInput.value);
+            const maxPrice = parseFloat(maxPriceInput.value);
+
+            if ((minPriceInput.value && minPrice < 0) || (maxPriceInput.value && maxPrice < 0)) {
+                // alert("Price cannot be negative.");
+                document.getElementById('price-error').textContent = "Price cannot be negative.";
+                if (minPrice < 0) minPriceInput.value = 0;
+                if (maxPrice < 0) maxPriceInput.value = 0;
+                // Optionally, return here to prevent further processing
+            } else if (
+                minPriceInput.value && maxPriceInput.value && maxPrice < minPrice
+            ) {
+                // alert("Maximum price cannot be less than minimum price.");
+                document.getElementById('price-error').textContent = "Maximum price cannot be less than minimum price.";
+                // maxPriceInput.value = ; // Optionally set max = min, or clear max
+                // Optionally, return here to prevent further processing
+            } else if (minPriceInput.value || maxPriceInput.value) {
                 filters.push({
                     type: 'price',
-                    text: `₹${minPrice || '0'} - ₹${maxPrice || '∞'}`
+                    text: `₹${minPriceInput.value || '0'} - ₹${maxPriceInput.value || '∞'}`
                 });
             }
 
@@ -627,6 +664,8 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                     }
 
                     updateSliderTrack();
+                    updateAppliedFilters();
+                    filterProducts();
                 }
                     // e.preventDefault();
                 });
@@ -651,6 +690,7 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                     }
 
                     updateSliderTrack();
+                    // filterProducts();
                 }
             });
 
@@ -667,8 +707,9 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                 console.log(minPos, maxPos);
                 sliderTrack.style.left = minPos + '%';
                 sliderTrack.style.width = (maxPos - minPos) + '%';
+                
             }
-
+            
             // Initialize slider track
             updateSliderTrack();
         });
@@ -691,6 +732,7 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                 },
                 success: function(response) {
                     $('.products-grid').html(response.html);
+                    $('#category-name').text('{{ $category->name }} (' + response.total_count + ' products)');
                 },
                 error: function(xhr) {
                     alert('Error filtering products');
@@ -1027,6 +1069,48 @@ function addToCart(productId) {
         }
     });
 }
+@if(!$isMobile)
+function setProductsGridHeight() {
+    var sidebar = document.querySelector('.filters-sidebar');
+    var grid = document.querySelector('.products-grid');
+    if (sidebar && grid) {
+        var sidebarHeight = sidebar.offsetHeight;
+        grid.style.maxHeight = sidebarHeight - 50 + 'px';
+    }
+}
+
+// Run on page load
+window.addEventListener('DOMContentLoaded', setProductsGridHeight);
+// Run on window resize
+window.addEventListener('resize', setProductsGridHeight);
+@endif
+document.addEventListener('DOMContentLoaded', function() {
+    var sidebar = document.querySelector('.filters-sidebar');
+    var hero = document.querySelector('.new-home-hero-section'); // or your hero section class
+    var container = document.querySelector('.containerforfilters'); // parent container
+
+    if (!sidebar || !hero) return;
+
+    var heroHeight = hero.offsetHeight;
+    var sidebarInitialTop = sidebar.getBoundingClientRect().top + window.scrollY;
+
+    function onScroll() {
+        var scrollY = window.scrollY || window.pageYOffset;
+        if (scrollY >= heroHeight) {
+            sidebar.classList.add('sticky-sidebar');
+            sidebar.style.top = '0px';
+            // Optionally, set width to prevent shrinking
+            sidebar.style.width = sidebar.offsetWidth + 'px';
+        } else {
+            sidebar.classList.remove('sticky-sidebar');
+            sidebar.style.top = '';
+            sidebar.style.width = '';
+        }
+    }
+
+    window.addEventListener('scroll', onScroll);
+});
 </script>
+  
 
 @endsection

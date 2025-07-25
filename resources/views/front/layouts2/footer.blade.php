@@ -97,25 +97,25 @@
           <div class="social_connects">
             <ul>
               <li>
-                <a href="{{ env('FACEBOOK_PAGE_URI') }}">
+                <a href="https://www.facebook.com/people/Aarogyaabharat/61572967197556/" target="_blank">
                   <img
         src="{{ asset('front/images/facebook.svg') }}" alt="Facebook" />
                 </a>
               </li>
               <li>
-                <a href="{{ env('INSTA_PAGE_URI') }}">
+                <a href="https://www.instagram.com/aarogyaabharat/" target="_blank">
                   <img src="{{ asset('front/images/insta.svg') }}"
         alt="Insta" />
                 </a>
               </li>
               <li>
-                <a href="{{ env('X_PAGE_URI') }}">
+                <a href="https://x.com/aarogyaabharat" target="_blank">
                   <img src="{{ asset('front/images/Xtwit.svg') }}"
         alt="X" />
                 </a>
               </li>
               <li>
-                <a href="{{ env('YOUTUBE_PAGE_URL') }}" target="_blank">
+                <a href="https://www.youtube.com/@aarogyaabharat" target="_blank">
                   <img
 src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
                 </a>
@@ -152,12 +152,34 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
         </div>
       </div>
     </div>
-  </div>
-  <div class="frame-120">
-    <p class="text-wrapper-67">Copyrights © 2020 Aarogya Bharat</p>
-  </div>
-</footer>
+    <div class="footer-payment-row" style="display: flex; align-items: center; margin-top: 0px;">
+    <div style="font-size: 15px; color: #222; margin-right: 32px;">
+       Payment Methods
+    </div>
 </div>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; margin-top:0; width: 100%;">
+  <!-- Left-side payment logos -->
+  <div class="footer-payment-row" style="display: flex; align-items: center;">
+    <img src="{{ asset('front/images/visa.png') }}" alt="Visa" style="height: 32px; margin-right: 10px;">
+    <img src="{{ asset('front/images/rupay.png') }}" alt="Rupay" style="height: 32px; margin-right: 10px;">
+    <img src="{{ asset('front/images/mastercard.png') }}" alt="MasterCard" style="height: 32px;">
+  </div>
+
+  <!-- Right-side PCI logo -->
+  <div style="margin-left: auto;     margin-top: 20px;
+">
+    <img src="{{ asset('front/images/pci.webp') }}" alt="PCI" style="height: 50px;">
+  </div>
+</div>
+
+
+</footer>
+
+</div>
+<div class="frame-120">
+  <p class="text-wrapper-67">Copyrights © 2020 Aarogya Bharat</p>
+</div>
+
 <div id="notification-pop">
 
 </div>
@@ -455,6 +477,7 @@ slidesToScroll: 1
 ]
 });
 }); --}}
+@if($isMobile)
 $(document).ready(function(){
 $('.middle').slick({
 infinite: false,
@@ -481,6 +504,7 @@ slidesToScroll: 1
 ]
 });
 });
+@endif
 {{-- $(document).ready(function(){
 $('.frame-90').slick({
 infinite: false,

@@ -155,8 +155,13 @@ class FrontProductController extends Controller
 
         // If AJAX, return only the product grid partial
         if ($request->ajax()) {
+            // Calculate total product count after filters
+            $total_count = 0;
+            foreach ($categoriesAndProducts as $cat) {
+                $total_count += $cat->products->count();
+            }
             $html = view('front.common.product_grid', compact('categoriesAndProducts'))->render();
-            return response()->json(['html' => $html]);
+            return response()->json(['html' => $html, 'total_count' => $total_count]);
         }
         $brands = Brand::orderBy('name', 'asc')->get();
         // Otherwise, return the full page
