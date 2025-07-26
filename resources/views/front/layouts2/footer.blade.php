@@ -173,7 +173,8 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
   <!-- Right-side PCI logo -->
   <div style="margin-left: auto;     margin-top: 20px;
 ">
-    <img src="{{ asset('front/images/pci.webp') }}" alt="PCI" style="height: 50px;">
+    <img src="{{ asset('front/images/pci.webp') }}" alt="PCI certified" style="height: 50px;">
+    <img src="{{ asset('front/images/iso_certified.png') }}" alt="iso_certified" style="height: 50px;">
   </div>
 </div>
 
@@ -182,7 +183,7 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
 
 </div>
 <div class="frame-120">
-  <p class="text-wrapper-67">Copyrights © 2020 Aarogya Bharat</p>
+  <p class="text-wrapper-67">Copyrights © 2020 Aarogyaa Bharat</p>
 </div>
 
 <div id="notification-pop">
@@ -219,9 +220,11 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
     </div>
 </div>
 </div>
+@if ( !Route::is('products.sub.category.wise'))
 <div id="chat-toggle">
 <img src="{{ asset('front/images/chat_bot_img.png') }}" alt="Chat Icon">
 </div>
+@endif
 <div class="log-out">
 <div class="popup-overlay" id="logoutPopup3" style="display: none;">
 <div class="popup">
@@ -858,7 +861,7 @@ toggleBtn.textContent = isOpen ? '-' : '+';
 });
 </script>
 <script>
-const toggleBtn = document.getElementById('chat-toggle');
+const toggleBtn = document.getElementById('chat-toggle') || document.getElementById('chat-toggle-button');
 const closeBtn = document.getElementById('close-chat');
 const chatbox = document.getElementById('chatbox');
 const chatBody = document.getElementById('chat-body');
@@ -991,16 +994,38 @@ if (e.key === "Enter") handleSend();
 
 toggleBtn.addEventListener("click", () => {
 chatbox.style.display = "flex";
+if(document.getElementById('chat-toggle')!=null){
 toggleBtn.style.display = "none";
+}
 });
 
 closeBtn.addEventListener("click", () => {
 chatbox.style.display = "none";
+if(document.getElementById('chat-toggle')!=null){ 
 toggleBtn.style.display = "block";
+}
 });
 
 // Initial bot greeting
 addMessage("Hi! I'm Aarogyaa. How can I help you today?", "bot");
+
+function searchproductinput(searchvalue) {
+            // var checkworld= checkSpelling(searchvalue);
+            var url = '{{ url('/search/products/results/') }}/' + searchvalue;
+            window.location.href = url;
+        }
+      
+    document.addEventListener("DOMContentLoaded", function () {
+        const img = document.querySelector('.raise-query-img');
+
+        if (!img) return;
+
+        const deviceWidth = window.innerWidth;
+        const isMobile = img.classList.contains('mobile');
+
+        const adjustedWidth = isMobile ? deviceWidth - 20 : deviceWidth - 100;
+        img.style.width = adjustedWidth + 'px';
+    });
 
 
 </script>

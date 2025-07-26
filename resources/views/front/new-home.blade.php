@@ -131,11 +131,13 @@
                                 </div>
                               </a>
                             </a>
+                            @if($product->best_selling_products)
                             <div class="group-2">
                               <div class="overlap-group">
                                 <div class="text-wrapper-9">Best Seller</div>
                               </div>
                             </div>
+                            @endif
                           </div>
                         </div>
                         <div class="frame-17">
@@ -168,7 +170,8 @@
                             </div>
                             <div class="frame-23">
                               <div class="frame-24">
-                                @if (!isset($product->productAttributes) || $product->productAttributes->stock == 0)
+                                @if (
+                                  $product->productAttributes->stock > 0)
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                   <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
@@ -341,11 +344,13 @@
                                         <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                                       </div>
                                     </a>
-                                    <div class="group-2">
-                                      <div class="overlap-group">
-                                        <div class="text-wrapper-9">Best Seller</div>
-                                      </div>
-                                    </div>
+                                    @if($product->best_selling_products)
+                            <div class="group-2">
+                              <div class="overlap-group">
+                                <div class="text-wrapper-9">Best Seller</div>
+                              </div>
+                            </div>
+                            @endif
                                   </div>
                                 </div>
                                 <div class="frame-17">
@@ -378,7 +383,8 @@
                                     </div>
                                     <div class="frame-23">
                                       <div class="frame-24">
-                                        @if (!isset($product->productAttributes) || $product->productAttributes->stock == 0)
+                                        @if (
+                                           $product->productAttributes->stock > 0)
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                           <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
@@ -496,11 +502,16 @@
                             </div>
                             @endif
                             <div class="div-3">
-                            @if(!$isMobile)
-                            <a href="{{route('raise.query')}}">  <img src="{{ asset('front/images/Raise_Query.png') }}" alt="Raise_Query" width="100%"> </a>
-                            @else
-                            <a href="{{route('raise.query')}}"> <img src="{{ asset('front/images/Raise_Query_mobile.png') }}" alt="Raise_Query" width="100%"></a>
-                            @endif
+                              @if(!$isMobile)
+                              <a href="{{ route('raise.query') }}">
+                                  <img class="raise-query-img desktop" src="{{ asset('front/images/Raise_Query.png') }}" alt="Raise_Query">
+                              </a>
+                          @else
+                              <a href="{{ route('raise.query') }}">
+                                  <img class="raise-query-img mobile" src="{{ asset('front/images/Raise_Query_mobile.png') }}" alt="Raise_Query">
+                              </a>
+                          @endif
+                          
                             </div>
                             <div class="div-2">
                               <div class="frame-14">
@@ -524,11 +535,13 @@
                                           <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                                         </div>
                                       </a>
-                                      <div class="group-2">
-                                        <div class="overlap-group">
-                                          <div class="text-wrapper-9">Best Seller</div>
-                                        </div>
-                                      </div>
+                                      @if($product->best_selling_products)
+                            <div class="group-2">
+                              <div class="overlap-group">
+                                <div class="text-wrapper-9">Best Seller</div>
+                              </div>
+                            </div>
+                            @endif
                                     </div>
                                   </div>
                                   <div class="frame-17">
@@ -561,7 +574,7 @@
                                       </div>
                                       <div class="frame-23">
                                         <div class="frame-24">
-                                          @if (!isset($product->productAttributes) || $product->productAttributes->stock == 0)
+                                          @if ( $product->productAttributes->stock > 0)
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                   <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
@@ -955,175 +968,181 @@
 
 
                                         <div class="carousel-controls">
-                                            <button class="nav-button" id="prevBtn">‹</button>
+                                            <!-- Removed prevBtn button -->
                                             <div class="dots" id="dotsContainer"></div>
-                                            <button class="nav-button" id="nextBtn">›</button>
+                                            <!-- Removed nextBtn button -->
                                         </div>
                                     </div>
                                 </div>
                                 <script>
-                                    class ReviewCarousel {
-                                        constructor() {
-                                            this.carousel = document.getElementById('carousel');
-                                            this.prevBtn = document.getElementById('prevBtn');
-                                            this.nextBtn = document.getElementById('nextBtn');
-                                            this.dotsContainer = document.getElementById('dotsContainer');
-                                            this.reviews = this.carousel.children;
-                                            this.currentIndex = 0;
-                                            this.reviewsToShow = this.getReviewsToShow();
-                                            this.totalSlides = Math.ceil(this.reviews.length / this.reviewsToShow);
+                                  class ReviewCarousel {
+                                      constructor() {
+                                          this.carousel = document.getElementById('carousel');
+                                          // Removed prevBtn and nextBtn
+                                          this.dotsContainer = document.getElementById('dotsContainer');
+                                          this.reviews = this.carousel.children;
+                                          this.currentIndex = 0;
+                                          this.reviewsToShow = this.getReviewsToShow();
+                                          this.totalSlides = Math.ceil(this.reviews.length / this.reviewsToShow);
+                                          this.dotCount = 3; // Always show 3 dots
+                                          this.init();
+                                      }
 
-                                            this.init();
-                                        }
+                                      getReviewsToShow() {
+                                          if (window.innerWidth <= 480) return 1;
+                                          if (window.innerWidth <= 768) return 2;
+                                          if (window.innerWidth <= 1024) return 3;
+                                          return 4;
+                                      }
 
-                                        getReviewsToShow() {
-                                            if (window.innerWidth <= 480) return 1;
-                                            if (window.innerWidth <= 768) return 2;
-                                            if (window.innerWidth <= 1024) return 3;
-                                            return 4;
-                                        }
+                                      init() {
+                                          this.createDots();
+                                          this.updateCarousel();
+                                          this.bindEvents();
+                                          window.addEventListener('resize', () => {
+                                              const newReviewsToShow = this.getReviewsToShow();
+                                              if (newReviewsToShow !== this.reviewsToShow) {
+                                                  this.reviewsToShow = newReviewsToShow;
+                                                  this.totalSlides = Math.ceil(this.reviews.length / this.reviewsToShow);
+                                                  this.createDots();
+                                                  this.updateCarousel();
+                                              }
+                                          });
+                                      }
 
-                                        init() {
-                                            this.createDots();
-                                            this.updateCarousel();
-                                            this.bindEvents();
-                                            window.addEventListener('resize', () => {
-                                                const newReviewsToShow = this.getReviewsToShow();
-                                                if (newReviewsToShow !== this.reviewsToShow) {
-                                                    this.reviewsToShow = newReviewsToShow;
-                                                    this.totalSlides = Math.ceil(this.reviews.length / this.reviewsToShow);
-                                                    this.currentIndex = Math.min(this.currentIndex, this.totalSlides - 1);
-                                                    this.createDots();
-                                                    this.updateCarousel();
-                                                }
-                                            });
-                                        }
+                                      createDots() {
+                                          this.dotsContainer.innerHTML = '';
+                                          for (let i = 0; i < this.dotCount; i++) {
+                                              const dot = document.createElement('div');
+                                              dot.className = 'dot';
+                                              if (i === this.getDotIndex()) dot.classList.add('active');
+                                              dot.addEventListener('click', () => this.goToDot(i));
+                                              this.dotsContainer.appendChild(dot);
+                                          }
+                                      }
 
-                                        createDots() {
-                                            this.dotsContainer.innerHTML = '';
-                                            for (let i = 0; i < this.totalSlides; i++) {
-                                                const dot = document.createElement('div');
-                                                dot.className = 'dot';
-                                                if (i === this.currentIndex) dot.classList.add('active');
-                                                dot.addEventListener('click', () => this.goToSlide(i));
-                                                this.dotsContainer.appendChild(dot);
-                                            }
-                                        }
+                                      getDotIndex() {
+                                          // Map currentIndex to one of the 3 dots
+                                          if (this.totalSlides <= 1) return 0;
+                                          if (this.totalSlides === 2) return this.currentIndex;
+                                          // For 3 or more slides, distribute indices evenly
+                                          return Math.min(Math.floor(this.currentIndex / Math.ceil(this.totalSlides / this.dotCount)), this.dotCount - 1);
+                                      }
 
-                                        updateCarousel() {
-                                            const translateX = -(this.currentIndex * 100);
-                                            this.carousel.style.transform = `translateX(${translateX}%)`;
+                                      updateCarousel() {
+                                          const translateX = -(this.currentIndex * 100);
+                                          this.carousel.style.transform = `translateX(${translateX}%)`;
 
-                                            Update dots
-                                            const dots = this.dotsContainer.querySelectorAll('.dot');
-                                            dots.forEach((dot, index) => {
-                                                dot.classList.toggle('active', index === this.currentIndex);
-                                            });
+                                          // Update dots
+                                          const dots = this.dotsContainer.querySelectorAll('.dot');
+                                          dots.forEach((dot, index) => {
+                                              dot.classList.toggle('active', index === this.getDotIndex());
+                                          });
+                                      }
 
-                                            // Update button states
-                                            this.prevBtn.disabled = this.currentIndex === 0;
-                                            this.nextBtn.disabled = this.currentIndex === this.totalSlides - 1;
-                                        }
+                                      goToDot(dotIndex) {
+                                          // Calculate the slide index for the dot
+                                          const slidesPerDot = Math.ceil(this.totalSlides / this.dotCount);
+                                          this.currentIndex = dotIndex * slidesPerDot;
+                                          if (this.currentIndex >= this.totalSlides) {
+                                              this.currentIndex = this.totalSlides - 1;
+                                          }
+                                          this.updateCarousel();
+                                      }
 
-                                        goToSlide(index) {
-                                            this.currentIndex = Math.max(0, Math.min(index, this.totalSlides - 1));
-                                            this.updateCarousel();
-                                        }
+                                      nextSlide() {
+                                          if (this.currentIndex < this.totalSlides - 1) {
+                                              this.currentIndex++;
+                                              this.updateCarousel();
+                                          }
+                                      }
 
-                                        nextSlide() {
-                                            if (this.currentIndex < this.totalSlides - 1) {
-                                                this.currentIndex++;
-                                                this.updateCarousel();
-                                            }
-                                        }
+                                      prevSlide() {
+                                          if (this.currentIndex > 0) {
+                                              this.currentIndex--;
+                                              this.updateCarousel();
+                                          }
+                                      }
 
-                                        prevSlide() {
-                                            if (this.currentIndex > 0) {
-                                                this.currentIndex--;
-                                                this.updateCarousel();
-                                            }
-                                        }
+                                      bindEvents() {
+                                          // Removed nextBtn and prevBtn event listeners
 
-                                        bindEvents() {
-                                            this.nextBtn.addEventListener('click', () => this.nextSlide());
-                                            this.prevBtn.addEventListener('click', () => this.prevSlide());
+                                          // Auto-scroll functionality
+                                          let autoScrollInterval = setInterval(() => {
+                                              if (this.currentIndex < this.totalSlides - 1) {
+                                                  this.nextSlide();
+                                              } else {
+                                                  this.currentIndex = 0;
+                                                  this.updateCarousel();
+                                              }
+                                          }, 5000);
 
-                                            // Auto-scroll functionality
-                                            let autoScrollInterval = setInterval(() => {
-                                                if (this.currentIndex < this.totalSlides - 1) {
-                                                    this.nextSlide();
-                                                } else {
-                                                    this.currentIndex = 0;
-                                                    this.updateCarousel();
-                                                }
-                                            }, 5000);
+                                          // Pause auto-scroll on hover
+                                          this.carousel.addEventListener('mouseenter', () => {
+                                              clearInterval(autoScrollInterval);
+                                          });
 
-                                            // Pause auto-scroll on hover
-                                            this.carousel.addEventListener('mouseenter', () => {
-                                                clearInterval(autoScrollInterval);
-                                            });
+                                          this.carousel.addEventListener('mouseleave', () => {
+                                              autoScrollInterval = setInterval(() => {
+                                                  if (this.currentIndex < this.totalSlides - 1) {
+                                                      this.nextSlide();
+                                                  } else {
+                                                      this.currentIndex = 0;
+                                                      this.updateCarousel();
+                                                  }
+                                              }, 5000);
+                                          });
 
-                                            this.carousel.addEventListener('mouseleave', () => {
-                                                autoScrollInterval = setInterval(() => {
-                                                    if (this.currentIndex < this.totalSlides - 1) {
-                                                        this.nextSlide();
-                                                    } else {
-                                                        this.currentIndex = 0;
-                                                        this.updateCarousel();
-                                                    }
-                                                }, 5000);
-                                            });
+                                          // Touch/swipe support for mobile
+                                          let startX = 0;
+                                          let endX = 0;
 
-                                            // Touch/swipe support for mobile
-                                            let startX = 0;
-                                            let endX = 0;
+                                          this.carousel.addEventListener('touchstart', (e) => {
+                                              startX = e.touches[0].clientX;
+                                          });
 
-                                            this.carousel.addEventListener('touchstart', (e) => {
-                                                startX = e.touches[0].clientX;
-                                            });
+                                          this.carousel.addEventListener('touchend', (e) => {
+                                              endX = e.changedTouches[0].clientX;
+                                              const difference = startX - endX;
 
-                                            this.carousel.addEventListener('touchend', (e) => {
-                                                endX = e.changedTouches[0].clientX;
-                                                const difference = startX - endX;
+                                              if (difference > 50) {
+                                                  this.nextSlide();
+                                              } else if (difference < -50) {
+                                                  this.prevSlide();
+                                              }
+                                          });
+                                      }
+                                  }
 
-                                                if (difference > 50) {
-                                                    this.nextSlide();
-                                                } else if (difference < -50) {
-                                                    this.prevSlide();
-                                                }
-                                            });
-                                        }
-                                    }
+                                  // Initialize carousel when DOM is loaded
+                                  document.addEventListener('DOMContentLoaded', () => {
+                                      new ReviewCarousel();
+                                  });
 
-                                    // Initialize carousel when DOM is loaded
-                                    document.addEventListener('DOMContentLoaded', () => {
-                                        new ReviewCarousel();
-                                    });
+                                  // Handle read more functionality
+                                  document.addEventListener('click', (e) => {
+                                      if (e.target.classList.contains('read-more')) {
+                                          e.preventDefault();
+                                          const reviewText = e.target.parentElement;
+                                          // Here you could expand the text or show a modal
+                                          console.log('Read more clicked');
+                                      }
+                                  });
 
-                                    // Handle read more functionality
-                                    document.addEventListener('click', (e) => {
-                                        if (e.target.classList.contains('read-more')) {
-                                            e.preventDefault();
-                                            const reviewText = e.target.parentElement;
-                                            // Here you could expand the text or show a modal
-                                            console.log('Read more clicked');
-                                        }
-                                    });
-
-                                    // Handle review button click
-                                    document.querySelector('.review-button').addEventListener('click', () => {
-                                        // Here you would typically redirect to Google Reviews
-                                        console.log('Review us on Google clicked');
-                                    });
-                                </script>
-                                <script>
-                                    document.querySelectorAll('.review-text').forEach(el => {
-                                        const maxChars = 150;
-                                        if (el.textContent.length > maxChars) {
-                                            el.textContent = el.textContent.slice(0, maxChars) + '...';
-                                        }
-                                    });
-                                </script>
+                                  // Handle review button click
+                                  document.querySelector('.review-button').addEventListener('click', () => {
+                                      // Here you would typically redirect to Google Reviews
+                                      console.log('Review us on Google clicked');
+                                  });
+                              </script>
+                              <script >
+                                  document.querySelectorAll('.review-text').forEach(el => {
+                                      const maxChars = 150;
+                                      if (el.textContent.length > maxChars) {
+                                          el.textContent = el.textContent.slice(0, maxChars) + '...';
+                                      }
+                                  });
+                              </script>
                             </section>
                             <div class="frame-71">
                               <div class="text-wrapper-36">Champions beyond boundaries</div>
@@ -1231,8 +1250,9 @@
                                               <div class="text-wrapper-50">{{ $blog->views }}</div>
                                             </div>
                                             <div class="share">
+                                              <a target="_blank" href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blog->title . ' ' . route('blog.details', $blog->slug)) }}">
                      @if ($isMobile)
-
+                               
                                               <svg
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
                     @else
@@ -1243,6 +1263,7 @@
 
                                                   <path d="M13.12 17.0232L8.92096 14.7332C8.37276 15.3193 7.66095 15.7269 6.87803 15.9031C6.09512 16.0793 5.27731 16.0159 4.53088 15.7212C3.78445 15.4266 3.14392 14.9142 2.69253 14.2506C2.24114 13.5871 1.99976 12.8032 1.99976 12.0007C1.99976 11.1982 2.24114 10.4143 2.69253 9.75076C3.14392 9.08725 3.78445 8.57486 4.53088 8.28017C5.27731 7.98548 6.09512 7.92211 6.87803 8.09832C7.66095 8.27452 8.37276 8.68214 8.92096 9.2682L13.121 6.97821C12.8829 6.03417 12.9973 5.0357 13.4427 4.16997C13.8881 3.30424 14.634 2.63069 15.5405 2.27557C16.447 1.92046 17.452 1.90816 18.3669 2.24098C19.2818 2.57381 20.044 3.2289 20.5105 4.08347C20.977 4.93804 21.1157 5.9334 20.9008 6.88299C20.6859 7.83257 20.132 8.67116 19.343 9.24158C18.554 9.81199 17.5841 10.0751 16.615 9.98147C15.6459 9.88789 14.7442 9.44406 14.079 8.7332L9.87896 11.0232C10.0402 11.6646 10.0402 12.3358 9.87896 12.9772L14.079 15.2672C14.7446 14.5567 15.6464 14.1133 16.6156 14.0202C17.5847 13.9271 18.5545 14.1906 19.3432 14.7614C20.1319 15.3322 20.6854 16.171 20.8999 17.1207C21.1143 18.0703 20.9751 19.0656 20.5083 19.9199C20.0414 20.7743 19.279 21.429 18.3639 21.7615C17.4489 22.0939 16.444 22.0812 15.5376 21.7257C14.6313 21.3702 13.8857 20.6964 13.4406 19.8305C12.9955 18.9646 12.8815 17.9661 13.12 17.0222V17.0232ZM5.99996 14.0002C6.5304 14.0002 7.0391 13.7895 7.41418 13.4144C7.78925 13.0393 7.99996 12.5306 7.99996 12.0002C7.99996 11.4698 7.78925 10.9611 7.41418 10.586C7.0391 10.2109 6.5304 10.0002 5.99996 10.0002C5.46953 10.0002 4.96082 10.2109 4.58575 10.586C4.21068 10.9611 3.99996 11.4698 3.99996 12.0002C3.99996 12.5306 4.21068 13.0393 4.58575 13.4144C4.96082 13.7895 5.46953 14.0002 5.99996 14.0002ZM17 8.00021C17.5304 8.00021 18.0391 7.78949 18.4142 7.41442C18.7892 7.03935 19 6.53064 19 6.00021C19 5.46977 18.7892 4.96107 18.4142 4.58599C18.0391 4.21092 17.5304 4.00021 17 4.00021C16.4695 4.00021 15.9608 4.21092 15.5857 4.58599C15.2107 4.96107 15 5.46977 15 6.00021C15 6.53064 15.2107 7.03935 15.5857 7.41442C15.9608 7.78949 16.4695 8.00021 17 8.00021ZM17 20.0002C17.5304 20.0002 18.0391 19.7895 18.4142 19.4144C18.7892 19.0393 19 18.5306 19 18.0002C19 17.4698 18.7892 16.9611 18.4142 16.586C18.0391 16.2109 17.5304 16.0002 17 16.0002C16.4695 16.0002 15.9608 16.2109 15.5857 16.586C15.2107 16.9611 15 17.4698 15 18.0002C15 18.5306 15.2107 19.0393 15.5857 19.4144C15.9608 19.7895 16.4695 20.0002 17 20.0002Z" fill="#F2A602"/>
                                                 </svg>
+                                                </a>
                                               </div>
                                             </div>
                  
@@ -1299,6 +1320,8 @@
                          <div class="text-wrapper-50">{{ $blog->views }}</div>
                        </div>
                        <div class="share">
+                        <a target="_blank" href="https://wa.me/?text={{ urlencode('Check out this blog: ' . $blog->title . ' ' . route('blog.details', $blog->slug)) }}">
+                  
 @if ($isMobile)
 
                          <svg
@@ -1311,6 +1334,7 @@
 
                              <path d="M13.12 17.0232L8.92096 14.7332C8.37276 15.3193 7.66095 15.7269 6.87803 15.9031C6.09512 16.0793 5.27731 16.0159 4.53088 15.7212C3.78445 15.4266 3.14392 14.9142 2.69253 14.2506C2.24114 13.5871 1.99976 12.8032 1.99976 12.0007C1.99976 11.1982 2.24114 10.4143 2.69253 9.75076C3.14392 9.08725 3.78445 8.57486 4.53088 8.28017C5.27731 7.98548 6.09512 7.92211 6.87803 8.09832C7.66095 8.27452 8.37276 8.68214 8.92096 9.2682L13.121 6.97821C12.8829 6.03417 12.9973 5.0357 13.4427 4.16997C13.8881 3.30424 14.634 2.63069 15.5405 2.27557C16.447 1.92046 17.452 1.90816 18.3669 2.24098C19.2818 2.57381 20.044 3.2289 20.5105 4.08347C20.977 4.93804 21.1157 5.9334 20.9008 6.88299C20.6859 7.83257 20.132 8.67116 19.343 9.24158C18.554 9.81199 17.5841 10.0751 16.615 9.98147C15.6459 9.88789 14.7442 9.44406 14.079 8.7332L9.87896 11.0232C10.0402 11.6646 10.0402 12.3358 9.87896 12.9772L14.079 15.2672C14.7446 14.5567 15.6464 14.1133 16.6156 14.0202C17.5847 13.9271 18.5545 14.1906 19.3432 14.7614C20.1319 15.3322 20.6854 16.171 20.8999 17.1207C21.1143 18.0703 20.9751 19.0656 20.5083 19.9199C20.0414 20.7743 19.279 21.429 18.3639 21.7615C17.4489 22.0939 16.444 22.0812 15.5376 21.7257C14.6313 21.3702 13.8857 20.6964 13.4406 19.8305C12.9955 18.9646 12.8815 17.9661 13.12 17.0222V17.0232ZM5.99996 14.0002C6.5304 14.0002 7.0391 13.7895 7.41418 13.4144C7.78925 13.0393 7.99996 12.5306 7.99996 12.0002C7.99996 11.4698 7.78925 10.9611 7.41418 10.586C7.0391 10.2109 6.5304 10.0002 5.99996 10.0002C5.46953 10.0002 4.96082 10.2109 4.58575 10.586C4.21068 10.9611 3.99996 11.4698 3.99996 12.0002C3.99996 12.5306 4.21068 13.0393 4.58575 13.4144C4.96082 13.7895 5.46953 14.0002 5.99996 14.0002ZM17 8.00021C17.5304 8.00021 18.0391 7.78949 18.4142 7.41442C18.7892 7.03935 19 6.53064 19 6.00021C19 5.46977 18.7892 4.96107 18.4142 4.58599C18.0391 4.21092 17.5304 4.00021 17 4.00021C16.4695 4.00021 15.9608 4.21092 15.5857 4.58599C15.2107 4.96107 15 5.46977 15 6.00021C15 6.53064 15.2107 7.03935 15.5857 7.41442C15.9608 7.78949 16.4695 8.00021 17 8.00021ZM17 20.0002C17.5304 20.0002 18.0391 19.7895 18.4142 19.4144C18.7892 19.0393 19 18.5306 19 18.0002C19 17.4698 18.7892 16.9611 18.4142 16.586C18.0391 16.2109 17.5304 16.0002 17 16.0002C16.4695 16.0002 15.9608 16.2109 15.5857 16.586C15.2107 16.9611 15 17.4698 15 18.0002C15 18.5306 15.2107 19.0393 15.5857 19.4144C15.9608 19.7895 16.4695 20.0002 17 20.0002Z" fill="#F2A602"/>
                            </svg>
+                           </a>
                          </div>
                        </div>
                      </div>
@@ -1437,10 +1461,7 @@
                                   <div class="div-3" style="margin-top:17px;">
                                     <div class="frame-64">
                                       <div class="text-wrapper-8">Why Aarogya Bharat ..?</div>
-                                      <p class="text-wrapper-55">
-              We prioritize our clients, understanding their unique needs and preferences. Our client-centric approach
-              ensures that our products and services align seamlessly with the requirements of our valued customers.
-            </p>
+                                      <p class="text-wrapper-55">We put our customers at the heart of everything we do, understanding their unique needs and preferences. Our customer-centric approach ensures that our products and services are perfectly tailored to meet the expectations of our valued customers.
                                     </div>
                                     <div class="frame-98">
                                       <div class="middle">

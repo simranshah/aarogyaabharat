@@ -145,6 +145,9 @@ class FrontProductController extends Controller
                     // 'relevance' or default: do not apply any order, or use your own logic
                 }
             }
+            if ($request->filled('rentable')) {
+                $query->where('is_rentable', true);
+            }
 
         }],'SubCategories')->where('slug', $slug)->get();
 
@@ -298,6 +301,9 @@ class FrontProductController extends Controller
                     // 'relevance' or default: do not apply any order, or use your own logic
                 }
             }
+            if ($request->filled('rentable')) {
+                $query->where('is_rentable', true);
+            }
 
         }],'SubCategories')->get();
     }else{
@@ -381,6 +387,9 @@ class FrontProductController extends Controller
                         break;
                     // 'relevance' or default: do not apply any order, or use your own logic
                 }
+            }
+            if ($request->filled('rentable')) {
+                $query->where('is_rentable', true);
             }
 
         }],'SubCategories')->get();

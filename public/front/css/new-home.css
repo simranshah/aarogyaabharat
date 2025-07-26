@@ -921,7 +921,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 8px;
   padding: 0px 50px;
   position: relative;
   align-self: stretch;
@@ -1298,7 +1298,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
 .home-d .frame-43 {
   display: flex;
   flex-direction: column;
-  height: 347.64px;
+  /* height: 347.64px; */
   align-items: flex-start;
   justify-content: space-around;
   gap: 23.52px;
@@ -2326,7 +2326,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 16px 50px;
+  padding: 8px 50px;
   position: relative;
   align-self: stretch;
   width: 100%;
@@ -3793,7 +3793,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
   flex-direction: column;
   width: 100%;;
   align-items: flex-start;
-  gap: 16px;
+  gap: 8px;
   padding: 16px 50px;
   position: relative;
   flex: 0 0 auto;
@@ -3994,8 +3994,8 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
   align-self: stretch;
   width: 100%;
   flex: 0 0 auto;
-  border-top-width: 1px;
-  border-top-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
   border-color: #d9d9d9;
 }
 
@@ -5557,7 +5557,7 @@ height: 107px;
 }
 
 .home-d .search-bar {
-    width: 230px;
+    width: 220px;
     display: inline-flex
 ;
     align-items: center;
@@ -5614,13 +5614,13 @@ height: 107px;
     width: 100%;
     align-items: center;
     justify-content: space-around;
-    padding: 0px 0px;
+    padding: 0px 5px;
     position: fixed; /* <-- changed from relative to fixed */
   top: 0; /* <-- added to fix it at top */
   left: 0; /* optional, ensures it aligns left */
   box-shadow: 0px 2px 5px #0000000d;
   background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 100%);
-  z-index: 9999; /* increased to ensure it's above everything */
+  z-index: 9; /* increased to ensure it's above everything */
   height: 52px;
   justify-content: space-between;
 }
@@ -6844,12 +6844,12 @@ input {
         }
 
         .mobile-filters {
-          top:8vh;
+         width: 40vh;
             position: fixed;
             bottom: 0;
             left: 0;
             background: white;
-            max-height: 95vh;
+            max-height: 100vh;
             overflow-y: auto;
             border-radius: 0px 16px 0 0;
             z-index: 1000;
@@ -7119,7 +7119,8 @@ input {
         }
 
         .new-home-breadcrumb a:hover {
-            color: #3498db;
+            color: #233F8C;
+            text-decoration: underline;
         }
 
         /* Main content */
@@ -7706,6 +7707,7 @@ input {
         display: flex;
         align-items: center;
         gap: 147px;
+        justify-content: space-between;
         /* margin-bottom: 20px; */
     }
 
@@ -9003,6 +9005,7 @@ margin-bottom: 10px;
 
   .rating-score {
       font-size: 16px;
+      margin-left: 10px;
   }
 
   .percentage {
@@ -9109,3 +9112,73 @@ margin-bottom: 10px;
   top: 0;
   z-index: 10;
 }
+.new-search-bar {
+  width: 500px;
+  height: 38px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid #220d6d;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 2px 8px 0 rgba(60, 17, 17, 0.new-06);
+}
+
+.new-search-bar input[type="text"] {
+  flex: 1;
+  border: none;
+  padding: 18px 22px;
+  font-size: 18px;
+  border-radius: 12px 0 0 12px;
+  outline: none;
+  background: transparent;
+  color: #444;
+  /* border: 1px solid #220d6d; */
+}
+
+  .new-search-bar input[type="text"]::placeholder {
+    color: #888;
+    opacity: 1;
+    font-size: 17px;
+    letter-spacing: 0.new-02em;
+  }
+
+.new-search-btn {
+  background: #220d6d;
+  border: none;
+  height: 100%;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* border-radius: 0 12px 12px 0; */
+  transition: background 0.new-2s;
+}
+  .new-search-btn:hover {
+    background: #243e8c;
+  }
+
+  .new-search-btn svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (max-width: 600px) {
+    .new-search-bar {
+      width: 200px;
+      min-width: 0;
+    }
+    .new-search-bar input[type="text"] {
+      font-size: 15px;
+      padding: 14px 10px;
+    }
+    .new-search-btn {
+      padding: 0 16px;
+    }
+  }
+  .slick-dotted.slick-slide{
+    margin-bottom: 0px;
+  }

@@ -94,7 +94,7 @@ $isMobile =
                     <div class="thumbnail-row">
                         @foreach($thumbnails as $i => $thumb)
                             <div class="thumbnail{{ $i === 0 ? ' active' : '' }}" onclick="changeMainImage('{{ $thumb }}', this)">
-                                {{-- <img src="{{ $thumb }}" alt="Product Thumbnail" style="width: 100%; min-height: 60px; max-height: 80px; object-fit: cover;" /> --}}
+                                <img style="display: none;" src="{{ $thumb }}" alt="Product Thumbnail" style="width: 100%; min-height: 60px; max-height: 80px; object-fit: cover;" />
                             </div>
                         @endforeach
                     </div>
@@ -236,7 +236,7 @@ $isMobile =
                 @endif
                 @if($productDetails->productAttributes->stock == 0)
                 <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
-    border: 1.5px solid #FFCC5C; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
+    border: 1.5px solid #dddddd; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
                 @else
                     <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                         to Pay</button>
@@ -307,6 +307,15 @@ $isMobile =
                                     <div class="related-price">₹ 150</div>
                                 </div>
                             </div>
+                        </div>
+                        <div style="padding: 10px; background-color: unset;"></div>
+                        <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
+                            <div class="also-available-header" style="gap: 36px;" id="chat-toggle-button">
+                                <h3>Need support? Click here to chat!</h3>
+                                <div class="warning-icon"><img src="/front/images/samll_chat_gpt.svg" alt="Bot" style="    width: 30px;
+    height: 30px;"></div>
+                            </div>
+                            
                         </div>
                     </div>
                     @endif
@@ -447,7 +456,7 @@ $isMobile =
                 @endif
                 @if($productDetails->productAttributes->stock == 0)
                 <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
-    border: 1.5px solid #FFCC5C; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
+    border: 1.5px solid #dddddd; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
                 @else
                     <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                         to Pay</button>
@@ -506,7 +515,7 @@ $isMobile =
                 @endif
                 @if($productDetails->productAttributes->stock == 0)
                 <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
-    border: 1.5px solid #FFCC5C; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
+    border: 1.5px solid #dddddd; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
                 @else
                     <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                         to Pay</button>
@@ -518,7 +527,7 @@ $isMobile =
                 <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                     <div class="also-available-header">
                         <h3>Also Available On:</h3>
-                        <div class="warning-icon"><img src="/front/images/amzon.svg" alt="amzon"></div>
+                        <div class="warning-icon"><img src="/front/images/amzon.svg" alt="amzon" style=></div>
                     </div>
                     <div class="related-item">
                         <div class="related-image">🩼</div>
@@ -528,6 +537,15 @@ $isMobile =
                         </div>
                     </div>
                 </div>
+                <div style="padding: 10px; background-color: unset;"></div>
+                        <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
+                            <div class="also-available-header" style="gap: 36px;" id="chat-toggle-button">
+                                <h3>Need support? Click here to chat!</h3>
+                                <div class="warning-icon"><img src="/front/images/samll_chat_gpt.svg" alt="Bot" style="    width: 30px;
+    height: 30px;"></div>
+                            </div>
+                            
+                        </div>
             </div>
             @endif
         </div>
@@ -679,7 +697,7 @@ $isMobile =
                                                                     <div class="faq_box" id="category_2" style="display: none;">
                 <a href="javascript:void(0)"><p>Do your products come with a warranty?</p><img src="/front/images/jam_plus.svg" alt="jam_plus"></a>
                 <div class="faq_box_text" style="display: none;">
-                    <p>Yes, all products come with a manufacturer’s warranty. Warranty details are mentioned in the product description.</p>
+                    <p>Yes, all products come with a manufacturer's warranty. Warranty details are mentioned in the product description.</p>
                 </div>
             </div>
                                                     <div class="faq_box" id="category_1">
@@ -850,7 +868,7 @@ $isMobile =
     bottom: 0;
     width: 100%;
     background: #fff;
-    z-index: 1000;
+    z-index: 9;
     padding: 16px 0;
     box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
     display: flex;
@@ -861,7 +879,7 @@ $isMobile =
             <button type="button"  class="addtocart" data-id="2283">Add to Cart</button>
 
             <a href="#;" class="btn_buynow" id="buy-now-button" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
-    border: 1.5px solid #FFCC5C; color:red;">Sold Out</a>
+    border: 1.5px solid #dddddd; color:red;">Sold Out</a>
             @else
             <button type="button" onclick="addToCart({{ $productDetails->id }})" class="addtocart" data-id="2283">Add to Cart</button>
 
@@ -1257,7 +1275,7 @@ $isMobile =
                         if (xhr.responseJSON.message ==
                             'Please add an address to proceed with payment.') {
                             document.getElementById('text-btween-cartpopup').innerHTML =
-                                'Let’s add your address first.'
+                                'Let's add your address first.'
                             cartPopup();
                             localStorage.setItem('address_required', '1');
                             window.location.href = "{{ route('customers.profile') }}";
@@ -1412,6 +1430,54 @@ $.ajax({
             el.classList.add('active');
         }
 
+        // Swipe functionality for main image (touch and mouse)
+        (function() {
+            const mainImage = document.getElementById('mainProductImage');
+            let startX = 0;
+            let endX = 0;
+            // Touch events (mobile)
+            mainImage.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+            });
+            mainImage.addEventListener('touchend', function(e) {
+                endX = e.changedTouches[0].clientX;
+                handleSwipe(endX - startX);
+            });
+            // Mouse events (desktop)
+            let isDragging = false;
+            mainImage.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.clientX;
+            });
+            mainImage.addEventListener('mouseup', function(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                endX = e.clientX;
+                handleSwipe(endX - startX);
+            });
+            function handleSwipe(diff) {
+                if (Math.abs(diff) > 40) { // threshold for swipe/drag
+                    const thumbnails = Array.from(document.querySelectorAll('.thumbnail'));
+                    const activeIndex = thumbnails.findIndex(thumb => thumb.classList.contains('active'));
+                    let newIndex = activeIndex;
+                    if (diff < 0) {
+                        // Swipe left/drag left: next image
+                        newIndex = (activeIndex + 1) % thumbnails.length;
+                    } else {
+                        // Swipe right/drag right: previous image
+                        newIndex = (activeIndex - 1 + thumbnails.length) % thumbnails.length;
+                    }
+                    if (newIndex !== activeIndex) {
+                        const newThumb = thumbnails[newIndex];
+                        const img = newThumb.querySelector('img');
+                        if (img) {
+                            changeMainImage(img.src, newThumb);
+                        }
+                    }
+                }
+            }
+        })();
+
 function addToCart(productId) {
     $.ajax({
         url: "{{ route('cart.add', ['productId' => '__ID__']) }}".replace('__ID__', productId),
@@ -1440,5 +1506,28 @@ function addToCart(productId) {
     
 
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.faq_box > a').forEach(function(anchor) {
+        anchor.addEventListener('click', function() {
+            var answer = this.nextElementSibling;
+            var icon = this.querySelector('img');
+            if (!answer || !icon) return;
+            var display = answer.style.display;
+            if (!display) {
+                display = window.getComputedStyle(answer).display;
+            }
+            var isOpen = display === 'block';
+            if (isOpen) {
+                // answer.style.display = 'none';
+                icon.src = '/front/images/jam_plus.svg';
+            } else {
+                // answer.style.display = 'block';
+                icon.src = '/front/images/jam_minus.svg';
+            }
+        });
+    });
+});
+</script>
 </div>
 @endsection('content')

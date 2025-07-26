@@ -90,6 +90,21 @@
                     </div> --}}
                 </div>
             </div>
+            <div class="filter-section">
+                <h3>Rentable</h3>
+                <div class="filter-options">
+                    <div class="filter-option">
+                        <input type="checkbox" value="rentable" name="rentable" id="rentable" >
+                        <label for="rentable">Rentable</label>
+                        <span class="filter-count">12</span>
+                    </div>
+                    {{-- <div class="filter-option">
+                        <input type="checkbox" value="out of stock" name="stock" id="outOfStock">
+                        <label for="outOfStock">Out of Stock</label>
+                        <span class="filter-count">3</span>
+                    </div> --}}
+                </div>
+            </div>
     
             <div class="filter-section">
                 <h3>Gender</h3>
@@ -277,7 +292,21 @@
                 </div> --}}
             </div>
         </div>
-
+        <div class="filter-section">
+            <h3>Rentable</h3>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" value="rentable" name="rentable" id="rentable" >
+                    <label for="rentable">Rentable</label>
+                    <span class="filter-count">12</span>
+                </div>
+                {{-- <div class="filter-option">
+                    <input type="checkbox" value="out of stock" name="stock" id="outOfStock">
+                    <label for="outOfStock">Out of Stock</label>
+                    <span class="filter-count">3</span>
+                </div> --}}
+            </div>
+        </div>
         <div class="filter-section">
             <h3>Gender</h3>
             <div class="filter-options">
@@ -452,11 +481,13 @@
                                         <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                                       </div>
                                     </a>
+                                    @if($product->best_selling_products)
                                     <div class="group-2">
                                       <div class="overlap-group">
                                         <div class="text-wrapper-9">Best Seller</div>
                                       </div>
                                     </div>
+                                    @endif
                                   </div>
                                 </div>
                                 <div class="frame-17">
@@ -1124,6 +1155,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkByNameAndValue('discount', params.discount);
     checkByNameAndValue('rateing', params.rateing);
     checkByNameAndValue('tag', params.tag);
+    checkByNameAndValue('rentable', params.rentable);
     
 
     // After setting, update the applied filters UI and filter products

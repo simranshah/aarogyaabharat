@@ -14,10 +14,17 @@
               <div style="align-self: stretch; padding-top: 50px;  justify-content: flex-start; align-items: flex-start; gap: 18px; ">
 
             @endif
+
+            @if($isMobile)
+            <nav class="new-home-breadcrumb" style="padding-top: 30px;">
+                <a href="{{url('/');}}">Home</a> / <a href="{{ route('products.list') }}">Categories</a>/<a  href="{{ route('products.category.wise', ['slug' => $categoriesmain->slug]) }}">{{$categoriesmain->name}}</a>
+            </nav>
+            @endif
+            @if(!$isMobile)
 <div class="new-home-hero-section">
     @if(!$isMobile)
         <nav class="new-home-breadcrumb">
-            <a href="{{url('/');}}">Home</a> / <a href="#">Categories</a>
+            <a href="{{url('/');}}">Home</a> / <a href="{{ route('products.list') }}">Categories</a>/<a  href="{{ route('products.category.wise', ['slug' => $categoriesmain->slug]) }}">{{$categoriesmain->name}}</a>
         </nav>
         @endif
 
@@ -28,7 +35,13 @@
         </main>
     </div>
     </div>
-<div class="containerforfilters">
+@endif
+@if(!$isMobile)
+    <div class="containerforfilters">
+@else
+<div class="containerforfilters" style="padding-top: 5px;">
+@endif
+
 @if($isMobile)
     <div class="mobile-header">
         <button class="filter-toggle">
@@ -107,7 +120,21 @@
                     </div> --}}
                 </div>
             </div>
-
+            <div class="filter-section">
+                <h3>Rentable</h3>
+                <div class="filter-options">
+                    <div class="filter-option">
+                        <input type="checkbox" value="rentable" name="rentable" id="rentable" >
+                        <label for="rentable">Rentable</label>
+                        <span class="filter-count">12</span>
+                    </div>
+                    {{-- <div class="filter-option">
+                        <input type="checkbox" value="out of stock" name="stock" id="outOfStock">
+                        <label for="outOfStock">Out of Stock</label>
+                        <span class="filter-count">3</span>
+                    </div> --}}
+                </div>
+            </div>
             <div class="filter-section">
                 <h3>Gender</h3>
                 <div class="filter-options">
@@ -260,6 +287,21 @@
                 </div> --}}
             </div>
         </div>
+        <div class="filter-section">
+            <h3>Rentable</h3>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" value="rentable" name="rentable" id="rentable" >
+                    <label for="rentable">Rentable</label>
+                    <span class="filter-count">12</span>
+                </div>
+                {{-- <div class="filter-option">
+                    <input type="checkbox" value="out of stock" name="stock" id="outOfStock">
+                    <label for="outOfStock">Out of Stock</label>
+                    <span class="filter-count">3</span>
+                </div> --}}
+            </div>
+        </div>
 
         <div class="filter-section">
             <h3>Gender</h3>
@@ -391,11 +433,13 @@
                                         <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                                       </div>
                                     </a>
+                                    @if($product->best_selling_products)
                                     <div class="group-2">
                                       <div class="overlap-group">
                                         <div class="text-wrapper-9">Best Seller</div>
                                       </div>
                                     </div>
+                                    @endif
                                   </div>
                                 </div>
                                 <div class="frame-17">
@@ -682,12 +726,12 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                     // e.preventDefault();
                 });
             });
-            document.addEventListener('mouseup', function(e) {
+            // document.addEventListener('mouseup', function(e) {
               
-                updateSliderTrack();
-                    updateAppliedFilters();
-                    filterProducts();
-            });
+            //     updateSliderTrack();
+            //         updateAppliedFilters();
+            //         filterProducts();
+            // });
             document.addEventListener('mousemove', function(e) {
 
                 if (isDragging && currentSlider) {
@@ -749,14 +793,27 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                 },
                 success: function(response) {
                     $('.products-grid').html(response.html);
-                    $('#category-name').text('{{ $category->name }} (' + response.total_count + ' products)');
-                    @if($isMobile)
-                    document.querySelectorAll('.group-2').forEach(badge => {
+$('#category-name').text('{{ $category->name }} (' + response.total_count + ' products)');
+
+@if($isMobile)
+    document.querySelectorAll('.group-2').forEach(badge => {
         badge.style.top = "14px";
     });
-    @else
+@else
     adjustGroup2BadgePosition();
     @endif
+    const grid = document.querySelector('.products-grid');
+const firstProduct = grid ? grid.querySelector('.frame-16') : null;
+if (grid && firstProduct) {
+    // Get the offset of the first product relative to the grid
+    const gridRect = grid.getBoundingClientRect();
+    const productRect = firstProduct.getBoundingClientRect();
+    const offset = productRect.top - gridRect.top + grid.scrollTop - 20; // adjust -20 for padding if needed
+    grid.scrollTo({
+        top: offset,
+        behavior: 'smooth'
+    });
+}
                 },
                 error: function(xhr) {
                     alert('Error filtering products');
@@ -1066,6 +1123,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkByNameAndValue('subcategory', params.subcategory);
     checkByNameAndValue('discount', params.discount);
     checkByNameAndValue('rateing', params.rateing);
+    checkByNameAndValue('rentable', params.rentable);
     
 
     // After setting, update the applied filters UI and filter products
@@ -1127,32 +1185,7 @@ function adjustGroup2BadgePosition() {
 window.addEventListener('DOMContentLoaded', adjustGroup2BadgePosition);
 window.addEventListener('resize', adjustGroup2BadgePosition);
 @endif
-document.addEventListener('DOMContentLoaded', function() {
-    var sidebar = document.querySelector('.filters-sidebar');
-    var hero = document.querySelector('.new-home-hero-section'); // or your hero section class
-    var container = document.querySelector('.containerforfilters'); // parent container
 
-    if (!sidebar || !hero) return;
-
-    var heroHeight = hero.offsetHeight;
-    var sidebarInitialTop = sidebar.getBoundingClientRect().top + window.scrollY;
-
-    function onScroll() {
-        var scrollY = window.scrollY || window.pageYOffset;
-        if (scrollY >= heroHeight) {
-            sidebar.classList.add('sticky-sidebar');
-            sidebar.style.top = '0px';
-            // Optionally, set width to prevent shrinking
-            sidebar.style.width = sidebar.offsetWidth + 'px';
-        } else {
-            sidebar.classList.remove('sticky-sidebar');
-            sidebar.style.top = '';
-            sidebar.style.width = '';
-        }
-    }
-
-    window.addEventListener('scroll', onScroll);
-});
 
 </script>
   

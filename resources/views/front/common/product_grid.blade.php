@@ -8,11 +8,13 @@
                         <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                       </div>
                     </a>
+                    @if($product->best_selling_products)
                     <div class="group-2">
                       <div class="overlap-group">
                         <div class="text-wrapper-9">Best Seller</div>
                       </div>
                     </div>
+                    @endif
                   </div>
                 </div>
                 <div class="frame-17">
