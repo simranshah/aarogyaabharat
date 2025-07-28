@@ -27,26 +27,72 @@
                       <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">  <div class="text">{{ $category->name }}</div></a>
                     </div>
                   
-                    {{-- @if($category->subcategories && $category->subcategories->count())
+                    @if($category->subcategories && $category->subcategories->count())
                       <div class="subcategory-popup">
                         <div class="row" style="display: flex; flex-wrap: nowrap;">
-                            @foreach($category->subcategories->take(3) as $sub)
-                                <div class="col-md-4" style="flex: 0 0 33.33%; padding: 0 15px; margin-bottom: 20px;">
-                                    <div style="font-weight: bold; margin-bottom: 8px;">
-                              <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
-                                {{ $sub->name }}
-                              </a>
-                                    </div>
-                                    <ul style="padding-left: 18px;">
-                                        <li>Product 1</li>
-                                        <li>Product 2</li>
-                                        <li>Product 3</li>
-                        </ul>
-                      </div>
+                          @php
+                            $subs = $category->subcategories->take(6)->values();
+                            $col1 = $subs->slice(0, 2);
+                            $col2 = $subs->slice(2, 2);
+                            $col3 = $subs->slice(4, 2);
+                          @endphp
+                          <div class="col-md-4" style="flex: 0 0 33%; padding: 0 15px; margin-bottom: 20px;">
+                            @foreach($col1 as $sub)
+                              <div style="font-weight: bold; margin-bottom: 8px;">
+                                <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
+                                  {{ $sub->name }}
+                                </a>
+                              </div>
+                              <ul style="padding-left: 18px;">
+                                @foreach($sub->products->take(3) as $product)
+                                  <li>
+                                    <a href="{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}">
+                                      {{ $product->name }}
+                                    </a>
+                                  </li>
+                                @endforeach
+                              </ul>
                             @endforeach
+                          </div>
+                          <div class="col-md-4" style="flex: 0 0 33%; padding: 0 15px; margin-bottom: 20px;">
+                            @foreach($col2 as $sub)
+                              <div style="font-weight: bold; margin-bottom: 8px;">
+                                <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
+                                  {{ $sub->name }}
+                                </a>
+                              </div>
+                              <ul style="padding-left: 18px;">
+                                @foreach($sub->products->take(3) as $product)
+                                  <li>
+                                    <a href="{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}">
+                                      {{ $product->name }}
+                                    </a>
+                                  </li>
+                                @endforeach
+                              </ul>
+                            @endforeach
+                          </div>
+                          <div class="col-md-4" style="flex: 0 0 33%; padding: 0 15px; margin-bottom: 20px;">
+                            @foreach($col3 as $sub)
+                              <div style="font-weight: bold; margin-bottom: 8px;">
+                                <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
+                                  {{ $sub->name }}
+                                </a>
+                              </div>
+                              <ul style="padding-left: 18px;">
+                                @foreach($sub->products->take(3) as $product)
+                                  <li>
+                                    <a href="{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}">
+                                      {{ $product->name }}
+                                    </a>
+                                  </li>
+                                @endforeach
+                              </ul>
+                            @endforeach
+                          </div>
                         </div>
-                    </div>
-                @endif --}}
+                      </div>
+                    @endif
                   </div>
                 @endforeach
                 </div>
@@ -1589,4 +1635,18 @@
                                     </div>
                                   </div>
                                 </div>
+                                <script type="application/ld+json">
+                                  {
+                                    "@context": "https://schema.org",
+                                    "@type": "WebSite",
+                                    "name": "Aarogyaa Bharat",
+                                    "url": "{{url('/')}}",
+                                    "logo": "{{url('/')}}/front/images/Favicon-new.svg",
+                                    "potentialAction": {
+                                      "@type": "SearchAction",
+                                      "target": "{{url('/')}}/search/products/results/{search_term_string}",
+                                      "query-input": "required name=search_term_string"
+                                    }
+                                  }
+                                  </script>
                                 @endsection('content')                     

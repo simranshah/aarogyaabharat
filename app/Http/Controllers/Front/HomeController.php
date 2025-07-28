@@ -16,7 +16,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categories = Category::take(12)->get();
+        $categories = Category::with('subcategories.products')->take(12)->get();
         $products =  Product::with('images','Category')->where('is_new', true)->orderBy('updated_at', 'desc')->take(10)->get();
         $blogs = Blog::with('images')->latest()->take(6)->get();
         $seoMeta = Page::where('slug', 'home')->first();

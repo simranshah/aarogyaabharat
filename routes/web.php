@@ -65,7 +65,7 @@ Route::get('/download-log/{type}/{date}', function ($type, $date) {
 Route::post('/submit-article', [ArticleSubmissionController::class, 'store'])->name('articles.submit');
 Route::post('/contact-us', [contactController::class, 'store'])->name('contact.store');
 //front routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index1'])->name('home');
 Route::get('/new-home',[HomeController::class, 'index1'])->name('new.home');
 // Route::get('/products', [HomeController::class, 'productPage'])->name('products');
 

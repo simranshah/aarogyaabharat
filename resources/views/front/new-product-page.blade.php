@@ -1529,5 +1529,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<script type="application/ld+json">
+    {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "{{$productDetails->name}}",
+    "image": [
+      "{{url('/')}}{{ asset('storage/' . $productDetails->image) }}"
+      ],
+   "description": "{{$productDetails->description}}",
+  "offers": {
+  "@type": "Offer",
+"url": "{{ url()->current() }}",
+ "priceCurrency": "INR",
+ "price": "{{$productDetails->our_price}}",
+ "priceValidUntil": "2027-12-31",
+ "itemCondition": "https://schema.org/NewCondition",
+ "availability": "https://schema.org/InStock",
+ "seller": {
+  "@type": "Organization",
+  "name": "Aarogyaa Bharat"
+}
+}
+},
+
+    </script>
 </div>
 @endsection('content')

@@ -194,12 +194,12 @@
              @endif
 
               <div class="">
-               <a href="{{ url('/new-home') }}"> <img src="{{ asset('front/images/arogya_bharat.svg') }}" class="logo-AB" /></a>
+               <a href="{{ url('/') }}"> <img src="{{ asset('front/images/arogya_bharat.svg') }}" class="logo-AB" /></a>
               </div>
               @if (!$isMobile)
               <div class="frame-4">
                 <div class="div-wrapper">
-                  <a href="{{ route('new.home') }}">
+                  <a href="{{ route('home') }}">
                     <div class="text-wrapper">Home</div>
                   </a>
                 </div>

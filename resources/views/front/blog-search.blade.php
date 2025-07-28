@@ -1,4 +1,4 @@
-@extends('front.layouts.layout')
+@extends('front.layouts2.layout2')
 @section('content')
 
     <section class="search_result">

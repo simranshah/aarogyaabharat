@@ -247,10 +247,10 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="mobile-filters-footer">
+        <div class="mobile-filters-footer">
             <button class="clear-mobile-filters" onclick="clearAllMobileFilters()">Clear All</button>
             <button class="apply-filters" onclick="applyMobileFilters()">Apply Filters</button>
-        </div> --}}
+        </div>
     </div>
     @endif
     @if(!$isMobile)

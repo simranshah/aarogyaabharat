@@ -27,4 +27,8 @@ class SubCategories extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'subcategory_id');
+    }
 }
