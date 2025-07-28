@@ -688,11 +688,11 @@ const dropdown = document.getElementById('recentSearch');
 //     dropdown.style.display = 'block';
 //   });
 
-document.addEventListener('click', (e) => {
-if (!document.querySelector('.search-bar').contains(e.target)) {
-dropdown.style.display = 'none';
-}
-});
+// document.addEventListener('click', (e) => {
+// if (!document.querySelector('.search-bar').contains(e.target)) {
+// dropdown.style.display = 'none';
+// }
+// });
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {

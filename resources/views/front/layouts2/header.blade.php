@@ -214,10 +214,16 @@
                   </a>
                 </div>
                 <div class="div-wrapper">
+                  <a href="{{ route('blogs') }}">
+                    <div class="text-wrapper-2">Blogs</div>
+                  </a>
+                </div>
+                <div class="div-wrapper">
                   <a href="{{ route('customer.about.us') }}">
                     <div class="text-wrapper-2">About</div>
                   </a>
                 </div>
+              
               </div>
               @endif
 

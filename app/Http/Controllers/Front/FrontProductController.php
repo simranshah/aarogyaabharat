@@ -128,6 +128,14 @@ class FrontProductController extends Controller
                     $subQ->whereIn('name', $subcategories);
                 });
             }
+            if ($request->filled('tag')) {
+                $tags = explode('|', $request->input('tag'));
+                $query->where(function($q) use ($tags) {
+                    foreach ($tags as $tag) {
+                        $q->orWhere($tag, true); // assuming column values are 1/0 or true/false
+                    }
+                });
+            }
             if ($request->filled('sort')) {
                 switch ($request->input('sort')) {
                     case 'price-low':
@@ -347,6 +355,14 @@ class FrontProductController extends Controller
                     }
                 });
 
+            }
+            if ($request->filled('tag')) {
+                $tags = explode('|', $request->input('tag'));
+                $query->where(function($q) use ($tags) {
+                    foreach ($tags as $tag) {
+                        $q->orWhere($tag, true); // assuming column values are 1/0 or true/false
+                    }
+                });
             }
             if ($request->filled('discount')) {
                 $discounts = explode('|', $request->input('discount'));

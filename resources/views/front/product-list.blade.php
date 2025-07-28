@@ -194,6 +194,39 @@
                     </div>
                 </div>
             </div>
+            <div class="filter-section">
+                <h3>Product Tags</h3>
+                <div class="filter-options">
+                    <div class="filter-option">
+                        <input type="checkbox" value="product_for_you" name="tag" id="product_for_you">
+                        <label for="product_for_you">Product For You</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="is_new" name="tag" id="is_new">
+                        <label for="is_new">Newly Product</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="flash_sale" name="tag" id="flash_sale">
+                        <label for="flash_sale">Flash Sale</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="best_selling_products" name="tag" id="best_selling_products">
+                        <label for="best_selling_products">Best Selling</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="sports_healthcare_more" name="tag" id="sports_healthcare_more">
+                        <label for="sports_healthcare_more">Sports, Healthcare & More</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="top_deals" name="tag" id="top_deals">
+                        <label for="top_deals">Top Deals</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" value="top_pick_for_you" name="tag" id="top_pick_for_you">
+                        <label for="top_pick_for_you">Top Pick For You</label>
+                    </div>
+                </div>
+            </div>
 
             <div class="filter-section">
                 <h3>Rating</h3>
@@ -349,6 +382,39 @@
                 </div>
                 @endforeach
                 @endforeach
+            </div>
+        </div>
+        <div class="filter-section">
+            <h3>Product Tags</h3>
+            <div class="filter-options">
+                <div class="filter-option">
+                    <input type="checkbox" value="product_for_you" name="tag" id="product_for_you">
+                    <label for="product_for_you">Product For You</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="is_new" name="tag" id="is_new">
+                    <label for="is_new">Newly Product</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="flash_sale" name="tag" id="flash_sale">
+                    <label for="flash_sale">Flash Sale</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="best_selling_products" name="tag" id="best_selling_products">
+                    <label for="best_selling_products">Best Selling</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="sports_healthcare_more" name="tag" id="sports_healthcare_more">
+                    <label for="sports_healthcare_more">Sports, Healthcare & More</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="top_deals" name="tag" id="top_deals">
+                    <label for="top_deals">Top Deals</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" value="top_pick_for_you" name="tag" id="top_pick_for_you">
+                    <label for="top_pick_for_you">Top Pick For You</label>
+                </div>
             </div>
         </div>
 
@@ -1124,6 +1190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkByNameAndValue('discount', params.discount);
     checkByNameAndValue('rateing', params.rateing);
     checkByNameAndValue('rentable', params.rentable);
+    checkByNameAndValue('tag', params.tag);
     
 
     // After setting, update the applied filters UI and filter products
@@ -1184,8 +1251,10 @@ function adjustGroup2BadgePosition() {
 // Run on load and on resize
 window.addEventListener('DOMContentLoaded', adjustGroup2BadgePosition);
 window.addEventListener('resize', adjustGroup2BadgePosition);
+@else
+const grid = document.querySelector('.products-grid');
+grid.style.overflowX = 'hidden';
 @endif
-
 
 </script>
 <script type="application/ld+json">

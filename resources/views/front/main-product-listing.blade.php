@@ -1217,6 +1217,9 @@ function adjustGroup2BadgePosition() {
 // Run on load and on resize
 window.addEventListener('DOMContentLoaded', adjustGroup2BadgePosition);
 window.addEventListener('resize', adjustGroup2BadgePosition);
+@else
+const grid = document.querySelector('.products-grid');
+grid.style.overflowX = 'hidden';
 @endif
 // document.addEventListener("DOMContentLoaded", function () {
 //     document.querySelectorAll('.group-2').forEach(badge => {

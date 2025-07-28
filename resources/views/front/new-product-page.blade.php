@@ -1180,6 +1180,93 @@ $isMobile =
     <script src="{{ asset('front/js/jquery.min.js') }}"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
+         function increaseQuantity() {
+            var input = document.getElementById('quantity');
+            var max = parseInt(input.max, 10);
+            var current = parseInt(input.value, 10);
+            var errorDiv = document.getElementById('quantity-error-sucess');
+            if (current < max) {
+                input.value = current + 1;
+                errorDiv.textContent = '';
+            } else {
+                errorDiv.textContent = 'You cannot order more than ' + max + ' item(s) for this product.';
+            }
+        }
+
+        function decreaseQuantity() {
+            var input = document.getElementById('quantity');
+            var min = parseInt(input.min, 10);
+            var current = parseInt(input.value, 10);
+            var errorDiv = document.getElementById('quantity-error-sucess');
+            if (current > min) {
+                input.value = current - 1;
+                errorDiv.textContent = '';
+            } else {
+                errorDiv.textContent = '';
+            }
+        }
+
+        document.getElementById('quantity').addEventListener('input', function() {
+            var input = this;
+            var min = parseInt(input.min, 10);
+            var max = parseInt(input.max, 10);
+            var val = parseInt(input.value, 10);
+            var errorDiv = document.getElementById('quantity-error-sucess');
+            if (val > max) {
+                errorDiv.textContent = 'You cannot order more than ' + max + ' item(s) for this product.';
+                input.value = max;
+            } else if (val < min) {
+                errorDiv.textContent = 'You must order at least ' + min + ' item(s).';
+                input.value = min;
+            } else {
+                errorDiv.textContent = '';
+            }
+        });
+
+        function checkPincode() {
+            const pincodeInput = document.querySelector('.pincode-input');
+            const pinCode = pincodeInput.value.trim();
+
+            // var pinCode = $('#pinCode').val();
+
+// Clear previous styles
+$('#pincode-error-sucess').removeClass('text-success text-danger');
+
+// Simple validation for empty input
+if (pinCode === '' || pinCode.length !== 6) {
+    $('#pincode-error-sucess')
+        .text('Please enter a valid 6-digit pin code.')
+        .removeClass('text-success') // Remove success if previously added
+        .addClass('text-danger');
+    return;
+}
+
+
+$.ajax({
+    url: "{{ route('checkpin') }}",
+    method: 'GET',
+    data: {
+        pin: pinCode,
+    },
+    success: function (response) {
+        if (response.available) {
+            $('#pincode-error-sucess')
+                .text('Delivery is available.')
+                .addClass('text-success');
+        } else {
+            $('#pincode-error-sucess')
+                .text('Sorry, we do not deliver to this pin code.')
+                .addClass('text-danger');
+        }
+    },
+    error: function () {
+        $('#pincode-error-sucess')
+            .text('An error occurred while checking the pin code.')
+            .addClass('text-danger');
+    }
+});
+        }
+
     function buynowProduct(productId) {
         
                 // e.preventDefault();
@@ -1283,8 +1370,7 @@ $isMobile =
                         // toastr.error(xhr.responseJSON.error|| xhr.responseJSON.message || 'An error occurred.');
                         if (xhr.responseJSON.message ==
                             'Please add an address to proceed with payment.') {
-                            document.getElementById('text-btween-cartpopup').innerHTML =
-                                'Let's add your address first.'
+                            document.getElementById('text-btween-cartpopup').innerHTML ='Let'+'s add your address first.'
                             cartPopup();
                             localStorage.setItem('address_required', '1');
                             window.location.href = "{{ route('customers.profile') }}";
@@ -1304,93 +1390,6 @@ $isMobile =
                     }
                 });
             }
-        function increaseQuantity() {
-            var input = document.getElementById('quantity');
-            var max = parseInt(input.max, 10);
-            var current = parseInt(input.value, 10);
-            var errorDiv = document.getElementById('quantity-error-sucess');
-            if (current < max) {
-                input.value = current + 1;
-                errorDiv.textContent = '';
-            } else {
-                errorDiv.textContent = 'You cannot order more than ' + max + ' item(s) for this product.';
-            }
-        }
-
-        function decreaseQuantity() {
-            var input = document.getElementById('quantity');
-            var min = parseInt(input.min, 10);
-            var current = parseInt(input.value, 10);
-            var errorDiv = document.getElementById('quantity-error-sucess');
-            if (current > min) {
-                input.value = current - 1;
-                errorDiv.textContent = '';
-            } else {
-                errorDiv.textContent = '';
-            }
-        }
-
-        document.getElementById('quantity').addEventListener('input', function() {
-            var input = this;
-            var min = parseInt(input.min, 10);
-            var max = parseInt(input.max, 10);
-            var val = parseInt(input.value, 10);
-            var errorDiv = document.getElementById('quantity-error-sucess');
-            if (val > max) {
-                errorDiv.textContent = 'You cannot order more than ' + max + ' item(s) for this product.';
-                input.value = max;
-            } else if (val < min) {
-                errorDiv.textContent = 'You must order at least ' + min + ' item(s).';
-                input.value = min;
-            } else {
-                errorDiv.textContent = '';
-            }
-        });
-
-        function checkPincode() {
-            const pincodeInput = document.querySelector('.pincode-input');
-            const pinCode = pincodeInput.value.trim();
-
-            // var pinCode = $('#pinCode').val();
-
-// Clear previous styles
-$('#pincode-error-sucess').removeClass('text-success text-danger');
-
-// Simple validation for empty input
-if (pinCode === '' || pinCode.length !== 6) {
-    $('#pincode-error-sucess')
-        .text('Please enter a valid 6-digit pin code.')
-        .removeClass('text-success') // Remove success if previously added
-        .addClass('text-danger');
-    return;
-}
-
-
-$.ajax({
-    url: "{{ route('checkpin') }}",
-    method: 'GET',
-    data: {
-        pin: pinCode,
-    },
-    success: function (response) {
-        if (response.available) {
-            $('#pincode-error-sucess')
-                .text('Delivery is available.')
-                .addClass('text-success');
-        } else {
-            $('#pincode-error-sucess')
-                .text('Sorry, we do not deliver to this pin code.')
-                .addClass('text-danger');
-        }
-    },
-    error: function () {
-        $('#pincode-error-sucess')
-            .text('An error occurred while checking the pin code.')
-            .addClass('text-danger');
-    }
-});
-        }
-
         // Add click handlers for thumbnails
         document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
             thumb.addEventListener('click', function() {

@@ -1635,6 +1635,47 @@
                                     </div>
                                   </div>
                                 </div>
+                                <script src="https://code.jquery.com/jquery-3.7.0.min.js" data-reload="true"></script>
+                                <script>
+                                  window.addEventListener('DOMContentLoaded', () => {
+                                    const track = document.getElementById('carousel1');
+                                    const cards = track.querySelectorAll('.champ-card');
+                                  
+                                    // Optional: Add 'champ' class to all cards if needed
+                                    cards.forEach(card => card.classList.add('champ'));
+                                  
+                                    let scrollAmount = 0;
+                                  
+                                    function autoScroll() {
+                                      scrollAmount += 1;
+                                      track.scrollLeft = scrollAmount;
+                                  
+                                      if (scrollAmount >= track.scrollWidth - track.clientWidth) {
+                                        scrollAmount = 0;
+                                      }
+                                  
+                                      updateCenterCard();
+                                    }
+                                  
+                                    function updateCenterCard() {
+                                      const center = track.scrollLeft + track.offsetWidth / 2;
+                                  
+                                      cards.forEach(card => {
+                                        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+                                        const distance = Math.abs(center - cardCenter);
+                                  
+                                        if (distance < card.offsetWidth / 2) {
+                                          card.classList.add('champ-center');
+                                        } else {
+                                          card.classList.remove('champ-center');
+                                        }
+                                      });
+                                    }
+                                  
+                                    setInterval(autoScroll, 20);
+                                  });
+                                  
+                                  </script>
                                 <script type="application/ld+json">
                                   {
                                     "@context": "https://schema.org",
@@ -1649,4 +1690,5 @@
                                     }
                                   }
                                   </script>
+                                  
                                 @endsection('content')                     

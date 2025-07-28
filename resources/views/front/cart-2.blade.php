@@ -55,7 +55,7 @@
                     <div class="empty-cart-empty">
                         <img src="{{ asset('front/images/empty_cart.png') }}" alt="Empty Cart" class="empty-cart-img" />
                         <p class="empty-cart-message">Let’s equip your care kit, your cart’s looking a bit empty.</p>
-                        <a href="{{ route('products.flash.sale') }}"><button class="empty-cart-shop-btn">Continue
+                        <a href="{{ url('/products-list?tag=flash_sale') }}"><button class="empty-cart-shop-btn">Continue
                                 Shopping</button></a>
                     </div>
 
