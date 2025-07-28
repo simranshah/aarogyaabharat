@@ -1,3 +1,8 @@
+@php
+$isMobile =
+    request()->header('User-Agent') &&
+    preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
+@endphp
 @if(isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->cartProducts))
 @foreach ($cartProducts[0]->cartProducts as $cartItem)
     <div class="cartProductblock1">
@@ -22,8 +27,15 @@
             </a>
         </div>
         <div class="content">
-            <p><a href="{{ route('products.sub.category.wise', ['slug' => $cartItem->product->category->slug,'subSlug'=>$cartItem->product->slug]) }}">{{ $cartItem->product->name }}</a></p>
+            <p><a href="{{ route('products.sub.category.wise', ['slug' => $cartItem->product->category->slug,'subSlug'=>$cartItem->product->slug]) }}">
+                @if($isMobile)
+                {{ Str::limit($cartItem->product->name, 22) }}
+                @else
+                {{ $cartItem->product->name }}
+                @endif
+            </a></p>
             <strong>₹ {{$cartItem->price}}</strong>
+            <div class="errormsg" style="color: red; font-size: 10px;" id="msg-for-otp-send{{ $loop->index }}"></div>
             <div class="countProduct">
                 <a href="javascript:void(0);" class="countMinus" data-id="{{ $cartItem->id }}" data-sign="minus"
                     {{-- onclick="updateQuantity({{ $cartItem->id }}, {{ $cartProducts[0]->id }} ,'minus')" --}}
@@ -40,11 +52,12 @@
                 </a>
 
             </div>
+           
         </div>
-        <div class="errormsg" style="color: red;" id="msg-for-otp-send{{ $loop->index }}"></div>
-        @if (isset($cartItem->product->is_rentable) && $cartItem->product->is_rentable == 1)
+        
+        {{-- @if (isset($cartItem->product->is_rentable) && $cartItem->product->is_rentable == 1)
             <small> This product only available for rent.</small>
-        @endif
+        @endif --}}
     </div>
 @endforeach
 @endif
