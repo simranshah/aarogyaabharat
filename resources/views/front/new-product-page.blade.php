@@ -223,7 +223,7 @@ $isMobile =
                             <label class="quantity-label">Quantity:</label>
                             <div class="quantity-controls">
                                 <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
-                                <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="1">
+                                <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="1" disabled>
                                 <button class="quantity-btn" onclick="increaseQuantity()">+</button>
                             </div>
                         </div>
@@ -443,7 +443,7 @@ $isMobile =
                     <label class="quantity-label">Quantity:</label>
                     <div class="quantity-controls">
                         <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
-                        <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="1">
+                        <input type="number" class="quantity-input" value="1" id="quantity" min="1" max="1" disabled>
                         <button class="quantity-btn" onclick="increaseQuantity()">+</button>
                     </div>
                     

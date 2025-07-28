@@ -392,7 +392,7 @@ class NewPaymentController extends Controller
 
             $order = new Order();
             $order->customer_id = Auth::id();
-            $order->status_id = 1;
+            $order->status_id = 2;
             $order->razorpay_order_id = $orderId;
             $order->gst = $gst;
             $order->amount = $total;
@@ -407,7 +407,7 @@ class NewPaymentController extends Controller
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $product->id,
-                'status_id' => 1, // Set initial status to 'Pending'
+                'status_id' => 2, // Set initial status to 'Pending'
                 'quantity' => 1,
                 'price' => $product->our_price,
                 'gst' => $gstAmount,
