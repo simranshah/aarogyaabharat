@@ -1506,7 +1506,7 @@
                                   </div>
                                   <div class="div-3" style="margin-top:17px;">
                                     <div class="frame-64">
-                                      <div class="text-wrapper-8">Why Aarogya Bharat ..?</div>
+                                      <div class="text-wrapper-8">Why Aarogyaa Bharat ..?</div>
                                       <p class="text-wrapper-55">We put our customers at the heart of everything we do, understanding their unique needs and preferences. Our customer-centric approach ensures that our products and services are perfectly tailored to meet the expectations of our valued customers.
                                     </div>
                                     <div class="frame-98">
@@ -1593,7 +1593,7 @@
                                     </div>
                                   </section>
                                   <div class="div-3">
-                                    <div class="text-wrapper-8">About Aarogya Bharat</div>
+                                    <div class="text-wrapper-8">About Aarogyaa Bharat</div>
                                     <div class="frame-108">
                                       <p class="text-wrapper-58">
               A wheelchair is a chair fitted with wheels. The device comes in variations allowing either manual

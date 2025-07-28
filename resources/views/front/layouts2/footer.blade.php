@@ -158,11 +158,11 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
       </div>
     </div>
     <div class="footer-payment-row" style="display: flex; align-items: center; margin-top: 0px;">
-    @if(!$isMobile)
+    {{-- @if(!$isMobile) --}}
     <div style="font-size: 15px; color: #222; margin-right: 32px;">
        Payment Methods
     </div>
-    @endif
+    {{-- @endif --}}
 </div>
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; margin-top:0; width: 100%;">
   <!-- Left-side payment logos -->

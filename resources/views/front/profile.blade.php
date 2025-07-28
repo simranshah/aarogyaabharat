@@ -236,7 +236,7 @@
 <div id="address">
         @include('front.common.update-customer-address')
 </div>
-</div>
+
 <!-- <div class="addressFormPop winScrollStop">
     <div class="addressFormPopMiddle">
         <div class="addressFormPopInner">
