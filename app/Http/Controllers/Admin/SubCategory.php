@@ -72,6 +72,7 @@ class SubCategory extends Controller
             foreach ($request->file('images') as $imageFile) {
                 $imagePath = $imageFile->store('subcategories', 'public');
                 $subcategory->images()->create(['path' => $imagePath]);
+                $subcategory->image = $imagePath;
             }
         }
 
