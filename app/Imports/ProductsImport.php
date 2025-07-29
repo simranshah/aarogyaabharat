@@ -3,10 +3,13 @@
 namespace App\Imports;
 
 use App\Models\Admin\Category;
+use App\Models\Admin\SubCategories;
+use App\Models\Brand;
 use App\Models\Admin\Product;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Facades\Storage;
+
 
 class ProductsImport implements ToModel, WithHeadingRow
 {
@@ -14,6 +17,8 @@ class ProductsImport implements ToModel, WithHeadingRow
     {
         // Handle Category Image
         // dd($row);
+        set_time_limit(3000); // 300 seconds = 5 minutes
+
         $categoryImagePath = null;
         if (!empty($row['c_image']) && file_exists($row['c_image'])) {
             $categoryImagePath = Storage::disk('public')->putFile('categories', new \Illuminate\Http\File($row['c_image']));
@@ -23,6 +28,20 @@ class ProductsImport implements ToModel, WithHeadingRow
         $category = Category::updateOrCreate(
             ['name' => trim($row['category'])],
             ['slug' => \Str::slug(trim($row['category']))]
+        );
+
+        $subcategory = SubCategories::updateOrCreate(
+            [   
+                'category_id' => $category->id,
+                'name' => substr(trim($row['subcategory_name']), 0, 20)
+            ],
+            [
+                'slug' => \Str::slug(substr(trim($row['subcategory_name']), 0, 20))
+            ]
+        );
+        $brand = Brand::updateOrCreate(
+            ['name' => trim($row['brand'])],
+            ['slug' => \Str::slug(trim($row['brand']))]
         );
 
         // Function to clean numeric values
@@ -40,10 +59,12 @@ class ProductsImport implements ToModel, WithHeadingRow
                 'name' => trim($row['product_name'])
             ],
             [
+            'subcategory_id' => $subcategory->id,
+            'brand_id' => $brand->id,
             'category_id' => $category->id,
             'name' => trim($row['product_name'] ?? ''),
             'title' => trim($row['title'] ?? null),
-            'image' => 'default.jpg', // Temporary placeholder
+            // 'image' => 'default.jpg', // Temporary placeholder
             'image_alt' => trim($row['image_alt'] ?? null),
             'slug' => \Str::slug(trim($row['product_name'] ?? 'default-product')),
             'description' => trim($row['description'] ?? null),
@@ -76,33 +97,33 @@ class ProductsImport implements ToModel, WithHeadingRow
 
         // **Now handle product images**
 
-        $url = $row['product_image_url'] ?? null;
-        $path = parse_url($url, PHP_URL_PATH);
-        $host = parse_url($url, PHP_URL_HOST);
-        if ($host == $_SERVER['HTTP_HOST']) {
-        $pos = strpos( $path, 'product/');
-        $finalPath = substr($path, $pos + strlen('product/'));
-        // echo $finalPath.'<br>';
-        $finalPath = str_replace('/products/', '', $finalPath);
-        $newPath = 'products/' . $finalPath ;
-        $product->update(['image' => $newPath]);
-        }else{
-        if (!empty($row['product_image_url'])) {
-            $extension = pathinfo($row['product_image_url'], PATHINFO_EXTENSION);
-            $newFileName = uniqid() . '.' . $extension;
-            $newPath = 'products/' . $newFileName;
+    //     $url = $row['product_image_url'] ?? null;
+    //     $path = parse_url($url, PHP_URL_PATH);
+    //     $host = parse_url($url, PHP_URL_HOST);
+    //     if ($host == $_SERVER['HTTP_HOST']) {
+    //     $pos = strpos( $path, 'product/');
+    //     $finalPath = substr($path, $pos + strlen('product/'));
+    //     // echo $finalPath.'<br>';
+    //     $finalPath = str_replace('/products/', '', $finalPath);
+    //     $newPath = 'products/' . $finalPath ;
+    //     $product->update(['image' => $newPath]);
+    //     }else{
+    //     if (!empty($row['product_image_url'])) {
+    //         $extension = pathinfo($row['product_image_url'], PATHINFO_EXTENSION);
+    //         $newFileName = uniqid() . '.' . $extension;
+    //         $newPath = 'products/' . $newFileName;
 
-            Storage::disk('public')->put($newPath, file_get_contents($row['product_image_url']));
+    //         Storage::disk('public')->put($newPath, file_get_contents($row['product_image_url']));
 
-            $product->images()->create([
-                'path' =>  $newPath,
-                'alt' => $row['image_alt'] ?? null,
-            ]);
+    //         $product->images()->create([
+    //             'path' =>  $newPath,
+    //             'alt' => $row['image_alt'] ?? null,
+    //         ]);
 
-            // **Optional: Update Product Main Image**
-            $product->update(['image' =>  $newPath]);
-        }
-    }
+    //         // **Optional: Update Product Main Image**
+    //         $product->update(['image' =>  $newPath]);
+    //     }
+    // }
 
             $product->productAttributes()->updateOrCreate(
                 ['product_id' => $product->id],

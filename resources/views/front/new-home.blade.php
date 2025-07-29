@@ -658,11 +658,19 @@
                                             <div class="google-info">
                                                 <div class="google-logo">
                                                     <img src="/front/images/googlefull.svg" alt="Google Icon" width="124" height="84" style="height: 59px; margin-top: 8px;" />
+                                                    @if($isMobile)
                                                     <div class="rating-section">
-                                                        <span class="rating-number" style="font-size: 14px">4.7</span>
-                                                        <span class="stars" style="margin-right:-9px;">★★★★★</span>
+                                                        <span class="rating-number" style="font-size: 14px;margin-left: 14px;">4.7</span>
+                                                        <span class="stars" style="    margin-left: 15px;">★★★★★</span>
                                                         <span class="review-count">(18)</span>
                                                     </div>
+                                                    @else
+                                                    <div class="rating-section">
+                                                      <span class="rating-number" style="font-size: 14px">4.7</span>
+                                                      <span class="stars" style="margin-right:-9px;">★★★★★</span>
+                                                      <span class="review-count">(18)</span>
+                                                  </div>
+                                                    @endif
                                                 </div>
 
                                                 {{-- <span class="reviews-text">Reviews</span> --}}

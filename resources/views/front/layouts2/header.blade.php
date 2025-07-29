@@ -156,38 +156,56 @@
                 </div>
                 <ul class="menu-section">
                   <li>
-                    <a href="{{ route('products.list') }}" style="text-decoration: none; color: #111;"> <strong>Products</strong></a>
-                    {{-- <span class="toggle">+</span> --}}
+                    <a href="{{ route('products.list') }}" 
+                       style="text-decoration: none; color: {{ request()->routeIs('products.list') ? '#007bff' : '#111' }};">
+                       <strong>Products</strong>
+                    </a>
                   </li>
+                
                   <li>
-                    <strong>Offers</strong>
+                    <strong style="color: {{ request()->routeIs('offers') ? '#007bff' : '#111' }}">Offers</strong>
                   </li>
+                
                   <li>
-                    <a href="{{ route('blogs') }}" style="text-decoration: none; color: #111;"> <strong>Blogs</strong></a>  
+                    <a href="{{ route('blogs') }}" 
+                       style="text-decoration: none; color: {{ request()->routeIs('blogs') ? '#007bff' : '#111' }};">
+                       <strong>Blogs</strong>
+                    </a>
                   </li>
+                
                   <li class="category-toggle">
-                    <strong>Category</strong>
+                    <strong style="color: {{ request()->routeIs('products.category.wise') ? '#007bff' : '#111' }}">Category</strong>
                     <span class="toggle" id="categoryToggleBtn">+</span>
                   </li>
+                
                   <ul class="sub-menu" id="categorySubMenu" style="display: none;">
                     @foreach ($categories as $category)
-  @if (is_object($category) && isset($category->slug))
-    <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">
-      <li class="sub-item">{{ $category->name }}<span class="arrow">›</span></li>
-    </a>
-  @endif
-@endforeach
-
+                      @if (is_object($category) && isset($category->slug))
+                        <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">
+                          <li class="sub-item" 
+                              style="color: {{ request()->is('products/category/'.$category->slug) ? '#007bff' : '#111' }}">
+                              {{ $category->name }}<span class="arrow">›</span>
+                          </li>
+                        </a>
+                      @endif
+                    @endforeach
                   </ul>
+                
                   <li class="category-toggle">
-                   <a href="{{ route('privacy.policy') }}" style="text-decoration: none; color: #111;"> <strong>Privacy Policy</strong></a>
-                    {{-- <span class="toggle" id="categoryToggleBtn">+</span> --}}
+                    <a href="{{ route('privacy.policy') }}" 
+                       style="text-decoration: none; color: {{ request()->routeIs('privacy.policy') ? '#007bff' : '#111' }};">
+                       <strong>Privacy Policy</strong>
+                    </a>
                   </li>
+                
                   <li class="category-toggle">
-                    <a href="{{ route('terms.and.conditions') }}" style="text-decoration: none; color: #111;"> <strong>Terms and Condtions</strong></a>
-                     {{-- <span class="toggle" id="categoryToggleBtn">+</span> --}}
-                   </li>
+                    <a href="{{ route('terms.and.conditions') }}" 
+                       style="text-decoration: none; color: {{ request()->routeIs('terms.and.conditions') ? '#007bff' : '#111' }};">
+                       <strong>Terms and Conditions</strong>
+                    </a>
+                  </li>
                 </ul>
+                
               </div>
               <!-- Overlay -->
               <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
@@ -200,27 +218,27 @@
               <div class="frame-4">
                 <div class="div-wrapper">
                   <a href="{{ route('home') }}">
-                    <div class="text-wrapper">Home</div>
+                    <div class="{{ request()->routeIs('home') ? 'text-wrapper' : 'text-wrapper-2' }}">Home</div>
                   </a>
                 </div>
                 <div class="div-wrapper">
                   <a href="{{ route('products.list') }}">
-                    <div class="text-wrapper-2">Products</div>
+                    <div class="{{ request()->routeIs('products.list') ? 'text-wrapper' : 'text-wrapper-2' }}">Products</div>
                   </a>
                 </div>
                 <div class="div-wrapper">
                   <a href="{{ route('products.flash.sale') }}">
-                    <div class="text-wrapper-2">Offers</div>
+                    <div class="{{ request()->routeIs('products.flash.sale') ? 'text-wrapper' : 'text-wrapper-2' }}">Offers</div>
                   </a>
                 </div>
                 <div class="div-wrapper">
                   <a href="{{ route('blogs') }}">
-                    <div class="text-wrapper-2">Blogs</div>
+                    <div class="{{ request()->routeIs('blogs') ? 'text-wrapper' : 'text-wrapper-2' }}">Blogs</div>
                   </a>
                 </div>
                 <div class="div-wrapper">
                   <a href="{{ route('customer.about.us') }}">
-                    <div class="text-wrapper-2">About</div>
+                    <div class="{{ request()->routeIs('customer.about.us') ? 'text-wrapper' : 'text-wrapper-2' }}">About</div>
                   </a>
                 </div>
               
@@ -261,7 +279,7 @@
                 <ul id="searchResultList"></ul>
               </div>
               @if (!$isMobile)
-<div class="notificationpopupjs">
+{{-- <div class="notificationpopupjs">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 0 22 24" fill="none">
                 <g clip-path="url(#clip0_1_2260)">
@@ -275,7 +293,7 @@
                   </clipPath>
                 </defs>
               </svg>
-            </div>
+            </div> --}}
              @endif
               @php
                             $customer = Auth::user();

@@ -39,12 +39,12 @@ $categories = Category::with('subcategories')->get();
         $pageTitle = $seoMeta->page_title ?? '';
         $homecareproducts = SubCategories::whereHas('category', function ($query) {
             $query->where('slug', 'home-care');
-        })->with(['category', 'images'])->get();
+        })->with(['category', 'images'])->take(6)->get();
 
         $medicalequipmentproducts = SubCategories::whereHas('category', function ($query) {
             $query->where('slug', 'medical-equipment');
-        })->with(['category', 'images'])->get();
-        $brandsWithProducts = Brand::whereHas('product.Category')->with('product.Category')->get();
+        })->with(['category', 'images'])->take(6)->get();
+        $brandsWithProducts = Brand::whereHas('product.Category')->with('product.Category')->take(6)->get();
         $brandsWithFirstProduct = $brandsWithProducts->first();
 
   return view('front.new-home', compact('categories', 'products', 'blogs', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle', 'homecareproducts', 'medicalequipmentproducts','brandsWithProducts','brandsWithFirstProduct'));

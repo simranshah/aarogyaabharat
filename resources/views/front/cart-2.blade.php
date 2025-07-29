@@ -58,8 +58,9 @@
                         <a href="{{ url('/products-list?tag=flash_sale') }}"><button class="empty-cart-shop-btn">Continue
                                 Shopping</button></a>
                     </div>
+            
 
-                    <div class="empty-cart-best-selling">
+                    {{-- <div class="empty-cart-best-selling">
                         <h2>Best Selling Products</h2>
                         <div class="empty-cart-product-list">
                             <!-- Product cards -->
@@ -79,8 +80,27 @@
                                 </a>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
+                <div class="recent-product-recently-viewed recent-products"  style="margin-bottom: 20px;">
+                    <div class="recent-product-section-title">Best Selling Products</div>
+                    <div class="recent-product-products-slider">
+                      <!-- Repeat product-card divs here -->
+                      @foreach ($flashSaleProducts as $product)
+                      <a
+                      href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug, 'subSlug' => $product->slug]) }}">
+                      <div class="recent-product-product-card">
+                        <img src="{{ asset('storage/' . $product->image) }}" class="recent-product-product-image" alt="{{ $product->name }}"/>
+                        <div class="recent-product-product-name"> {{ Str::limit($product->name, 35) }}</div>
+                        <div class="recent-product-product-price">
+                          <span class="recent-product-currency">₹</span>{{ $product->our_price }}
+                        </div>
+                      </div>
+                    </a>
+                        @endforeach
+                      <!-- Duplicate above product-card for more products -->
+                    </div>
+                  </div>
             @else
                 <div class="cartTitle">
                     <img src="{{ asset('front/images/cart.svg') }}" alt="cart" />

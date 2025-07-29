@@ -361,14 +361,14 @@
  </div>
  <div class="log-out">
 <div class="popup-overlay" id="logoutPopup6" style="display: none;">
-    <div class="popup">
+    <div class="popup" style="max-width: 353px;">
      <button class="close-btn" onclick="document.getElementById('logoutPopup6').style.display='none';" >&times;</button>
       {{-- <img src="{{asset('front/images/add_adress_success.svg')}}" alt="Logout" class="popup-image1" /> --}}
       {{-- <h2 class="popup-title">Come back soon!</h2> --}}
       <p class="popup-text">That hurts a little, talk to us before you go?</p>
       <div class="popup-buttons">
     <a href="{{route('raise.query')}}"><button class="btn yes-btn" style="padding: 10px 1px;" >Raise Query</button></a>
-       <button class="btn cancel-btn" onclick="cancelItems();">Cancel</button>
+       <button class="btn cancel-btn" style="padding: 10px 1px;" onclick="cancelItems();">Cancel Items</button>
       </div>
     </div>
   </div>

@@ -92,8 +92,8 @@
                 <h3>Price Range</h3>
                 <div class="price-range">
                     <div class="price-inputs">
-                        <input type="number" class="price-input" id="minPrice" placeholder="Min" min="0">
-                        <input type="number" class="price-input" id="maxPrice" placeholder="Max" min="0">                        
+                        <input type="number" class="price-input" placeholder="Min" value="">
+                        <input type="number" class="price-input" placeholder="Max" value="">
                         
                     </div>
                     <span id="price-error" style="color: red; font-size: 12px;"></span>
@@ -104,18 +104,18 @@
                     </div>
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Stock</h3>
                 <div class="filter-options">
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileInStock" >
-                        <label for="mobileInStock">In Stock</label>
+                        <input type="checkbox" value="in stock" name="stock" id="inStock" >
+                        <label for="inStock">In Stock</label>
                         <span class="filter-count">12</span>
                     </div>
                     {{-- <div class="filter-option">
-                        <input type="checkbox" id="mobileOutOfStock">
-                        <label for="mobileOutOfStock">Out of Stock</label>
+                        <input type="checkbox" value="out of stock" name="stock" id="outOfStock">
+                        <label for="outOfStock">Out of Stock</label>
                         <span class="filter-count">3</span>
                     </div> --}}
                 </div>
@@ -135,63 +135,53 @@
                     </div> --}}
                 </div>
             </div>
+    
             <div class="filter-section">
                 <h3>Gender</h3>
                 <div class="filter-options">
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileUnisex" >
-                        <label for="mobileUnisex">Unisex</label>
+                        <input type="checkbox" value="Unisex" name="gender" id="unisex" >
+                        <label for="unisex">Unisex</label>
                         <span class="filter-count">8</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileMale">
-                        <label for="mobileMale">Male</label>
+                        <input type="checkbox" value="Male" name="gender" id="male">
+                        <label for="male">Male</label>
                         <span class="filter-count">4</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileFemale">
-                        <label for="mobileFemale">Female</label>
+                        <input type="checkbox" value="Female" name="gender" id="female">
+                        <label for="female">Female</label>
                         <span class="filter-count">3</span>
                     </div>
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Brand</h3>
                 <div class="filter-options">
                     @foreach ($brands as $brand)
                         <div class="filter-option">
-                            <input type="checkbox" value="{{ $brand->id }}" name="brand[]" id="brand_{{ $brand->id }}">
+                            <input type="checkbox" value="{{ $brand->name }}" name="brand" id="brand_{{ $brand->id }}">
                             <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
                             {{-- Optionally, add a count if available: <span class="filter-count">{{ $brand->products_count ?? '' }}</span> --}}
                         </div>
                     @endforeach
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Type</h3>
                 <div class="filter-options">
+                    @foreach ( $categoriesAndProducts as $category  )
+                    @foreach ( $category->SubCategories as $SubCategories)
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileFolding" >
-                        <label for="mobileFolding">Folding Wheelchair</label>
+                        <input type="checkbox" value="{{  $SubCategories->name }}" name="subcategory" id="{{  $SubCategories->slug }}" >
+                        <label for="{{  $SubCategories->slug }}">{{  $SubCategories->name }}</label>
                         <span class="filter-count">8</span>
                     </div>
-                    <div class="filter-option">
-                        <input type="checkbox" id="mobileStandard">
-                        <label for="mobileStandard">Standard Wheelchair</label>
-                        <span class="filter-count">4</span>
-                    </div>
-                    <div class="filter-option">
-                        <input type="checkbox" id="mobileLightweight">
-                        <label for="mobileLightweight">Lightweight</label>
-                        <span class="filter-count">3</span>
-                    </div>
-                    <div class="filter-option">
-                        <input type="checkbox" id="mobileHeavyduty">
-                        <label for="mobileHeavyduty">Heavy Duty</label>
-                        <span class="filter-count">2</span>
-                    </div>
+                    @endforeach
+                    @endforeach
                 </div>
             </div>
             <div class="filter-section">
@@ -227,49 +217,49 @@
                     </div>
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Rating</h3>
                 <div class="filter-options">
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileRating4">
-                        <label for="mobileRating4">4 Stars & Above</label>
+                        <input type="checkbox" value="4" name="rateing" id="rating4">
+                        <label for="rating4">4 Stars & Above</label>
                         <span class="filter-count">8</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileRating3">
-                        <label for="mobileRating3">3 Stars & Above</label>
+                        <input type="checkbox" value="3" name="rateing" id="rating3">
+                        <label for="rating3">3 Stars & Above</label>
                         <span class="filter-count">12</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileRating2">
-                        <label for="mobileRating2">2 Stars & Above</label>
+                        <input type="checkbox" value="2" name="rateing" id="rating2">
+                        <label for="rating2">2 Stars & Above</label>
                         <span class="filter-count">15</span>
                     </div>
                 </div>
             </div>
-
+    
             <div class="filter-section">
                 <h3>Discount</h3>
                 <div class="filter-options">
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileDiscount50">
-                        <label for="mobileDiscount50">Up to50%</label>
+                        <input type="checkbox" value="50" name="discount" id="discount50">
+                        <label for="discount50">Up to 50%</label>
                         <span class="filter-count">2</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileDiscount30">
-                        <label for="mobileDiscount30">Up to 30%</label>
+                        <input type="checkbox" value="30" name="discount" id="discount30">
+                        <label for="discount30">Up to 30%</label>
                         <span class="filter-count">5</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileDiscount20">
-                        <label for="mobileDiscount20">Up to 20%</label>
+                        <input type="checkbox"  value="20" name="discount" id="discount20">
+                        <label for="discount20">Up to 20%</label>
                         <span class="filter-count">8</span>
                     </div>
                     <div class="filter-option">
-                        <input type="checkbox" id="mobileDiscount10">
-                        <label for="mobileDiscount10">Up to 10%</label>
+                        <input type="checkbox" value="10" name="discount" id="discount10">
+                        <label for="discount10">Up to 10%</label>
                         <span class="filter-count">12</span>
                     </div>
                 </div>
@@ -534,13 +524,19 @@
                                     </div>
                                     <div class="frame-23">
                                       <div class="frame-24">
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
-                                          <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
-                                        </svg>
-                                        <div class="text-wrapper-14">
-                                            Get it {{ \Carbon\Carbon::now()->addDays(7)->format('M d') }}
-                                        </div>
+                                        @if( $product->productAttributes->stock > 0)
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
+                                  <path d="M8.94377 7.02453L5.64575 5.11307L7.30837 1.12293C7.36639 1.00442 7.39339 0.873133 7.38686 0.741345C7.38032 0.609557 7.34046 0.481581 7.27101 0.369392C7.20155 0.257203 7.10476 0.164468 6.98971 0.0998659C6.87466 0.0352635 6.7451 0.000904968 6.61315 5.51437e-06C6.43776 -0.000654732 6.2673 0.0579921 6.12945 0.166423L6.07501 0.213082L0.242625 5.73441C0.154947 5.81767 0.0878507 5.9202 0.046644 6.03388C0.00543737 6.14756 -0.0087485 6.26926 0.00520861 6.38937C0.0191657 6.50947 0.0608829 6.62469 0.127059 6.72588C0.193236 6.82708 0.282055 6.91149 0.38649 6.97243L3.68529 8.88545L2.00323 12.9215C1.93385 13.0861 1.92333 13.2696 1.97344 13.4411C2.02355 13.6126 2.13123 13.7615 2.27835 13.8629C2.42546 13.9643 2.60301 14.0118 2.78109 13.9976C2.95917 13.9833 3.1269 13.9081 3.25602 13.7847L9.08841 8.26178C9.1759 8.17845 9.24282 8.07593 9.28387 7.9623C9.32493 7.84867 9.33899 7.72705 9.32496 7.60705C9.31094 7.48704 9.26919 7.37195 9.20304 7.27085C9.13688 7.16976 9.04812 7.08543 8.94377 7.02453Z" fill="#F24F67"/>
+                                </svg>
+                                <div class="text-wrapper-14">
+                                  Get it {{ \Carbon\Carbon::now()->addDays(7)->format('M d') }}
+                              </div>
+                              @else
+                              <div class="text-wrapper-14" style="color: red;">
+                                Sold out
+                            </div>
+                              @endif
                                       </div>
                                     </div>
                                   </div>
@@ -556,25 +552,29 @@
 
 
             </div>
+            <div class="no-results-container" id="no-results-container" style="display: none;">
+                <div class="no-results-title">No results found</div>
+                <div class="filter-suggestion">Try adjusting your filter values</div>
+              </div>
         </div>
     </div>
-<div class="recent-product-recently-viewed recent-products">
-    <div class="recent-product-section-title">Recently Viewed</div>
-    <div class="recent-product-products-slider">
-      <!-- Repeat product-card divs here -->
-      @foreach ($recentViewedProducts as $product)
-      <div class="recent-product-product-card">
-        <img src="{{ asset('storage/' . $product->image) }}" class="recent-product-product-image" alt="{{ $product->name }}"/>
-        <div class="recent-product-product-name">{{ $product->name }}</div>
-        <div class="recent-product-product-price">
-          <span class="recent-product-currency">₹</span>{{ $product->price }}
-
+    <div class="recent-product-recently-viewed recent-products">
+        <div class="recent-product-section-title">Recently Viewed</div>
+        <div class="recent-product-products-slider">
+          <!-- Repeat product-card divs here -->
+          @foreach ($recentViewedProducts as $product)
+          <div class="recent-product-product-card">
+            <img src="{{ asset('storage/' . $product->image) }}" class="recent-product-product-image" alt="{{ $product->name }}"/>
+            <div class="recent-product-product-name"> {{ Str::limit($product->name, 35) }}</div>
+            <div class="recent-product-product-price">
+              <span class="recent-product-currency">₹</span>{{ $product->our_price }}
+            
+            </div>
+          </div>
+            @endforeach
+          <!-- Duplicate above product-card for more products -->
         </div>
       </div>
-        @endforeach
-      <!-- Duplicate above product-card for more products -->
-    </div>
-  </div>
   <div class="div-3" style="margin-top: 20px;">
     <div class="text-wrapper-8">About Aarogya Bharat</div>
     <div class="frame-108">
@@ -777,11 +777,11 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
 
                     if (currentSlider.classList.contains('min')) {
                         currentSlider.style.left = percentage + '%';
-                        const value = Math.round((percentage / 100) * 10000);
+                        const value = Math.round((percentage / 100) * 100000);
                         minInput.value = value;
                     } else {
                         currentSlider.style.right = (100 - percentage) + '%';
-                        const value = Math.round((percentage / 100) * 10000);
+                        const value = Math.round((percentage / 100) * 100000);
                         maxInput.value = value;
                     }
 
@@ -808,11 +808,11 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
 
                     if (currentSlider.classList.contains('min')) {
                         currentSlider.style.left = percentage + '%';
-                        const value = Math.round((percentage / 100) * 10000);
+                        const value = Math.round((percentage / 100) * 100000);
                         minInput.value = value;
                     } else {
                         currentSlider.style.right = (100 - percentage) + '%';
-                        const value = Math.round((percentage / 100) * 10000);
+                        const value = Math.round((percentage / 100) * 100000);
                         maxInput.value = value;
                     }
 
@@ -829,8 +829,8 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
             function updateSliderTrack() {
                 const minThumb = document.querySelector('.price-slider-thumb.min');
                 const maxThumb = document.querySelector('.price-slider-thumb.max');
-                const minPos = parseFloat(minThumb.style.left || '20%');
-                const maxPos = 100 - parseFloat(maxThumb.style.right || '20%');
+                const minPos = parseFloat(minThumb.style.left || '0%');
+                const maxPos = 100 - parseFloat(maxThumb.style.right || '0%');
                 console.log(minPos, maxPos);
                 sliderTrack.style.left = minPos + '%';
                 sliderTrack.style.width = (maxPos - minPos) + '%';
@@ -859,6 +859,14 @@ by the seated occupant turning the rear wheels by hand or electric propulsion by
                 },
                 success: function(response) {
                     $('.products-grid').html(response.html);
+                    $('.products-grid').html(response.html);
+                    if(response.total_count == 0){
+                        $('#no-results-container').show();
+                        $('.products-grid').hide();
+                    }else{
+                        $('#no-results-container').hide();
+                        $('.products-grid').show();
+                    }
 $('#category-name').text('{{ $category->name }} (' + response.total_count + ' products)');
 
 @if($isMobile)

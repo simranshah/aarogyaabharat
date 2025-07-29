@@ -171,7 +171,7 @@ class FrontProductController extends Controller
             foreach ($categoriesAndProducts as $cat) {
                 $total_count += $cat->products->count();
             }
-            $html = view('front.common.product_grid', compact('categoriesAndProducts'))->render();
+            $html = view('front.common.product_grid', compact('categoriesAndProducts','total_count'))->render();
             return response()->json(['html' => $html, 'total_count' => $total_count]);
         }
         $brands = Brand::orderBy('name', 'asc')->get();
@@ -416,12 +416,13 @@ class FrontProductController extends Controller
             foreach ($categoriesAndProducts as $cat) {
                 $total_count += $cat->products->count();
             }
-            $html = view('front.common.product_grid', compact('categoriesAndProducts'))->render();
+            $html = view('front.common.product_grid', compact('categoriesAndProducts','total_count'))->render();
             return response()->json(['html' => $html, 'total_count' => $total_count]);
         }
         $categoriesData = Category::all();
         $brands = Brand::orderBy('name', 'asc')->get();
         $subCategoriess = SubCategories::orderBy('name', 'asc')->get();
+        $subCategoriess = $subCategoriess->unique('name');
         $categories = Category::all();
         
         return view('front.main-product-listing', compact('categoriesAndProducts', 'categoriesData','brands','subCategoriess','categories'));
@@ -512,7 +513,7 @@ class FrontProductController extends Controller
     function productCategory(Request $request)
     {
       $Brand_id = $request->input('Brand_id');
-      $products = Product::with('category')->where('brand_id', $Brand_id)->get();
+      $products = Product::with('category')->where('brand_id', $Brand_id)->take(6)->get();
       return view('front.common.category-products', compact('products'));
     }
     function addreview(Request $request){

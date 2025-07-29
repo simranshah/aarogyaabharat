@@ -64,6 +64,16 @@
     <script src="{{ asset('front/js/toaster.js') }}"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+    <style>
+        @media (max-width: 480px) {
+        .container {
+            padding-right: 10px;
+            padding-left: 10px;
+                    margin-right: auto;
+                margin-left: auto;
+            }
+        }
+    </style>    
     <!-- Google tag (gtag.js) -->
 </head>
 @php

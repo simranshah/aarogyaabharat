@@ -56,7 +56,7 @@ preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'
             <div class="links_text">
               <ul>
                 <li>
-                  <a href="{{ route('terms.and.conditions') }}">Terms and Condtions</a>
+                  <a href="{{ route('terms.and.conditions') }}">Terms and Conditions</a>
                 </li>
               </ul>
             </div>
@@ -157,19 +157,14 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
         </div>
       </div>
     </div>
-    <div class="footer-payment-row" style="display: flex; align-items: center; margin-top: 0px;">
-    {{-- @if(!$isMobile) --}}
-    <div style="font-size: 15px; color: #222; margin-right: 32px;">
-       Payment Methods
-    </div>
-    {{-- @endif --}}
-</div>
+   
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; margin-top:0; width: 100%;">
   <!-- Left-side payment logos -->
   <div class="footer-payment-row" style="display: flex; align-items: center;">
-    <img src="{{ asset('front/images/visa.png') }}" alt="Visa" style="height: 32px; margin-right: 10px;">
+    <img src="{{ asset('front/images/Visa_logo.png') }}" alt="Visa" style="width: 42px;
+    height: 14px; margin-right: 10px;">
     <img src="{{ asset('front/images/rupay.png') }}" alt="Rupay" style="height: 32px; margin-right: 10px;">
-    <img src="{{ asset('front/images/mastercard.png') }}" alt="MasterCard" style="height: 32px;">
+    <img src="{{ asset('front/images/upi_logo_icon.svg') }}" alt="MasterCard" style="height: 32px;">
   </div>
 
   <!-- Right-side PCI logo -->
@@ -185,7 +180,7 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
 
 </div>
 <div class="frame-120">
-  <p class="text-wrapper-67">Copyrights © 2020 Aarogyaa Bharat</p>
+  <p class="text-wrapper-67">Copyrights © {{ date('Y') }} Aarogyaa Bharat</p>
 </div>
 
 <div id="notification-pop">

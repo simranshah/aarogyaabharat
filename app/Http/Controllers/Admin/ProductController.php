@@ -240,9 +240,17 @@ class ProductController extends Controller
             'file' => 'required|file|mimes:xlsx,csv',
         ]);
 
-        Excel::import(new ProductsImport, $request->file('file'));
+        // Increase execution time limit for large imports
+        set_time_limit(config('import.products.timeout', 300));
+        ini_set('memory_limit', config('import.products.memory_limit', '512M'));
 
-        return redirect()->back()->with('success', 'Products imported successfully.');
+        try {
+            Excel::import(new ProductsImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Products imported successfully.');
+        } catch (\Exception $e) {
+            \Log::error('Import failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Import failed: ' . $e->getMessage());
+        }
     }
      public function outofstock(Request $request){
         if ($request->ajax()) {

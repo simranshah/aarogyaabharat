@@ -33,7 +33,7 @@
                     <div class="order-info-product-name">  {{ $orderItems->product->name ?? 'Product name not available' }}</div>
                     <div class="order-info-product-price">Rs {{ $orderItems->product->our_price + (($orderItems->product->our_price * $orderItems->product->gst)/100)+ $orderItems->product->delivery_and_installation_fees}}</div>
                 </div>
-                <button class="order-info-cancel-btn"
+                <button class="order-info-cancel-btn" style="color:red;"
                  onclick="openorderdetails({{$orders->id}});"
             data-index="{{$loop->index}}"
             data-product-id="{{ $orders->id }}"

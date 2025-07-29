@@ -1,8 +1,17 @@
 @extends('front.layouts2.layout2')
 @section('content')
+<style>
+    .breadcrumbs {
+    float: left;
+    width: 100%;
+    margin-top: 58px;
+    margin-bottom: 24px;
+}
+</style>
+
 <div class="breadcrumbs">
     <div class="container breadcrumbs-container">
-        <div class="breadcrumb-links">
+        <div class="">
             <ul>
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="{{ route('blogs') }}">Blog</a></li>

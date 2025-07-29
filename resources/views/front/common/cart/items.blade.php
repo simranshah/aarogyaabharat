@@ -35,7 +35,7 @@ $isMobile =
                 @endif
             </a></p>
             <strong>₹ {{$cartItem->price}}</strong>
-            <div class="errormsg" style="color: red; font-size: 10px;" id="msg-for-otp-send{{ $loop->index }}"></div>
+            <div class="errormsg" style="color: red; font-size: 12px;" id="msg-for-otp-send{{ $loop->index }}"></div>
             <div class="countProduct">
                 <a href="javascript:void(0);" class="countMinus" data-id="{{ $cartItem->id }}" data-sign="minus"
                     {{-- onclick="updateQuantity({{ $cartItem->id }}, {{ $cartProducts[0]->id }} ,'minus')" --}}
@@ -46,7 +46,7 @@ $isMobile =
                 <span id="quantity-{{ $cartItem->id }}">{{ $cartItem->quantity }}</span>
                 <a href="javascript:void(0);" class="countPlus" data-id="{{ $cartItem->id }}" data-sign="plus"
                     {{-- onclick="updateQuantity({{ $cartItem->id }}, {{ $cartProducts[0]->id }} ,'plus')" --}}
-                    onclick="document.getElementById('msg-for-otp-send{{ $loop->index }}').innerHTML='Only one quantity available.'; setTimeout(function(){ document.getElementById('msg-for-otp-send{{ $loop->index }}').innerHTML=''; }, 10000);"
+                    onclick="document.getElementById('msg-for-otp-send{{ $loop->index }}').innerHTML='You cannot order more than 1 item(s) for this product.'; setTimeout(function(){ document.getElementById('msg-for-otp-send{{ $loop->index }}').innerHTML=''; }, 10000);"
                     >
                     <img src="{{ asset('front/images/jam_plus.svg') }}" alt="Plus" />
                 </a>
