@@ -292,7 +292,7 @@
                             </a>
                             </div>
                             <div class="frame-43">
-                              <div class="frame-44">
+                              <div class="frame-44 home-care-products">
                 @foreach ($homecareproducts as $product)
                 {{-- @foreach ($item->products as $product) --}}
 
@@ -300,7 +300,7 @@
                                   <div class="frame-46">
                                     <a href="{{ route('products.category.wise', ['slug' =>$product->category->slug]) }}?subcategory={{ $product->name }}">
                                       <div class="wheelchair-wrapper">
-                                        <img class="wheelchair-2" src="{{ asset('storage/subCategories/' . $product->image) }}" />
+                                        <img class="wheelchair-2" src="{{ asset('storage/' . $product->image) }}" />
                                       </div>
                                     </a>
                                   </div>
@@ -335,8 +335,8 @@
                               </div>
                             </a>
                             </div>
-                            <div class="frame-43">
-                              <div class="frame-44">
+                            <div class="frame-43 ">
+                              <div class="frame-44 medical-equipment-products">
                 @foreach ($medicalequipmentproducts as $product)
                 {{-- @foreach ($item->products as $product) --}}
 
@@ -344,7 +344,7 @@
                   <div class="frame-46">
                     <a href="{{ route('products.category.wise', ['slug' =>$product->category->slug]) }}?subcategory={{ $product->name }}">
                       <div class="wheelchair-wrapper">
-                        <img class="wheelchair-2" src="{{ asset('storage/subCategories/' . $product->image) }}" />
+                        <img class="wheelchair-2" src="{{ asset('storage/' . $product->image) }}" />
                       </div>
                     </a>
                   </div>

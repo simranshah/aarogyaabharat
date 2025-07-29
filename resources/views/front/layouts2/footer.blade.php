@@ -369,10 +369,41 @@ slidesToScroll: 4
 });
 $(document).ready(function(){
 // Count the number of direct child divs inside .frame-44
-var itemCount = $('.frame-44 > div').length;
+var itemCount = $('.home-care-products > div').length;
 
 if(itemCount >= 6) {
-$('.frame-44').slick({
+$('.home-care-products').slick({
+infinite: false,
+slidesToShow: 6,
+slidesToScroll: 2,
+autoplay: true,
+autoplaySpeed: 2000,
+arrows: false,
+responsive: [
+{
+breakpoint: 1024,
+settings: {
+slidesToShow: 4,
+slidesToScroll: 1
+}
+},
+{
+breakpoint: 768,
+settings: {
+slidesToShow: 2,
+slidesToScroll: 1
+}
+}
+]
+});
+}
+});
+$(document).ready(function(){
+// Count the number of direct child divs inside .frame-44
+var itemCount = $('.medical-equipment-products > div').length;
+
+if(itemCount >= 6) {
+$('.medical-equipment-products').slick({
 infinite: false,
 slidesToShow: 6,
 slidesToScroll: 2,
