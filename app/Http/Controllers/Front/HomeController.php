@@ -46,8 +46,10 @@ $categories = Category::with('subcategories')->get();
         })->with(['category', 'images'])->take(6)->get();
         $brandsWithProducts = Brand::whereHas('product.Category')->with('product.Category')->take(6)->get();
         $brandsWithFirstProduct = $brandsWithProducts->first();
+        $subCategoriess = SubCategories::with('category')-> orderBy('name', 'asc')->get();
+        $subCategoriess = $subCategoriess->unique('name');
 
-  return view('front.new-home', compact('categories', 'products', 'blogs', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle', 'homecareproducts', 'medicalequipmentproducts','brandsWithProducts','brandsWithFirstProduct'));
+  return view('front.new-home', compact('categories', 'products', 'blogs', 'seoMetaTag', 'seoMetaTagTitle' , 'pageTitle', 'homecareproducts', 'medicalequipmentproducts','brandsWithProducts','brandsWithFirstProduct','subCategoriess'));
     }
 
     public function productPage()

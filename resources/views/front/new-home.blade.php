@@ -40,17 +40,17 @@
                             @foreach($col1 as $sub)
                               <div style="font-weight: bold; margin-bottom: 8px;">
                                 <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
-                                  {{ $sub->name }}
+                                  {{ Str::limit($sub->name, 20) }}
                                 </a>
                               </div>
                               <ul style="padding-left: 18px;">
                                 @foreach($sub->products->take(3) as $product)
                                   <li>
                                     <a href="{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}">
-                                      {{ $product->name }}
+                                      {{ Str::limit($product->name, 30) }}
                                     </a>
-                                  </li>
-                                @endforeach
+                                      </li>
+                                    @endforeach
                               </ul>
                             @endforeach
                           </div>
@@ -58,14 +58,14 @@
                             @foreach($col2 as $sub)
                               <div style="font-weight: bold; margin-bottom: 8px;">
                                 <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
-                                  {{ $sub->name }}
+                                  {{ Str::limit($sub->name, 20) }}
                                 </a>
                               </div>
                               <ul style="padding-left: 18px;">
                                 @foreach($sub->products->take(3) as $product)
                                   <li>
                                     <a href="{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}">
-                                      {{ $product->name }}
+                                      {{ Str::limit($product->name, 30) }}
                                     </a>
                                   </li>
                                 @endforeach
@@ -76,14 +76,14 @@
                             @foreach($col3 as $sub)
                               <div style="font-weight: bold; margin-bottom: 8px;">
                                 <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}?subcategory={{ $sub->slug }}">
-                                  {{ $sub->name }}
+                                  {{ Str::limit($sub->name, 20) }}
                                 </a>
                               </div>
                               <ul style="padding-left: 18px;">
                                 @foreach($sub->products->take(3) as $product)
                                   <li>
                                     <a href="{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}">
-                                      {{ $product->name }}
+                                      {{ Str::limit($product->name, 30) }}
                                     </a>
                                   </li>
                                 @endforeach
@@ -137,15 +137,15 @@
                     </a>
                     </div>
                     <div class="frame-11 categories">
-             @foreach ($categories as $category)
+             @foreach ($subCategoriess as $subCategoriess)
 
                       <div class="category-hover-wrapper" style="position: relative; display: inline-block;">
-                        <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">
+                        <a href="{{ route('products.category.wise', ['slug' => $subCategoriess->category->slug]) }}?subcategory={{ $subCategoriess->name }}" style="text-decoration: none;">
                           <div class="frame-12">
                             <div class="image-wrapper">
-                              <img class="image" src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" />
+                              <img class="image" src="{{ asset('storage/subcategories/' . $subCategoriess->image) }}" alt="{{ $subCategoriess->name }}" />
                             </div>
-                            <div class="text-wrapper-7">{{ $category->name }}</div>
+                            <div class="text-wrapper-7">{{ $subCategoriess->name }}</div>
                           </div>
                         </a>
                       

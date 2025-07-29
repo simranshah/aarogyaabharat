@@ -462,7 +462,7 @@
 
             <div class="products-header">
                 <div>
-                    <h2 id="category-name">{{$categoriesmain->name}}( products)</h2>
+                    <h2 id="category-name" style="font-size: 20px; font-weight: 600;">{{$categoriesmain->name}}( products)</h2>
                 </div>
                 <div class="sort-options">
                     <label style="width: 85px;">Sort by:</label>
@@ -563,6 +563,8 @@
         <div class="recent-product-products-slider">
           <!-- Repeat product-card divs here -->
           @foreach ($recentViewedProducts as $product)
+          <a
+      href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug, 'subSlug' => $product->slug]) }}">
           <div class="recent-product-product-card">
             <img src="{{ asset('storage/' . $product->image) }}" class="recent-product-product-image" alt="{{ $product->name }}"/>
             <div class="recent-product-product-name"> {{ Str::limit($product->name, 35) }}</div>
@@ -571,6 +573,7 @@
             
             </div>
           </div>
+          </a>
             @endforeach
           <!-- Duplicate above product-card for more products -->
         </div>

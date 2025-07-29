@@ -123,7 +123,7 @@
               </div>
               <div class="sidebar" id="sidebarMenu">
                 <div class="sidebar-header">
-                  <img src="/front/images/arogya_bharat.svg" alt="Logo" style="height: 30px;">
+                <a href="{{ route('home') }}"> <img src="/front/images/arogya_bharat.svg" alt="Logo" style="height: 30px;"></a>
                   <span class="close-btn" onclick="toggleSidebar()">✕</span>
                 </div>
                 <div class="signin-register" style="text-align: center; padding: 0 0 16px 0;">
@@ -178,7 +178,8 @@
                     <span class="toggle" id="categoryToggleBtn">+</span>
                   </li>
                 
-                  <ul class="sub-menu" id="categorySubMenu" style="display: none;">
+                  <ul class="sub-menu" id="categorySubMenu" style="display: none;     overflow-y: auto;
+    max-height: 20vh;">
                     @foreach ($categories as $category)
                       @if (is_object($category) && isset($category->slug))
                         <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">

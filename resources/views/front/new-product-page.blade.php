@@ -219,7 +219,7 @@ $isMobile =
                         @else
                         <div class="stock-status">In Stock</div>
                         @endif
-                        <div class="delivery-text">FREE delivery in india</div>
+                        <div class="delivery-text">FREE delivery in India</div>
 
                         <div class="quantity-section">
                             <label class="quantity-label">Quantity:</label>
@@ -255,8 +255,8 @@ $isMobile =
                        </div>
                        <div class="content1" id="rentnowsection" style="display: none; height: auto;">
                         <div class="tenure-section">
-                            {{-- <div class="tenure-label">Select Tenure -</div>
-                            <div class="tenure-display">
+                             <div class="tenure-label">Select Tenure -</div>
+                            {{-- <div class="tenure-display">
                                 <span id="tenure-months">18</span> months
                             </div> --}}
                             <div class="tenure-slider-container">
@@ -440,7 +440,7 @@ $isMobile =
                 @else
                 <div class="stock-status">In Stock</div>
                 @endif
-                <div class="delivery-text">FREE delivery in india</div>
+                <div class="delivery-text">FREE delivery in India</div>
 
                 <div class="quantity-section">
                     <label class="quantity-label">Quantity:</label>
@@ -476,8 +476,8 @@ $isMobile =
                </div>
                <div class="content1" id="rentnowsection" style="display: none; height: auto;">
                 <div class="tenure-section">
-                    {{-- <div class="tenure-label">Select Tenure -</div>
-                    <div class="tenure-display">
+                    <div class="tenure-label">Select Tenure -</div>
+                    {{-- <div class="tenure-display">
                         <span id="tenure-months">18</span> months
                     </div> --}}
                     <div class="tenure-slider-container">
@@ -568,6 +568,8 @@ $isMobile =
         <div class="recent-product-products-slider">
           <!-- Repeat product-card divs here -->
           @foreach ($recentViewedProducts as $product)
+          <a
+      href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug, 'subSlug' => $product->slug]) }}">
           <div class="recent-product-product-card">
             <img src="{{ asset('storage/' . $product->image) }}" class="recent-product-product-image" alt="{{ $product->name }}"/>
             <div class="recent-product-product-name"> {{ Str::limit($product->name, 35) }}</div>
@@ -576,6 +578,7 @@ $isMobile =
             
             </div>
           </div>
+          </a>
             @endforeach
           <!-- Duplicate above product-card for more products -->
         </div>

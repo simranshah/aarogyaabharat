@@ -10,7 +10,7 @@
 </style>
 
 <div class="breadcrumbs">
-    <div class="container breadcrumbs-container">
+    <div class=" breadcrumbs-container">
         <div class="">
             <ul>
                 <li><a href="{{ route('home') }}">Home</a></li>
