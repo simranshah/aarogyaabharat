@@ -143,7 +143,7 @@
                         <a href="{{ route('products.category.wise', ['slug' => $subCategoriess->category->slug]) }}?subcategory={{ $subCategoriess->name }}" style="text-decoration: none;">
                           <div class="frame-12">
                             <div class="image-wrapper">
-                              <img class="image" src="{{ asset('storage/subcategories/' . $subCategoriess->image) }}" alt="{{ $subCategoriess->name }}" />
+                              <img class="image" src="{{ asset('storage/' . $subCategoriess->image) }}" alt="{{ $subCategoriess->name }}" />
                             </div>
                             <div class="text-wrapper-7">{{ $subCategoriess->name }}</div>
                           </div>
