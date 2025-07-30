@@ -72,7 +72,7 @@
 
         gtag('config', 'AW-16811101057');
     </script>
-    <link rel="preload" href="{{ asset('front/images/pentagon_img.png') }}" as="image" type="image/webp">
+    {{-- <link rel="preload" href="{{ asset('front/images/pentagon_img.png') }}" as="image" type="image/webp">
     <link rel="preload" href="{{ asset('front/images/qtback.png') }}" as="image" type="image/svg+xml">
     <link rel="preload" href="{{ asset('front/images/qtback.png') }}" as="image" type="image/svg+xml">
     <link rel="preload" href="{{ asset('front/images/slider_orange_arrow.svg') }}" as="image"
@@ -101,7 +101,7 @@
     <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Medium.ttf') }}" as="font"
         type="font/ttf" crossorigin="anonymous">
     <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Bold.ttf') }}" as="font" type="font/ttf"
-        crossorigin="anonymous">
+        crossorigin="anonymous"> --}}
         
         @php
         $isMobile =
