@@ -66,7 +66,7 @@ Route::post('/submit-article', [ArticleSubmissionController::class, 'store'])->n
 Route::post('/contact-us', [contactController::class, 'store'])->name('contact.store');
 //front routes
 Route::get('/', [HomeController::class, 'index1'])->name('home');
-Route::get('/new-home',[HomeController::class, 'index1'])->name('new.home');
+// Route::get('/new-home',[HomeController::class, 'index1'])->name('new.home');
 // Route::get('/products', [HomeController::class, 'productPage'])->name('products');
 
 //Social login
