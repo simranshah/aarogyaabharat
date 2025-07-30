@@ -177,7 +177,7 @@
                     <strong style="color: {{ request()->routeIs('products.category.wise') ? '#007bff' : '#111' }}">Category</strong>
                     <span class="toggle" id="categoryToggleBtn">+</span>
                   </li>
-                
+                @if(isset($categories) && $categories && $categories->count() > 0)
                   <ul class="sub-menu" id="categorySubMenu" style="display: none;     overflow-y: auto;
     max-height: 20vh;">
                     @foreach ($categories as $category)
@@ -191,7 +191,7 @@
                       @endif
                     @endforeach
                   </ul>
-                
+                @endif  
                   <li class="category-toggle">
                     <a href="{{ route('privacy.policy') }}" 
                        style="text-decoration: none; color: {{ request()->routeIs('privacy.policy') ? '#007bff' : '#111' }};">
