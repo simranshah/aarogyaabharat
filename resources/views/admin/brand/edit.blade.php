@@ -1,4 +1,4 @@
-<!-- resources/views/admin/subcategories/create.blade.php -->
+<!-- resources/views/admin/brand/edit.blade.php -->
 
 @extends('admin.layout.layout')
 @section('content')
@@ -10,12 +10,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Create Subcategory</h1>
+                    <h1>Edit Brand</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Subcategory</li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.brand') }}">Brand</a></li>
+                        <li class="breadcrumb-item active">Edit Brand</li>
                     </ol>
                 </div>
             </div>
@@ -31,51 +32,39 @@
                     <!-- jquery validation -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title"><small>Create Subcategory</small></h3>
+                            <h3 class="card-title"><small>Edit Brand</small></h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form id="subcategoryForm" method="POST" action="{{ route('admin.sub.categories.store') }}" enctype="multipart/form-data">
+                        <form id="brandForm" method="POST" action="{{ route('admin.brand.update', $brand->id) }}" enctype="multipart/form-data">
                             @csrf
+                            {{-- @method('POST') --}}
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="category">Category</label>
-                                    <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category">
-                                        <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('category_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter Subcategory Name" value="{{ old('name') }}">
+                                    <label for="name">Brand Name</label>
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter Brand Name" value="{{ old('name', $brand->name) }}">
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="image">Image</label>
+                                    <label for="image">Brand Image</label>
                                     <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="image_1">Image 1</label>
-                                    <input type="file" name="image_1" class="form-control @error('image_1') is-invalid @enderror" id="image_1">
-                                    @error('image_1')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    @if($brand->image)
+                                        <div class="mt-2">
+                                            <label>Current Image:</label>
+                                            <img src="{{ asset('storage/' . $brand->image) }}" alt="Current Brand Image" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; border-radius: 4px;">
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Update Brand</button>
+                                <a href="{{ route('admin.brand') }}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>

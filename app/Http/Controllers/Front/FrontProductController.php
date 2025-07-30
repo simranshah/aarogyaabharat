@@ -513,7 +513,7 @@ class FrontProductController extends Controller
     function productCategory(Request $request)
     {
       $Brand_id = $request->input('Brand_id');
-      $products = Product::with('category')->where('brand_id', $Brand_id)->take(6)->get();
+      $products = Product::with('category','productAttributes')->where('brand_id', $Brand_id)->take(6)->get();
       return view('front.common.category-products', compact('products'));
     }
     function addreview(Request $request){

@@ -120,7 +120,7 @@ preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'
                 </a>
               </li>
               <li>
-                <a href="https://www.youtube.com/@aarogyaabharat" target="_blank">
+                <a href="https://youtube.com/@aarogyaabharatlimited?si=uboxRLNmuqQB3vyj " target="_blank">
                   <img
 src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
                 </a>
@@ -720,49 +720,7 @@ const dropdown = document.getElementById('recentSearch');
 // }
 // });
 </script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-const profileFrames = document.querySelectorAll(".profile-frame");
-const total = profileFrames.length;
-const half = Math.ceil(total / 2); // left side count
-const rightCount = total - half;
 
-let index = 0;
-
-function updateRightFrames() {
-for (let i = 0; i < rightCount; i++) {
-// Reverse the left index
-const leftIndex = (half + index - i - 1 + half) % half;
-const left = profileFrames[leftIndex];
-const right = profileFrames[i + half];
-
-// Get data from left
-const imgSrc = left.querySelector("img")?.getAttribute("src") || '';
-const leftInner = left.querySelector("div[class^='frame-']");
-const leftTextDivs = leftInner?.querySelectorAll("div") || [];
-const name = leftTextDivs[0]?.innerText || '';
-const desc = leftTextDivs[1]?.innerText || '';
-
-// Set data to right
-right.querySelector("img")?.setAttribute("src", imgSrc);
-const rightInner = right.querySelector("div[class^='frame-']");
-const rightTextDivs = rightInner?.querySelectorAll("div") || [];
-
-if (rightTextDivs.length >= 2) {
-rightTextDivs[0].innerText = name;
-rightTextDivs[1].innerText = desc;
-}
-}
-
-// Move backward
-index = (index - 1 + half) % half;
-}
-
-updateRightFrames();
-setInterval(updateRightFrames, 3000); // Rotate every 3 seconds
-});
-
-</script>
 <script>
 $(document).ready(function () {
 $('.addtocart').on('click', function () {
@@ -823,7 +781,7 @@ success: function(response) {
 $('#category-products').html(response);
 
 // Now reload all JS
-document.querySelectorAll('script').forEach(function(oldScript) {
+// document.querySelectorAll('script').forEach(function(oldScript) {
 document.querySelectorAll('.category-tab').forEach(function(el) {
 el.classList.remove('frame-58');
 el.classList.add('frame-59');
@@ -832,12 +790,30 @@ el.classList.add('frame-59');
 // Add frame-58 to the clicked one
 clickedElement.classList.remove('frame-59');
 clickedElement.classList.add('frame-58');
-if (oldScript.src) {
-const newScript = document.createElement('script');
-newScript.src = oldScript.src;
-newScript.async = oldScript.async;
-document.body.appendChild(newScript);
+
+// });
+$('.frame-15').slick({
+infinite: false,
+slidesToShow: 5.5,
+slidesToScroll: 1,
+
+arrows: false, // 👈 hides next/prev buttons
+responsive: [
+{
+breakpoint: 1024,
+settings: {
+slidesToShow: 4,
+slidesToScroll: 1
 }
+},
+{
+breakpoint: 768,
+settings: {
+slidesToShow: 2,
+slidesToScroll: 1
+}
+}
+]
 });
 },
 error: function(xhr, status, error) {
@@ -876,17 +852,19 @@ $('.notificationPop').hide();
 </script>
 
 <script>
+@if($isMobile)
 document.addEventListener('DOMContentLoaded', function() {
-var toggleBtn = document.getElementById('categoryToggleBtn');
+var toggleBtn1 = document.getElementById('categoryToggleBtn');
 var subMenu = document.getElementById('categorySubMenu');
 var isOpen = true;
 
-toggleBtn.addEventListener('click', function() {
+toggleBtn1.addEventListener('click', function() {
 isOpen = !isOpen;
 subMenu.style.display = isOpen ? 'block' : 'none';
-toggleBtn.textContent = isOpen ? '-' : '+';
+toggleBtn1.textContent = isOpen ? '-' : '+';
 });
 });
+@endif
 </script>
 <script>
 const toggleBtn = document.getElementById('chat-toggle') || document.getElementById('chat-toggle-button');

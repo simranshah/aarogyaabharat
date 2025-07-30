@@ -1310,7 +1310,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
 .home-d .frame-44 {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 8.82px;
   position: relative;
   align-self: stretch;
@@ -3568,7 +3568,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
   font-family: "Nunito Sans", Helvetica;
   font-weight: 600;
   color: #ffffff;
-  font-size: 13.8px;
+  font-size: 10px;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;
@@ -3667,7 +3667,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
 .home-d .text-wrapper-41 {
   width: 162.3px;
   margin-top: -1.8px;
-  font-size: 25.2px;
+  font-size: 20px;
   position: relative;
   font-family: "Nunito Sans", Helvetica;
   font-weight: 600;
@@ -3759,7 +3759,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
 .home-d .text-wrapper-46 {
   width: 110.66px;
   margin-top: -1.23px;
-  font-size: 17.2px;
+  font-size: 14px;
   position: relative;
   font-family: "Nunito Sans", Helvetica;
   font-weight: 600;
@@ -9380,3 +9380,30 @@ margin-bottom: 10px;
       bottom: 20px;
   }
 }
+.champ-new-carousel-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 30px 0;
+}
+
+.champ-new-carousel-track {
+  display: flex;
+  gap: 40px;
+  padding: 20px 40px;
+  transition: transform 0.3s ease;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.champ-new-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* .champ-new .profile-frame {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  min-width: 250px;
+} */

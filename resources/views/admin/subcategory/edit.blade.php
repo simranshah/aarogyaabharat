@@ -60,7 +60,7 @@
                         <label for="subcategoryImage">Subcategory Image</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" name="images[]"  multiple class="custom-file-input @error('image') is-invalid @enderror" id="subcategoryImage" onchange="previewImage(event)">
+                                <input type="file" name="image"  multiple class="custom-file-input @error('image') is-invalid @enderror" id="subcategoryImage" onchange="previewImage(event)">
                                 <label class="custom-file-label" for="subcategoryImage">Choose file</label>
                             </div>
                             <div class="input-group-append">
@@ -79,6 +79,49 @@
                         <div id="imagePreviewContainer" class="mt-2"></div>
                     </div>
                 </div>
+                <div class="card-body">
+                  <div class="form-group">
+                      <label for="category">Category</label>
+                      <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category">
+                          <option value="">Select Category</option>
+                          @foreach($categories as $category)
+                              <option value="{{ $category->id }}" {{ $category->id == old('category_id', $subcategory->category_id) ? 'selected' : '' }}>{{ $category->name }}</option>
+                          @endforeach
+                      </select>
+                      @error('category_id')
+                          <div class="invalid-feedback">{{ $message }}</div>
+                      @enderror
+                  </div>
+                  <div class="form-group">
+                      <label for="subcategoryName">Subcategory Name</label>
+                      <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="subcategoryName" placeholder="Enter Subcategory Name" value="{{ old('name', $subcategory->name) }}">
+                      @error('name')
+                          <div class="invalid-feedback">{{ $message }}</div>
+                      @enderror
+                  </div>
+                  <div class="form-group">
+                      <label for="subcategoryImage">Subcategory Image 1</label>
+                      <div class="input-group">
+                          <div class="custom-file">
+                              <input type="file" name="image_1"  multiple class="custom-file-input @error('image_1') is-invalid @enderror" id="subcategoryImage" onchange="previewImage1(event)">
+                              <label class="custom-file-label" for="subcategoryImage">Choose file</label>
+                          </div>
+                          <div class="input-group-append">
+                              <span class="input-group-text">Upload</span>
+                          </div>
+                      </div>
+                      @error('image_1')
+                          <div class="invalid-feedback d-block">{{ $message }}</div>
+                      @enderror
+                      @if($subcategory->image_1)
+                          <div class="mt-2">
+                              <img src="{{ asset('storage/subcategories/' . $subcategory->image_1) }}" alt="{{ $subcategory->name }}" class="img-thumbnail" width="150" id="imagePreview">
+                          </div>
+                      @endif
+
+                      <div id="imagePreviewContainer1" class="mt-2"></div>
+                  </div>
+              </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Update</button>
@@ -98,11 +141,28 @@
 @endsection
 
 <script>
-  function previewImage(event) {
-    const files = event.target.files;
-    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-    imagePreviewContainer.innerHTML = ''; 
+    function previewImage(event) {
+      const files = event.target.files;
+      const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+      imagePreviewContainer.innerHTML = ''; 
 
+      Array.from(files).forEach(file => {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              img.className = 'img-thumbnail';
+              img.width = 150;
+              img.style.margin = '5px';
+              imagePreviewContainer.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+      });
+  }
+  function previewImage1(event) {
+    const files = event.target.files;
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer1');
+    imagePreviewContainer.innerHTML = ''; 
     Array.from(files).forEach(file => {
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -115,6 +175,6 @@
         };
         reader.readAsDataURL(file);
     });
-}
+  }
 
 </script>

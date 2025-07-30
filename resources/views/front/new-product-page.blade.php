@@ -102,16 +102,56 @@ $isMobile =
                     @endif
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div class="rating-section">
+                            @php
+                                // Get rating from product or use default
+                                $rating = $productDetails->rating ?? 4.5;
+                                $fullStars = floor($rating);
+                                $hasHalfStar = ($rating - $fullStars) >= 0.5;
+                                $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0);
+                            @endphp
                             <div class="stars">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star empty">★</span>
+                                @for($i = 1; $i <= $fullStars; $i++)
+                                    <span class="star filled">★</span>
+                                @endfor
+                                @if($hasHalfStar)
+                                    <span class="star half-star">
+                                        <span class="star-half-left">★</span>
+                                        <span class="star-half-right">★</span>
+                                    </span>
+                                @endif
+                                @for($i = 1; $i <= $emptyStars; $i++)
+                                    <span class="star empty">★</span>
+                                @endfor
                             </div>
                             <span class="rating-divider">|</span>
-                            <span class="rating-score">4.5</span>
+                            <span class="rating-score">{{ number_format($rating, 1) }}</span>
                         </div>
+                        <style>
+                            .stars .star.filled {
+                                color: #FFD700;
+                                font-size: 18px;
+                            }
+                            .stars .star.empty {
+                                color: #ccc;
+                                font-size: 18px;
+                            }
+                            .stars .star.half-star {
+                                position: relative;
+                                display: inline-block;
+                                font-size: 18px;
+                            }
+                            .stars .star.half-star .star-half-left {
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                width: 50%;
+                                overflow: hidden;
+                                color: #FFD700;
+                            }
+                            .stars .star.half-star .star-half-right {
+                                color: #ccc;
+                            }
+                        </style>
                         <div class="delivery-info">
                             <div class="frame-23" style="margin-top: 5px; background-color: unset;">
                                 <div class="frame-24">

@@ -31,6 +31,7 @@ class SubCategory extends Controller
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
             'image' => 'required|max:2048',
+            'image_1' => 'required|max:2048',
             // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -43,6 +44,11 @@ class SubCategory extends Controller
             $imageName = time().'.'.$request->image->extension();
             $request->image->storeAs('subcategories', $imageName, 'public');
             $subcategory->image = $imageName;
+        }
+        if ($request->hasFile('image_1')) {
+            $imageName = time().'.'.$request->image_1->extension();
+            $request->image_1->storeAs('subcategories', $imageName, 'public');
+            $subcategory->image_1 = $imageName;
         }
 
         $subcategory->save();
@@ -74,6 +80,11 @@ class SubCategory extends Controller
                 $subcategory->images()->create(['path' => $imagePath]);
                 $subcategory->image = $imagePath;
             }
+        }
+        if ($request->hasFile('image_1')) {
+            $imagePath = $request->file('image_1')->store('subcategories', 'public');
+            $subcategory->image_1 = $imagePath;
+            // $subcategory->save();
         }
 
         $subcategory->category_id = $request->category_id;

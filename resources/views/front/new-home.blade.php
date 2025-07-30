@@ -28,7 +28,7 @@
                     </div>
                   
                     @if($category->subcategories && $category->subcategories->count())
-                      <div class="subcategory-popup">
+                      {{-- <div class="subcategory-popup">
                         <div class="row" style="display: flex; flex-wrap: nowrap;">
                           @php
                             $subs = $category->subcategories->take(6)->values();
@@ -91,7 +91,7 @@
                             @endforeach
                           </div>
                         </div>
-                      </div>
+                      </div> --}}
                     @endif
                   </div>
                 @endforeach
@@ -300,7 +300,7 @@
                                   <div class="frame-46">
                                     <a href="{{ route('products.category.wise', ['slug' =>$product->category->slug]) }}?subcategory={{ $product->name }}">
                                       <div class="wheelchair-wrapper">
-                                        <img class="wheelchair-2" src="{{ asset('storage/' . $product->image) }}" />
+                                        <img class="wheelchair-2" src="{{ asset('storage/' . $product->image_1) }}" />
                                       </div>
                                     </a>
                                   </div>
@@ -344,7 +344,7 @@
                   <div class="frame-46">
                     <a href="{{ route('products.category.wise', ['slug' =>$product->category->slug]) }}?subcategory={{ $product->name }}">
                       <div class="wheelchair-wrapper">
-                        <img class="wheelchair-2" src="{{ asset('storage/' . $product->image) }}" />
+                        <img class="wheelchair-2" src="{{ asset('storage/' . $product->image_1) }}" />
                       </div>
                     </a>
                   </div>
@@ -1201,53 +1201,53 @@
                             <div class="frame-71">
                               <div class="text-wrapper-36">Champions beyond boundaries</div>
                               <div class="frame-72">
-                                <div class="frame-73 profile-frame">
+                                <div class="frame-73 profile-frame" id=champ1>
                                   <img class="image-10" src="{{ asset('front/images/champ_3.png') }}" />
                                   <div class="frame-74">
-                                    <div class="text-wrapper-37">Swaroop</div>
-                                    <div class="text-wrapper-38">Indian paralympic athlete</div>
+                                    <div class="text-wrapper-37 champ-name">Swaroop</div>
+                                    <div class="text-wrapper-38 champ-title">Indian paralympic athlete</div>
                                   </div>
                                 </div>
-                                <div class="frame-75 profile-frame">
+                                <div class="frame-75 profile-frame" id=champ2>
                                   <img class="image-11" src="{{ asset('front/images/champ_2.png') }}" />
                                   <div class="frame-76">
-                                    <div class="text-wrapper-39">Manpreet kaur</div>
-                                    <div class="text-wrapper-40">Indian paralympic athlete</div>
+                                    <div class="text-wrapper-39 champ-name">Manpreet kaur</div>
+                                    <div class="text-wrapper-40 champ-title">Indian paralympic athlete</div>
                                   </div>
                                 </div>
-                                <div class="frame-77 profile-frame">
+                                <div class="frame-77 profile-frame" id=champ3>
                                   <img class="image-12" src="{{ asset('front/images/champ_3.png') }}"/>
                                   <div class="frame-78">
-                                    <div class="text-wrapper-41">Swaroop</div>
-                                    <div class="text-wrapper-42">Indian paralympic athlete</div>
+                                    <div class="text-wrapper-41 champ-name">Swaroop</div>
+                                    <div class="text-wrapper-42 champ-title">Indian paralympic athlete</div>
                                   </div>
                                 </div>
-                                <div class="frame-79 profile-frame">
+                                <div class="frame-79 profile-frame" id=champ4>
                                   <img class="image-13" src="{{ asset('front/images/champ_1.png') }}"/>
                                   <div class="frame-78">
-                                    <div class="text-wrapper-43">Avani Lekhara</div>
-                                    <div class="text-wrapper-44">Indian Paralympic rifle shooter</div>
+                                    <div class="text-wrapper-43 champ-name">Avani Lekhara</div>
+                                    <div class="text-wrapper-44 champ-title">Indian Paralympic rifle shooter</div>
                                   </div>
                                 </div>
-                                <div class="frame-77 profile-frame">
+                                <div class="frame-77 profile-frame" id=champ5>
                                   <img class="image-14" src="{{ asset('front/images/champ_2.png') }}"/>
                                   <div class="frame-78">
-                                    <div class="text-wrapper-45">Manpreet kaur</div>
-                                    <div class="text-wrapper-42">Indian paralympic athlete</div>
+                                    <div class="text-wrapper-45 champ-name">Manpreet kaur</div>
+                                    <div class="text-wrapper-42 champ-title">Indian paralympic athlete</div>
                                   </div>
                                 </div>
-                                <div class="frame-75 profile-frame">
+                                <div class="frame-75 profile-frame" id=champ6>
                                   <img class="image-15" src="{{ asset('front/images/champ_3.png') }}" />
                                   <div class="frame-76">
-                                    <div class="text-wrapper-46">Swaroop</div>
-                                    <div class="text-wrapper-40">Indian paralympic athlete</div>
+                                    <div class="text-wrapper-46 champ-name">Swaroop</div>
+                                    <div class="text-wrapper-40 champ-title">Indian paralympic athlete</div>
                                   </div>
                                 </div>
-                                <div class="frame-73 profile-frame">
+                                <div class="frame-73 profile-frame" id=champ7>
                                   <img class="image-16" src="{{ asset('front/images/champ_2.png') }}" />
                                   <div class="frame-74">
-                                    <div class="text-wrapper-47">Manpreet kaur</div>
-                                    <div class="text-wrapper-38">Indian paralympic athlete</div>
+                                    <div class="text-wrapper-47 champ-name">Manpreet kaur</div>
+                                    <div class="text-wrapper-38 champ-title">Indian paralympic athlete</div>
                                   </div>
                                 </div>
                               </div>
@@ -1453,7 +1453,7 @@
                                     </div>
                                     <div class="frame-95">
                                       <div class="frame-96">
-                                        <script>
+                                        {{-- <script>
                                             var tag = document.createElement('script');
                                             tag.src = "https://www.youtube.com/iframe_api";
                                             var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -1498,9 +1498,9 @@
                                                 });
                                               }
                                            }
-                                          </script>
-
-                                      </div>
+                                          </script> --}}
+                                          <img class="" src="{{ asset('front/images/Videos_section.png') }}"/>
+                                      </div> 
                                       <div class="frame-96">
                                         <img class="" src="{{ asset('front/images/Videos_section.png') }}"/>
                                       </div>
@@ -1644,46 +1644,76 @@
                                   </div>
                                 </div>
                                 <script src="https://code.jquery.com/jquery-3.7.0.min.js" data-reload="true"></script>
-                                <script>
-                                  window.addEventListener('DOMContentLoaded', () => {
-                                    const track = document.getElementById('carousel1');
-                                    const cards = track.querySelectorAll('.champ-card');
-                                  
-                                    // Optional: Add 'champ' class to all cards if needed
-                                    cards.forEach(card => card.classList.add('champ'));
-                                  
-                                    let scrollAmount = 0;
-                                  
-                                    function autoScroll() {
-                                      scrollAmount += 1;
-                                      track.scrollLeft = scrollAmount;
-                                  
-                                      if (scrollAmount >= track.scrollWidth - track.clientWidth) {
-                                        scrollAmount = 0;
-                                      }
-                                  
-                                      updateCenterCard();
-                                    }
-                                  
-                                    function updateCenterCard() {
-                                      const center = track.scrollLeft + track.offsetWidth / 2;
-                                  
-                                      cards.forEach(card => {
-                                        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-                                        const distance = Math.abs(center - cardCenter);
-                                  
-                                        if (distance < card.offsetWidth / 2) {
-                                          card.classList.add('champ-center');
-                                        } else {
-                                          card.classList.remove('champ-center');
+                               
+                                  <script>
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                      const champions = [
+  {
+    name: "Swaroop",
+    title: "Indian paralympic athlete",
+    image: "champ_3.png"
+  },
+  {
+    name: "Manpreet kaur",
+    title: "Indian paralympic athlete",
+    image: "champ_2.png"
+  },
+  {
+    name: "Swaroop",
+    title: "Indian paralympic athlete",
+    image: "champ_3.png"
+  },
+  {
+    name: "Avani Lekhara",
+    title: "Indian Paralympic rifle shooter",
+    image: "champ_1.png"
+  },
+  {
+    name: "Manpreet kaur",
+    title: "Indian paralympic athlete",
+    image: "champ_2.png"
+  },
+  {
+    name: "Swaroop",
+    title: "Indian paralympic athlete",
+    image: "champ_3.png"
+  },
+  {
+    name: "Manpreet kaur",
+    title: "Indian paralympic athlete",
+    image: "champ_2.png"
+  }
+];
+
+                                    
+                                      const totalFrames = 7; // assuming 7 visible cards (champ1 to champ7)
+                                      let currentIndex = 0;
+                                    
+                                      function updateFrames() {
+                                        for (let i = 0; i < totalFrames; i++) {
+                                          const champData = champions[(currentIndex + i) % champions.length];
+                                          const frame = document.getElementById(`champ${i + 1}`);
+                                          if (frame) {
+                                            const img = frame.querySelector('img');
+                                            const name = frame.querySelector('.champ-name');
+                                            const title = frame.querySelector('.champ-title');
+                                            if (img) img.src = `{{ asset('front/images/') }}/${champData.image}`;
+                                            if (name) name.textContent = champData.name;
+                                            if (title) title.textContent = champData.title;
+                                          }
                                         }
-                                      });
-                                    }
-                                  
-                                    setInterval(autoScroll, 20);
-                                  });
-                                  
-                                  </script>
+                                    
+                                        currentIndex = (currentIndex + 1) % champions.length;
+                                      }
+                                    
+                                      // Initial population
+                                      updateFrames();
+                                    
+                                      // Continuous update every 2 seconds
+                                      setInterval(updateFrames, 2000);
+                                    });
+                                    </script>
+                                    
                                 <script type="application/ld+json">
                                   {
                                     "@context": "https://schema.org",
