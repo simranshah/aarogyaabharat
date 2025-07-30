@@ -228,11 +228,6 @@
                   </a>
                 </div>
                 <div class="div-wrapper">
-                  <a href="{{ route('products.flash.sale') }}">
-                    <div class="{{ request()->routeIs('products.flash.sale') ? 'text-wrapper' : 'text-wrapper-2' }}">Offers</div>
-                  </a>
-                </div>
-                <div class="div-wrapper">
                   <a href="{{ route('blogs') }}">
                     <div class="{{ request()->routeIs('blogs') ? 'text-wrapper' : 'text-wrapper-2' }}">Blogs</div>
                   </a>
@@ -240,6 +235,11 @@
                 <div class="div-wrapper">
                   <a href="{{ route('customer.about.us') }}">
                     <div class="{{ request()->routeIs('customer.about.us') ? 'text-wrapper' : 'text-wrapper-2' }}">About</div>
+                  </a>
+                </div>
+                <div class="div-wrapper offers-wrapper">
+                  <a href="{{ route('products.flash.sale') }}">
+                    <div style="padding: 0px 12px;" class="{{ request()->routeIs('products.flash.sale') ? 'text-wrapper' : 'text-wrapper-2' }} offers-animated">Offers</div>
                   </a>
                 </div>
               

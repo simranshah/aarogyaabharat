@@ -145,7 +145,7 @@
                             <div class="image-wrapper">
                               <img class="image" src="{{ asset('storage/' . $subCategoriess->image) }}" alt="{{ $subCategoriess->name }}" />
                             </div>
-                            <div class="text-wrapper-7">{{ $subCategoriess->name }}</div>
+                            {{-- <div class="text-wrapper-7">{{ $subCategoriess->name }}</div> --}}
                           </div>
                         </a>
                       
@@ -263,7 +263,7 @@
                       @foreach($offerAndDiscounts as $offer)
                       <div class="frame-28">
                         <img class="offer-image-home"
-                        src="{{ Storage::url($offer->image) }}" alt="">
+                        src="{{ Storage::url($offer->image) }}" alt="offer">
                         </div>
                         @endforeach
                         
@@ -474,7 +474,7 @@
                           <div class="raise-query-2">
                             <div class="frame-54" style="background: #D9D7F0;">
                               <div class="flowbite-wallet">
-                                <img src="{{ asset('front/images/wallet.png') }}" alt="">
+                                <img src="{{ asset('front/images/wallet.png') }}" alt="wallet">
                                 </div>
                                 <div class="frame-55">
                                   <div class="frame-56">
@@ -484,7 +484,7 @@
                               </div>
                               <div class="frame-54" style="background: linear-gradient(135deg, #B7ED60, #23D8A1);">
                                 <div class="flowbite-wallet">
-                                    <img src="{{ asset('front/images/smart.svg') }}" alt="">
+                                    <img src="{{ asset('front/images/smart.svg') }}" alt="smart">
                                     </div>
                                 <div class="frame-55">
                                   <div class="frame-56">

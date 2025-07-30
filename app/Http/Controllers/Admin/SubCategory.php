@@ -74,12 +74,12 @@ class SubCategory extends Controller
 
         $subcategory = SubCategories::findOrFail($id);
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $imageFile) {
-                $imagePath = $imageFile->store('subcategories', 'public');
-                $subcategory->images()->create(['path' => $imagePath]);
+        if ($request->hasFile('image')) {
+            // foreach ($request->file('images') as $imageFile) {
+                $imagePath = $request->file('image')->store('subcategories', 'public');
+                // $subcategory->images()->create(['path' => $imagePath]);
                 $subcategory->image = $imagePath;
-            }
+            // }
         }
         if ($request->hasFile('image_1')) {
             $imagePath = $request->file('image_1')->store('subcategories', 'public');

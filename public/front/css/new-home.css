@@ -1325,7 +1325,7 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
   display: flex;
   flex-direction: column;
   width: 250px;
-  height: 311.86px;
+  height: 287px;
   align-items: center;
   gap: 10.36px;
   padding: 10.36px;
@@ -5598,8 +5598,8 @@ height: 107px;
     display: flex
 ;
     flex-direction: column;
-           width: 60px;
-        height: 60px;
+    width: 100px;
+    height: 60px;
     align-items: center;
     justify-content: flex-end;
     gap: 14.25px;
@@ -9410,3 +9410,131 @@ margin-bottom: 10px;
   scroll-snap-align: start;
   min-width: 250px;
 } */
+.offers-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.offers-wrapper a {
+  text-decoration: none;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.offers-animated {
+  position: relative;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24) !important;
+  background-size: 300% 300% !important;
+  color: white !important;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3) !important;
+  animation: gradientShift 3s ease-in-out infinite, nudge 2s ease-in-out infinite;
+  z-index: 2;
+  font-weight: 700 !important;
+  /* text-transform: uppercase; */
+  letter-spacing: 0.5px;
+}
+
+/* Gradient animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Nudge animation */
+@keyframes nudge {
+  0%, 70%, 100% { 
+      transform: translateX(0) scale(1);
+  }
+  10%, 30% { 
+      transform: translateX(2px) scale(1.02);
+  }
+  20% { 
+      transform: translateX(-2px) scale(1.02);
+  }
+}
+
+/* Glow effect */
+.offers-animated::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background-size: 300% 300%;
+  border-radius: 16px;
+  z-index: -1;
+  animation: gradientShift 3s ease-in-out infinite;
+  opacity: 0.6;
+  filter: blur(6px);
+}
+
+/* Sparkle effect */
+.offers-animated::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 30%;
+  transform: translate(-50%, -50%);
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+  }
+  50% { 
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Hover effects */
+.offers-wrapper:hover .offers-animated {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4) !important;
+  animation-duration: 1s;
+}
+
+.offers-wrapper:hover .offers-animated::before {
+  filter: blur(8px);
+  opacity: 0.8;
+}
+
+/* Pulsing border effect */
+.offers-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24, #ff9ff3, #54a0ff);
+  background-size: 400% 400%;
+  border-radius: 25px;
+  z-index: -2;
+  animation: gradientShift 3s ease-in-out infinite, pulse 2s ease-in-out infinite;
+  opacity: 0.4;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+      transform: scale(1);
+      opacity: 0.4;
+  }
+  50% { 
+      transform: scale(1.01);
+      opacity: 0.6;
+  }
+}

@@ -344,8 +344,8 @@ $('.categories').slick({
 infinite: false,
 slidesToShow: 6,
 slidesToScroll: 2,
-autoplay: true,
-autoplaySpeed: 2000,
+// autoplay: true,
+// autoplaySpeed: 2000,
 arrows: false, // 👈 hides next/prev buttons
 
 dots: true,
@@ -360,7 +360,7 @@ slidesToScroll: 1
 {
 breakpoint: 768,
 settings: {
-slidesToShow:5 ,
+slidesToShow:3 ,
 slidesToScroll: 4
 }
 }
