@@ -18,6 +18,12 @@ $isMobile =
     <div class="text-wrapper-9">Best Seller</div>
   </div>
 </div>
+@elseif($product->top_deals)
+<div class="group-2" >
+  <div class="overlap-group top-deals-bg">
+    <div class="text-wrapper-9">Top Deals</div>
+  </div>
+</div>
 @endif
       </div>
     </div>

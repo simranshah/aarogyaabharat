@@ -128,7 +128,7 @@
                   </div>
                   <div class="div-2">
                     <div class="frame-9" style="justify-content: space-between;">
-                      <div class="text-wrapper-5">Category</div>
+                      <div class="text-wrapper-5">Shop By Category</div>
                       <a href="{{ url('/products-list') }}">
                       <div class="frame-10">
                         <div class="text-wrapper-6">View All</div>
@@ -156,7 +156,7 @@
                   </div>
                   <div class="div-2">
                     <div class="frame-14">
-                      <div class="text-wrapper-8">Newly Product</div>
+                      <div class="text-wrapper-8">New Arrivals</div>
                       <a href="{{ url('/products-list?tag=is_new') }}">
                       <div class="frame-10">
                         <div class="text-wrapper-6">View All</div>
@@ -181,6 +181,12 @@
                             <div class="group-2">
                               <div class="overlap-group">
                                 <div class="text-wrapper-9">Best Seller</div>
+                              </div>
+                            </div>
+                            @elseif($product->top_deals)
+                            <div class="group-2">
+                              <div class="overlap-group top-deals-bg">
+                                <div class="text-wrapper-9">Top Deals</div>
                               </div>
                             </div>
                             @endif
@@ -396,6 +402,12 @@
                                 <div class="text-wrapper-9">Best Seller</div>
                               </div>
                             </div>
+                            @elseif($product->top_deals)
+                            <div class="group-2" >
+                              <div class="overlap-group top-deals-bg">
+                                <div class="text-wrapper-9">Top Deals</div>
+                              </div>
+                            </div>
                             @endif
                                   </div>
                                 </div>
@@ -508,7 +520,7 @@
         @if (isset($brandsWithProducts) && $brandsWithProducts->isNotEmpty())
                             <div class="div-3">
                               <div class="frame-27">
-                                <div class="text-wrapper-5">Product by Brands</div>
+                                <div class="text-wrapper-5">Shop by Brand</div>
                                 <a href="{{ url('/products-list') }}">
                                 <div class="frame-10">
                                   <div class="text-wrapper-6">View All</div>
@@ -562,7 +574,7 @@
                             <div class="div-2">
                               <div class="frame-14">
                                 
-                                <div class="text-wrapper-8">Products For You</div>
+                              <div class="text-wrapper-8">Products For You</div>
                                 <a href="{{ url('/products-list?tag=product_for_you') }}">
                                 <div class="frame-10">
                                   <div class="text-wrapper-6">View All</div>
@@ -585,6 +597,12 @@
                             <div class="group-2">
                               <div class="overlap-group">
                                 <div class="text-wrapper-9">Best Seller</div>
+                              </div>
+                            </div>
+                            @elseif($product->top_deals)
+                            <div class="group-2">
+                              <div class="overlap-group top-deals-bg">
+                                <div class="text-wrapper-9">Top Deals</div>
                               </div>
                             </div>
                             @endif

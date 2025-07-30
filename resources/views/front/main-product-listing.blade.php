@@ -128,16 +128,20 @@
             </div>
     
             <div class="filter-section">
-                <h3>Brand</h3>
-                <div class="filter-options">
-                    @foreach ($brands as $brand)
-                        <div class="filter-option">
-                            <input type="checkbox" value="{{ $brand->name }}" name="brand" id="brand_{{ $brand->id }}">
-                            <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
-                            {{-- Optionally, add a count if available: <span class="filter-count">{{ $brand->products_count ?? '' }}</span> --}}
-                        </div>
-                    @endforeach
-                </div>
+                <h3 id="toggle-brand-filter" style="cursor: pointer;">
+                    <span id="brand-arrow" style="margin-right: 5px;">▶</span> Brand
+                  </h3>
+                  
+                  <div class="filter-options" id="brand-filter-options" style="display: none;">
+                      @foreach ($brands as $brand)
+                          <div class="filter-option">
+                              <input type="checkbox" value="{{ $brand->name }}" name="brand" id="brand_{{ $brand->id }}">
+                              <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
+                          </div>
+                      @endforeach
+                  </div>
+                  
+
             </div>
             <div class="filter-section">
                 <h3>Category</h3>
@@ -329,16 +333,20 @@
         </div>
 
         <div class="filter-section">
-            <h3>Brand</h3>
-            <div class="filter-options">
-                @foreach ($brands as $brand)
-                    <div class="filter-option">
-                        <input type="checkbox" value="{{ $brand->name }}" name="brand" id="brand_{{ $brand->id }}">
-                        <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
-                        {{-- Optionally, add a count if available: <span class="filter-count">{{ $brand->products_count ?? '' }}</span> --}}
-                    </div>
-                @endforeach
-            </div>
+            <h3 id="toggle-brand-filter" style="cursor: pointer;">
+                <span id="brand-arrow" style="margin-right: 5px;">▶</span> Brand
+              </h3>
+              
+              <div class="filter-options" id="brand-filter-options" style="display: none;">
+                  @foreach ($brands as $brand)
+                      <div class="filter-option">
+                          <input type="checkbox" value="{{ $brand->name }}" name="brand" id="brand_{{ $brand->id }}">
+                          <label for="brand_{{ $brand->id }}">{{ $brand->name }}</label>
+                      </div>
+                  @endforeach
+              </div>
+              
+
         </div>
         <div class="filter-section">
             <h3>Category</h3>
@@ -485,6 +493,12 @@
                                     <div class="group-2">
                                       <div class="overlap-group">
                                         <div class="text-wrapper-9">Best Seller</div>
+                                      </div>
+                                    </div>
+                                    @elseif($product->top_deals)
+                                    <div class="group-2">
+                                      <div class="overlap-group top-deals-bg">
+                                        <div class="text-wrapper-9">Top Deals</div>
                                       </div>
                                     </div>
                                     @endif
@@ -1251,5 +1265,18 @@ grid.style.overflowX = 'hidden';
 
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.getElementById('toggle-brand-filter');
+      const filterOptions = document.getElementById('brand-filter-options');
+      const arrow = document.getElementById('brand-arrow');
+    
+      toggleBtn.addEventListener('click', () => {
+        const isVisible = filterOptions.style.display === 'block';
+        filterOptions.style.display = isVisible ? 'none' : 'block';
+        arrow.textContent = isVisible ? '▶' : '▼';
+      });
+    });
+    </script>
 
 @endsection

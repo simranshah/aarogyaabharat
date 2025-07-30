@@ -125,19 +125,19 @@ class ProductsImport implements ToModel, WithHeadingRow
     //     }
     // }
 
-            $product->productAttributes()->updateOrCreate(
-                ['product_id' => $product->id],
-                [
-                    'stock' => $cleanNumeric($row['stock'] ?? rand(500, 2000)),
-                    'size' => ['S', 'M', 'L', 'XL', 'XXL'][array_rand(['S', 'M', 'L', 'XL', 'XXL'])],
-                    'color' => ['Red', 'Blue', 'Green', 'Black', 'White'][array_rand(['Red', 'Blue', 'Green', 'Black', 'White'])],
-                    'weight' => rand(100, 1000) . 'g',
-                    'material' => ['Cotton', 'Polyester', 'Leather', 'Plastic'][array_rand(['Cotton', 'Polyester', 'Leather', 'Plastic'])],
-                    'brand' => ['Nike', 'Adidas', 'Puma', 'Reebok', 'Generic'][array_rand(['Nike', 'Adidas', 'Puma', 'Reebok', 'Generic'])],
-                    'model_number' => 'MOD-' . rand(1000, 9999),
-                    'expiration_date' => now()->addDays(rand(30, 365))->toDateString(),
-                ]
-            );    
+            // $product->productAttributes()->updateOrCreate(
+            //     ['product_id' => $product->id],
+            //     [
+            //         'stock' => $cleanNumeric($row['stock'] ?? rand(500, 2000)),
+            //         'size' => ['S', 'M', 'L', 'XL', 'XXL'][array_rand(['S', 'M', 'L', 'XL', 'XXL'])],
+            //         'color' => ['Red', 'Blue', 'Green', 'Black', 'White'][array_rand(['Red', 'Blue', 'Green', 'Black', 'White'])],
+            //         'weight' => rand(100, 1000) . 'g',
+            //         'material' => ['Cotton', 'Polyester', 'Leather', 'Plastic'][array_rand(['Cotton', 'Polyester', 'Leather', 'Plastic'])],
+            //         'brand' => ['Nike', 'Adidas', 'Puma', 'Reebok', 'Generic'][array_rand(['Nike', 'Adidas', 'Puma', 'Reebok', 'Generic'])],
+            //         'model_number' => 'MOD-' . rand(1000, 9999),
+            //         'expiration_date' => now()->addDays(rand(30, 365))->toDateString(),
+            //     ]
+            // );    
      
         return $product;
     }

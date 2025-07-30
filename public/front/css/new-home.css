@@ -2421,8 +2421,8 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
 
 .home-d .image-6 {
   position: relative;
-  width: 98px;
-  height: 35.18px;
+  width: 89px;
+  height: 89.18px;
   margin-left: -3.5px;
   margin-right: -3.5px;
 }
@@ -5708,8 +5708,8 @@ height: 107px;
 }
 .home-d .image-6 {
     position: relative;
-    width: 81px;
-    height: 35.18px;
+    width: 62px;
+    height: 62px;
     margin-left: -3.5px;
     margin-right: -3.5px;
 }
@@ -9400,6 +9400,9 @@ margin-bottom: 10px;
 
 .champ-new-carousel-track::-webkit-scrollbar {
   display: none;
+}
+.top-deals-bg {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='86' height='24' viewBox='0 0 86 24' fill='none'><path d='M0 23.2433V0H85.787L80.2464 11.4024L86.0001 23.2433H0Z' fill='%23220d6d'/></svg>") !important;
 }
 
 /* .champ-new .profile-frame {

@@ -74,7 +74,13 @@
                           <div class="invalid-feedback">{{ $message }}</div>
                       @enderror
                   </div>
-                </div>
+                  <div class="form-group">
+                    <label for="descriptation">Descriptation</label>
+                    <textarea name="descriptation" class="form-control @error('descriptation') is-invalid @enderror" id="descriptation" placeholder="Descriptation">{{ old('descriptation', $category->descriptation) }}</textarea>
+                    @error('descriptation')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                  </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Update</button>
