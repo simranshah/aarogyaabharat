@@ -346,7 +346,7 @@ $isMobile =
 
         </div>
                        <div style="padding: 10px; background-color: unset;"></div>
-                        <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
+                        {{-- <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                             <div class="also-available-header">
                                 <h3>Also Available On:</h3>
                                 <div class="warning-icon"><img src="/front/images/amzon.svg" alt="amzon"></div>
@@ -358,7 +358,7 @@ $isMobile =
                                     <div class="related-price">₹ 150</div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div style="padding: 10px; background-color: unset;"></div>
                         <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);cursor: pointer;">
                             <div class="also-available-header" style="gap: 36px;" id="chat-toggle-button">
@@ -576,7 +576,7 @@ $isMobile =
 
 </div>
                <div style="padding: 10px; background-color: unset;"></div>
-                <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
+                {{-- <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                     <div class="also-available-header">
                         <h3>Also Available On:</h3>
                         <div class="warning-icon"><img src="/front/images/amzon.svg" alt="amzon" style=></div>
@@ -588,7 +588,7 @@ $isMobile =
                             <div class="related-price">₹ 150</div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div style="padding: 10px; background-color: unset;"></div>
                         <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%); cursor: pointer;">
                             <div class="also-available-header" style="gap: 36px;" id="chat-toggle-button">

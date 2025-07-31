@@ -1511,7 +1511,7 @@
                                     </div>
                                     <div class="frame-95">
                                       <div class="frame-96">
-                                        {{-- <script>
+                                         <script>
                                             var tag = document.createElement('script');
                                             tag.src = "https://www.youtube.com/iframe_api";
                                             var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -1524,7 +1524,7 @@
                                               id="aarogyaaVideo"
                                               width="315"
                                               height="180"
-                                              src="https://www.youtube.com/embed/MIc299Flibs?enablejsapi=1&origin=https://aarogyaabharat.com"
+                                              src="https://www.youtube.com/embed/H1Szqz3R9PI?si=TLHMOu3BNb-MVUbG"
                                               title="Aarogyaa Bharat YouTube Video"
                                               frameborder="0"
                                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -1556,17 +1556,68 @@
                                                 });
                                               }
                                            }
-                                          </script> --}}
-                                          <img class="" src="{{ asset('front/images/Videos_section.png') }}"/>
+                                          </script>
+                                          
                                       </div> 
                                       <div class="frame-96">
-                                        <img class="" src="{{ asset('front/images/Videos_section.png') }}"/>
+                                        <div id="video-container">
+                                          <iframe
+                                            id="aarogyaaVideo"
+                                            width="315"
+                                            height="180"
+                                            src="https://www.youtube.com/embed/pOgXLLjyfMk?si=xPeSoyuKTCyo7xMj"
+                                            title="Aarogyaa Bharat YouTube Video"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin"
+                                            allowfullscreen
+                                          ></iframe>
+                                        </div>
                                       </div>
                                       <div class="frame-96">
-                                        <img class="" src="{{ asset('front/images/Videos_section.png') }}"/>
+                                        <div id="video-container">
+                                          <iframe
+                                            id="aarogyaaVideo"
+                                            width="315"
+                                            height="180"
+                                            src="https://www.youtube.com/embed/QintyV0dn2M?si=-DIrWyel4Kor-Ppy"
+                                            title="Aarogyaa Bharat YouTube Video"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin"
+                                            allowfullscreen
+                                          ></iframe>
+                                        </div>
                                       </div>
                                       <div class="frame-96">
-                                        <img class="" src="{{ asset('front/images/Videos_section.png') }}"/>
+                                        <div id="video-container">
+                                          <iframe
+                                            id="aarogyaaVideo"
+                                            width="315"
+                                            height="180"
+                                            src="https://www.youtube.com/embed/xlmdJSnEDwk?si=nuxWYh4oWZb8TaW9"
+                                            title="Aarogyaa Bharat YouTube Video"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin"
+                                            allowfullscreen
+                                          ></iframe>
+                                        </div>
+                                      </div>
+                                      <div class="frame-96">
+                                        <div id="video-container">
+                                          <iframe
+                                            id="aarogyaaVideo"
+                                            width="315"
+                                            height="180"
+                                            src="https://www.youtube.com/embed/9QWic5oCXu8?si=hq1RzIH8gkSy9GK1"
+                                            title="Aarogyaa Bharat YouTube Video"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin"
+                                            allowfullscreen
+                                          ></iframe>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>

@@ -161,18 +161,20 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; margin-top:0; width: 100%;">
   <!-- Left-side payment logos -->
   <div class="footer-payment-row" style="display: flex; align-items: center;">
-    <img src="{{ asset('front/images/Visa_logo.png') }}" alt="Visa" style="width: 42px;
-    height: 14px; margin-right: 10px;">
-    <img src="{{ asset('front/images/rupay.png') }}" alt="Rupay" style="height: 32px; margin-right: 10px;">
-    <img src="{{ asset('front/images/upi_logo_icon.svg') }}" alt="MasterCard" style="height: 32px;">
+    <img src="{{ asset('front/images/Visa.svg') }}" alt="Visa" style="height: 40px; margin-right: 10px;">
+    <img src="{{ asset('front/images/MasterCardLogo.svg') }}" alt="Rupay" style="height: 40px; margin-right: 10px;">
+    <img src="{{ asset('front/images/UPI.svg') }}" alt="MasterCard" style="height: 40px;">
+    <img src="{{ asset('front/images/Gpay.svg') }}" alt="MasterCard" style="height: 40px;">
+    <img src="{{ asset('front/images/Phonepe.svg') }}" alt="MasterCard" style="height: 40px;">
+    <img src="{{ asset('front/images/NetBanking.svg') }}" alt="MasterCard" style="height: 40px;">
   </div>
 
   <!-- Right-side PCI logo -->
-  <div style="margin-left: auto;     margin-top: 20px;
+  {{-- <div style="margin-left: auto;     margin-top: 20px;
 ">
     <img src="{{ asset('front/images/pci.webp') }}" alt="PCI certified" style="height: 50px;">
     <img src="{{ asset('front/images/iso_certified.png') }}" alt="iso_certified" style="height: 50px;">
-  </div>
+  </div> --}}
 </div>
 
 

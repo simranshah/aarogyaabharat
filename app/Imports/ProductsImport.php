@@ -30,19 +30,19 @@ class ProductsImport implements ToModel, WithHeadingRow
             ['slug' => \Str::slug(trim($row['category']))]
         );
 
-        $subcategory = SubCategories::updateOrCreate(
-            [   
-                'category_id' => $category->id,
-                'name' => substr(trim($row['subcategory_name']), 0, 20)
-            ],
-            [
-                'slug' => \Str::slug(substr(trim($row['subcategory_name']), 0, 20))
-            ]
-        );
-        $brand = Brand::updateOrCreate(
-            ['name' => trim($row['brand'])],
-            ['slug' => \Str::slug(trim($row['brand']))]
-        );
+        // $subcategory = SubCategories::updateOrCreate(
+        //     [   
+        //         'category_id' => $category->id,
+        //         'name' => substr(trim($row['subcategory_name']), 0, 20)
+        //     ],
+        //     [
+        //         'slug' => \Str::slug(substr(trim($row['subcategory_name']), 0, 20))
+        //     ]
+        // );
+        // $brand = Brand::updateOrCreate(
+        //     ['name' => trim($row['brand'])],
+        //     ['slug' => \Str::slug(trim($row['brand']))]
+        // );
 
         // Function to clean numeric values
         $cleanNumeric = function ($value) {
@@ -59,8 +59,8 @@ class ProductsImport implements ToModel, WithHeadingRow
                 'name' => trim($row['product_name'])
             ],
             [
-            'subcategory_id' => $subcategory->id,
-            'brand_id' => $brand->id,
+            // 'subcategory_id' => $subcategory->id,
+            // 'brand_id' => $brand->id,
             'category_id' => $category->id,
             'name' => trim($row['product_name'] ?? ''),
             'title' => trim($row['title'] ?? null),
@@ -125,19 +125,19 @@ class ProductsImport implements ToModel, WithHeadingRow
     //     }
     // }
 
-            // $product->productAttributes()->updateOrCreate(
-            //     ['product_id' => $product->id],
-            //     [
-            //         'stock' => $cleanNumeric($row['stock'] ?? rand(500, 2000)),
-            //         'size' => ['S', 'M', 'L', 'XL', 'XXL'][array_rand(['S', 'M', 'L', 'XL', 'XXL'])],
-            //         'color' => ['Red', 'Blue', 'Green', 'Black', 'White'][array_rand(['Red', 'Blue', 'Green', 'Black', 'White'])],
-            //         'weight' => rand(100, 1000) . 'g',
-            //         'material' => ['Cotton', 'Polyester', 'Leather', 'Plastic'][array_rand(['Cotton', 'Polyester', 'Leather', 'Plastic'])],
-            //         'brand' => ['Nike', 'Adidas', 'Puma', 'Reebok', 'Generic'][array_rand(['Nike', 'Adidas', 'Puma', 'Reebok', 'Generic'])],
-            //         'model_number' => 'MOD-' . rand(1000, 9999),
-            //         'expiration_date' => now()->addDays(rand(30, 365))->toDateString(),
-            //     ]
-            // );    
+            $product->productAttributes()->updateOrCreate(
+                ['product_id' => $product->id],
+                [
+                    'stock' => $cleanNumeric($row['stock'] ?? rand(0,0)),
+                    'size' => ['S', 'M', 'L', 'XL', 'XXL'][array_rand(['S', 'M', 'L', 'XL', 'XXL'])],
+                    'color' => ['Red', 'Blue', 'Green', 'Black', 'White'][array_rand(['Red', 'Blue', 'Green', 'Black', 'White'])],
+                    'weight' => rand(100, 1000) . 'g',
+                    'material' => ['Cotton', 'Polyester', 'Leather', 'Plastic'][array_rand(['Cotton', 'Polyester', 'Leather', 'Plastic'])],
+                    'brand' => ['Nike', 'Adidas', 'Puma', 'Reebok', 'Generic'][array_rand(['Nike', 'Adidas', 'Puma', 'Reebok', 'Generic'])],
+                    'model_number' => 'MOD-' . rand(1000, 9999),
+                    'expiration_date' => now()->addDays(rand(30, 365))->toDateString(),
+                ]
+            );    
      
         return $product;
     }
