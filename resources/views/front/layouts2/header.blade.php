@@ -123,7 +123,10 @@
               </div>
               <div class="sidebar" id="sidebarMenu">
                 <div class="sidebar-header">
-                <a href="{{ route('home') }}"> <img src="/front/images/arogya_bharat.svg" alt="Logo" style="height: 30px;"></a>
+                <a onclick="dataLayer.push({
+                  event: 'logo_click',
+                  destination: 'Homepage'
+                });" href="{{ route('home') }}"> <img src="/front/images/arogya_bharat.svg" alt="Logo" style="height: 30px;"></a>
                   <span class="close-btn" onclick="toggleSidebar()">✕</span>
                 </div>
                 <div class="signin-register" style="text-align: center; padding: 0 0 16px 0;">
@@ -182,7 +185,7 @@
     max-height: 20vh;">
                     @foreach ($categories as $category)
                       @if (is_object($category) && isset($category->slug))
-                        <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">
+                        <a  onclick="dataLayer.push({ event: 'category_click', category_name: '{{ $category->name }}' });" href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">
                           <li class="sub-item" 
                               style="color: {{ request()->is('products/category/'.$category->slug) ? '#007bff' : '#111' }}">
                               {{ $category->name }}<span class="arrow">›</span>
@@ -213,7 +216,10 @@
              @endif
 
               <div class="">
-               <a href="{{ url('/') }}"> <img src="{{ asset('front/images/arogya_bharat.svg') }}" class="logo-AB" /></a>
+               <a onclick="dataLayer.push({
+                event: 'logo_click',
+                destination: 'Homepage'
+              });" href="{{ url('/') }}"> <img src="{{ asset('front/images/arogya_bharat.svg') }}" class="logo-AB" /></a>
               </div>
               @if (!$isMobile)
               <div class="frame-4">
@@ -258,7 +264,10 @@
                   <input type="text"    onkeydown="
                   if (event.keyCode === 13) {
                     searchproductinput(this.value);
-                   }" id="searchInput" class="text-wrapper-3" placeholder="" />
+                   }" id="searchInput" class="text-wrapper-3" placeholder="" onchange="dataLayer.push({
+         event: 'search_performed',
+         search_term: this.value
+       });" />
                 </div>
               </div>
               @else
@@ -267,7 +276,10 @@
                 if (event.keyCode === 13) {
                   searchproductinput(this.value);
                  }"
-                 id="searchInput" type="text" placeholder="" />
+                 id="searchInput" type="text" placeholder="" onchange="dataLayer.push({
+                  event: 'search_performed',
+                  search_term: this.value
+                });"/>
                 <button type="submit" class="new-search-btn" onclick="searchproductinput(document.getElementById('searchInput').value);">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                     <circle cx="10" cy="10" r="7" stroke="#fff" stroke-width="2"/>

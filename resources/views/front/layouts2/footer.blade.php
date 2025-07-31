@@ -253,6 +253,7 @@ src="{{ asset('front/images/youtube.png') }}" alt="youtube" />
 </body>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
+{{-- <script src="{{ asset('front/js/slick.js') }}"></script> --}}
 <script src="{{ asset('front/js/script.js') }}"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" data-reload="true"></script>
@@ -593,33 +594,33 @@ slidesToScroll: 1
 ]
 });
 });
-$(document).ready(function(){
-$('.banner-container').slick({
-infinite: false,
-slidesToShow: 1,
-slidesToScroll: 1,
-autoplay: true,
-autoplaySpeed: 2000,
-arrows: false, // 👈 hides next/prev buttons
-dots: true,
-responsive: [
-{
-breakpoint: 1024,
-settings: {
-slidesToShow: 1,
-slidesToScroll: 1
-}
-},
-{
-breakpoint: 768,
-settings: {
-slidesToShow: 1,
-slidesToScroll: 1
-}
-}
-]
-});
-});
+// $(document).ready(function(){
+// $('.banner-container').slick({
+// infinite: false,
+// slidesToShow: 1,
+// slidesToScroll: 1,
+// autoplay: true,
+// autoplaySpeed: 2000,
+// arrows: false, // 👈 hides next/prev buttons
+// dots: true,
+// responsive: [
+// {
+// breakpoint: 1024,
+// settings: {
+// slidesToShow: 1,
+// slidesToScroll: 1
+// }
+// },
+// {
+// breakpoint: 768,
+// settings: {
+// slidesToShow: 1,
+// slidesToScroll: 1
+// }
+// }
+// ]
+// });
+// });
 </script>
 <script>
 function toggleSidebar() {
@@ -1032,6 +1033,45 @@ function searchproductinput(searchvalue) {
         const adjustedWidth = isMobile ? deviceWidth - 20 : deviceWidth - 100;
         img.style.width = adjustedWidth + 'px';
     });
+    window.addEventListener('load', function () {
+  fetch('/get-banners')
+    .then(response => response.json())
+    .then(data => {
+      // Insert the HTML into a specific element
+      document.getElementById('bannerpart').innerHTML = data.html;
+
+      // Use a small delay OR wait for DOM updates using requestAnimationFrame
+      requestAnimationFrame(() => {
+        // Re-initialize Slick on newly added content
+        $('.banner-container').slick({
+          infinite: false,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 2000,
+          arrows: false,
+          dots: true,
+          responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            },
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+        });
+      });
+    })
+    .catch(error => console.error('Error fetching data:', error));
+});
 
 
 </script>

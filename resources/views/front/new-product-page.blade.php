@@ -360,7 +360,7 @@ $isMobile =
                             </div>
                         </div>
                         <div style="padding: 10px; background-color: unset;"></div>
-                        <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
+                        <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);cursor: pointer;">
                             <div class="also-available-header" style="gap: 36px;" id="chat-toggle-button">
                                 <h3>Need support? Click here to chat!</h3>
                                 <div class="warning-icon"><img src="/front/images/samll_chat_gpt.svg" alt="Bot" style="    width: 30px;
@@ -590,7 +590,7 @@ $isMobile =
                     </div>
                 </div>
                 <div style="padding: 10px; background-color: unset;"></div>
-                        <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
+                        <div class="also-available" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%); cursor: pointer;">
                             <div class="also-available-header" style="gap: 36px;" id="chat-toggle-button">
                                 <h3>Need support? Click here to chat!</h3>
                                 <div class="warning-icon"><img src="/front/images/samll_chat_gpt.svg" alt="Bot" style="    width: 30px;

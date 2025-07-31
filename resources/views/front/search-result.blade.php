@@ -45,9 +45,11 @@
                 @else
                     <p>No products found.</p>
                 @endif
+                @if ($products->count() > 0)
                 <div class="read_more_blogs" onclick="getmoreSearchResult('{{$query}}',10);"><a href="#;">
                         <p>Load More</p><img src="{{ asset('front/images/radix-icons_reload.svg') }}" alt="radix-icons_reload">
                     </a></div>
+                @endif
             </div>
         </div>
     </section>

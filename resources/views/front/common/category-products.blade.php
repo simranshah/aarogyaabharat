@@ -7,7 +7,11 @@ $isMobile =
   <div class="frame-16">
     <div class="overlap-group-wrapper">
       <div class="overlap">
-        <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+        <a onclick="dataLayer.push({
+          event: 'product_card_click',
+          product_name: '{{ $product->name }}',
+          category_name: '{{ $product->category->name }}'
+        });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
           <div class="rectangle">
             <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
           </div>
@@ -30,7 +34,11 @@ $isMobile =
     <div class="frame-17">
       <div class="frame-wrapper">
         <div class="wheel-chair-hashtag-wrapper">
-          <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+          <a onclick="dataLayer.push({
+            event: 'product_card_click',
+            product_name: '{{ $product->name }}',
+            category_name: '{{ $product->category->name }}'
+          });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
             <p class="wheel-chair-hashtag">
               @if($isMobile)
               {{ Str::limit($product->name, 40) }}
@@ -77,7 +85,14 @@ $isMobile =
     </div>
     <div class="frame-25">
       <div class="frame-26">
-        <div class="text-wrapper-15 addtocart" data-id="{{ $product->id }}">Add to cart</div>
+        <div class="text-wrapper-15 addtocart" onclick="dataLayer.push({
+       event: 'add_to_cart_click',
+       product_name: '{{ $product->name }}',
+       product_id: '{{ $product->id }}',
+       value: '{{ $product->our_price }}',
+       category_name: '{{ $product->category->name }}',
+       
+     });" data-id="{{ $product->id }}">Add to cart</div>
       </div>
     </div>
   </div>

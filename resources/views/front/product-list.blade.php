@@ -16,7 +16,7 @@
 
     @if ($isMobile)
         <nav class="new-home-breadcrumb" style="padding-top: 30px;">
-            <a href="{{ url('/') }}">Home</a> / <a href="{{ route('products.list') }}">Categories</a>/<a
+            <a href="{{ url('/') }}">Home</a> / <a href="{{ route('products.list') }}">Categories</a> / <a
                 href="{{ route('products.category.wise', ['slug' => $categoriesmain->slug]) }}">{{ $categoriesmain->name }}</a>
         </nav>
     @endif
@@ -24,7 +24,7 @@
         <div class="new-home-hero-section">
             @if (!$isMobile)
                 <nav class="new-home-breadcrumb">
-                    <a href="{{ url('/') }}">Home</a> / <a href="{{ route('products.list') }}">Categories</a>/<a
+                    <a href="{{ url('/') }}">Home</a> / <a href="{{ route('products.list') }}">Categories</a>/ <a
                         href="{{ route('products.category.wise', ['slug' => $categoriesmain->slug]) }}">{{ $categoriesmain->name }}</a>
                 </nav>
             @endif
@@ -165,7 +165,7 @@
 
                 <div class="filter-section">
                     <h3 id="toggle-brand-filter" style="cursor: pointer;">
-                        <span id="brand-arrow" style="margin-right: 5px;">▶</span> Brand
+                        Brand <span id="brand-arrow" style="margin-right: 5px;">▶</span>
                       </h3>
                       
                       <div class="filter-options" id="brand-filter-options" style="display: none;">
@@ -202,7 +202,7 @@
                         </div>
                         <div class="filter-option">
                             <input type="checkbox" value="is_new" name="tag" id="is_new">
-                            <label for="is_new">Newly Product</label>
+                            <label for="is_new">New Arrival</label>
                         </div>
                         <div class="filter-option">
                             <input type="checkbox" value="flash_sale" name="tag" id="flash_sale">
@@ -211,7 +211,7 @@
                         <div class="filter-option">
                             <input type="checkbox" value="best_selling_products" name="tag"
                                 id="best_selling_products">
-                            <label for="best_selling_products">Best Selling</label>
+                            <label for="best_selling_products">Best Seller</label>
                         </div>
                         <div class="filter-option">
                             <input type="checkbox" value="sports_healthcare_more" name="tag"
@@ -362,7 +362,7 @@
 
             <div class="filter-section">
                 <h3 id="toggle-brand-filter" style="cursor: pointer;">
-                    <span id="brand-arrow" style="margin-right: 5px;">▶</span> Brand
+                    Brand <span id="brand-arrow" style="margin-right: 5px;">▶</span>
                   </h3>
                   
                   <div class="filter-options" id="brand-filter-options" style="display: none;">
@@ -409,7 +409,7 @@
                     </div>
                     <div class="filter-option">
                         <input type="checkbox" value="best_selling_products" name="tag" id="best_selling_products">
-                        <label for="best_selling_products">Best Selling</label>
+                        <label for="best_selling_products">Best Seller</label>
                     </div>
                     <div class="filter-option">
                         <input type="checkbox" value="sports_healthcare_more" name="tag"
@@ -504,7 +504,11 @@
                     <div class="frame-16">
                         <div class="overlap-group-wrapper">
                             <div class="overlap">
-                                <a
+                                <a onclick="dataLayer.push({
+                                    event: 'product_card_click',
+                                    product_name: '{{ $product->name }}',
+                                    category_name: '{{ $category->name }}'
+                                  });"
                                     href="{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}">
                                     <div class="rectangle">
                                         <img style="height: 90%;width: 90%;"
@@ -530,7 +534,11 @@
                         <div class="frame-17">
                             <div class="frame-wrapper">
                                 <div class="wheel-chair-hashtag-wrapper">
-                                    <a
+                                    <a onclick="dataLayer.push({
+                                        event: 'product_card_click',
+                                        product_name: '{{ $product->name }}',
+                                        category_name: '{{ $category->name }}'
+                                      });"
                                         href="{{ route('products.sub.category.wise', ['slug' => $category->slug, 'subSlug' => $product->slug]) }}">
                                         <p class="wheel-chair-hashtag">
                                             {{ Str::limit($product->name, 40) }}
@@ -575,8 +583,14 @@
                         </div>
                         <div class="frame-25">
                             <div class="frame-26">
-                                <div class="text-wrapper-15" onclick="addToCart({{ $product->id }})"
-                                    data-id="{{ $product->id }}">Add to cart</div>
+                                <div class="text-wrapper-15" onclick="addToCart({{ $product->id }});
+                                dataLayer.push({
+       event: 'add_to_cart_click',
+       product_name: '{{ $product->name }}',
+       product_id: '{{ $product->id }}',
+       value: '{{ $product->our_price }}',
+       category_name: '{{ $category->name }}'
+     });" data-id="{{ $product->id }}">Add to cart</div>
                             </div>
                         </div>
                     </div>

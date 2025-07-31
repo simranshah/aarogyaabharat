@@ -7228,7 +7228,7 @@ input {
       margin: 0 10px;
       transition: box-shadow 0.3s ease;
       outline: none;
-
+      height: 213px;
     }
 .recent-product-products-slider .slick-slide{
     height: 217px !important;

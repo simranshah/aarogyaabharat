@@ -21,10 +21,10 @@
                       
                   <div class="list-item category-hover-wrapper" style="position: relative;">
                     <div class="avatar-container">
-                      <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">  <img class="avatar1" src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"  /></a>
+                      <a onclick="dataLayer.push({ event: 'category_click', category_name: '{{ $category->name }}' });" href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">  <img class="avatar1" src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"  /></a>
                     </div>
                     <div class="content">
-                      <a href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">  <div class="text">{{ $category->name }}</div></a>
+                      <a onclick="dataLayer.push({ event: 'category_click', category_name: '{{ $category->name }}' });" href="{{ route('products.category.wise', ['slug' => $category->slug]) }}" style="text-decoration: none;">  <div class="text">{{ $category->name }}</div></a>
                     </div>
                   
                     @if($category->subcategories && $category->subcategories->count())
@@ -98,10 +98,10 @@
                 </div>
 @endif
 
-                <div class="banner-container">
+                <div class="banner-container" id="bannerpart">
   @if ($isMobile)
                     @foreach ($mobileBannerImages as $banner)
-                        {{-- @if ($loop->first) --}}
+                        @if ($loop->first)
 
                   <div class="bannerBlock">
                     <a href="{{ $banner->link }}" target="_blank">
@@ -109,11 +109,11 @@
                                         alt="Mobile Banner" loading="lazy">
                       </a>
                     </div>
-                        {{-- @endif --}}
+                        @endif
                     @endforeach
                 @else
                     @foreach ($bannerImages as $banner)
-                        {{-- @if ($loop->first) --}}
+                        @if ($loop->first)
 
                     <div class="bannerBlock">
                       <a href="{{ $banner->link }}" target="_blank">
@@ -121,7 +121,7 @@
                                         alt="Desktop Banner" loading="lazy">
                         </a>
                       </div>
-                        {{-- @endif --}}
+                        @endif
                     @endforeach
                     @endif
                     </div>
@@ -170,8 +170,16 @@
                       <div class="frame-16">
                         <div class="overlap-group-wrapper">
                           <div class="overlap">
-                            <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
-                              <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+                            <a onclick="dataLayer.push({
+                              event: 'product_card_click',
+                              product_name: '{{ $product->name }}',
+                              category_name: '{{ $product->category->name }}'
+                            });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+                              <a onclick="dataLayer.push({
+                                event: 'product_card_click',
+                                product_name: '{{ $product->name }}',
+                                category_name: '{{ $product->category->name }}'
+                              });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                 <div class="rectangle">
                                   <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                                 </div>
@@ -195,7 +203,11 @@
                         <div class="frame-17">
                           <div class="frame-wrapper">
                             <div class="wheel-chair-hashtag-wrapper">
-                              <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+                              <a onclick="dataLayer.push({
+                                event: 'product_card_click',
+                                product_name: '{{ $product->name }}',
+                                category_name: '{{ $product->category->name }}'
+                              });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                 <p class="wheel-chair-hashtag">
                       @if($isMobile)
                       {{ Str::limit($product->name, 40) }}
@@ -242,7 +254,13 @@
                         </div>
                         <div class="frame-25">
                           <div class="frame-26">
-                            <div class="text-wrapper-15 addtocart" data-id="{{ $product->id }}">Add to cart</div>
+                            <div class="text-wrapper-15 addtocart" onclick="dataLayer.push({
+       event: 'add_to_cart_click',
+       product_name: '{{ $product->name }}',
+       product_id: '{{ $product->id }}',
+       value: '{{ $product->our_price }}',
+       category_name: '{{ $product->category->name }}'
+     });" data-id="{{ $product->id }}">Add to cart</div>
                           </div>
                         </div>
                       </div>
@@ -391,7 +409,11 @@
                               <div class="frame-16">
                                 <div class="overlap-group-wrapper">
                                   <div class="overlap">
-                                    <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+                                      <a onclick="dataLayer.push({
+                                        event: 'product_card_click',
+                                        product_name: '{{ $product->name }}',
+                                        category_name: '{{ $product->category->name }}'
+                                      });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                       <div class="rectangle">
                                         <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                                       </div>
@@ -414,7 +436,11 @@
                                 <div class="frame-17">
                                   <div class="frame-wrapper">
                                     <div class="wheel-chair-hashtag-wrapper">
-                                      <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+                                      <a onclick="dataLayer.push({
+                                        event: 'product_card_click',
+                                        product_name: '{{ $product->name }}',
+                                        category_name: '{{ $product->category->name }}'
+                                      });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                         <p class="wheel-chair-hashtag">
                                           @if($isMobile)
                                           {{ Str::limit($product->name, 40) }}
@@ -588,7 +614,11 @@
                                 <div class="frame-16">
                                   <div class="overlap-group-wrapper">
                                     <div class="overlap">
-                                      <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+                                      <a onclick="dataLayer.push({
+                                        event: 'product_card_click',
+                                        product_name: '{{ $product->name }}',
+                                        category_name: '{{ $product->category->name }}'
+                                      });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                         <div class="rectangle">
                                           <img style="height: 90%;width: 90%;" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                                         </div>
@@ -611,7 +641,11 @@
                                   <div class="frame-17">
                                     <div class="frame-wrapper">
                                       <div class="wheel-chair-hashtag-wrapper">
-                                        <a href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
+                                        <a onclick="dataLayer.push({
+                                          event: 'product_card_click',
+                                          product_name: '{{ $product->name }}',
+                                          category_name: '{{ $product->category->name }}'
+                                        });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
                                           <p class="wheel-chair-hashtag">
                                             @if($isMobile)
                                             {{ Str::limit($product->name, 40) }}
@@ -657,7 +691,13 @@
                                   </div>
                                   <div class="frame-25">
                                     <div class="frame-26">
-                                      <div class="text-wrapper-15 addtocart" data-id="{{ $product->id }}">Add to cart</div>
+                                    <div class="text-wrapper-15 addtocart" onclick="dataLayer.push({
+       event: 'add_to_cart_click',
+       product_name: '{{ $product->name }}',
+       product_id: '{{ $product->id }}',
+       value: '{{ $product->our_price }}',
+       category_name: '{{ $product->category->name }}'
+     });" data-id="{{ $product->id }}">Add to cart</div>
                                     </div>
                                   </div>
                                 </div>
