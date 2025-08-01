@@ -30,19 +30,19 @@ class ProductsImport implements ToModel, WithHeadingRow
             ['slug' => \Str::slug(trim($row['category']))]
         );
 
-        // $subcategory = SubCategories::updateOrCreate(
-        //     [   
-        //         'category_id' => $category->id,
-        //         'name' => substr(trim($row['subcategory_name']), 0, 20)
-        //     ],
-        //     [
-        //         'slug' => \Str::slug(substr(trim($row['subcategory_name']), 0, 20))
-        //     ]
-        // );
-        // $brand = Brand::updateOrCreate(
-        //     ['name' => trim($row['brand'])],
-        //     ['slug' => \Str::slug(trim($row['brand']))]
-        // );
+        $subcategory = SubCategories::updateOrCreate(
+            [   
+                'category_id' => $category->id,
+                'name' => substr(trim($row['subcategory_name']), 0, 20)
+            ],
+            [
+                'slug' => \Str::slug(substr(trim($row['subcategory_name']), 0, 20))
+            ]
+        );
+        $brand = Brand::updateOrCreate(
+            ['name' => trim($row['brand'])],
+            ['slug' => \Str::slug(trim($row['brand']))]
+        );
 
         // Function to clean numeric values
         $cleanNumeric = function ($value) {
@@ -59,8 +59,8 @@ class ProductsImport implements ToModel, WithHeadingRow
                 'name' => trim($row['product_name'])
             ],
             [
-            // 'subcategory_id' => $subcategory->id,
-            // 'brand_id' => $brand->id,
+            'subcategory_id' => $subcategory->id,
+            'brand_id' => $brand->id,
             'category_id' => $category->id,
             'name' => trim($row['product_name'] ?? ''),
             'title' => trim($row['title'] ?? null),
