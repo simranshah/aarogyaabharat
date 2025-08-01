@@ -41,7 +41,7 @@ $isMobile =
           });" href="{{ route('products.sub.category.wise', ['slug' => $product->category->slug,'subSlug'=>$product->slug]) }}">
             <p class="wheel-chair-hashtag">
               @if($isMobile)
-              {{ Str::limit($product->name, 40) }}
+              {{ Str::limit($product->name, 30) }}
               @else
               {{ Str::limit($product->name,50) }}
               @endif

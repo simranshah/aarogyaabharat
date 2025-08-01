@@ -457,6 +457,16 @@ a {
 
 overflow-x: auto;
 }
+.home-d .Brand-products {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+
+overflow-x: auto;
+}
 
 .home-d .frame-16 {
   display: inline-flex;
@@ -5693,9 +5703,13 @@ height: 107px;
     box-shadow: 0px 0px 5.76px #233f8c33;
     width: calc(50vw - 10px); /* <-- Add this line */
 }
-.home-d .frame-15 {
+.home-d .Brand-products {
     /* height: 354px; */
     gap: 12px;
+}
+.home-d .frame-15 {
+  /* height: 354px; */
+  gap: 12px;
 }
 .home-d .rectangle {
     margin-left: 19px;
@@ -6142,6 +6156,12 @@ font-size: 21.4px;
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
+.Brand-products .slick-slide {
+  margin: 0 10px; /* Controls spacing between cards */
+  display: flex !important;
+  justify-content: center;
+}
+
 .categories .slick-slide {
   margin: 0 10px; /* Controls spacing between cards */
   display: flex !important;

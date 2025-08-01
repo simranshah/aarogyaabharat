@@ -795,29 +795,47 @@ clickedElement.classList.remove('frame-59');
 clickedElement.classList.add('frame-58');
 
 // });
-$('.frame-15').slick({
-infinite: false,
-slidesToShow: 5.5,
-slidesToScroll: 1,
+setTimeout(() => {
+  const $slider = $('.Brand-products');
+  const productCount = $slider.find('.frame-16').length; // 👈 replace with your actual item class
+  const isMobile = window.innerWidth <= 768;
+// console.log(isMobile);
+// console.log(productCount);
+  // Decide whether to initialize slick based on conditions
+  const shouldInitSlider = (isMobile && productCount >= 2) || (!isMobile && productCount >= 6);
+// console.log(shouldInitSlider);
+  if (!shouldInitSlider) return; // 👈 don't init slick if not needed
 
-arrows: false, // 👈 hides next/prev buttons
-responsive: [
-{
-breakpoint: 1024,
-settings: {
-slidesToShow: 4,
-slidesToScroll: 1
-}
-},
-{
-breakpoint: 768,
-settings: {
-slidesToShow: 2,
-slidesToScroll: 1
-}
-}
-]
-});
+  // Destroy if already initialized
+  if ($slider.hasClass('slick-initialized')) {
+    $slider.slick('unslick');
+  }
+
+  // Initialize
+  $slider.slick({
+    infinite: false,
+    slidesToShow: 5.5,
+    slidesToScroll: 1,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  });
+}, 0);
+
 },
 error: function(xhr, status, error) {
 console.error("Error fetching products:", error);
