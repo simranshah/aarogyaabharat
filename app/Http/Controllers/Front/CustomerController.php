@@ -785,7 +785,7 @@ public function resendOtp(Request $request)
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
-            // 'message' => 'required|string',
+            'message' => 'required|string',
         ]);
 
         $visitor = new \App\Models\Visitor($data);

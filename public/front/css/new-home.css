@@ -9562,3 +9562,6 @@ margin-bottom: 10px;
       opacity: 0.6;
   }
 }
+.blogtext_title h1{
+  font-weight: 700;
+}

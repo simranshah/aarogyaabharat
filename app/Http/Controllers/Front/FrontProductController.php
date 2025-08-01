@@ -44,10 +44,18 @@ class FrontProductController extends Controller
     public function searchProducts(Request $request)
     {
         $query = $request->input('query');
-        $products = Product::with('category')->where('name', 'LIKE', "%{$query}%")
-            ->orWhere('description', 'LIKE', "%{$query}%")
-            ->get();
-
+        $products = Product::with('category')
+        ->where(function ($q) use ($query) {
+            $q->where('name', 'LIKE', "%{$query}%")
+              ->orWhere('description', 'LIKE', "%{$query}%");
+        })
+        ->orderByRaw("CASE 
+            WHEN name LIKE ? THEN 1 
+            WHEN description LIKE ? THEN 2 
+            ELSE 3 
+        END", ["%{$query}%", "%{$query}%"])
+        ->get();
+    
         if ($products->isNotEmpty()) {
             return view('front.common.search-product-result', compact('products', 'query'))->render();
         }
@@ -513,7 +521,7 @@ class FrontProductController extends Controller
     function productCategory(Request $request)
     {
       $Brand_id = $request->input('Brand_id');
-      $products = Product::with('category','productAttributes')->where('brand_id', $Brand_id)->take(6)->get();
+      $products = Product::with('category','productAttributes')->where('brand_id', $Brand_id)->take(10)->get();
       return view('front.common.category-products', compact('products'));
     }
     function addreview(Request $request){

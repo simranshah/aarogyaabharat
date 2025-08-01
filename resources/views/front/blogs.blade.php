@@ -9,7 +9,7 @@
 }
 </style>
 
-<div class="breadcrumbs">
+<div class="breadcrumbs container">
     <div class=" breadcrumbs-container">
         <div class="">
             <ul>
