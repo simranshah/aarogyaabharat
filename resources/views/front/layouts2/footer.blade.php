@@ -256,7 +256,7 @@
 <div class="get-in-touch-popup-background">
     <div class="get-in-touch-popup-container">
         <button class="get-in-touch-close-btn" onclick="getInTouchClosePopup()">×</button>
-
+        @if(!$isMobile)
         <div class="get-in-touch-left-section">
             <div class="get-in-touch-get-in-touch-section">
                 <div class="get-in-touch-get-in-touch">
@@ -345,7 +345,7 @@
                 </div>
             </div>
         </div>
-
+        @endif
         <div class="get-in-touch-right-section">
             <h2 class="get-in-touch-form-title">Want a Callback? You Got It.</h2>
             <form id="getInTouchCallbackForm">

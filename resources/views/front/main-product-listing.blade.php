@@ -13,6 +13,27 @@
               <div style="align-self: stretch; padding-top: 50px;  justify-content: flex-start; align-items: flex-start; gap: 18px; ">
 
             @endif
+            @if ($isMobile)
+        <nav class="new-home-breadcrumb" style="padding-top: 30px;">
+            <a href="{{ url('/') }}">Home</a> / <a href="{{ route('products.list') }}">Products-List</a>
+        </nav>
+    @endif
+    @if (!$isMobile)
+        <div class="new-home-hero-section">
+            @if (!$isMobile)
+                <nav class="new-home-breadcrumb">
+                    <a href="{{ url('/') }}">Home</a> / <a href="{{ route('products.list') }}">Products-List</a>
+                </nav>
+            @endif
+
+            <main class="new-home-main-content">
+                <h1 class="new-home-title">All Products</h1>
+                <p class="new-home-subtitle">Browse our full range of medical equipment and healthcare products — hospital beds, oxygen concentrators, wheelchairs, adult diapers, physiotherapy kits & more.</p>
+                {{-- <p class="new-home-description">Bel krokanat och ren diter clicks tiejkott.</p> --}}
+            </main>
+        </div>
+        </div>
+    @endif
   
 <div class="containerforfilters">
 @if($isMobile)

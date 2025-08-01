@@ -116,8 +116,7 @@
       <div class="header-pre-login">
         <div class="frame-2">
           <div class="frame-3">
-                 @if ($isMobile)
-
+            @if ($isMobile)
             <div class="hamburger" onclick="toggleSidebar()">
               <img src="{{ asset('front/images/hamburger.png') }}" alt="">
               </div>

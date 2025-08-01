@@ -1511,62 +1511,14 @@
                                     </div>
                                     <div class="frame-95">
                                       <div class="frame-96">
-                                         <script>
-                                            var tag = document.createElement('script');
-                                            tag.src = "https://www.youtube.com/iframe_api";
-                                            var firstScriptTag = document.getElementsByTagName('script')[0];
-                                            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                                          </script>
-
-                                          <!-- HTML Embed -->
-                                          <div id="video-container">
-                                            <iframe
-                                              id="aarogyaaVideo"
-                                              width="315"
-                                              height="180"
-                                              src="https://www.youtube.com/embed/H1Szqz3R9PI?si=TLHMOu3BNb-MVUbG"
-                                              title="Aarogyaa Bharat YouTube Video"
-                                              frameborder="0"
-                                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                              referrerpolicy="strict-origin-when-cross-origin"
-                                              allowfullscreen
-                                            ></iframe>
-                                          </div>
-
-                                          <!-- YouTube API & GA4 Event Push -->
-                                          <script>
-                                            var player;
-                                            function onYouTubeIframeAPIReady() {
-                                              player = new YT.Player('aarogyaaVideo', {
-                                                events: {
-                                                  'onStateChange': onPlayerStateChange
-                                                }
-                                              });
-                                            }
-
-                                            function onPlayerStateChange(event) {
-                                              if (event.data == YT.PlayerState.PLAYING) {
-                                                // Push event to GA4 dataLayer
-                                                window.dataLayer = window.dataLayer || [];
-                                                dataLayer.push({
-                                                  event: 'video_play',
-                                                  video_title: 'Aarogyaa Bharat Healthcare Video',
-                                                  video_id: 'MIc299Flibs',
-                                                  video_platform: 'YouTube'
-                                                });
-                                              }
-                                           }
-                                          </script>
-                                          
-                                      </div> 
-                                      <div class="frame-96">
                                         <div id="video-container">
                                           <iframe
-                                            id="aarogyaaVideo"
+                                            id="video1"
                                             width="315"
                                             height="180"
-                                            src="https://www.youtube.com/embed/pOgXLLjyfMk?si=xPeSoyuKTCyo7xMj"
-                                            title="Aarogyaa Bharat YouTube Video"
+                                            src="https://www.youtube.com/embed/H1Szqz3R9PI?enablejsapi=1"
+                                            title="Aarogyaa Bharat YouTube Video 1"
+                                            loading="lazy"
                                             frameborder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                             referrerpolicy="strict-origin-when-cross-origin"
@@ -1574,14 +1526,16 @@
                                           ></iframe>
                                         </div>
                                       </div>
+                                      
                                       <div class="frame-96">
                                         <div id="video-container">
                                           <iframe
-                                            id="aarogyaaVideo"
+                                            id="video2"
                                             width="315"
                                             height="180"
-                                            src="https://www.youtube.com/embed/QintyV0dn2M?si=-DIrWyel4Kor-Ppy"
-                                            title="Aarogyaa Bharat YouTube Video"
+                                            src="https://www.youtube.com/embed/pOgXLLjyfMk?enablejsapi=1"
+                                            title="Aarogyaa Bharat YouTube Video 2"
+                                            loading="lazy"
                                             frameborder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                             referrerpolicy="strict-origin-when-cross-origin"
@@ -1589,14 +1543,16 @@
                                           ></iframe>
                                         </div>
                                       </div>
+                                      
                                       <div class="frame-96">
                                         <div id="video-container">
                                           <iframe
-                                            id="aarogyaaVideo"
+                                            id="video3"
                                             width="315"
                                             height="180"
-                                            src="https://www.youtube.com/embed/xlmdJSnEDwk?si=nuxWYh4oWZb8TaW9"
-                                            title="Aarogyaa Bharat YouTube Video"
+                                            src="https://www.youtube.com/embed/QintyV0dn2M?enablejsapi=1"
+                                            title="Aarogyaa Bharat YouTube Video 3"
+                                            loading="lazy"
                                             frameborder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                             referrerpolicy="strict-origin-when-cross-origin"
@@ -1604,14 +1560,33 @@
                                           ></iframe>
                                         </div>
                                       </div>
+                                      
                                       <div class="frame-96">
                                         <div id="video-container">
                                           <iframe
-                                            id="aarogyaaVideo"
+                                            id="video4"
                                             width="315"
                                             height="180"
-                                            src="https://www.youtube.com/embed/9QWic5oCXu8?si=hq1RzIH8gkSy9GK1"
-                                            title="Aarogyaa Bharat YouTube Video"
+                                            src="https://www.youtube.com/embed/xlmdJSnEDwk?enablejsapi=1"
+                                            title="Aarogyaa Bharat YouTube Video 4"
+                                            loading="lazy"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin"
+                                            allowfullscreen
+                                          ></iframe>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="frame-96">
+                                        <div id="video-container">
+                                          <iframe
+                                            id="video5"
+                                            width="315"
+                                            height="180"
+                                            src="https://www.youtube.com/embed/9QWic5oCXu8?enablejsapi=1"
+                                            title="Aarogyaa Bharat YouTube Video 5"
+                                            loading="lazy"
                                             frameborder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                             referrerpolicy="strict-origin-when-cross-origin"
@@ -1821,6 +1796,53 @@
                                       // Continuous update every 2 seconds
                                       setInterval(updateFrames, 2000);
                                     });
+                                    let youtubeAPILoaded = false;
+  let players = [];
+
+  function loadYouTubeAPI() {
+    if (youtubeAPILoaded) return;
+    youtubeAPILoaded = true;
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  }
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        loadYouTubeAPI();
+        observer.disconnect(); // stop observing after loading API
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('iframe[src*="youtube"]').forEach(iframe => {
+    observer.observe(iframe);
+  });
+
+  // YouTube API callback
+  function onYouTubeIframeAPIReady() {
+    const ids = ['video1', 'video2', 'video3', 'video4', 'video5'];
+    ids.forEach((id, index) => {
+      const player = new YT.Player(id, {
+        events: {
+          onStateChange: function (event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+              window.dataLayer = window.dataLayer || [];
+              dataLayer.push({
+                event: 'video_play',
+                video_title: document.getElementById(id).title,
+                video_id: id,
+                video_platform: 'YouTube'
+              });
+            }
+          }
+        }
+      });
+      players.push(player);
+    });
+  }
                                     </script>
                                     
                                 <script type="application/ld+json">
