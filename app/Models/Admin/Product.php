@@ -52,6 +52,8 @@ class Product extends Model
         'image_2',
         'image_3',
         'image_4',
+        'rent_tenur',
+        'renting_presentag',
     ];
 
 

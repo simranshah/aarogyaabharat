@@ -1,4 +1,250 @@
 @extends('front.layouts.layout')
+
+@section('styles')
+<style>
+    .tenure-selector {
+        background: #f8f9fa;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #e9ecef;
+        margin-top: 8px;
+    }
+    
+    .tenure-selector label {
+        font-size: 11px;
+        color: #495057;
+        font-weight: 500;
+        margin-bottom: 4px;
+        display: block;
+    }
+    
+    .tenure-select {
+        padding: 4px 8px;
+        border: 1px solid #ced4da;
+        border-radius: 3px;
+        font-size: 11px;
+        width: 90px;
+        background: white;
+        color: #495057;
+    }
+    
+    .update-tenure-btn {
+        margin-left: 5px;
+        padding: 4px 8px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        font-size: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .update-tenure-btn:hover {
+        background: #0056b3;
+    }
+    
+    .update-tenure-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+    }
+    
+    .tenure-selector .flex-container {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Cost Breakup Card Styles */
+    .cost-breakup-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .cost-breakup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .header-content {
+        flex: 1;
+    }
+
+    .cost-breakup-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 5px 0;
+    }
+
+    .breakup-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin: 0;
+    }
+
+    .rent-buy-toggle {
+        display: flex;
+        gap: 8px;
+    }
+
+    .toggle-btn {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        background: white;
+        color: #666;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .toggle-btn.active {
+        background: #ff7529;
+        color: white;
+        border-color: #ff7529;
+    }
+
+    .toggle-btn:hover:not(.active) {
+        background: #f8f9fa;
+    }
+
+    .cost-breakup-content {
+        margin-top: 15px;
+    }
+
+    .breakup-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .breakup-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .breakup-item:last-child {
+        border-bottom: none;
+    }
+
+    .item-label {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .item-amount {
+        font-size: 14px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .total-monthly {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border: none;
+    }
+
+    .total-monthly .item-label,
+    .total-monthly .item-amount {
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .delivery-item .item-amount {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    .final-price {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .rent-cart-total {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border: none;
+    }
+
+    .rent-cart-total .item-label,
+    .rent-cart-total .item-amount {
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .buy-cart-total {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border: none;
+    }
+
+    .buy-cart-total .item-label,
+    .buy-cart-total .item-amount {
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .breakup-divider {
+        height: 1px;
+        background: #e9ecef;
+        margin: 20px 0;
+    }
+
+    .total-payable {
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .total-label {
+        font-size: 16px;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .total-amount {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .total-note {
+        font-size: 12px;
+        color: #666;
+        margin: 0;
+    }
+</style>
+@endsection
+
 @section('content')
 
     @include('front.common.welcome-message')
@@ -716,6 +962,81 @@
                     }
                 });
             }
+
+            // Tenure update functionality
+            $(document).ready(function() {
+                // Handle tenure update button clicks
+                $(document).on('click', '.update-tenure-btn', function() {
+                    var cartItemId = $(this).data('cart-item-id');
+                    var selectedTenure = $(this).siblings('.tenure-select').val();
+                    
+                    // Show loading state
+                    $(this).text('Updating...').prop('disabled', true);
+                    
+                    $.ajax({
+                        url: "{{ route('cart.update-rental-tenure') }}",
+                        type: 'POST',
+                        data: {
+                            cart_item_id: cartItemId,
+                            tenure: selectedTenure,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                toastr.success('Tenure updated successfully!');
+                                // Refresh cart items and order summary
+                                location.reload();
+                            } else {
+                                toastr.error(response.message || 'Failed to update tenure');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            toastr.error('Something went wrong. Please try again later.');
+                        },
+                        complete: function() {
+                            // Reset button state
+                            $('.update-tenure-btn[data-cart-item-id="' + cartItemId + '"]').text('Update').prop('disabled', false);
+                        }
+                    });
+                });
+
+                // Handle tenure select change (optional - for immediate feedback)
+                $(document).on('change', '.tenure-select', function() {
+                    var cartItemId = $(this).data('cart-item-id');
+                    var selectedTenure = $(this).val();
+                    console.log('Tenure changed for cart item ' + cartItemId + ' to ' + selectedTenure + ' months');
+                });
+
+                // Handle rent/buy toggle buttons
+                $(document).on('click', '.toggle-btn', function() {
+                    var type = $(this).data('type');
+                    
+                    // Update active state
+                    $('.toggle-btn').removeClass('active');
+                    $(this).addClass('active');
+                    
+                    // Show/hide appropriate views
+                    if (type === 'rent') {
+                        $('.rent-view').show();
+                        $('.buy-view').hide();
+                        $('.breakup-subtitle').text('Showing Rent Breakup ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 1)->count() }} Items)');
+                        $('.rent-note').show();
+                        $('.buy-note').hide();
+                        
+                        // Don't change the total payable - keep it unchanged
+                    } else {
+                        $('.rent-view').hide();
+                        $('.buy-view').show();
+                        $('.breakup-subtitle').text('Showing Buy Breakup ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 0)->count() }} Items)');
+                        $('.rent-note').hide();
+                        $('.buy-note').show();
+                        
+                        // Don't change the total payable - keep it unchanged
+                    }
+                    
+                    console.log('Switched to ' + type + ' view');
+                });
+            });
         </script>
     </section>
 @endsection('content')

@@ -207,18 +207,32 @@ class CartController2 extends Controller
         $cart = $cartItem->cart;
         $cartItemTotal = $cartItem->price * $cartItem->quantity;
         $newSubTotal = $cart->sub_total - $cartItemTotal;
-        $product = Product::where('id', $cartItem->product_id)->first();
-        $productGST = ($cartItemTotal * $product->gst) / 100;
-        $newGST = $cart->total_gst - $productGST;
+        
+        // Handle GST and delivery charges based on item type
+        if (isset($cartItem->is_rental) && $cartItem->is_rental) {
+            // For rental items, use the stored GST and delivery fees
+            $newGST = $cart->total_gst - $cartItem->gst_amount;
+            $newDeliveryCharges = $cart->total_delivery_charges - $cartItem->delivery_fees;
+        } else {
+            // For buy items, calculate from product
+            $product = Product::where('id', $cartItem->product_id)->first();
+            $productGST = ($cartItemTotal * $product->gst) / 100;
+            $newGST = $cart->total_gst - $productGST;
+            $newDeliveryCharges = $cart->total_delivery_charges - $product->delivery_and_installation_fees;
+        }
+        
         $cart->total_gst = $newGST;
+        $cart->total_delivery_charges = $newDeliveryCharges;
+        
         \Log::channel('cart_log')->info('deleteItem method - Cart Detail:',
         [
             '$cartItemTotal' => $cartItemTotal,
-            'product gst' => $productGST,
+            'is_rental' => isset($cartItem->is_rental) ? $cartItem->is_rental : false,
             'new gst' => $newGST,
+            'new delivery charges' => $newDeliveryCharges,
         ]);
-         $cart->total_delivery_charges -=$product->delivery_and_installation_fees;
-        $cart->sub_total = $newSubTotal+$cart->discount_offer_amount;
+        
+        $cart->sub_total = $newSubTotal + $cart->discount_offer_amount;
         if ($cart->discount_offer_amount >= $newSubTotal) {
             $cart->discount_offer_amount = 0;
             $cart->discount_offer_id = null;
@@ -268,15 +282,24 @@ class CartController2 extends Controller
         $cartItemTotal = $cartItem->price * $cartItem->quantity;
         $ProductAttribute = ProductAttribute::where('product_id', $cartItem->product_id)->first();
         $coupon = OfferAndDiscount::where('id', $cart->discount_offer_id)->first();
-        $product = Product::where('id', $cartItem->product_id)->first();
-        $productGST = ($cartItemTotal * $product->gst) / 100;
-        $productdelivercharg=$product->delivery_and_installation_fees;
-        \Log::channel('cart_log')->info('updateCartItemVisibility method - Cart Detail:',
-        [
-            'cartItemTotal' => $cartItemTotal,
-            'product gst' => $product->gst,
-            'new gst' => $productGST,
-        ]);
+        
+        // Handle GST and delivery charges based on item type
+        if (isset($cartItem->is_rental) && $cartItem->is_rental) {
+            // For rental items, use the stored GST and delivery fees
+            $productGST = $cartItem->gst_amount;
+            $productdelivercharg = $cartItem->delivery_fees;
+        } else {
+            // For buy items, calculate from product
+            $product = Product::where('id', $cartItem->product_id)->first();
+            $productGST = ($cartItemTotal * $product->gst) / 100;
+            $productdelivercharg = $product->delivery_and_installation_fees;
+        }
+        // \Log::channel('cart_log')->info('updateCartItemVisibility method - Cart Detail:',
+        // [
+        //     'cartItemTotal' => $cartItemTotal,
+        //     'product gst' => $product->gst,
+        //     'new gst' => $productGST,
+        // ]);
 
         if ($request->is_visible) {
             if ($ProductAttribute->stock < $cartItem->quantity) {
@@ -358,9 +381,17 @@ class CartController2 extends Controller
             return response()->json(['success' => false, 'message' => 'Cart item not found']);
         }
 
-        $product = Product::where('id', $cartItem->product_id)->first();
-        $productGST = ($cartItem->price * $product->gst) / 100;
-        $productDel=$product->delivery_and_installation_fees;
+        // Handle GST and delivery charges based on item type
+        if (isset($cartItem->is_rental) && $cartItem->is_rental) {
+            // For rental items, use the stored GST and delivery fees
+            $productGST = $cartItem->gst_amount;
+            $productDel = $cartItem->delivery_fees;
+        } else {
+            // For buy items, calculate from product
+            $product = Product::where('id', $cartItem->product_id)->first();
+            $productGST = ($cartItem->price * $product->gst) / 100;
+            $productDel = $product->delivery_and_installation_fees;
+        }
         // $newGST = $cart->total_gst - $productGST;
         // $cart->total_gst = $newGST;
         \Log::channel('cart_log')->info('updateCartItemQuantity method - Cart Detail:',
@@ -662,5 +693,228 @@ class CartController2 extends Controller
         })->get();
         $offers = OfferAndDiscount::where('show_on_site', true)->get();
         return view('front.common.more-offer', compact('offers', 'cartProducts'))->render();
+    }
+    public function addRentalToCart(Request $request, $productId)
+    {
+        try {
+            $product = Product::with('productAttributes')->where('id', $productId)->first();
+            if($product->productAttributes->stock < 1){
+                return response()->json(['success' => false, 'message' => 'Product is out of stock!']);
+            }
+
+            $customer = Auth::user();
+            $session_id = session()->get('cart_id');
+
+            if (!$session_id) {
+                $session_id = uniqid('cart_', true);
+                session()->put('cart_id', $session_id);
+            }
+
+            // Validate rental data
+            $request->validate([
+                'tenure' => 'required|string',
+                'base_amount' => 'required|numeric',
+                'gst_amount' => 'required|numeric',
+                'delivery_fees' => 'required|numeric',
+                'total_amount' => 'required|numeric',
+            ]);
+
+            // Calculate last rental date
+            $lastRentalDate = now()->addMonths($request->tenure);
+
+            // Check if a cart exists for this user/session
+            $cart = Cart::where(function($query) use ($customer, $session_id) {
+                if ($customer) {
+                    $query->where('user_id', $customer->id);
+                }
+                $query->orWhere('session_id', $session_id);
+            })->first();
+
+            // Check if this rental product already exists in cart products
+            $existingRentalProduct = CartProduct::where('cart_id', $cart ? $cart->id : 0)
+                ->where('product_id', $productId)
+                ->where('is_rental', true)
+                ->first();
+
+            if ($existingRentalProduct) {
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'This rental product is already in your cart!'
+                ]);
+            }
+
+            if (!$cart) {
+                // Create new cart
+                $cart = new Cart([
+                    'user_id' => $customer ? $customer->id : null,
+                    'product_id' => $product->id,
+                    'session_id' => $session_id,
+                    'sub_total' => $request->total_amount,
+                    'total_gst' => $request->gst_amount,
+                    'price' => $request->base_amount,
+                    'total_delivery_charges' => $request->delivery_fees,
+                ]);
+                $cart->save();
+            } else {
+                // Update existing cart totals
+                $cart->sub_total += $request->total_amount;
+                $cart->total_gst += $request->gst_amount;
+                $cart->price += $request->base_amount;
+                $cart->total_delivery_charges += $request->delivery_fees;
+                $cart->save();
+            }
+
+            // Add rental product to cart products
+            $cartProduct = new CartProduct([
+                'cart_id' => $cart->id,
+                'product_id' => $product->id,
+                'price' => $request->total_amount,
+                'quantity' => 1,
+                'total_price' => $request->total_amount,
+                'is_rental' => true,
+                'tenure' => $request->tenure,
+                'base_amount' => $request->base_amount,
+                'gst_amount' => $request->gst_amount,
+                'delivery_fees' => $request->delivery_fees,
+                'last_rental_date' => $lastRentalDate,
+            ]);
+            $cartProduct->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Rental product added to cart successfully!'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to add rental product to cart: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function updateRentalTenure(Request $request)
+    {
+        try {
+            $request->validate([
+                'cart_item_id' => 'required|exists:cart_products,id',
+                'tenure' => 'required|in:1,3,6,9,12'
+            ]);
+
+            $cartItem = CartProduct::find($request->cart_item_id);
+            
+            if (!$cartItem || !$cartItem->is_rental) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid cart item or not a rental item'
+                ]);
+            }
+
+            // Get the product to calculate new rental prices
+            $product = Product::find($cartItem->product_id);
+            if (!$product) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product not found'
+                ]);
+            }
+        // Split tenure and percentage strings into arrays
+$tenureOptions = explode('|', $product->rent_tenur); // ['3', '6', '9']
+$percentageOptions = explode('|', $product->renting_presentag); // ['30', '48', '68']
+
+// Find index of selected tenure
+$selectedTenure = (int) $request->tenure;
+$tenureIndex = array_search($selectedTenure, $tenureOptions);
+
+if ($tenureIndex === false) {
+    return response()->json(['error' => 'Invalid tenure selected'], 422);
+}
+
+// Get corresponding percentage
+$percentage = (float) $percentageOptions[$tenureIndex]; // e.g., 48
+
+// Calculate amounts
+$baseAmount = ($product->our_price * $percentage) / 100;
+$gstAmount = ($baseAmount * 0.18) ;
+$deliveryFees = $product->delivery_and_installation_fees ?? 0;
+$totalAmount = $baseAmount + $gstAmount + $deliveryFees;
+
+// Round if needed
+$totalAmount = round($totalAmount, 2);
+
+// Return or use totalAmount
+
+            // Update cart item
+            $cartItem->update([
+                'tenure' => $request->tenure,
+                'base_amount' => $baseAmount,
+                'gst_amount' => $gstAmount,
+                'delivery_fees' => $deliveryFees,
+                'price' => $totalAmount,
+                'total_price' => $totalAmount,
+                'last_rental_date' => now()->addMonths($request->tenure)
+            ]);
+
+            // Update cart totals
+            $cart = $cartItem->cart;
+            $this->recalculateCartTotals($cart);
+
+            return response()->json([
+                'success' => true,
+                'new_price' => $totalAmount,
+                'message' => 'Rental tenure updated successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update rental tenure: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function refreshOrderSummary()
+    {
+        $session_id = session()->get('cart_id');
+        $customer = Auth::user();
+        $cartProducts = Cart::with(['cartProducts.product.category', 'offer'])
+            ->where(function ($query) use ($customer, $session_id) {
+                if ($customer) {
+                    $query->where('user_id', $customer->id);
+                }
+                $query->orWhere('session_id', $session_id);
+            })->get();
+
+        return view('front.common.cart.order-summary', compact('cartProducts'));
+    }
+
+    private function recalculateCartTotals($cart)
+    {
+        $subTotal = 0;
+        $totalGST = 0;
+        $totalDelivery = 0;
+
+        foreach ($cart->cartProducts as $cartItem) {
+            if ($cartItem->is_visible) {
+                if ($cartItem->is_rental) {
+                    $subTotal += $cartItem->total_price;
+                    $totalGST += $cartItem->gst_amount;
+                    $totalDelivery += $cartItem->delivery_fees;
+                } else {
+                    $subTotal += $cartItem->total_price;
+                    $product = Product::find($cartItem->product_id);
+                    if ($product) {
+                        $totalGST += ($cartItem->total_price * $product->gst) / 100;
+                        $totalDelivery += $product->delivery_and_installation_fees;
+                    }
+                }
+            }
+        }
+
+        $cart->update([
+            'sub_total' => $subTotal,
+            'total_gst' => $totalGST,
+            'total_delivery_charges' => $totalDelivery
+        ]);
     }
 }

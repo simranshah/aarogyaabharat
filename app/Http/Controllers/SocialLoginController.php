@@ -9,6 +9,8 @@ use Auth;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Hash;
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\Mail;
 class SocialLoginController extends Controller
 {
     public function redirectToGoogle()
@@ -33,6 +35,13 @@ class SocialLoginController extends Controller
             if ($customerRole) {
                 $user->assignRole('Customer');
             }
+            
+            // Send welcome email for new users
+            try {
+                Mail::to($user->email)->send(new WelcomeEmail($user));
+            } catch (\Exception $e) {
+                \Log::error('Failed to send welcome email: ' . $e->getMessage());
+            }
         }
 
         Auth::login($user, true);
@@ -52,7 +61,7 @@ class SocialLoginController extends Controller
     {
         $facebookUser = Socialite::driver('facebook')->user();
 
-        $user = User::where('facebook_id', $facebookUser->id)->orWhere('email', $googleUser->email)->first();
+        $user = User::where('facebook_id', $facebookUser->id)->orWhere('email', $facebookUser->email)->first();
 
         if (!$user) {
             // Create a new user if not exists
@@ -65,6 +74,13 @@ class SocialLoginController extends Controller
             $customerRole = Role::findByName('Customer');
             if ($customerRole) {
                 $user->assignRole('Customer');
+            }
+            
+            // Send welcome email for new users
+            try {
+                Mail::to($user->email)->send(new WelcomeEmail($user));
+            } catch (\Exception $e) {
+                \Log::error('Failed to send welcome email: ' . $e->getMessage());
             }
         }
 

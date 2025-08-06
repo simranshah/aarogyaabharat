@@ -1,51 +1,198 @@
-<div class="orderSummery">
-    <h4>Order Summary</h4>
-    <ul>
+<div class="orderSummery cost-breakup-card">
+    <div class="cost-breakup-header">
+        <div class="header-content">
+            <h4 class="cost-breakup-title">Cost Breakup</h4>
+            <div class="breakup-subtitle">Showing Rent Breakup ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->count() }} Items)</div>
+        </div>
         @php
-        $total = 0;
-        $delivery = 0;
-        $gst = 0;
-        // print_r($cartProducts[0]->cartProducts);
-        // die;
-    @endphp
-        @if (isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->cartProducts))
+        $buyTotal = 0;
+        $rentalTotal = 0;
+        $buyGST = 0;
+        $rentalGST = 0;
+        $buyDelivery = 0;
+        $rentalDelivery = 0;
+        $buyDeposit = 0;
+        $rentalDeposit = 0;
         
-            @foreach ($cartProducts[0]->cartProducts as $cartItem)
-                @if (isset($cartItem->is_visible) && $cartItem->is_visible == 1)
-                    <li id="product-detail-{{ $cartItem->product->id }}">
-                        <p>{{ $cartItem->product->name }}</p>
-                        <strong>₹  {{$cartItem->product->our_price * $cartItem->quantity}}</strong>
-                        @php
-                            $total += $cartItem->product->our_price * $cartItem->quantity;
-                            $delivery += $cartItem->product->delivery_and_installation_fees;
-                            $gst += ($cartItem->product->our_price * $cartItem->quantity * $cartItem->product->gst) / 100;
-                        @endphp
-                    </li>
-                @endif
-            @endforeach
-            <li>
-                <p>Total GST(18%)</p>
-                <strong>₹ {{ $gst}}</strong>
+        // Separate calculations for buy and rental items
+        if (isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->cartProducts)) {
+            foreach ($cartProducts[0]->cartProducts as $cartItem) {
+                if (isset($cartItem->is_visible) && $cartItem->is_visible == 1) {
+                    if (isset($cartItem->is_rental) && $cartItem->is_rental == 1) {
+                        // Rental item calculations
+                        $rentalTotal += ($cartItem->base_amount * $cartItem->quantity)/$cartItem->tenure;
+                        $rentalGST += ((($rentalTotal) * $cartItem->product->gst) / 100); // 18% GST
+                        $rentalDelivery += $cartItem->product->delivery_and_installation_fees;
+                        $rentalDeposit += ($cartItem->product->our_price * 0.25) * $cartItem->quantity; // 25% deposit
+                    } else {
+                        // Buy item calculations
+                        $buyTotal += $cartItem->product->our_price * $cartItem->quantity;
+                        $buyGST += ($cartItem->product->our_price * $cartItem->quantity * $cartItem->product->gst) / 100;
+                        $buyDelivery += $cartItem->product->delivery_and_installation_fees;
+                    }
+                }
+            }
+        }
+        
+        $totalGST = $buyGST + $rentalGST;
+        $totalDelivery = $buyDelivery + $rentalDelivery;
+        $totalDeposit = $rentalDeposit;
+        $finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDeposit;
+        @endphp
+        <div class="rent-buy-toggle">
+            @if($rentalTotal > 0)
+                <button class="toggle-btn active" data-type="rent">Rent</button>
+            @endif
+            @if($buyTotal > 0)
+                <button class="toggle-btn {{ $rentalTotal == 0 ? 'active' : '' }}" data-type="buy">Buy</button>
+            @endif
+        </div>
+        
+    </div>
+    
+    <div class="cost-breakup-content">
+        <ul class="breakup-list">
+    
+        
+        {{-- Rent View Items --}}
+        @if($totalDeposit > 0 || $rentalTotal > 0)
+        <div class="rent-view">
+            {{-- Refundable Deposit --}}
+            @if($totalDeposit > 0)
+            <li class="breakup-item">
+                <div class="item-label">Refundable Deposit ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 1)->count() }} Items) - Payable Now</div>
+                <div class="item-amount">₹{{ number_format($totalDeposit, 2) }}</div>
             </li>
-            <li class="discount_1">
-                @php
-                    $offer = $cartProducts[0]->discount_offer_amount ? $cartProducts[0]->discount_offer_amount : 0;
-                @endphp
-                <p>Offer Discount</p>
-                <strong>- ₹ {{ $cartProducts[0]->discount_offer_amount }}</strong>
+            @endif
+            
+            {{-- Monthly Rental Amount --}}
+            @if($rentalTotal > 0)
+            <li class="breakup-item">
+                <div class="item-label">Rental (+)</div>
+                <div class="item-amount">₹{{ number_format($rentalTotal, 2) }}/mo</div>
             </li>
-            <li >
-                <p>Delivery & Installation</p>
-                <strong>₹ {{ $delivery}}</strong>
+            @endif
+            
+            {{-- Monthly GST --}}
+            @if($rentalGST > 0)
+            <li class="breakup-item">
+                <div class="item-label">Total GST (+)</div>
+                <div class="item-amount">₹{{ number_format($rentalGST, 2) }}/mo</div>
             </li>
-            <li class="payable">
-                <p>Total Payable</p>
-                <strong> <span id="total-display" style="font-weight: bold;">₹  {{round($total - $offer + $gst + $delivery,2)}} </span></strong>
-                <input type="hidden" id="total-hidden" value="{{ $total }}">
+            @endif
+            
+            {{-- Total Monthly Rental --}}
+            @if($rentalTotal > 0)
+            <li class="breakup-item total-monthly">
+                <div class="item-label">Total Monthly Rental</div>
+                <div class="item-amount">₹{{ number_format($rentalTotal + $rentalGST, 2) }}/mo</div>
             </li>
+            @endif
+        </div>
+        @endif
+
+        {{-- Buy View Items --}}
+       
+        @if($buyTotal > 0)
+        <div class="buy-view" style="display:  {{ $rentalTotal == 0 ? 'block' : 'none' }}">
+            {{-- Buy Items Subtotal --}}
+            @if($buyTotal > 0)
+            <li class="breakup-item">
+                <div class="item-label">Buy Items Subtotal</div>
+                <div class="item-amount">₹{{ number_format($buyTotal, 2) }}</div>
+            </li>
+            @endif
+            
+            {{-- Buy GST --}}
+            @if($buyGST > 0)
+            <li class="breakup-item">
+                <div class="item-label">Total GST (18%)</div>
+                <div class="item-amount">₹{{ number_format($buyGST, 2) }}</div>
+            </li>
+            @endif
+        </div>
+        @endif
+        
+        {{-- Offer Discount --}}
+        @if(isset($cartProducts[0]->discount_offer_amount) && $cartProducts[0]->discount_offer_amount > 0)
+        <li class="discount_1">
+            <p>Offer Discount</p>
+            <strong>- ₹ {{ number_format($cartProducts[0]->discount_offer_amount, 2) }}</strong>
+        </li>
+        @php
+            $finalTotal -= $cartProducts[0]->discount_offer_amount;
+        @endphp
+        @endif
+        
+        {{-- Rent View Delivery and Total --}}
+        @if($totalDeposit > 0 || $rentalTotal > 0)
+        <div class="rent-view">
+            {{-- Delivery and Convenience --}}
+            @if($rentalDelivery > 0)
+            <li class="breakup-item delivery-item">
+                <div class="item-label">Delivery and Convenience</div>
+                <div class="item-amount">₹{{ number_format($rentalDelivery, 2) }}</div>
+            </li>
+            @endif
+            
+            {{-- Rent Cart Total --}}
+            @if($totalDeposit > 0)
+            <li class="breakup-item rent-cart-total">
+                <div class="item-label">Rent Cart Total (Deposit)</div>
+                <div class="item-amount">₹{{ number_format($totalDeposit, 2) }}</div>
+            </li>
+            @endif
+            @if($totalDeposit > 0)
+            <li class="breakup-item rent-cart-total">
+                <div class="item-label">Rent Cart Total</div>
+                <div class="item-amount">₹{{ number_format($rentalTotal + $rentalGST + $rentalDelivery + $totalDeposit, 2) }}</div>
+            </li>
+            @endif
+            
+        </div>
+        @endif
+
+        {{-- Buy View Delivery and Total --}}
+        @if($buyTotal > 0)
+        <div class="buy-view" style="display:  {{ $rentalTotal == 0 ? 'block' : 'none' }}">
+            {{-- Delivery and Convenience for Buy --}}
+            @if($buyDelivery > 0)
+            <li class="breakup-item delivery-item">
+                <div class="item-label">Delivery and Convenience</div>
+                <div class="item-amount">₹{{ number_format($buyDelivery, 2) }}</div>
+            </li>
+            @endif
+            
+            {{-- Buy Cart Total --}}
+            @if($buyTotal > 0)
+            <li class="breakup-item buy-cart-total">
+                <div class="item-label">Buy Cart Total</div>
+                <div class="item-amount">₹{{ number_format($buyTotal + $buyGST + $buyDelivery, 2) }}</div>
+            </li>
+            @endif
+        </div>
         @endif
     </ul>
     
+    <div class="breakup-divider"></div>
+    
+    {{-- Total Payable --}}
+    @if($finalTotal > 0)
+    <div class="total-payable">
+        <div class="total-label">Total Payable Now</div>
+        <div class="total-amount" id="total-display">₹{{ number_format($finalTotal, 2) }}</div>
+        <div class="total-note rent-note">Inclusive of both buy and security deposit</div>
+        <div class="total-note buy-note" style="display: none;">Inclusive of buy items and delivery</div>
+    </div>
+    @endif
+    
+    <input type="hidden" id="total-hidden" value="{{ $finalTotal }}">
+    <input type="hidden" id="buy-total" value="{{ $buyTotal }}">
+    <input type="hidden" id="rental-total" value="{{ $rentalTotal }}">
+    <input type="hidden" id="total-gst" value="{{ $totalGST }}">
+    <input type="hidden" id="total-delivery" value="{{ $totalDelivery }}">
+    <input type="hidden" id="total-deposit" value="{{ $totalDeposit }}">
+</div>
 </div>
 
     <div class="term-cons-cart" style="font-size: 12px"> 
@@ -53,9 +200,4 @@
         </div>
 
 <script>
-    $(document).ready(function() {
-        document.getElementById('buyAmount').innerHTML = " ₹ " + (parseFloat(document.getElementById('total-hidden').value) - parseFloat({{ $offer }}) + parseFloat({{ $gst }}) + parseFloat({{ $delivery }})).toFixed(2);
-        document.getElementById('total-display').innerHTML = " ₹ " + (parseFloat(document.getElementById('total-hidden').value) - parseFloat({{ $offer }}) + parseFloat({{ $gst }}) + parseFloat({{ $delivery }})).toFixed(2);
-        // console.log(document.getElementById('total-display').innerHTML);
-    });
 </script>

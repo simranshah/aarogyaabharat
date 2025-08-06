@@ -140,6 +140,44 @@
                             </div>
                         </div>
                         <div>
+                            <div class="profileAccorClick" onclick="changeRentStatusTab('active');">
+                                <img src="{{asset('front/images/rent_icon.svg')}}" alt="rent_info" class="icon1" />
+                                <p>Rent Orders</p>
+                                <img src="{{asset('front/images/rightArrow.svg')}}" alt="rightArrow" class="arrow1" />
+                            </div>
+                            <div class="profileAccorAns" id="main-rental-div" >
+                                <div class="orderinfo_title">
+                                    <h2>Rent Orders</h2>
+                                </div>
+                                <div class="filter">
+                                    <div class="filtertitle"><p>Filter</p><img src="{{asset('front/images/Filter.svg')}}" alt="Filter" /></div>
+                                    <ul>
+                                        <li>
+                                            <a onClick="changeRentStatusTab('active')">
+                                                <span>Active Rentals</span>
+                                                <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a onClick="changeRentStatusTab('completed')">
+                                                <span>Completed Rentals</span>
+                                                <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a onClick="changeRentStatusTab('overdue')">
+                                                <span>Overdue Payments</span>
+                                                <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div id="rent-orders">
+                                    {{-- @include('front.common.customer-rent-orders') --}}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
                             <a href="{{route('terms.and.conditions')}}" class="profileAccorClick">
                                 <img src="{{asset('front/images/terms_condition.svg')}}" alt="terms_condition" class="icon1" />
                                 <p>Terms & Condition</p>
@@ -466,6 +504,7 @@
 <script src="{{ asset('front/js/jquery.min.js') }}"></script>
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/script.js') }}"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
         function closePopup5() {
             document.querySelector('.add-adress-popup-overlay').style.display = 'none';
@@ -687,6 +726,21 @@ function changeStatusTab(statusId) {
             method: 'GET',
             success: function(response) {
                 $('#orders').html(response.customerDetailHtml);
+            },
+            error: function(xhr) {
+                 document.getElementById('logoutPopup3').style.display='flex';
+                // toastr.error('Something went wrong please try again');
+            }
+        });
+}
+
+function changeRentStatusTab(status) {
+        $.ajax({
+            url: '{{ route('customer.rentStatusWise', ':status') }}'.replace(':status', status),
+            method: 'GET',
+            success: function(response) {
+                $('#rent-orders').html(response.rentOrdersHtml);
+                $('#main-rental-div').css('display','grid');
             },
             error: function(xhr) {
                  document.getElementById('logoutPopup3').style.display='flex';
@@ -1054,5 +1108,363 @@ function chekPincodeAvil(pincode) {
 
             }
 </script>
+<script>
+    function payRent(rentalProductId) {
+        // Get payment details and show payment modal
+        getPaymentDetails(rentalProductId, 'all');
+    }
+    
+    function payMonthlyRent(rentalProductId) {
+        // Get payment details and show payment modal
+        getPaymentDetails(rentalProductId, 'monthly');
+    }
+    
+    function getPaymentDetails(rentalProductId, paymentType) {
+        $.ajax({
+            url: '{{ route("rental.getMonthlyPaymentDue") }}',
+            method: 'POST',
+            data: {
+                rental_product_id: rentalProductId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    showPaymentModal(response.data, paymentType);
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Error getting payment details');
+            }
+        });
+    }
+    
+    function showPaymentModal(paymentData, paymentType) {
+        // Create payment modal HTML
+        let modalHtml = `
+            <div id="paymentModal" class="payment-modal">
+                <div class="payment-modal-content">
+                    <div class="payment-modal-header">
+                        <h3>Pay Monthly Rent</h3>
+                        <span class="close" onclick="closePaymentModal()">&times;</span>
+                    </div>
+                    <div class="payment-modal-body">
+                        <div class="product-info">
+                            <h4>${paymentData.product_name}</h4>
+                            <p><strong>Monthly Rent:</strong> ₹${paymentData.monthly_rent}</p>
+                            <p><strong>GST:</strong> ₹${paymentData.gst_amount}</p>
+                            <p><strong>Total Monthly Amount:</strong> ₹${paymentData.monthly_amount}</p>
+                        </div>
+                        
+                        <div class="payment-options">
+                            <h4>Payment Options:</h4>
+                            <div class="payment-option">
+                                <input type="radio" id="monthly" name="payment_type" value="monthly" ${paymentType === 'monthly' ? 'checked' : ''}>
+                                <label for="monthly">Monthly Payment (₹${paymentData.monthly_amount})</label>
+                            </div>
+                            ${paymentData.is_overdue ? `
+                            <div class="payment-option">
+                                <input type="radio" id="overdue" name="payment_type" value="overdue" ${paymentType === 'all' ? 'checked' : ''}>
+                                <label for="overdue">Overdue Payment (₹${paymentData.overdue_amount})</label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="all" name="payment_type" value="all" ${paymentType === 'all' ? 'checked' : ''}>
+                                <label for="all">Monthly + Overdue (₹${paymentData.monthly_amount + paymentData.overdue_amount})</label>
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="payment-summary">
+                            <h4>Payment Summary:</h4>
+                            <div id="paymentSummary">
+                                <p><strong>Amount to Pay:</strong> ₹${paymentData.monthly_amount}</p>
+                            </div>
+                        </div>
+                        
+                        <button class="pay-now-btn" onclick="processPayment(${paymentData.rental_product_id})">
+                            Pay Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Add modal to page
+        $('body').append(modalHtml);
+        
+        // Update payment summary when payment type changes
+        $('input[name="payment_type"]').change(function() {
+            updatePaymentSummary(paymentData);
+        });
+    }
+    
+    function updatePaymentSummary(paymentData) {
+        let selectedType = $('input[name="payment_type"]:checked').val();
+        let amount = 0;
+        
+        switch(selectedType) {
+            case 'monthly':
+                amount = paymentData.monthly_amount;
+                break;
+            case 'overdue':
+                amount = paymentData.overdue_amount;
+                break;
+            case 'all':
+                amount = paymentData.monthly_amount + paymentData.overdue_amount;
+                break;
+        }
+        
+        $('#paymentSummary').html(`<p><strong>Amount to Pay:</strong> ₹${amount}</p>`);
+    }
+    
+    function processPayment(rentalProductId) {
+        // let paymentType = $('input[name="payment_type"]:checked').val();
+        
+        $.ajax({
+            url: '{{ route("rental.createMonthlyPaymentOrder") }}',
+            method: 'POST',
+            data: {
+                rental_product_id: rentalProductId,
+                payment_type: "monthly",
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Initialize Razorpay payment
+                    var options = {
+                        key: '{{ config("services.razorpay.key") }}',
+                        amount: response.data.amount * 100, // Convert to paise
+                        currency: response.data.currency,
+                        name: 'Aarogya Bharat',
+                        description: response.data.description,
+                        order_id: response.data.razorpay_order_id,
+                        handler: function (response) {
+                            verifyPayment(response);
+                        },
+                        prefill: {
+                            name: '{{ Auth::user()->name ?? "" }}',
+                            email: '{{ Auth::user()->email ?? "" }}',
+                            contact: '{{ Auth::user()->phone ?? "" }}'
+                        },
+                        theme: {
+                            color: '#ff7529'
+                        }
+                    };
+                    
+                    var rzp = new Razorpay(options);
+                    rzp.open();
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Error creating payment order');
+            }
+        });
+    }
+    
+    function verifyPayment(razorpayResponse) {
+        $.ajax({
+            url: '{{ route("rental.verifyMonthlyPayment") }}',
+            method: 'POST',
+            data: {
+                razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+                razorpay_order_id: razorpayResponse.razorpay_order_id,
+                razorpay_signature: razorpayResponse.razorpay_signature,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    // alert('Payment successful!');
+                    closePaymentModal();
+                    // Refresh the page to update payment status
+                    location.reload();
+                } else {
+                    alert('Payment verification failed: ' + response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Payment verification failed');
+            }
+        });
+    }
+    
+    function closePaymentModal() {
+        $('#paymentModal').remove();
+    }
+    
+    function payRentalOrder(rentalOrderId) {
+        // Get payment data for the entire rental order
+        $.ajax({
+            url: '{{ route("rental.getGroupedMonthlyPayments") }}',
+            method: 'POST',
+            data: {
+                rental_order_id: rentalOrderId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    showRentalOrderPaymentModal(response.data);
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Error fetching payment data');
+            }
+        });
+    }
+    
+    function showRentalOrderPaymentModal(paymentData) {
+        // Remove existing modal if any
+        $('#paymentModal').remove();
+        
+        let modalHtml = `
+            <div id="paymentModal" class="payment-modal">
+                <div class="payment-modal-content">
+                    <div class="payment-modal-header">
+                        <h3>Pay Rental Order</h3>
+                        <span class="close" onclick="closePaymentModal()">&times;</span>
+                    </div>
+                    <div class="payment-modal-body">
+                        <div class="product-info">
+                            <h4>Rental Order #${paymentData.rental_order_id}</h4>
+                            <p><strong>Total Monthly Rent:</strong> ₹${paymentData.total_monthly_rent}</p>
+                            <p><strong>Total GST:</strong> ₹${paymentData.total_gst}</p>
+                            ${paymentData.total_overdue_amount > 0 ? `<p><strong>Total Overdue Amount:</strong> ₹${paymentData.total_overdue_amount}</p>` : ''}
+                            <p><strong>Total Amount Due:</strong> ₹${paymentData.total_amount}</p>
+                        </div>
+                        
+                        <div class="payment-options">
+                            <h4>Payment Options</h4>
+                            <div class="payment-option">
+                                <input type="radio" id="monthly" name="payment_type" value="monthly" checked>
+                                <label for="monthly">Pay Monthly Rent Only (₹${paymentData.total_monthly_rent + paymentData.total_gst})</label>
+                            </div>
+                            ${paymentData.total_overdue_amount > 0 ? `
+                            <div class="payment-option">
+                                <input type="radio" id="overdue" name="payment_type" value="overdue">
+                                <label for="overdue">Pay Overdue Amount Only (₹${paymentData.total_overdue_amount})</label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="all" name="payment_type" value="all">
+                                <label for="all">Pay All (₹${paymentData.total_amount})</label>
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="payment-summary">
+                            <h4>Payment Summary</h4>
+                            <div id="paymentSummary">
+                                <p><strong>Amount to Pay:</strong> ₹${paymentData.total_monthly_rent + paymentData.total_gst}</p>
+                            </div>
+                        </div>
+                        
+                        <button class="pay-now-btn" onclick="processRentalOrderPayment(${paymentData.rental_order_id})">Pay Now</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        $('body').append(modalHtml);
+        
+        // Update payment summary when payment type changes
+        $('input[name="payment_type"]').change(function() {
+            updateRentalOrderPaymentSummary(paymentData);
+        });
+    }
+    
+    function updateRentalOrderPaymentSummary(paymentData) {
+        let selectedType = $('input[name="payment_type"]:checked').val();
+        let amount = 0;
+        
+        switch(selectedType) {
+            case 'monthly':
+                amount = paymentData.total_monthly_rent + paymentData.total_gst;
+                break;
+            case 'overdue':
+                amount = paymentData.total_overdue_amount;
+                break;
+            case 'all':
+                amount = paymentData.total_amount;
+                break;
+        }
+        
+        $('#paymentSummary').html(`<p><strong>Amount to Pay:</strong> ₹${amount}</p>`);
+    }
+    
+    function processRentalOrderPayment(rentalOrderId) {
+        // let paymentType = $('input[name="payment_type"]:checked').val();
+        
+        $.ajax({
+            url: '{{ route("rental.createGroupedMonthlyPaymentOrder") }}',
+            method: 'POST',
+            data: {
+                rental_order_id: rentalOrderId,
+                payment_type: "monthly",
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Initialize Razorpay payment
+                    var options = {
+                        key: '{{ config("services.razorpay.key") }}',
+                        amount: response.data.amount * 100, // Convert to paise
+                        currency: response.data.currency,
+                        name: 'Aarogya Bharat',
+                        description: response.data.description,
+                        order_id: response.data.razorpay_order_id,
+                        handler: function (response) {
+                            verifyRentalOrderPayment(response);
+                        },
+                        prefill: {
+                            name: '{{ Auth::user()->name ?? "" }}',
+                            email: '{{ Auth::user()->email ?? "" }}',
+                            contact: '{{ Auth::user()->mobile ?? "" }}'
+                        },
+                        theme: {
+                            color: '#ff7529'
+                        }
+                    };
+                    
+                    var rzp = new Razorpay(options);
+                    rzp.open();
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Error creating payment order');
+            }
+        });
+    }
+    
+    function verifyRentalOrderPayment(razorpayResponse) {
+        $.ajax({
+            url: '{{ route("rental.verifyGroupedMonthlyPayment") }}',
+            method: 'POST',
+            data: {
+                razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+                razorpay_order_id: razorpayResponse.razorpay_order_id,
+                razorpay_signature: razorpayResponse.razorpay_signature,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Payment successful!');
+                    closePaymentModal();
+                    // Refresh the page to update payment status
+                    location.reload();
+                } else {
+                    alert('Payment verification failed: ' + response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Payment verification failed');
+            }
+        });
+    }
+    </script> 
 
 @endsection('content')

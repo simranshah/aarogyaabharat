@@ -6,6 +6,8 @@ use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Models\Admin\PinOffice;
 use Illuminate\Support\Facades\DB;
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,6 +60,13 @@ class BannerController extends Controller
             }
 
             $customer->assignRole('Customer');
+            
+            // Send welcome email
+            try {
+                Mail::to($customer->email)->send(new WelcomeEmail($customer));
+            } catch (\Exception $e) {
+                \Log::error('Failed to send welcome email: ' . $e->getMessage());
+            }
 
             DB::commit();
 

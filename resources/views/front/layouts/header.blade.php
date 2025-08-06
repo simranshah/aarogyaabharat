@@ -101,6 +101,8 @@
     <link rel="preload" href="{{ asset('front/fonts/NunitoSans_10pt-Bold.ttf') }}" as="font" type="font/ttf"
         crossorigin="anonymous">
 
+    @yield('styles')
+
 </head>
 
 <body class="bodyback">

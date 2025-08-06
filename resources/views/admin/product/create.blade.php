@@ -214,6 +214,28 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
+                                        <label for="rent_tenur">Rent Tenure (pipe-separated values)</label>
+                                        <input type="text" name="rent_tenur"
+                                            class="form-control @error('rent_tenur') is-invalid @enderror"
+                                            id="rent_tenur" placeholder="e.g., 1|3|6|12"
+                                            value="{{ old('rent_tenur') }}">
+                                        <small class="form-text text-muted">Enter tenure values separated by | (e.g., 1|3|6|12 for 1, 3, 6, and 12 months)</small>
+                                        @error('rent_tenur')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="renting_presentag">Rent Percentage (pipe-separated values)</label>
+                                        <input type="text" name="renting_presentag"
+                                            class="form-control @error('renting_presentag') is-invalid @enderror"
+                                            id="renting_presentag" placeholder="e.g., 5|8|10|12"
+                                            value="{{ old('renting_presentag') }}">
+                                        <small class="form-text text-muted">Enter percentage values separated by | (e.g., 5|8|10|12 for 5%, 8%, 10%, and 12% respectively for each tenure)</small>
+                                        @error('renting_presentag')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
                                         <label for="deliveryFees">Delivery And Installation Fees</label>
                                         <input type="number" name="delivery_and_installation_fees" min="0"
                                             class="form-control @error('delivery_and_installation_fees') is-invalid @enderror"

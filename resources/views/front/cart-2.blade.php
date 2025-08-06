@@ -1,4 +1,247 @@
 @extends('front.layouts2.layout2')
+
+@section('styles')
+<style>
+    .tenure-selector { 
+        padding: 8px;
+        margin-top: 8px;
+    }
+    
+    .tenure-selector label {
+        font-size: 11px;
+        color: #495057;
+        font-weight: 500;
+        margin-bottom: 4px;
+        display: block;
+    }
+    
+    .tenure-select {
+        padding: 4px 8px;
+        border: 1px solid #ced4da;
+        border-radius: 3px;
+        font-size: 11px;
+        width: 90px;
+        background: white;
+        color: #495057;
+    }
+    
+    .update-tenure-btn {
+        margin-left: 5px;
+        padding: 4px 8px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        font-size: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .update-tenure-btn:hover {
+        background: #0056b3;
+    }
+    
+    .update-tenure-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+    }
+    
+    .tenure-selector .flex-container {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Cost Breakup Card Styles */
+    .cost-breakup-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .cost-breakup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .header-content {
+        flex: 1;
+    }
+
+    .cost-breakup-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 5px 0;
+    }
+
+    .breakup-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin: 0;
+    }
+
+    .rent-buy-toggle {
+        display: flex;
+        gap: 8px;
+    }
+
+    .toggle-btn {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        background: white;
+        color: #666;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .toggle-btn.active {
+        background: #ff7529;
+        color: white;
+        border-color: #ff7529;
+    }
+
+    .toggle-btn:hover:not(.active) {
+        background: #f8f9fa;
+    }
+
+    .cost-breakup-content {
+        margin-top: 15px;
+    }
+
+    .breakup-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .breakup-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .breakup-item:last-child {
+        border-bottom: none;
+    }
+
+    .item-label {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .item-amount {
+        font-size: 14px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .total-monthly {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border: none;
+    }
+
+    .total-monthly .item-label,
+    .total-monthly .item-amount {
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .delivery-item .item-amount {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    .final-price {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .rent-cart-total {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border: none;
+    }
+
+    .rent-cart-total .item-label,
+    .rent-cart-total .item-amount {
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .buy-cart-total {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border: none;
+    }
+
+    .buy-cart-total .item-label,
+    .buy-cart-total .item-amount {
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .breakup-divider {
+        height: 1px;
+        background: #e9ecef;
+        margin: 20px 0;
+    }
+
+    .total-payable {
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .total-label {
+        font-size: 16px;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .total-amount {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .total-note {
+        font-size: 12px;
+        color: #666;
+        margin: 0;
+    }
+</style>
+@endsection
+
 @section('content')
     {{-- @include('front.common.welcome-message') --}}
     <div class="breadcrumbs">
@@ -193,7 +436,8 @@
                         <div class="offerLink1">
                             <a id="getMoreOffers" onclick="getMoreOffers()">View More Offers</a>
                         </div> --}}
-                            <div id="buyOption" class="option-box active">
+                            {{-- Commented out individual Buy Now and Rent Now options --}}
+                            {{-- <div id="buyOption" class="option-box active">
                                 <div class="header">
                                     <label>
                                         <input type="radio" name="mode" value="buy" checked>
@@ -230,6 +474,55 @@
 
                                 </div>
                                 <button class="pay-btn">Proceed to Pay</button>
+                            </div> --}}
+                            
+                            @php
+                                // Calculate totals for checkout all button
+                                $buyTotal = 0;
+                                $rentalTotal = 0;
+                                $buyGST = 0;
+                                $rentalGST = 0;
+                                $buyDelivery = 0;
+                                $rentalDelivery = 0;
+                                $rentalDeposit = 0;
+                                
+                                if (isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->cartProducts)) {
+                                    foreach ($cartProducts[0]->cartProducts as $cartItem) {
+                                        if (isset($cartItem->is_visible) && $cartItem->is_visible == 1) {
+                                            if (isset($cartItem->is_rental) && $cartItem->is_rental == 1) {
+                                                // Rental item calculations
+                                                $rentalTotal += $cartItem->price * $cartItem->quantity;
+                                                $rentalGST += ($cartItem->price * $cartItem->quantity * 0.18);
+                                                $rentalDelivery += $cartItem->product->delivery_and_installation_fees;
+                                                $rentalDeposit += ($cartItem->product->our_price * 0.25) * $cartItem->quantity;
+                                            } else {
+                                                // Buy item calculations
+                                                $buyTotal += $cartItem->product->our_price * $cartItem->quantity;
+                                                $buyGST += ($cartItem->product->our_price * $cartItem->quantity * $cartItem->product->gst) / 100;
+                                                $buyDelivery += $cartItem->product->delivery_and_installation_fees;
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                $totalGST = $buyGST + $rentalGST;
+                                $totalDelivery = $buyDelivery + $rentalDelivery;
+                                $finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $rentalDeposit;
+                                
+                                // Apply discount if any
+                                if (isset($cartProducts[0]->discount_offer_amount) && $cartProducts[0]->discount_offer_amount > 0) {
+                                    $finalTotal -= $cartProducts[0]->discount_offer_amount;
+                                }
+                            @endphp
+                            
+                            {{-- Combined Checkout All Button --}}
+                            <div id="checkoutAllOption" class="option-box active">
+                                <div class="header">
+                                    <span style="font-weight: bold; font-size: 18px;">Checkout All Items</span>
+                                    <div class="amount">Total Payable<span id="checkoutAllAmount" style="font-weight: bold;"> &nbsp;
+                                            ₹ {{ number_format($finalTotal, 2) }}</span></div>
+                                </div>
+                                <button class="pay-btn" id="checkoutAllButton" data-cartid="{{ $cartProducts[0]->id }}" onclick="checkoutAllItems()">Checkout All Items</button>
                             </div>
                             @php
                                 $total = 0;
@@ -927,6 +1220,11 @@
                             $('#orderSummery').html(response.orderSummaryResponse);
                             $('#offer-html').html(response.couponHtml);
                             $('.flatDicountPop').css('display', 'flex');
+                            
+                            // Update checkout all amount after applying offer
+                            setTimeout(function() {
+                                updateCheckoutAllAmount();
+                            }, 100);
                         } else {
                             document.getElementById('errormsgoffer').innerHTML=response.message;
                             // toastr.error(response.message);
@@ -955,6 +1253,12 @@
                             // toastr.success(response.message);
                              document.getElementById('offerModal').style.display='none';
                              $('#orderSummery').html(response.orderSummaryResponse);
+                             
+                             // Update checkout all amount after removing offer
+                             setTimeout(function() {
+                                 updateCheckoutAllAmount();
+                             }, 100);
+                             
                              window.location.reload();
                             // $('#apply-' + couponCode).show();
                             // $('#removeDiscount-' + couponCode).hide();
@@ -992,6 +1296,11 @@
                                 // toastr.success('Item remove from selected successfully.');
                             }
                             $('#orderSummery').html(response.orderSummaryResponse);
+                            
+                            // Update checkout all amount after order summary refresh
+                            setTimeout(function() {
+                                updateCheckoutAllAmount();
+                            }, 100);
                         } else {
                              document.getElementById('logoutPopup3').style.display='flex';
                             // toastr.error(response.message);
@@ -1004,6 +1313,140 @@
                 });
             }
 
+
+            function updateCheckoutAllAmount() {
+                // Get the total from the order summary
+                var totalElement = document.getElementById('total-hidden');
+                if (totalElement) {
+                    var totalAmount = parseFloat(totalElement.value);
+                    var checkoutAllElement = document.getElementById('checkoutAllAmount');
+                    if (checkoutAllElement) {
+                        checkoutAllElement.innerHTML = " ₹ " + totalAmount.toFixed(2);
+                    }
+                }
+            }
+
+            function checkoutAllItems() {
+                var cartId = document.getElementById('checkoutAllButton').getAttribute('data-cartid');
+                var totalAmount = parseFloat(document.getElementById('total-hidden').value);
+                
+                // Disable button to prevent double click
+                document.getElementById('checkoutAllButton').disabled = true;
+                document.getElementById('checkoutAllButton').innerHTML = 'Processing...';
+                
+                $.ajax({
+                    url: "{{ route('checkout.all') }}",
+                    method: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        cart_id: cartId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Initialize Razorpay payment
+                            console.log('response.amount', response.amount *100);
+                            var options = {
+                                "key": "{{ env('RAZORPAY_KEY') }}",
+                                "amount": Math.round(response.amount * 100),
+                                "currency": "INR",
+                                "name": "Aarogyaa Bharat",
+                                "description": "Combined Order Payment",
+                                "image": "{{ asset('admin/images/arogya_bharat.svg') }}",
+                                "order_id": response.order_id,
+                                "handler": function (res) {
+              console.log('Full response:', res);
+
+              // ✅ Now you'll get all 3
+              // res.razorpay_payment_id
+              // res.razorpay_order_id
+              // res.razorpay_signature
+
+              verifyPayment({
+                  razorpay_payment_id: res.razorpay_payment_id,
+                  razorpay_order_id: res.razorpay_order_id,
+                  razorpay_signature: res.razorpay_signature
+              });
+          },
+                                "prefill": {
+                                    "name": "{{ Auth::user()->name ?? '' }}",
+                                    "email": "{{ Auth::user()->email ?? '' }}",
+                                    "contact": "{{ Auth::user()->mobile ?? '' }}"
+                                },
+                                "theme": {
+                                    "color": "#FFCC5C"
+                                }
+                            };
+                            
+                            var rzp1 = new Razorpay(options);
+                            rzp1.open();
+                        } else {
+                            // alert('Checkout failed: ' + response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status == 401) {
+                                var response = JSON.parse(xhr.responseText);
+                                if(response.message=='Please login to proceed with payment.'){
+                                   window.location.href="{{route('login')}}"
+                                }else if(response.message=='Please add a delivery address.'){
+                            document.getElementById('text-btween-cartpopup').innerHTML='Let’s add your address first.'
+                            cartPopup();
+                                addNewDeliveryAddress1();
+                                }else{
+                                    document.getElementById('logoutPopup3').style.display='flex';
+                                }
+                                // document.getElementById('logoutPopup3').style.display='flex';
+                                // toastr.error(response.message);
+                            } else if (xhr.status == 404) {
+                                var response = JSON.parse(xhr.responseText);
+                               if(response.message=='Please login to proceed with payment.'){
+                                   window.location.href="{{route('login')}}"
+                                }else if(response.message=='Please add a delivery address.'){
+                                 document.getElementById('text-btween-cartpopup').innerHTML='Let’s add your address first.'
+                                 cartPopup();
+                                addNewDeliveryAddress1();
+                                }else{
+                                    document.getElementById('logoutPopup3').style.display='flex';
+                                }
+                                // toastr.error(response.message);
+                            } else {
+                                  document.getElementById('logoutPopup3').style.display='flex';
+                                // toastr.error(
+                                //     'Something went wrong with the payment. Please try again later.'
+                                // );
+                            }
+                    },
+                    complete: function() {
+                        // Re-enable button
+                        document.getElementById('checkoutAllButton').disabled = false;
+                        document.getElementById('checkoutAllButton').innerHTML = 'Checkout All Items';
+                    }
+                });
+            }
+
+            function verifyPayment(razorpayResponse) {
+                $.ajax({
+                    url: "{{ route('checkout.verify-payment') }}",
+                    method: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+                        razorpay_order_id: razorpayResponse.razorpay_order_id,
+                        razorpay_signature: razorpayResponse.razorpay_signature
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // alert('Payment successful! Your order has been placed.');
+                            window.location.href = "{{ route('customers.profile') }}";
+                        } else {
+                            alert('Payment verification failed: ' + response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Payment verification failed. Please contact support.');
+                    }
+                });
+            }
 
             function updateRazorpayAmount(amount) {
                 // Update Razorpay or payment gateway amount logic here
@@ -1122,7 +1565,110 @@
                     }
                 });
             }
+            $(document).ready(function() {
+        // Update the checkout all amount
+        var totalAmount = parseFloat(document.getElementById('total-hidden').value);
+        document.getElementById('checkoutAllAmount').innerHTML = " ₹ " + totalAmount.toFixed(2);
+        document.getElementById('total-display').innerHTML = " ₹ " + totalAmount.toFixed(2);
+        
+        // Update individual amounts if elements exist
+        if (document.getElementById('buyAmount')) {
+            var buyTotal = parseFloat(document.getElementById('buy-total').value);
+            document.getElementById('buyAmount').innerHTML = " ₹ " + buyTotal.toFixed(2);
+        }
+        
+        if (document.getElementById('rentAmount')) {
+            var rentalTotal = parseFloat(document.getElementById('rental-total').value);
+            document.getElementById('rentAmount').innerHTML = " ₹ " + rentalTotal.toFixed(2);
+        }
+    });
 
+            // Tenure update functionality
+            $(document).ready(function() {
+                // Handle tenure update button clicks
+                $(document).on('change', '.tenure-select', function() {
+                    var cartItemId = $(this).data('cart-item-id');
+                    var selectedTenure = $(this).val();
+                    
+                    // Show loading state
+                    // $(this).text('Updating...').prop('disabled', true);
+                    
+                    $.ajax({
+                        url: "{{ route('cart.update-rental-tenure') }}",
+                        type: 'POST',
+                        data: {
+                            cart_item_id: cartItemId,
+                            tenure: selectedTenure,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // toastr.success('Tenure updated successfully!');
+                                // Refresh cart items and order summary
+                                location.reload();
+                            } else {
+                                toastr.error(response.message || 'Failed to update tenure');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            toastr.error('Something went wrong. Please try again later.');
+                        },
+                        complete: function() {
+                            // Reset button state
+                            $('.update-tenure-btn[data-cart-item-id="' + cartItemId + '"]').text('Update').prop('disabled', false);
+                        }
+                    });
+                });
+
+                // Handle tenure select change (optional - for immediate feedback)
+                $(document).on('change', '.tenure-select', function() {
+                    var cartItemId = $(this).data('cart-item-id');
+                    var selectedTenure = $(this).val();
+                    console.log('Tenure changed for cart item ' + cartItemId + ' to ' + selectedTenure + ' months');
+                });
+
+                // Handle rent/buy toggle buttons
+                $(document).on('click', '.toggle-btn', function() {
+                    var type = $(this).data('type');
+                    
+                    // Update active state
+                    $('.toggle-btn').removeClass('active');
+                    $(this).addClass('active');
+                    
+                    // Show/hide appropriate views
+                    if (type === 'rent') {
+                        $('.rent-view').show();
+                        $('.buy-view').hide();
+                        @if(isset($cartProducts[0]) && isset($cartProducts[0]->cartProducts))
+            @php
+                $rentalCount = $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 1)->count();
+            @endphp
+
+            $('.breakup-subtitle').text('Showing Rent Breakup ({{ $rentalCount }} Items)');
+        @else
+            $('.breakup-subtitle').text('Showing Rent Breakup (0 Items)');
+        @endif
+                        $('.rent-note').show();
+                        $('.buy-note').hide();
+                        
+                        // Don't change the total payable - keep it unchanged
+                    } else {
+                        $('.rent-view').hide();
+                        $('.buy-view').show();
+                        @php
+    $buyCount = (isset($cartProducts[0]) && isset($cartProducts[0]->cartProducts))
+        ? $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 0)->count()
+        : 0;
+@endphp  $('.breakup-subtitle').text('Showing Buy Breakup ({{ $buyCount }} Items)');
+                        $('.rent-note').hide();
+                        $('.buy-note').show();
+                        
+                        // Don't change the total payable - keep it unchanged
+                    }
+                    
+                    console.log('Switched to ' + type + ' view');
+                });
+            });
         </script>
     </section>
 @endsection('content')

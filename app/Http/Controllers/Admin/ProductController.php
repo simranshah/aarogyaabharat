@@ -68,6 +68,8 @@ class ProductController extends Controller
         $product->original_price = $request->price;
         $product->our_price = $request->price - ($request->price * $request->dicount_percentage / 100);
         $product->monthly_price = $request->monthly_price;
+        $product->rent_tenur = $request->rent_tenur;
+        $product->renting_presentag = $request->renting_presentag;
         $product->is_rentable = $request->has('is_rentable') ? true : false;
         $product->is_popular = $request->has('is_popular') ? true : false;
         $product->is_new = $request->has('is_new') ? true : false;
@@ -161,6 +163,8 @@ class ProductController extends Controller
         $product->our_price = $request->price - ($request->price * $request->dicount_percentage / 100);
         $product->weekly_price = $request->weekly_price;
         $product->gst = $request->gst;
+        $product->rent_tenur = $request->rent_tenur;
+        $product->renting_presentag = $request->renting_presentag;
         $product->is_rentable = $request->has('is_rentable') ? true : false ;
         $product->is_popular = $request->has('is_popular') ? true : false;
         $product->is_new = $request->has('is_new') ? true : false;

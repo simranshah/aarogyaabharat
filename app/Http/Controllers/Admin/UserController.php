@@ -7,6 +7,8 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\Mail;
 
 
 class UserController extends Controller
@@ -42,6 +44,15 @@ class UserController extends Controller
         ]);
 
         $user->assignRole($request->role);
+        
+        // Send welcome email only for customers
+        if ($request->role === 'Customer') {
+            try {
+                Mail::to($user->email)->send(new WelcomeEmail($user));
+            } catch (\Exception $e) {
+                \Log::error('Failed to send welcome email: ' . $e->getMessage());
+            }
+        }
 
         return redirect()->route('admin.users')->with('success', 'User created successfully.');
     }

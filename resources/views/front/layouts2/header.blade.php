@@ -109,6 +109,8 @@
             preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
     @endphp
 
+    @yield('styles')
+
 </head>
   <body>
     <div class="home-d">

@@ -247,8 +247,14 @@ $isMobile =
         <div style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                         <div class="buy-rent-buttons">
                             <button class="buy-btn buynowborder-show" id="buynowsummerybtn" onclick="chnagesection('buy',this);">Purchase</button>
-                            <button class="rent-btn buynowborder-noshow" id="rentnowsectionbtn" onclick="chnagesection('rent',this);">
-                                Rent Now
+                            <button class="rent-btn buynowborder-noshow" id="rentnowsectionbtn" 
+                            @if($productDetails->is_rentable == 1)
+                            onclick="chnagesection('rent',this);"
+                            @else
+                           disabled
+                            @endif
+                            >
+                                        Rent Now
                                 <span class="save-badge">Save 30%</span>
                             </button>
                         </div>
@@ -283,7 +289,7 @@ $isMobile =
                         @if($productDetails->productAttributes->stock == 0)
                 <button class="pay-btn"  style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
                 @else
-                <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to Cart (Buy)</button>
                 @endif
                 @if($productDetails->productAttributes->stock == 0)
                 <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
@@ -296,39 +302,38 @@ $isMobile =
                        <div class="content1" id="rentnowsection" style="display: none; height: auto;">
                         <div class="tenure-section">
                              <div class="tenure-label">Select Tenure -</div>
-                            {{-- <div class="tenure-display">
-                                <span id="tenure-months">18</span> months
-                            </div> --}}
-                            <div class="tenure-slider-container">
-                                <input type="range" min="0" max="100" value="18" class="tenure-slider" id="tenureSlider">
-                            </div>
-                            <div class="tenure-months">
-                                <span>0</span>
-                                <span>12</span>
-                                <span>24</span>
-                                <span>36</span>
-                                <span>48</span>
-                                <span>100</span>
+                            <div class="tenure-select-container">
+                                <select class="tenure-select" id="tenureSlider" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%;">
+                                    @if($productDetails->rent_tenur)
+                                        @php
+                                            $tenures = explode('|', $productDetails->rent_tenur);
+                                        @endphp
+                                        @foreach($tenures as $tenure)
+                                            <option value="{{ trim($tenure) }}">{{ trim($tenure) }} Months</option>
+                                        @endforeach
+                                    @else
+                                        <option value="1">1 Month</option>
+                                        <option value="3">3 Months</option>
+                                        <option value="6">6 Months</option>
+                                        <option value="12">12 Months</option>
+                                    @endif
+                                </select>
                             </div>
                         </div>
 
                         <div class="order-summary">
                             <div class="summary-title">Order Summary</div>
                             <div class="summary-item">
-                                <span>Product A</span>
-                                <span>₹ 1,200</span>
+                                <span>Rental Base Amount</span>
+                                <span id="rental-base-amount">₹ 0</span>
                             </div>
                             <div class="summary-item">
-                                <span>Product B</span>
-                                <span>₹ 450</span>
+                                <span>GST (18%)</span>
+                                <span id="rental-gst-amount">₹ 0</span>
                             </div>
                             <div class="summary-item">
-                                <span>Total GST</span>
-                                <span>₹ 96</span>
-                            </div>
-                            <div class="summary-item discount">
-                                <span>Offer Discount Applied</span>
-                                <span>- ₹ 150</span>
+                                <span>Deposit (25%)</span>
+                                <span id="rental-deposit-amount">₹ 0</span>
                             </div>
                             <div class="summary-item">
                                 <span>Delivery & Installation (Free)</span>
@@ -336,10 +341,10 @@ $isMobile =
                             </div>
                             <div class="summary-item total">
                                 <span>Total Payable</span>
-                                <span>₹ 1,596.00</span>
+                                <span id="rental-total-amount">₹ 0</span>
                             </div>
                         </div>
-                        <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                        <button class="pay-btn" onclick="addRentalToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to Cart (Rental)</button>
                             <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
                                 to Pay</button>
                     </div>
@@ -467,7 +472,13 @@ $isMobile =
 <div style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                 <div class="buy-rent-buttons">
                     <button class="buy-btn buynowborder-show" id="buynowsummerybtn" onclick="chnagesection('buy',this);">Purchase</button>
-                    <button class="rent-btn buynowborder-noshow" id="rentnowsectionbtn" onclick="chnagesection('rent',this);">
+                    <button class="rent-btn buynowborder-noshow" id="rentnowsectionbtn"
+                    @if($productDetails->is_rentable == 1)
+                            onclick="chnagesection('rent',this);"
+                            @else
+                           disabled
+                            @endif
+                    >
                         Rent Now
                         <span class="save-badge">Save 30%</span>
                     </button>
@@ -517,39 +528,38 @@ $isMobile =
                <div class="content1" id="rentnowsection" style="display: none; height: auto;">
                 <div class="tenure-section">
                     <div class="tenure-label">Select Tenure -</div>
-                    {{-- <div class="tenure-display">
-                        <span id="tenure-months">18</span> months
-                    </div> --}}
-                    <div class="tenure-slider-container">
-                        <input type="range" min="0" max="100" value="18" class="tenure-slider" id="tenureSlider">
-                    </div>
-                    <div class="tenure-months">
-                        <span>0</span>
-                        <span>12</span>
-                        <span>24</span>
-                        <span>36</span>
-                        <span>48</span>
-                        <span>100</span>
+                    <div class="tenure-select-container">
+                        <select class="tenure-select" id="tenureSlider2" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%;">
+                            @if($productDetails->rent_tenur)
+                                @php
+                                    $tenures = explode('|', $productDetails->rent_tenur);
+                                @endphp
+                                @foreach($tenures as $tenure)
+                                    <option value="{{ trim($tenure) }}">{{ trim($tenure) }} Months</option>
+                                @endforeach
+                            @else
+                                <option value="1">1 Month</option>
+                                <option value="3">3 Months</option>
+                                <option value="6">6 Months</option>
+                                <option value="12">12 Months</option>
+                            @endif
+                        </select>
                     </div>
                 </div>
 
                 <div class="order-summary">
                     <div class="summary-title">Order Summary</div>
                     <div class="summary-item">
-                        <span>Product A</span>
-                        <span>₹ 1,200</span>
+                        <span>Rental Base Amount</span>
+                        <span id="rental-base-amount2">₹ 0</span>
                     </div>
                     <div class="summary-item">
-                        <span>Product B</span>
-                        <span>₹ 450</span>
+                        <span>GST (18%)</span>
+                        <span id="rental-gst-amount2">₹ 0</span>
                     </div>
                     <div class="summary-item">
-                        <span>Total GST</span>
-                        <span>₹ 96</span>
-                    </div>
-                    <div class="summary-item discount">
-                        <span>Offer Discount Applied</span>
-                        <span>- ₹ 150</span>
+                        <span>Deposit (25%)</span>
+                        <span id="rental-deposit-amount2">₹ 0</span>
                     </div>
                     <div class="summary-item">
                         <span>Delivery & Installation (Free)</span>
@@ -557,13 +567,13 @@ $isMobile =
                     </div>
                     <div class="summary-item total">
                         <span>Total Payable</span>
-                        <span>₹ 1,596.00</span>
+                        <span id="rental-total-amount2">₹ 0</span>
                     </div>
                 </div>
                 @if($productDetails->productAttributes->stock == 0)
                 <button class="pay-btn"  style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
                 @else
-                <button class="pay-btn" onclick="addToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                <button class="pay-btn" onclick="addRentalToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to Cart (Rental)</button>
                 @endif
                 @if($productDetails->productAttributes->stock == 0)
                 <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
@@ -1556,6 +1566,108 @@ function addToCart(productId) {
     });
 }
 
+function addRentalToCart(productId) {
+    // Get tenure value from select box (try both selectors)
+    var tenureSelect = document.getElementById('tenureSlider') || document.getElementById('tenureSlider2');
+    var tenure = tenureSelect ? tenureSelect.value : 1;
+    var selectedIndex = tenureSelect ? tenureSelect.selectedIndex : 0;
+    
+    // Get rental percentage from product data
+    var rentalPercentages = "{{ $productDetails->renting_presentag ?: '10' }}".split('|'); // Split by pipe
+    var rentalPercentage = rentalPercentages[selectedIndex] || rentalPercentages[0] || 10; // Get percentage for selected tenure
+    
+    // Calculate rental amounts using the percentage
+    var baseAmount = ({{ $productDetails->our_price }} * rentalPercentage / 100); // Percentage of price * tenure
+    var gstAmount = baseAmount * 0.18; // 18% GST
+    var depositAmount = {{ $productDetails->our_price }} * 0.25; // 25% deposit
+    var deliveryFees = 0; // Free delivery
+    var totalAmount = baseAmount + gstAmount + depositAmount + deliveryFees;
+    
+    $.ajax({
+        url: "{{ route('cart.add.rental', ['productId' => '__ID__']) }}".replace('__ID__', productId),
+        method: 'POST',
+        data: {
+            _token: "{{ csrf_token() }}",
+            tenure: tenure,
+            base_amount: baseAmount,
+            gst_amount: gstAmount,
+            deposit_amount: depositAmount,
+            delivery_fees: deliveryFees,
+            total_amount: totalAmount
+        },
+        success: function (response) {
+            if (response.success) {
+                document.getElementById('cartproductcount').innerHTML = response.cartproductcount || '1';
+                document.getElementById('text-btween-cartpopup').innerHTML = response.message;
+                document.getElementById('text-btween-cartpopup').style.color = '#2d5a2d';
+            } else {
+                document.getElementById('text-btween-cartpopup').innerHTML = response.message;
+                document.getElementById('text-btween-cartpopup').style.color = 'red';
+            }
+            cartPopup();
+        },
+        error: function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                document.getElementById('text-btween-cartpopup').innerHTML = xhr.responseJSON.message;
+                document.getElementById('text-btween-cartpopup').style.color = 'red';
+            } else {
+                document.getElementById('logoutPopup3').style.display = 'flex';
+            }
+            cartPopup();
+        }
+    });
+}
+
+function updateRentalSummary() {
+    // Get rental percentage from product data
+    var rentalPercentages = "{{ $productDetails->renting_presentag ?: '10' }}".split('|'); // Split by pipe
+    var productPrice = {{ $productDetails->our_price }};
+    
+    // Update first rental section
+    var tenureSelect1 = document.getElementById('tenureSlider');
+    if (tenureSelect1) {
+        var tenure1 = tenureSelect1.value;
+        var selectedIndex1 = tenureSelect1.selectedIndex;
+        var rentalPercentage1 = rentalPercentages[selectedIndex1] || rentalPercentages[0] || 10; // Get percentage for selected tenure
+        
+        console.log('Tenure 1:', tenure1);
+        console.log('Selected Index 1:', selectedIndex1);
+        console.log('Rental Percentage 1:', rentalPercentage1);
+        
+        var baseAmount1 = (productPrice * rentalPercentage1 / 100) ;
+        var gstAmount1 = baseAmount1 * 0.18;
+        var depositAmount1 = productPrice * 0.25; // 25% deposit
+        var totalAmount1 = baseAmount1 + gstAmount1 + depositAmount1;
+        
+        document.getElementById('rental-base-amount').innerHTML = '₹ ' + baseAmount1.toFixed(2);
+        document.getElementById('rental-gst-amount').innerHTML = '₹ ' + gstAmount1.toFixed(2);
+        document.getElementById('rental-deposit-amount').innerHTML = '₹ ' + depositAmount1.toFixed(2);
+        document.getElementById('rental-total-amount').innerHTML = '₹ ' + totalAmount1.toFixed(2);
+    }
+    
+    // Update second rental section
+    var tenureSelect2 = document.getElementById('tenureSlider2');
+    if (tenureSelect2) {
+        var tenure2 = tenureSelect2.value;
+        var selectedIndex2 = tenureSelect2.selectedIndex;
+        var rentalPercentage2 = rentalPercentages[selectedIndex2] || rentalPercentages[0] || 10; // Get percentage for selected tenure
+        
+        console.log('Tenure 2:', tenure2);
+        console.log('Selected Index 2:', selectedIndex2);
+        console.log('Rental Percentage 2:', rentalPercentage2);
+        
+        var baseAmount2 = (productPrice * rentalPercentage2 / 100) ;
+        var gstAmount2 = baseAmount2 * 0.18;
+        var depositAmount2 = productPrice * 0.25; // 25% deposit
+        var totalAmount2 = baseAmount2 + gstAmount2 + depositAmount2;
+        
+        document.getElementById('rental-base-amount2').innerHTML = '₹ ' + baseAmount2.toFixed(2);
+        document.getElementById('rental-gst-amount2').innerHTML = '₹ ' + gstAmount2.toFixed(2);
+        document.getElementById('rental-deposit-amount2').innerHTML = '₹ ' + depositAmount2.toFixed(2);
+        document.getElementById('rental-total-amount2').innerHTML = '₹ ' + totalAmount2.toFixed(2);
+    }
+}
+
 
     
 
@@ -1600,6 +1712,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Initialize rental summary
+    updateRentalSummary();
+    
+    // Add event listeners for tenure changes
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('tenure-select') || e.target.id === 'tenureSlider' || e.target.id === 'tenureSlider2') {
+            updateRentalSummary();
+        }
+    });
 });
 </script>
 <script type="application/ld+json">

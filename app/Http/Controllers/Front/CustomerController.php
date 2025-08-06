@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Customer;
 use App\Models\Admin\Order;
 use App\Models\Admin\Status;
+use App\Models\RentalOrder;
+use App\Models\RentalProduct;
+use App\Models\RentalPayment;
 use App\Models\User;
 use App\Models\Front\Adress;
 use App\Models\Admin\OrderItem;
@@ -25,6 +28,8 @@ use App\Models\RetrunItems;
 use League\OAuth1\Client\Server\Server;
 use App\Models\Front\Cart;
 use Faker\Provider\ar_EG\Address;
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
 {
@@ -82,6 +87,14 @@ class CustomerController extends Controller
             $customer->update(['pincode_id' => $customerPin->id]);
         }
         $customer->assignRole('Customer');
+        
+        // Send welcome email
+        try {
+            Mail::to($customer->email)->send(new WelcomeEmail($customer));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send welcome email: ' . $e->getMessage());
+        }
+        
         return view('front.onbord',compact('customer'));
     }
 
@@ -594,6 +607,119 @@ return response()->json([
 ]);
 }
 
+    }
+
+    public function rentStatusWise($status)
+    {
+        $customer = Auth::user();
+        
+        // Get rental products based on status
+        $rentalProducts = RentalProduct::with(['product.category', 'product.productAttributes', 'rentalOrder', 'rentalPayments'])
+            ->where('user_id', $customer->id)
+            ->where(function ($query) use ($status) {
+                if ($status === 'active') {
+                    // Active rentals - not completed and not overdue
+                    $query->where('status', '!=', 'completed');
+                    $query->where('end_date', '>', now());
+                } elseif ($status === 'completed') {
+                    // Completed rentals
+                    $query->where('status', 'completed');
+                } elseif ($status === 'overdue') {
+                    // Overdue payments - past due date
+                    $query->where('end_date', '<', now());
+                }
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Group rental products by rental_order_id
+        $groupedRentalOrders = $rentalProducts->groupBy('rental_order_id');
+        
+        // Calculate next payment dates and overdue status for each rental product
+        foreach ($rentalProducts as $rentalProduct) {
+            $rentalProduct->next_payment_date = $this->calculateNextPaymentDate($rentalProduct);
+            $rentalProduct->is_overdue = $this->isPaymentOverdue($rentalProduct);
+            $rentalProduct->overdue_amount = $this->calculateOverdueAmount($rentalProduct);
+        }
+
+        // Calculate totals for each rental order group
+        $rentalOrderGroups = [];
+        foreach ($groupedRentalOrders as $rentalOrderId => $products) {
+            $totalMonthlyRent = 0;
+            $totalGST = 0;
+            $totalOverdueAmount = 0;
+            $hasOverdueProducts = false;
+            $hasActiveProducts = false;
+            
+            foreach ($products as $product) {
+                $totalMonthlyRent += $product->monthly_rent;
+                $totalGST += $product->gst_amount;
+                $totalOverdueAmount += $product->overdue_amount;
+                
+                if ($product->is_overdue) {
+                    $hasOverdueProducts = true;
+                }
+                if ($product->status !== 'completed') {
+                    $hasActiveProducts = true;
+                }
+            }
+            
+            $rentalOrderGroups[] = [
+                'rental_order_id' => $rentalOrderId,
+                'products' => $products,
+                'total_monthly_rent' => $totalMonthlyRent,
+                'total_gst' => $totalGST,
+                'total_overdue_amount' => $totalOverdueAmount,
+                'has_overdue_products' => $hasOverdueProducts,
+                'has_active_products' => $hasActiveProducts,
+                'total_amount' => $totalMonthlyRent + $totalGST + $totalOverdueAmount,
+                'order_date' => $products->first()->created_at,
+                'next_payment_date' => $products->first()->next_payment_date,
+                'is_overdue' => $hasOverdueProducts
+            ];
+        }
+
+        $rentOrdersHtml = view('front.common.customer-rent-orders', compact('rentalOrderGroups', 'status'))->render();
+        
+        return response()->json([
+            'rentOrdersHtml' => $rentOrdersHtml
+        ]);
+    }
+
+    private function calculateNextPaymentDate($rentalProduct)
+    {
+        // Get the last paid payment
+        $lastPaidPayment = $rentalProduct->rentalPayments()
+            ->where('status', 'paid')
+            ->orderBy('month_number', 'desc')
+            ->first();
+
+        if ($lastPaidPayment) {
+            // Next payment is one month after the last paid payment
+            return $lastPaidPayment->due_date->addMonth();
+        } else {
+            // If no payments made yet, next payment is one month after start date
+            return $rentalProduct->start_date->addMonth();
+        }
+    }
+
+    private function isPaymentOverdue($rentalProduct)
+    {
+        $nextPaymentDate = $this->calculateNextPaymentDate($rentalProduct);
+        return $nextPaymentDate < now();
+    }
+
+    private function calculateOverdueAmount($rentalProduct)
+    {
+        if (!$this->isPaymentOverdue($rentalProduct)) {
+            return 0;
+        }
+
+        $nextPaymentDate = $this->calculateNextPaymentDate($rentalProduct);
+        $monthsOverdue = now()->diffInMonths($nextPaymentDate);
+        
+        // Calculate overdue amount (monthly rent + GST for each overdue month)
+        return ($rentalProduct->monthly_rent + $rentalProduct->gst_amount) * $monthsOverdue;
     }
 
     public function saveLocation(Request $request)

@@ -13,6 +13,14 @@ class Cart extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'is_rental' => 'boolean',
+        'base_amount' => 'decimal:2',
+        'gst_amount' => 'decimal:2',
+        'delivery_fees' => 'decimal:2',
+        'last_rental_date' => 'date',
+    ];
+
     protected $fillable = [
         'user_id',
         'session_id',
@@ -26,6 +34,12 @@ class Cart extends Model
         'total_gst',
         'razorpay_order_id',
         'total_delivery_charges',
+        'is_rental',
+        'tenure',
+        'base_amount',
+        'gst_amount',
+        'delivery_fees',
+        'last_rental_date',
     ];
 
     public function products()
