@@ -1408,7 +1408,7 @@
                     success: function(response) {
                         if (response.success) {
                             // alert('Payment successful! Your order has been placed.');
-                            window.location.href = "{{ route('customers.profile') }}";
+                            window.location.href = "{{ route('complete.order.summary') }}?order_id=" + razorpayResponse.razorpay_payment_id + "&order_type=combined";
                         } else {
                             alert('Payment verification failed: ' + response.message);
                         }

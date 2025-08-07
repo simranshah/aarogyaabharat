@@ -99,7 +99,9 @@ Route::controller(FrontProductController::class)->group(function () {
     Route::get('/new-arrivals', 'newArrivals')->name('products.new.arrivals');
 });
 Route::get('/get-banners', [BannerController::class, 'getBanners'])->name('get.banners');
-Route::get('/thanks', [NewPaymentController::class,'getdataforthankyou'])->name('thanks');
+Route::get('/thank-you', [NewPaymentController::class,'getdataforthankyou'])->name('thanks');
+Route::get('/rental-thank-you', [NewPaymentController::class,'getdataforthankyou'])->name('rental.thanks');
+Route::get('/complete-order-summary', [NewPaymentController::class,'getCompleteOrderSummary'])->name('complete.order.summary');
 Route::get('/log-in', function () {
     return view('front.login');
 })->name('login');
@@ -198,6 +200,7 @@ Route::controller(CartController2::class)->group(function () {
     Route::post('/cart/removecoupon}', [CartController2::class, 'removeCoupon'])->name('removecoupon');
     Route::get('/cart/getcoupon', [CartController2::class, 'getCoupons'])->name('getcoupons');
     Route::post('/cart/applycouponcode', [CartController2::class, 'applyCouponCode'])->name('applycouponcode');
+    Route::get('/cart/complete-order-summary', [NewPaymentController::class, 'getCompleteOrderSummary'])->name('cart.complete.order.summary');
 });
 
 // Checkout Routes

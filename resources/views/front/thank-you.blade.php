@@ -361,7 +361,11 @@
                 </div>
                 
                 <a href="{{url('/')}}"><button class="home-button" >Shop more</button></a>
-                  {{-- <button class="download-button" onclick="downloadPDF()">Download Receipt</button> --}}
+                @if(isset($orderData) && $orderData && isset($rentalData) && $rentalData)
+                <a href="{{ route('cart.complete.order.summary', ['order_id' => $orderData->id, 'order_type' => 'combined']) }}">
+                    <button class="download-button">View Complete Summary</button>
+                </a>
+                @endif
             </div>
             
             <div class="right-section">
@@ -373,50 +377,180 @@
                 </h2>
                 
                 <div class="order-details">
+                    @if(isset($orderData) && $orderData)
                     <div class="detail-row">
-                        <span>Order ID: {{$orderData->id}}</span>
-                        <span>Date:  {{ \Carbon\Carbon::parse($orderData->delivery_date)->format('d-m-Y') }}</span>
+                        <span>Purchase Order ID: {{$orderData->id}}</span>
+                        <span>Date: {{ \Carbon\Carbon::parse($orderData->created_at)->format('d-m-Y') }}</span>
                     </div>
+                    @endif
+                    @if(isset($rentalData) && $rentalData)
+                    <div class="detail-row">
+                        <span>Rental Order ID: {{$rentalData->id}}</span>
+                        <span>Tenure: {{$rentalData->tenure}} months</span>
+                    </div>
+                    @endif
+                    @if(!isset($rentalData) && isset($orderType) && $orderType === 'rental')
+                    <div class="detail-row">
+                        <span>Order Type: Rental</span>
+                        <span>Tenure: {{$orderData->tenure}} months</span>
+                    </div>
+                    @elseif(!isset($rentalData))
+                    <div class="detail-row">
+                        <span>Order Type: Purchase</span>
+                    </div>
+                    @endif
                 </div>
                 
                 <div class="shipping-address">
                     <div class="address-label">Shipping Address:</div>
                     <div class="address-text">
-                       {{-- {{$orderData->orderAddress->}} --}}
-                       @php
-                       $fullAddress = 
-                                ($orderData->orderAddress->house_number ? $orderData->orderAddress->house_number . ', ' : '') .
-                                ($orderData->orderAddress->society_name ? $orderData->orderAddress->society_name . ', ' : '') .
-                                ($orderData->orderAddress->locality ? $orderData->orderAddress->locality . ', ' : '') .
-                                ($orderData->orderAddress->landmark ? $orderData->orderAddress->landmark . ', ' : '') .
-                                ($orderData->orderAddress->pincode ? $orderData->orderAddress->pincode . ', ' : '') .
-                                ($orderData->orderAddress->city ? $orderData->orderAddress->city . ', ' : '') .
-                                ($orderData->orderAddress->state ? $orderData->orderAddress->state : '');
-                     @endphp
-                     {{$fullAddress}}
+                       @if(isset($rentalData) && $rentalData && $rentalData->rentalAddress)
+                           @php
+                           $fullAddress = 
+                                    ($rentalData->rentalAddress->house_number ? $rentalData->rentalAddress->house_number . ', ' : '') .
+                                    ($rentalData->rentalAddress->society_name ? $rentalData->rentalAddress->society_name . ', ' : '') .
+                                    ($rentalData->rentalAddress->locality ? $rentalData->rentalAddress->locality . ', ' : '') .
+                                    ($rentalData->rentalAddress->landmark ? $rentalData->rentalAddress->landmark . ', ' : '') .
+                                    ($rentalData->rentalAddress->pincode ? $rentalData->rentalAddress->pincode . ', ' : '') .
+                                    ($rentalData->rentalAddress->city ? $rentalData->rentalAddress->city . ', ' : '') .
+                                    ($rentalData->rentalAddress->state ? $rentalData->rentalAddress->state : '');
+                           @endphp
+                           {{$fullAddress}}
+                       @elseif(isset($orderData) && $orderData && $orderData->orderAddress)
+                           @php
+                           $fullAddress = 
+                                    ($orderData->orderAddress->house_number ? $orderData->orderAddress->house_number . ', ' : '') .
+                                    ($orderData->orderAddress->society_name ? $orderData->orderAddress->society_name . ', ' : '') .
+                                    ($orderData->orderAddress->locality ? $orderData->orderAddress->locality . ', ' : '') .
+                                    ($orderData->orderAddress->landmark ? $orderData->orderAddress->landmark . ', ' : '') .
+                                    ($orderData->orderAddress->pincode ? $orderData->orderAddress->pincode . ', ' : '') .
+                                    ($orderData->orderAddress->city ? $orderData->orderAddress->city . ', ' : '') .
+                                    ($orderData->orderAddress->state ? $orderData->orderAddress->state : '');
+                           @endphp
+                           {{$fullAddress}}
+                       @elseif(isset($orderType) && $orderType === 'rental' && $orderData && $orderData->rentalAddress)
+                           @php
+                           $fullAddress = 
+                                    ($orderData->rentalAddress->house_number ? $orderData->rentalAddress->house_number . ', ' : '') .
+                                    ($orderData->rentalAddress->society_name ? $orderData->rentalAddress->society_name . ', ' : '') .
+                                    ($orderData->rentalAddress->locality ? $orderData->rentalAddress->locality . ', ' : '') .
+                                    ($orderData->rentalAddress->landmark ? $orderData->rentalAddress->landmark . ', ' : '') .
+                                    ($orderData->rentalAddress->pincode ? $orderData->rentalAddress->pincode . ', ' : '') .
+                                    ($orderData->rentalAddress->city ? $orderData->rentalAddress->city . ', ' : '') .
+                                    ($orderData->rentalAddress->state ? $orderData->rentalAddress->state : '');
+                           @endphp
+                           {{$fullAddress}}
+                       @endif
                     </div>
                 </div>
                 
                 <div class="product-list">
-                    @foreach ($orderData->orderItems as $orderitems)
-                    <div class="product-item">
-                        <div class="product-image" >
-                            <img style="width: 100%;height:100%;" src="{{ asset('storage/' . $orderitems->product->image) }}" alt="{{ $orderitems->product->name }}">
+                    @if(isset($rentalData) && $rentalData)
+                        <div class="product-item">
+                            <div class="product-image" >
+                                <img style="width: 100%;height:100%;" src="{{ asset('storage/' . $rentalData->product->image) }}" alt="{{ $rentalData->product->name }}">
+                            </div>
+                            <div class="product-details">
+                                <div class="product-name">{{ $rentalData->product->name }}</div>
+                                <div class="product-qty">Rental Period: {{$rentalData->tenure}} months</div>
+                            </div>
+                            <div class="product-price">Rs {{$rentalData->base_amount}}</div>
                         </div>
-                        <div class="product-details">
-                            <div class="product-name">{{ $orderitems->product->name }}</div>
-                            <div class="product-qty">QTY: {{$orderitems->quantity}}</div>
+                    @endif
+                    @if(isset($orderData) && $orderData && $orderData->orderItems)
+                        @foreach ($orderData->orderItems as $orderitems)
+                        <div class="product-item">
+                            <div class="product-image" >
+                                <img style="width: 100%;height:100%;" src="{{ asset('storage/' . $orderitems->product->image) }}" alt="{{ $orderitems->product->name }}">
+                            </div>
+                            <div class="product-details">
+                                <div class="product-name">{{ $orderitems->product->name }}</div>
+                                <div class="product-qty">QTY: {{$orderitems->quantity}}</div>
+                            </div>
+                            <div class="product-price">Rs {{$orderitems->quantity * $orderitems->price}}</div>
                         </div>
-                        <div class="product-price">Rs {{$orderitems->quantity * $orderitems->price}}</div>
-                    </div>
-                    @endforeach
+                        @endforeach
+                    @endif
+                    @if(!isset($rentalData) && isset($orderType) && $orderType === 'rental' && $orderData)
+                        <div class="product-item">
+                            <div class="product-image" >
+                                <img style="width: 100%;height:100%;" src="{{ asset('storage/' . $orderData->product->image) }}" alt="{{ $orderData->product->name }}">
+                            </div>
+                            <div class="product-details">
+                                <div class="product-name">{{ $orderData->product->name }}</div>
+                                <div class="product-qty">Rental Period: {{$orderData->tenure}} months</div>
+                            </div>
+                            <div class="product-price">Rs {{$orderData->base_amount}}</div>
+                        </div>
+                    @endif
                 </div>
                 
                 <div class="total-section">
-                    <div class="total-row">
-                        <span>Total</span>
-                        <span>Rs {{$orderData->amount}}</span>
-                    </div>
+                    @if(isset($rentalData) && $rentalData)
+                        <div class="detail-row">
+                            <span>Rental Base Amount</span>
+                            <span>Rs {{$rentalData->base_amount}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Rental GST ({{$rentalData->product->gst ?? 18}}%)</span>
+                            <span>Rs {{$rentalData->gst_amount}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Rental Delivery Fees</span>
+                            <span>Rs {{$rentalData->delivery_fees}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Rental Total</span>
+                            <span>Rs {{$rentalData->total_amount}}</span>
+                        </div>
+                    @endif
+                    @if(isset($orderData) && $orderData)
+                        <div class="detail-row">
+                            <span>Purchase Subtotal</span>
+                            <span>Rs {{$orderData->amount - $orderData->gst}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Purchase GST</span>
+                            <span>Rs {{$orderData->gst}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Purchase Total</span>
+                            <span>Rs {{$orderData->amount}}</span>
+                        </div>
+                    @endif
+                    @if(isset($rentalData) && $rentalData && isset($orderData) && $orderData)
+                        <div class="total-row" style="border-top: 2px solid #e9ecef; padding-top: 10px; margin-top: 10px;">
+                            <span>Grand Total</span>
+                            <span>Rs {{$rentalData->total_amount + $orderData->amount}}</span>
+                        </div>
+                    @elseif(isset($rentalData) && $rentalData)
+                        <div class="total-row">
+                            <span>Total</span>
+                            <span>Rs {{$rentalData->total_amount}}</span>
+                        </div>
+                    @elseif(isset($orderData) && $orderData)
+                        <div class="total-row">
+                            <span>Total</span>
+                            <span>Rs {{$orderData->amount}}</span>
+                        </div>
+                    @elseif(isset($orderType) && $orderType === 'rental' && $orderData)
+                        <div class="detail-row">
+                            <span>Base Amount</span>
+                            <span>Rs {{$orderData->base_amount}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>GST ({{$orderData->product->gst ?? 18}}%)</span>
+                            <span>Rs {{$orderData->gst_amount}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Delivery Fees</span>
+                            <span>Rs {{$orderData->delivery_fees}}</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Total</span>
+                            <span>Rs {{$orderData->total_amount}}</span>
+                        </div>
+                    @endif
                 </div>
                 
                 <div class="confirmation-text">

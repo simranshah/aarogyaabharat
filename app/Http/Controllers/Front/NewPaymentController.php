@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use App\Models\Admin\ProductAttribute;
+use App\Models\RentalOrder;
 
 
 class NewPaymentController extends Controller
@@ -444,10 +445,73 @@ class NewPaymentController extends Controller
         }
     }
     public function getdataforthankyou(Request $request){
-        $orderid=$request->order_id;
-         $orderData= Order::with('orderItems.product', 'orderAddress')
+        $orderid = $request->order_id;
+        $orderType = $request->order_type ?? 'regular'; // Default to regular order
+        
+        if ($orderType === 'rental') {
+            // Handle rental order
+            $orderData = RentalOrder::with('product', 'rentalAddress')
                 ->where('id', $orderid)
                 ->first();
-            return view('front.thank-you')->with('orderData', $orderData);
+                
+            if (!$orderData) {
+                abort(404, 'Rental order not found');
+            }
+            
+            return view('front.thank-you')->with([
+                'orderData' => $orderData,
+                'orderType' => 'rental'
+            ]);
+        } else {
+            // Handle regular order
+            $orderData = Order::with('orderItems.product', 'orderAddress')
+                ->where('id', $orderid)
+                ->first();
+                
+            if (!$orderData) {
+                abort(404, 'Order not found');
+            }
+            
+            return view('front.thank-you')->with([
+                'orderData' => $orderData,
+                'orderType' => 'regular'
+            ]);
+        }
+    }
+
+    /**
+     * Get complete order summary for both rent and buy items
+     */
+    public function getCompleteOrderSummary(Request $request){
+        $orderid = $request->order_id;
+        $orderType = $request->order_type ?? 'regular';
+        
+        $orderData = null;
+        $rentalData = null;
+        
+        // Get regular order data
+        if ($orderType === 'regular' || $orderType === 'combined') {
+            $orderData = Order::with('orderItems.product', 'orderAddress')
+                ->where('razorpay_payment_id', $orderid)
+                ->first();
+        }
+        
+        // Get rental order data
+        if ($orderType === 'rental' || $orderType === 'combined') {
+            $rentalData = RentalOrder::with('product', 'rentalAddress')
+                ->where('razorpay_payment_id', $orderid)
+                ->first();
+        }
+        
+        // If no data found for the specified type
+        if (!$orderData && !$rentalData) {
+            abort(404, 'Order not found');
+        }
+        
+        return view('front.thank-you')->with([
+            'orderData' => $orderData,
+            'rentalData' => $rentalData,
+            'orderType' => $orderType
+        ]);
     }
 }

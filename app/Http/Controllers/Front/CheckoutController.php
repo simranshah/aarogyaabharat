@@ -283,7 +283,7 @@ class CheckoutController extends Controller
                 'gst_amount' => $gstAmount,
                 'delivery_fees' => $deliveryFees,
                 'total_amount' => $itemTotal,
-                'status' => 'placed',
+                'status' => 'pending',
             ]);
 
             $rentalOrderIds[] = $rentalOrder->id;
