@@ -30,19 +30,19 @@ class ProductsImport implements ToModel, WithHeadingRow
             ['slug' => \Str::slug(trim($row['category']))]
         );
 
-        $subcategory = SubCategories::updateOrCreate(
-            [   
-                'category_id' => $category->id,
-                'name' => substr(trim($row['subcategory_name']), 0, 20)
-            ],
-            [
-                'slug' => \Str::slug(substr(trim($row['subcategory_name']), 0, 20))
-            ]
-        );
-        $brand = Brand::updateOrCreate(
-            ['name' => trim($row['brand'])],
-            ['slug' => \Str::slug(trim($row['brand']))]
-        );
+        // $subcategory = SubCategories::updateOrCreate(
+        //     [   
+        //         'category_id' => $category->id,
+        //         'name' => substr(trim($row['subcategory_name']), 0, 20)
+        //     ],
+        //     [
+        //         'slug' => \Str::slug(substr(trim($row['subcategory_name']), 0, 20))
+        //     ]
+        // );
+        // $brand = Brand::updateOrCreate(
+        //     ['name' => trim($row['brand'])],
+        //     ['slug' => \Str::slug(trim($row['brand']))]
+        // );
 
         // Function to clean numeric values
         $cleanNumeric = function ($value) {
@@ -79,6 +79,8 @@ class ProductsImport implements ToModel, WithHeadingRow
             'monthly_price' => $cleanNumeric($row['monthly_price'] ?? 0),
             'maintenance' => $cleanNumeric($row['maintenance'] ?? 0),
             'is_rentable' => isset($row['is_rentable']) && $row['is_rentable'] ? 1 : 0,
+            'rent_tenur' => $cleanNumeric($row['rent_tenur'] ?? 0),
+            'renting_presentag' => $cleanNumeric($row['renting_presentag'] ?? 0),
             'is_popular' => isset($row['is_popular']) && $row['is_popular'] ? 1 : 0,
             'is_new' => isset($row['is_new']) && $row['is_new'] ? 1 : 0,
             'product_for_you' => isset($row['product_for_you']) && $row['product_for_you'] ? 1 : 0,
@@ -93,6 +95,7 @@ class ProductsImport implements ToModel, WithHeadingRow
             'page_title' => trim($row['page_title_head'] ?? null),
             'seo_meta_tag_title' => trim($row['seo_meta_tag_title'] ?? null),
             'seo_meta_tag' => trim($row['seo_meta_tag_description'] ?? null),
+            
         ]);
 
         // **Now handle product images**
