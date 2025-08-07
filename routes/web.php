@@ -188,7 +188,7 @@ Route::controller(FrontContactUsController::class)->group(function () {
 Route::controller(CartController2::class)->group(function () {
     Route::get('/cart', 'index')->name('cart');
     Route::post('/cart/add/{productId}', 'addToCart')->name('cart.add');
-    Route::post('/cart/add/rental/{productId}', 'addToCartRental')->name('cart.add.rental');
+    Route::post('/cart/add/rental/{productId}', 'addRentalToCart')->name('cart.add.rental');
     Route::delete('/cart/delete-item/{cartItemId}', [CartController2::class, 'deleteItem'])->name('cart.delete-item');
     Route::post('/cart/update-quantity', [CartController2::class, 'updateCartItemQuantity'])->name('cart.update-quantity');
     Route::post('/cart/update-visibility', [CartController2::class, 'updateCartItemVisibility'])->name('cart.update-visibility');
