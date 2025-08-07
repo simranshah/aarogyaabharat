@@ -234,6 +234,9 @@ class CustomerController extends Controller
         $deliveryAddressExists = Adress::where('customer_id', $customer->id)
                                 ->where('is_delivery_address', true)
                                 ->exists();
+       if(!$deliveryAddressExists){
+        $request->delivery = 1;
+       }
         if ($request->delivery == 1) {
             Adress::where('customer_id', $customer->id)
                     ->where('is_delivery_address', true)
@@ -352,6 +355,13 @@ class CustomerController extends Controller
         }
         $address = Adress::where('id', $request->uuid)->first();
         // Assuming $request contains the necessary data
+        $deliveryAddressExists = Adress::where('customer_id', $customer->id)
+                                ->where('is_delivery_address', true)
+                                ->exists();
+        if(!$deliveryAddressExists){
+            $request->delivery = 1;
+        }
+        
         $address = Adress::updateOrCreate(
             [
                 'id' => $request->uuid,
