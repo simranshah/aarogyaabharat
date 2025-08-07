@@ -18,9 +18,9 @@
               
                     <div class="bannerBlock">  
                             <img class="bannerImage"
-                                 src="{{ asset('front/images/Flash_sale_mob_banner.gif') }}" 
-                                  data-mobile="{{ asset('front/images/Flash_sale_mob_banner.gif') }}"
-                                 data-desktop="{{ asset('front/images/Flash_sale_des_banner.gif') }}"
+                                 src="{{ asset('front/images/Flash_sale_mob_banner.png') }}" 
+                                  data-mobile="{{ asset('front/images/Flash_sale_mob_banner.png') }}"
+                                 data-desktop="{{ asset('front/images/Flash_sale_des_banner.png') }}"
                                  alt="Mobile Banner">                          
                     </div>
                 
@@ -28,9 +28,9 @@
                
                     <div class="bannerBlock">
                             <img class="bannerImage"
-                                 src="{{ asset('front/images/Flash_sale_des_banner.gif') }}" 
-                                 data-mobile="{{ asset('front/images/Flash_sale_mob_banner.gif') }}"
-                                 data-desktop="{{ asset('front/images/Flash_sale_des_banner.gif') }}"
+                                 src="{{ asset('front/images/Flash_sale_des_banner.png') }}" 
+                                 data-mobile="{{ asset('front/images/Flash_sale_mob_banner.png') }}"
+                                 data-desktop="{{ asset('front/images/Flash_sale_des_banner.png') }}"
                                  alt="Desktop Banner">
                     </div>
               

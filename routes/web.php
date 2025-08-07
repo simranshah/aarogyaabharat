@@ -81,7 +81,7 @@ Route::get('auth/facebook/callback', [SocialLoginController::class, 'handleFaceb
 Route::controller(FrontProductController::class)->group(function () {
     Route::post('/reviews','addreview')->name('adsreview');
     Route::get('/products-list', 'productList')->name('products.list');
-    Route::get('/products', 'index')->name('products');
+    // Route::get('/products', 'index')->name('products');
     // Route::get('/products/details/{slug}', 'productDetail')->name('products.detail');
     Route::get('/search/products','searchProducts')->name('search.products');
     Route::get('/search/products/results/{query}', 'searchProductsResult')->name('search.products.result');

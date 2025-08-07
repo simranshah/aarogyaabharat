@@ -59,8 +59,8 @@ class ProductsImport implements ToModel, WithHeadingRow
                 'name' => trim($row['product_name'])
             ],
             [
-            'subcategory_id' => $subcategory->id,
-            'brand_id' => $brand->id,
+            // 'subcategory_id' => $subcategory->id,
+            // 'brand_id' => $brand->id,
             'category_id' => $category->id,
             'name' => trim($row['product_name'] ?? ''),
             'title' => trim($row['title'] ?? null),

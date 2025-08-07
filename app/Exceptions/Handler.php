@@ -47,46 +47,46 @@ class Handler extends ExceptionHandler
             //
         });
     }
-//     public function render($request, Throwable $exception) {
-//     if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-//         return response()->view('error.404', [], 404);
-//     }
+    public function render($request, Throwable $exception) {
+    if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+        return response()->view('error.404', [], 404);
+    }
 
-//     if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-//         return response()->view('error.403', [], 403);
-//     }
+    if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+        return response()->view('error.403', [], 403);
+    }
 
-//     if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
-//         return response()->view('error.419', [], 419);
-//     }
+    if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+        return response()->view('error.419', [], 419);
+    }
 
-//     // if ($exception instanceof \Illuminate\Validation\ValidationException) {
-//     //     return response()->view('error.422', [], 422);
-//     // }
-//     if ($exception instanceof ErrorException || $exception instanceof \Error) {
-//         return response()->view('error.500', [], 500);
-//     }
-//     if ($exception instanceof QueryException) {
-//         return response()->view('error.503', [], 503);
-//     }
-//     if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
-//         switch ($exception->getStatusCode()) {
-//             case 401:
-//                 return response()->view('error.401', [], 401);
-//             case 403:
-//                 return response()->view('error.403', [], 403);
-//             case 419:
-//                 return response()->view('error.419', [], 419);
-//             case 422:
-//                 return response()->view('error.422', [], 422);
-//             case 500:
-//                 return response()->view('error.500', [], 500);
-//             case 503:
-//                 return response()->view('error.503', [], 503);
-//         }
-//     }
+    // if ($exception instanceof \Illuminate\Validation\ValidationException) {
+    //     return response()->view('error.422', [], 422);
+    // }
+    if ($exception instanceof ErrorException || $exception instanceof \Error) {
+        return response()->view('error.500', [], 500);
+    }
+    if ($exception instanceof QueryException) {
+        return response()->view('error.503', [], 503);
+    }
+    if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
+        switch ($exception->getStatusCode()) {
+            case 401:
+                return response()->view('error.401', [], 401);
+            case 403:
+                return response()->view('error.403', [], 403);
+            case 419:
+                return response()->view('error.419', [], 419);
+            case 422:
+                return response()->view('error.422', [], 422);
+            case 500:
+                return response()->view('error.500', [], 500);
+            case 503:
+                return response()->view('error.503', [], 503);
+        }
+    }
 
-//     return parent::render($request, $exception);
-// }
+    return parent::render($request, $exception);
+}
 
 }
