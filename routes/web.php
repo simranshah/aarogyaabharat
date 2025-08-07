@@ -37,6 +37,8 @@ use App\Http\Controllers\Front\CartController2;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ArticleSubmissionController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\Front\RentalPaymentController;
+use App\Http\Controllers\Front\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,12 +147,21 @@ Route::middleware(['auth.customer'])->group(function () {
     Route::get('/profile/address', [FrontCustomerController::class, 'addAddress'])->name('customers.address.add');
     Route::post('/profile/logout', [FrontCustomerController::class, 'customerLogout'])->name('customer.logout');
     Route::get('/customer/order/{id}', [FrontCustomerController::class, 'OrderStatusWise'])->name('customer.orderStatusWise');
+    Route::get('/customer/rent/{status}', [FrontCustomerController::class, 'rentStatusWise'])->name('customer.rentStatusWise');
     Route::get('/customer/notification/delete/{id}', [FrontCustomerController::class, 'customerNotificationDestroy'])->name('customer.notifi.destroy');
     Route::post('/change-deliver-adress', [FrontCustomerController::class, 'changeDeliverAddress'])->name('change.deliver.address');
     Route::get('/edit-address/{id}', [FrontCustomerController::class, 'editAddress'])->name('edit.address');
 
 });
+// Grouped payment routes for multiple products
+Route::post('/rental/get-grouped-monthly-payments', [RentalPaymentController::class, 'getGroupedMonthlyPaymentsDue'])->name('rental.getGroupedMonthlyPayments');
+Route::post('/rental/create-grouped-monthly-payment-order', [RentalPaymentController::class, 'createGroupedMonthlyPaymentOrder'])->name('rental.createGroupedMonthlyPaymentOrder');
+Route::post('/rental/verify-grouped-monthly-payment', [RentalPaymentController::class, 'verifyGroupedMonthlyPayment'])->name('rental.verifyGroupedMonthlyPayment');
 
+// Individual rental payment routes
+Route::post('/rental/get-monthly-payment-due', [RentalPaymentController::class, 'getMonthlyPaymentDue'])->name('rental.getMonthlyPaymentDue');
+Route::post('/rental/create-monthly-payment-order', [RentalPaymentController::class, 'createMonthlyPaymentOrder'])->name('rental.createMonthlyPaymentOrder');
+Route::post('/rental/verify-monthly-payment', [RentalPaymentController::class, 'verifyMonthlyPayment'])->name('rental.verifyMonthlyPayment');
 Route::controller(FrontCustomerController::class)->group(function () {
     // Route::get('/customers/profile', 'profile')->name('customers.profile');
     Route::post('/save-get-in-touch', 'saveGetInTouch')->name('save.get.in.touch');
@@ -177,15 +188,24 @@ Route::controller(FrontContactUsController::class)->group(function () {
 Route::controller(CartController2::class)->group(function () {
     Route::get('/cart', 'index')->name('cart');
     Route::post('/cart/add/{productId}', 'addToCart')->name('cart.add');
+    Route::post('/cart/add/rental/{productId}', 'addToCartRental')->name('cart.add.rental');
     Route::delete('/cart/delete-item/{cartItemId}', [CartController2::class, 'deleteItem'])->name('cart.delete-item');
     Route::post('/cart/update-quantity', [CartController2::class, 'updateCartItemQuantity'])->name('cart.update-quantity');
     Route::post('/cart/update-visibility', [CartController2::class, 'updateCartItemVisibility'])->name('cart.update-visibility');
+    Route::post('/cart/update-rental-tenure', [CartController2::class, 'updateRentalTenure'])->name('cart.update-rental-tenure');
     Route::post('/cart/applycoupon', [CartController2::class, 'applycoupon'])->name('applycoupon');
     Route::post('/cart/removecoupon}', [CartController2::class, 'removeCoupon'])->name('removecoupon');
     Route::get('/cart/getcoupon', [CartController2::class, 'getCoupons'])->name('getcoupons');
     Route::post('/cart/applycouponcode', [CartController2::class, 'applyCouponCode'])->name('applycouponcode');
-
 });
+
+// Checkout Routes
+Route::post('/checkout/all', [CheckoutController::class, 'checkoutAll'])->name('checkout.all');
+Route::post('/checkout/verify-payment', [CheckoutController::class, 'verifyPayment'])->name('checkout.verify-payment');
+
+// Rental Payment Routes
+Route::post('/pay-rental-order/{rentalProductId}', [RentalPaymentController::class, 'payRentalOrder'])->name('pay.rental.order');
+
 // old cart routes
 // Route::controller(CartController::class)->group(function () {
 //     Route::get('/cart', 'index')->name('cart');
