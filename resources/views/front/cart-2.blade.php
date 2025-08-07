@@ -110,9 +110,7 @@
         border-color: linear-gradient(90deg, rgba(255, 204, 92, 0.9) 4%, rgba(242, 166, 2, 0.9) 100%);;
     }
 
-    .toggle-btn:hover:not(.active) {
-        background: #f8f9fa;
-    }
+   
 
     .cost-breakup-content {
         margin-top: 15px;
@@ -149,8 +147,7 @@
     }
 
     .total-monthly {
-        background: #f8f9fa;
-        padding: 15px;
+        =
         border-radius: 8px;
         margin: 10px 0;
         border: none;
@@ -182,8 +179,7 @@
     }
 
     .rent-cart-total {
-        background: #f8f9fa;
-        padding: 15px;
+       =
         border-radius: 8px;
         margin: 10px 0;
         border: none;
@@ -196,8 +192,7 @@
     }
 
     .buy-cart-total {
-        background: #f8f9fa;
-        padding: 15px;
+        
         border-radius: 8px;
         margin: 10px 0;
         border: none;
@@ -512,7 +507,7 @@
                                     <div class="amount">Total Payable<span id="checkoutAllAmount" style="font-weight: bold;"> &nbsp;
                                             ₹ {{ number_format($finalTotal, 2) }}</span></div>
                                 </div>
-                                <button class="pay-btn" id="checkoutAllButton" data-cartid="{{ $cartProducts[0]->id }}" onclick="checkoutAllItems()">Checkout All Items</button>
+                                <button class="pay-btn" id="checkoutAllButton" data-cartid="{{ $cartProducts[0]->id }}" onclick="checkoutAllItems()">Proceed to pay</button>
                             </div>
                             <div class="offer-box">
                                 <div class="offer-left">

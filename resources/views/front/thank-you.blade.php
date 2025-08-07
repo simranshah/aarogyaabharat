@@ -6,6 +6,56 @@
     <title>Order Confirmation</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Event snippet for Purchase - Rental conversion page -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-D1GEF2BB22"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+    
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+    
+            gtag('config', 'G-TEY1CCE82S');
+        </script>
+        <!-- Google tag (gtag.js ads script 7-8) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D1GEF2BB22"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-D1GEF2BB22');
+    </script>
+    
+        <script>
+            window.dataLayer = window.dataLayer || [];
+        </script>
+        <!-- Google tag-manger (gtag.js) -->
+        <script>
+            (function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-P8QHT45N');
+        </script>
+<script>
+    gtag('event', 'conversion', {
+        'send_to': 'AW-16811101057/p4wWCPjTvYEbEIGXlNA-',
+        'transaction_id': ''
+    });
+  </script>
+  
     <style>
         * {
             margin: 0;
@@ -360,7 +410,7 @@
                     Payment Done Successfully
                 </div>
                 
-                <a href="{{url('/')}}"><button class="home-button" >Shop more</button></a>
+                {{-- <a href="{{url('/')}}"><button class="home-button" >Shop more</button></a> --}}
                 @if(isset($orderData) && $orderData && isset($rentalData) && $rentalData)
                 <a href="{{ route('cart.complete.order.summary', ['order_id' => $orderData->id, 'order_type' => 'combined']) }}">
                     <button class="download-button">View Complete Summary</button>
@@ -604,10 +654,10 @@
             setTimeout(createConfetti, 500);
         });
 
-        // Redirect to home after 7 seconds
-        setTimeout(function() {
-            window.location.href = "{{ url('/') }}";
-        }, 7000);
+        // // Redirect to home after 7 seconds
+        // setTimeout(function() {
+        //     window.location.href = "{{ url('/') }}";
+        // }, 7000);
 
           // PDF Download Function
              async function downloadPDF() {

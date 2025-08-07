@@ -14,6 +14,16 @@
 
         gtag('config', 'G-TEY1CCE82S');
     </script>
+    <!-- Google tag (gtag.js ads script 7-8) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D1GEF2BB22"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D1GEF2BB22');
+</script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
     </script>
@@ -34,6 +44,12 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-P8QHT45N');
     </script>
+@if (Route::is('cart'))
+<!-- Event snippet for Add to cart - Rental conversion page -->
+<script>
+  gtag('event', 'conversion', {'send_to': 'AW-16811101057/o1P9COXovIEbEIGXlNA-'});
+</script>
+@endif
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

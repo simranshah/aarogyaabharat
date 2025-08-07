@@ -1,7 +1,7 @@
 <div class="orderSummery cost-breakup-card">
     <div class="cost-breakup-header">
         <div class="header-content">
-            <h4 class="cost-breakup-title">Cost Breakup</h4>
+            <h4 class="cost-breakup-title">Order Summary</h4>
             <div class="breakup-subtitle">Showing Rent Breakup ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->count() }} Items)</div>
         </div>
         @php
@@ -58,12 +58,7 @@
         @if($totalDeposit > 0 || $rentalTotal > 0)
         <div class="rent-view">
             {{-- Refundable Deposit --}}
-            @if($totalDeposit > 0)
-            <li class="breakup-item">
-                <div class="item-label">Refundable Deposit ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 1)->count() }} Items) - Payable Now</div>
-                <div class="item-amount">₹{{ number_format($totalDeposit, 2) }}</div>
-            </li>
-            @endif
+            
             
             {{-- Monthly Rental Amount --}}
             @if($rentalTotal > 0)
@@ -86,6 +81,12 @@
             <li class="breakup-item total-monthly">
                 <div class="item-label">Total Monthly Rental</div>
                 <div class="item-amount">₹{{ number_format($rentalTotal + $rentalGST, 2) }}/mo</div>
+            </li>
+            @endif
+            @if($totalDeposit > 0)
+            <li class="breakup-item">
+                <div class="item-label">Refundable Deposit ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 1)->count() }} Items) - Payable Now</div>
+                <div class="item-amount">₹{{ number_format($totalDeposit, 2) }}</div>
             </li>
             @endif
         </div>
@@ -128,12 +129,12 @@
             @endif
             
             {{-- Rent Cart Total --}}
-            @if($totalDeposit > 0)
+            {{-- @if($totalDeposit > 0)
             <li class="breakup-item rent-cart-total">
                 <div class="item-label">Rent Cart Total (Deposit)</div>
                 <div class="item-amount">₹{{ number_format($totalDeposit, 2) }}</div>
             </li>
-            @endif
+            @endif --}}
             @if($totalDeposit > 0)
             <li class="breakup-item rent-cart-total">
                 <div class="item-label">Rent Cart Total</div>
@@ -181,9 +182,9 @@
     <div class="total-payable">
         <div class="total-label">Total Payable Now</div>
         <div class="total-amount" id="total-display">₹{{ number_format($finalTotal, 2) }}</div>
-        <div class="total-note rent-note">Inclusive of both buy and security deposit</div>
-        <div class="total-note buy-note" style="display: none;">Inclusive of buy items and delivery</div>
-        <button class="pay-btn" id="checkoutAllButton" data-cartid="{{ $cartProducts[0]->id }}" onclick="checkoutAllItems()">Checkout All Items</button>
+        {{-- <div class="total-note rent-note">Inclusive of both buy and security deposit</div> --}}
+        {{-- <div class="total-note buy-note" style="display: none;">Inclusive of buy items and delivery</div> --}}
+        <button class="pay-btn" id="checkoutAllButton" data-cartid="{{ $cartProducts[0]->id }}" onclick="checkoutAllItems()">Proceed to pay</button>
     </div>
     @endif
     
