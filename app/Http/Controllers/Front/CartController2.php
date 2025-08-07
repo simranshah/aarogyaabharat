@@ -261,10 +261,10 @@ class CartController2 extends Controller
         $gst = 0;
         $offer = 0;
 
-        $cartItemsHtml = view('front.common.cart.items', compact('cartProducts', 'total', 'gst'))->render();
-        $orderSummaryHtml = view('front.common.cart.order-summary', compact('cartProducts', 'total', 'gst', 'offer'))->render();
+        // $cartItemsHtml = view('front.common.cart.items', compact('cartProducts', 'total', 'gst'))->render();
+        // $orderSummaryHtml = view('front.common.cart.order-summary', compact('cartProducts', 'total', 'gst', 'offer'))->render();
 
-        return response()->json(['success' => true, 'newQuantity' => $cartItem->quantity, 'cartItmes' => $cartItemsHtml, 'orderSummaryResponse' => $orderSummaryHtml, 'message' => 'Item deleted successfully']);
+        return response()->json(['success' => true, 'newQuantity' => $cartItem->quantity, 'message' => 'Item deleted successfully']);
     }
 
 
