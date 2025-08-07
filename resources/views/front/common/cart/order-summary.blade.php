@@ -37,7 +37,7 @@
         $totalGST = $buyGST + $rentalGST;
         $totalDelivery = $buyDelivery + $rentalDelivery;
         $totalDeposit = $rentalDeposit;
-        $finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDeposit;
+        $finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDeposit - $cartProducts[0]->discount_offer_amount;
         @endphp
         <div class="rent-buy-toggle">
             @if($rentalTotal > 0)
@@ -114,15 +114,7 @@
         @endif
         
         {{-- Offer Discount --}}
-        @if(isset($cartProducts[0]->discount_offer_amount) && $cartProducts[0]->discount_offer_amount > 0)
-        <li class="discount_1">
-            <p>Offer Discount</p>
-            <strong>- ₹ {{ number_format($cartProducts[0]->discount_offer_amount, 2) }}</strong>
-        </li>
-        @php
-            $finalTotal -= $cartProducts[0]->discount_offer_amount;
-        @endphp
-        @endif
+      
         
         {{-- Rent View Delivery and Total --}}
         @if($totalDeposit > 0 || $rentalTotal > 0)
@@ -172,6 +164,14 @@
             @endif
         </div>
         @endif
+
+        {{-- Offer Discount --}}
+        @if($cartProducts[0]->discount_offer_amount > 0)
+        <li class="breakup-item rent-cart-total">
+            <div class="item-label">Offer Discount</div>
+            <div class="item-amount" style="color: #03a685;">-₹{{ number_format($cartProducts[0]->discount_offer_amount, 2) }}</div>
+        </li>
+        @endif
     </ul>
     
     <div class="breakup-divider"></div>
@@ -183,6 +183,7 @@
         <div class="total-amount" id="total-display">₹{{ number_format($finalTotal, 2) }}</div>
         <div class="total-note rent-note">Inclusive of both buy and security deposit</div>
         <div class="total-note buy-note" style="display: none;">Inclusive of buy items and delivery</div>
+        <button class="pay-btn" id="checkoutAllButton" data-cartid="{{ $cartProducts[0]->id }}" onclick="checkoutAllItems()">Checkout All Items</button>
     </div>
     @endif
     
@@ -200,4 +201,7 @@
         </div>
 
 <script>
+    $(document).ready(function() {
+        updateCheckoutAllAmount();
+    });
 </script>

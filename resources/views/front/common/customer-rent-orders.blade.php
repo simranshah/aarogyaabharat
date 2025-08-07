@@ -1,3 +1,6 @@
+@php
+    $isMobile = request()->header('User-Agent') && preg_match('/mobile|android|iphone|ipad|phone/i', request()->header('User-Agent'));
+@endphp
 @if(isset($rentalOrderGroups) && count($rentalOrderGroups) > 0)
     <div class="new-order-info-container" id='rentinfoid'>
         @foreach($rentalOrderGroups as $rentalOrderGroup)
@@ -9,8 +12,10 @@
                         @if($rentalOrderGroup['is_overdue'])
                             <span class="new-order-info-order-status" style="color: #dc3545;">Overdue</span>
                         @elseif($status === 'active')
-                            <span class="new-order-info-order-status" style="color: #28a745;">Active</span>
-                        @else
+                            <span class="new-order-info-order-status" style="color: #ffffff;">Active</span>
+                        @elseif($status === 'placed')
+                            <span class="new-order-info-order-status" style="color: #000000;">Placed</span>
+                        @elseif($status === 'completed')
                             <span class="new-order-info-order-status" style="color: #0c5460;">Completed</span>
                         @endif
                     </div>
@@ -30,14 +35,20 @@
                         @endif
                     </div>
                     <div class="new-order-info-product-details">
-                        <div class="new-order-info-product-name">{{ $rentalProduct->product->name ?? 'Product name not available' }}</div>
+                        <div class="new-order-info-product-name">
+                            @if($isMobile)
+                                {{ Str::limit($rentalProduct->product->name, 50) }}
+                            @else
+                                {{ $rentalProduct->product->name ?? 'Product name not available' }}
+                            @endif
+                        </div>
                         <div class="new-order-info-product-price">
                             Monthly Rent: ₹{{ number_format($rentalProduct->monthly_rent, 2) }}<br>
                             @if($rentalProduct->next_payment_date)
                                 @if($rentalProduct->is_overdue)
                                     <span style="color: #dc3545;">Overdue since: {{ $rentalProduct->next_payment_date->format('d-m-Y') }}</span>
                                 @else
-                                    <span style="color: #28a745;">Next payment: {{ $rentalProduct->next_payment_date->format('d-m-Y') }}</span>
+                                    <span style="color: #28a745;">Next payment on: {{ $rentalProduct->next_payment_date->format('d-m-Y') }}</span>
                                 @endif
                             @endif
                         </div>
@@ -80,7 +91,7 @@
                     Great! You don't have any overdue rental payments.
                 @endif
             </p>
-            <a href="{{ route('products') }}" class="new-browse-products-btn">Browse Products</a>
+            <a href="{{ route('products.list') }}" class="new-browse-products-btn">Browse Products</a>
         </div>
     </div>
 @endif
@@ -126,7 +137,7 @@
     font-size: 14px;
     padding: 4px 8px;
     border-radius: 12px;
-    background: #e9ecef;
+    background: #28a745
 }
 
 .new-order-info-delivery-info {
@@ -244,4 +255,79 @@
     color: white;
     text-decoration: none;
 }
+@media (max-width: 768px) {
+    .new-order-info-container {
+        padding: 15px;
+    }
+
+    .new-order-info-order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 15px;
+    }
+
+    .new-order-info-order-id,
+    .new-order-info-order-date,
+    .new-order-info-order-status {
+        font-size: 14px;
+    }
+
+    .new-order-info-delivery-info {
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+
+    .new-order-info-product-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 15px;
+    }
+
+    .new-order-info-product-image {
+        width: 70px;
+        height: 70px;
+        margin: 0 0 10px 0;
+    }
+
+    .new-order-info-product-name {
+        font-size: 15px;
+    }
+
+    .new-order-info-product-price {
+        font-size: 13px;
+    }
+
+    .new-order-info-cancel-btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .new-no-orders {
+        padding: 30px 15px;
+    }
+
+    .new-no-orders-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .new-no-orders h3 {
+        font-size: 18px;
+    }
+
+    .new-no-orders p {
+        font-size: 14px;
+    }
+
+    .new-browse-products-btn {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
 </style>

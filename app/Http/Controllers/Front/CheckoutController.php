@@ -283,7 +283,7 @@ class CheckoutController extends Controller
                 'gst_amount' => $gstAmount,
                 'delivery_fees' => $deliveryFees,
                 'total_amount' => $itemTotal,
-                'status' => 'pending',
+                'status' => 'placed',
             ]);
 
             $rentalOrderIds[] = $rentalOrder->id;
@@ -302,7 +302,7 @@ class CheckoutController extends Controller
                 'total_amount' => $itemTotal,
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addMonths($tenure),
-                'status' => 'active',
+                'status' => 'placed',
             ]);
 
             // Create monthly rental payments (only first month is paid initially)
@@ -335,7 +335,7 @@ class CheckoutController extends Controller
         DB::beginTransaction();
         Log::channel('payment_log')->info('Payment verification callback received', ['request_data' => $request->all()]);
 
-        // try {
+        try {
             if (!Auth::check()) {
                 Log::channel('payment_log')->warning('User not authenticated during payment verification');
                 return response()->json(['error' => 'User not authenticated.'], 401);
@@ -355,13 +355,13 @@ class CheckoutController extends Controller
             ];
             // return $attributes;
 
-            // try {
+            try {
                 $api->utility->verifyPaymentSignature($attributes);
-            // } catch (\Exception $e) {
-            //     Log::channel('payment_log')->error('Payment verification failed', ['message' => $e->getMessage()]);
-            //     DB::rollBack();
-            //     return response()->json(['error' => 'Payment verification failed.'], 400);
-            // }
+            } catch (\Exception $e) {
+                Log::channel('payment_log')->error('Payment verification failed', ['message' => $e->getMessage()]);
+                DB::rollBack();
+                return response()->json(['error' => 'Payment verification failed.'], 400);
+            }
 
             // Get cached cart data
             $cacheKey = 'combined_cart_' . Auth::id() . '_' . $orderId;
@@ -439,6 +439,16 @@ class CheckoutController extends Controller
                                 $orderAddress = OrderAddress::create($deliveryAddress->toArray());
                                 Log::channel('payment_log')->info('Order address created', ['order_address_id' => $orderAddress->id]);
                             }
+                            $order = Order::with('orderItems.product', 'orderAddress')->where('id', $order->id)->first();
+
+                            if ($order) {
+                                foreach ($order->orderItems as $item) {
+                                    if ($item->status_id != 2) {
+                                        $item->delete();
+                                    }
+                                }
+                            }
+                            
                             $order = Order::with('orderItems.product','orderAddress')->where('id', $order->id)->first();
                             Mail::to($user->email)->send(new confimorderEmail($order));
                         }
@@ -462,10 +472,10 @@ class CheckoutController extends Controller
                 'order_id' => $orderId,
             ]);
 
-        // } catch (\Exception $e) {
-        //     Log::channel('payment_log')->error('Payment verification error', ['message' => $e->getMessage()]);
-        //     DB::rollBack();
-        //     return response()->json(['error' => 'An error occurred while processing payment.'], 500);
-        // }
+        } catch (\Exception $e) {
+            Log::channel('payment_log')->error('Payment verification error', ['message' => $e->getMessage()]);
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred while processing payment.'], 500);
+        }
     }
 }

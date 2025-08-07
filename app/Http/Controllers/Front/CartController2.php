@@ -798,7 +798,7 @@ class CartController2 extends Controller
         try {
             $request->validate([
                 'cart_item_id' => 'required|exists:cart_products,id',
-                'tenure' => 'required|in:1,3,6,9,12'
+                'tenure' => 'required'
             ]);
 
             $cartItem = CartProduct::find($request->cart_item_id);
@@ -858,11 +858,24 @@ $totalAmount = round($totalAmount, 2);
             // Update cart totals
             $cart = $cartItem->cart;
             $this->recalculateCartTotals($cart);
+           $cartItemsHtml=$this->refreshCartItems();
+           $session_id = session()->get('cart_id');
+        $customer = Auth::user();
+        $cartProducts = Cart::with(['cartProducts.product.category', 'offer'])
+            ->where(function ($query) use ($customer, $session_id) {
+                if ($customer) {
+                    $query->where('user_id', $customer->id);
+                }
+                $query->orWhere('session_id', $session_id);
+            })->get();
 
+        $orderSummaryHtml=view('front.common.cart.order-summary', compact('cartProducts'))->render();
             return response()->json([
                 'success' => true,
                 'new_price' => $totalAmount,
-                'message' => 'Rental tenure updated successfully'
+                'message' => 'Rental tenure updated successfully',
+                'cartItemsHtml' => $cartItemsHtml,
+                'orderSummaryHtml' => $orderSummaryHtml
             ]);
 
         } catch (\Exception $e) {
@@ -916,5 +929,18 @@ $totalAmount = round($totalAmount, 2);
             'total_gst' => $totalGST,
             'total_delivery_charges' => $totalDelivery
         ]);
+    }
+    public function refreshCartItems()
+    {
+        $session_id = session()->get('cart_id');
+        $customer = Auth::user();
+        $cartProducts = Cart::with(['cartProducts.product.category', 'offer'])
+            ->where(function ($query) use ($customer, $session_id) {
+                if ($customer) {
+                    $query->where('user_id', $customer->id);
+                }
+                $query->orWhere('session_id', $session_id);
+            })->get();
+        return view('front.common.cart.items', compact('cartProducts'))->render();
     }
 }

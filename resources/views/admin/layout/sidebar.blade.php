@@ -141,7 +141,7 @@
                 @endif
                 @if(auth()->user()->hasRole('admin'))
                 <li class="nav-item">
-                    <a href="#" class="nav-link {{ Request::is('admin/orders*') ? 'active' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('admin/orders*') || Request::is('admin/rental-orders*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Orders
@@ -154,6 +154,13 @@
                                 class="nav-link {{ Request::is('admin/customers') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Orders</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.rental_order.index') }}"
+                                class="nav-link {{ Request::is('admin/rental-orders*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rental Orders</p>
                             </a>
                         </li>
                     </ul>

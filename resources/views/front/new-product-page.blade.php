@@ -247,6 +247,7 @@ $isMobile =
         <div style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                         <div class="buy-rent-buttons">
                             <button class="buy-btn buynowborder-show" id="buynowsummerybtn" onclick="chnagesection('buy',this);">Purchase</button>
+                            @if($productDetails->is_rentable == 1)
                             <button class="rent-btn buynowborder-noshow" id="rentnowsectionbtn" 
                             @if($productDetails->is_rentable == 1)
                             onclick="chnagesection('rent',this);"
@@ -257,6 +258,7 @@ $isMobile =
                                         Rent Now
                                 <span class="save-badge">Save 30%</span>
                             </button>
+                            @endif
                         </div>
                        <div id="buynowsummery" class="byunowsection">
                         <div class="purchase-price">₹ {{ $productDetails->our_price }}</div>
@@ -344,9 +346,11 @@ $isMobile =
                                 <span id="rental-total-amount">₹ 0</span>
                             </div>
                         </div>
-                        <button class="pay-btn" onclick="addRentalToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to Cart (Rental)</button>
-                            <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
-                                to Pay</button>
+                        @if($productDetails->productAttributes->stock == 0)
+                <button class="pay-btn"  style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to cart</button>
+                @else
+                <button class="pay-btn" onclick="addRentalToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to Cart (Rental)</button>
+                @endif
                     </div>
 
         </div>
@@ -472,6 +476,7 @@ $isMobile =
 <div style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.1) 46.28%, rgba(255, 204, 92, 0.1) 94.61%);">
                 <div class="buy-rent-buttons">
                     <button class="buy-btn buynowborder-show" id="buynowsummerybtn" onclick="chnagesection('buy',this);">Purchase</button>
+                    @if($productDetails->is_rentable == 1)
                     <button class="rent-btn buynowborder-noshow" id="rentnowsectionbtn"
                     @if($productDetails->is_rentable == 1)
                             onclick="chnagesection('rent',this);"
@@ -482,6 +487,7 @@ $isMobile =
                         Rent Now
                         <span class="save-badge">Save 30%</span>
                     </button>
+                    @endif
                 </div>
                <div id="buynowsummery" class="byunowsection">
                 <div class="purchase-price">₹ {{ $productDetails->our_price }}</div>
@@ -575,13 +581,7 @@ $isMobile =
                 @else
                 <button class="pay-btn" onclick="addRentalToCart({{ $productDetails->id }})" style="background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);border: 1.5px solid #FFCC5C;color: #F2A602;font-weight: 700;" id="proceedButton" data-cartid="97">Add to Cart (Rental)</button>
                 @endif
-                @if($productDetails->productAttributes->stock == 0)
-                <button class="pay-btn" style="font-weight: 700;     background: linear-gradient(94.59deg, rgba(35, 63, 140, 0.05) 46.28%, rgba(255, 204, 92, 0.05) 94.61%);
-    border: 1.5px solid #dddddd; color:red;" id="proceedButton" data-cartid="97">Sold Out</button>
-                @else
-                    <button onclick="buynowProduct({{ $productDetails->id }})" class="pay-btn" style="font-weight: 700;" id="proceedButton" data-cartid="97">Proceed
-                        to Pay</button>
-                @endif
+                
             </div>
 
 </div>

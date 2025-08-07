@@ -39,6 +39,7 @@ use App\Http\Controllers\ArticleSubmissionController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\Front\RentalPaymentController;
 use App\Http\Controllers\Front\CheckoutController;
+use App\Http\Controllers\Admin\RentalOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -447,6 +448,14 @@ Route::middleware(['auth'])->group(function () {
             return redirect()->route('admin.login');
         })->name('admin.logout');
     });
+});
+
+// Admin Rental Order Routes
+Route::prefix('admin/rental-orders')->group(function () {
+    Route::get('/', [RentalOrderController::class, 'index'])->name('admin.rental_order.index');
+    Route::get('/{id}', [RentalOrderController::class, 'show'])->name('admin.rental_order.show');
+    Route::get('/update-order-item-status/{itemId}/{statusId}', [RentalOrderController::class, 'updateOrderItemStatus']);
+    Route::post('/update-status/{id}', [RentalOrderController::class, 'updateStatus'])->name('admin.rental_order.updateStatus');
 });
 
 

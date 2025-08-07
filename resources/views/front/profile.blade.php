@@ -140,7 +140,7 @@
                             </div>
                         </div>
                         <div>
-                            <div class="profileAccorClick" onclick="changeRentStatusTab('active');">
+                            <div class="profileAccorClick1 " onclick="changeRentStatusTab('active','main-rental-div');">
                                 <img src="{{asset('front/images/rent_icon.svg')}}" alt="rent_info" class="icon1" />
                                 <p>Rent Orders</p>
                                 <img src="{{asset('front/images/rightArrow.svg')}}" alt="rightArrow" class="arrow1" />
@@ -153,19 +153,25 @@
                                     <div class="filtertitle"><p>Filter</p><img src="{{asset('front/images/Filter.svg')}}" alt="Filter" /></div>
                                     <ul>
                                         <li>
-                                            <a onClick="changeRentStatusTab('active')">
+                                            <a onClick="changeRentStatusTab('placed','not-rental-div')">
+                                                <span>Placed Rentals</span>
+                                                <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
+                                            </a>    
+                                        </li>
+                                        <li>
+                                            <a onClick="changeRentStatusTab('active','not-rental-div')">
                                                 <span>Active Rentals</span>
                                                 <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
                                             </a>
                                         </li>
                                         <li>
-                                            <a onClick="changeRentStatusTab('completed')">
+                                            <a onClick="changeRentStatusTab('completed','not-rental-div')">
                                                 <span>Completed Rentals</span>
                                                 <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
                                             </a>
                                         </li>
                                         <li>
-                                            <a onClick="changeRentStatusTab('overdue')">
+                                            <a onClick="changeRentStatusTab('overdue','not-rental-div')">
                                                 <span>Overdue Payments</span>
                                                 <img src="{{ asset('front/images/Vector_plus.svg') }}" alt="Vector_plus" />
                                             </a>
@@ -734,13 +740,21 @@ function changeStatusTab(statusId) {
         });
 }
 
-function changeRentStatusTab(status) {
+function changeRentStatusTab(status,divId) {
         $.ajax({
             url: '{{ route('customer.rentStatusWise', ':status') }}'.replace(':status', status),
             method: 'GET',
             success: function(response) {
                 $('#rent-orders').html(response.rentOrdersHtml);
-                $('#main-rental-div').css('display','grid');
+                $('#'+divId).css('display','none');
+                // Toggle the display based on content
+                if(divId == 'main-rental-div') {
+                if( $('#main-rental-div').css('display') == 'none' || $('#main-rental-div').css('display') == 'block') {
+                    $('#main-rental-div').css('display','grid');
+                } else {
+                    $('#main-rental-div').css('display','none');
+                }
+            }
             },
             error: function(xhr) {
                  document.getElementById('logoutPopup3').style.display='flex';

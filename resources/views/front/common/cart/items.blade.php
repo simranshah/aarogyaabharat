@@ -51,7 +51,8 @@ if(isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->
                     {{ $cartItem->product->name }}
                     @endif
                 </a></p>
-                <strong>₹ {{$cartItem->price}}</strong>
+                <div style=" align-items: center; justify-content: space-between;">
+                <strong>₹ {{round(($cartItem->price - $cartItem->delivery_fees)/$cartItem->tenure, 2)}}/mo</strong>
                 @if(isset($cartItem->tenure))
                     <div class="tenure-selector">
                         <label>Change Tenure:</label>
@@ -76,8 +77,9 @@ if(isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->
                         </div>
                     </div>
                 @endif
+                </div>
                 <div class="errormsg" style="color: red; font-size: 12px;" id="msg-for-otp-send{{ $loop->index }}"></div>
-                <div class="countProduct">
+                {{-- <div class="countProduct">
                     <a href="javascript:void(0);" class="countMinus" data-id="{{ $cartItem->id }}" data-sign="minus"
                         onclick="deleteCartItem('{{ $cartItem->id }}')">
                         <img src="{{ asset('front/images/jam_minus.svg') }}" alt="Minus" />
@@ -87,7 +89,7 @@ if(isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->
                         onclick="document.getElementById('msg-for-otp-send{{ $loop->index }}').innerHTML='You cannot order more than 1 item(s) for this product.'; setTimeout(function(){ document.getElementById('msg-for-otp-send{{ $loop->index }}').innerHTML=''; }, 10000);">
                         <img src="{{ asset('front/images/jam_plus.svg') }}" alt="Plus" />
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
     @endforeach

@@ -105,9 +105,9 @@
     }
 
     .toggle-btn.active {
-        background: #ff7529;
+        background: linear-gradient(90deg, rgba(255, 204, 92, 0.9) 4%, rgba(242, 166, 2, 0.9) 100%);;
         color: white;
-        border-color: #ff7529;
+        border-color: linear-gradient(90deg, rgba(255, 204, 92, 0.9) 4%, rgba(242, 166, 2, 0.9) 100%);;
     }
 
     .toggle-btn:hover:not(.active) {
@@ -390,17 +390,7 @@
                             <div class="cartProductpart1" id="cart-items">
                                 @include('front.common.cart.items')
                             </div>
-                            <div class="offer-box">
-                                <div class="offer-left">
-                                    <img src="{{ asset('front/images/discount-icon.png') }}" alt="Discount Icon">
-                                    <div class="offer-text">
-                                        <strong>Offers & Discounts</strong><br>
-                                        <small>*T&C apply</small>
-                                    </div>
-                                </div>
-                                <div class="apply-btn" onclick="getMoreOffers()">Apply Now</div>
-                            </div>
-
+                            
                         </div>
                         <div class="cart50">
                             {{-- <div class="flatOffer">
@@ -524,6 +514,17 @@
                                 </div>
                                 <button class="pay-btn" id="checkoutAllButton" data-cartid="{{ $cartProducts[0]->id }}" onclick="checkoutAllItems()">Checkout All Items</button>
                             </div>
+                            <div class="offer-box">
+                                <div class="offer-left">
+                                    <img src="{{ asset('front/images/discount-icon.png') }}" alt="Discount Icon">
+                                    <div class="offer-text">
+                                        <strong>Offers & Discounts</strong><br>
+                                        <small>*T&C apply</small>
+                                    </div>
+                                </div>
+                                <div class="apply-btn" onclick="getMoreOffers()">Apply Now</div>
+                            </div>
+
                             @php
                                 $total = 0;
                                 $totalONRent = 0;
@@ -556,7 +557,7 @@
                                     <script id="razorpay-script" src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ env('RAZORPAY_KEY') }}"
                                         data-amount="{{ $total * 100 }}" data-buttontext="Proceed to Pay" data-name="Arogyabharat"
                                         data-description="Arogya bharat" data-image="{{ asset('/front/images/arogya_bharat.svg') }}"
-                                        data-prefill.name="test" data-prefill.email="test@test.com" data-theme.color="#ff7529"></script>
+                                        data-prefill.name="test" data-prefill.email="test@test.com" data-theme.color="linear-gradient(90deg, rgba(255, 204, 92, 0.9) 4%, rgba(242, 166, 2, 0.9) 100%);"></script>
                                 </form> -->
                         </div> --}}
                         </div>
@@ -591,39 +592,6 @@
                         @endif
                         <div id="errormsgoffer" style="color:red;"></div>
                         </div>
-                        <script>
-                            $(document).ready(function() {
-                                $('#removeCouponButton').click(function(e) {
-                                    e.preventDefault();
-                                    var cartId = $(this).data('cart-id');
-                                    var couponCode = $(this).data('coupon-code');
-                                    @if(isset($cartProducts[0]) && !empty($cartProducts[0]))
-                                     cartId="{{ $cartProducts[0]->id }}"
-                                      @endif
-                                    $.ajax({
-                                        url: "{{ route('removecoupon', '') }}",
-                                        type: 'POST',
-                                        data: {
-                                            cartId: cartId,
-                                            couponCode: couponCode,
-                                            _token: '{{ csrf_token() }}'
-                                        },
-                                        success: function(response) {
-                                            if (response.success) {
-                                                document.getElementById('offerModal').style.display='none';
-                                                $('#orderSummery').html(response.orderSummaryResponse);
-                                                window.location.reload();
-                                            } else {
-                                                document.getElementById('errormsgoffer').innerHTML = response.message;
-                                            }
-                                        },
-                                        error: function(xhr, status, error) {
-                                            document.getElementById('logoutPopup3').style.display='flex';
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
                     <div class="orLine">
                         <span>OR</span>
                     </div>
@@ -1077,6 +1045,7 @@
                             console.log('cartId: ' + response.cart.id);
                             // toastr.success(response.message);
                             document.getElementById('offerModal').style.display='none';
+                            // document.body.classList.remove('noscroll');
                             $('#couponCode').prop('disabled', true); // Disable the input field
 
                             $('#applyCouponButton').hide();
@@ -1208,6 +1177,7 @@
                         if (response.success) {
                             // toastr.success(response.message);
                             document.getElementById('offerModal').style.display='none';
+                            // document.body.classList.remove('noscroll');
                             if (single) {
                                 $('.flatOffer .removeDiscount').css('display', 'block');
                                 $('#applyCoupon').hide();
@@ -1252,6 +1222,7 @@
                         if (response.success) {
                             // toastr.success(response.message);
                              document.getElementById('offerModal').style.display='none';
+                             // document.body.classList.remove('noscroll');
                              $('#orderSummery').html(response.orderSummaryResponse);
                              
                              // Update checkout all amount after removing offer
@@ -1470,6 +1441,7 @@
                         console.log(response);
                         $("#offers-container").html(response);
                         $("#offerModal").show();
+                        // document.body.classList.add('noscroll');
                     },
                     error: function(xhr, status, error) {
                          document.getElementById('logoutPopup3').style.display='flex';
@@ -1605,7 +1577,8 @@
                             if (response.success) {
                                 // toastr.success('Tenure updated successfully!');
                                 // Refresh cart items and order summary
-                                location.reload();
+                                $('#cart-items').html(response.cartItemsHtml);
+                                $('#orderSummery').html(response.orderSummaryHtml);
                             } else {
                                 toastr.error(response.message || 'Failed to update tenure');
                             }
@@ -1667,6 +1640,41 @@
                     }
                     
                     console.log('Switched to ' + type + ' view');
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#removeCouponButton').click(function(e) {
+                    e.preventDefault();
+                    var cartId = $(this).data('cart-id');
+                    var couponCode = $(this).data('coupon-code');
+                    @if(isset($cartProducts[0]) && !empty($cartProducts[0]))
+                     cartId="{{ $cartProducts[0]->id }}"
+                      @endif
+                    $.ajax({
+                        url: "{{ route('removecoupon', '') }}",
+                        type: 'POST',
+                        data: {
+                            cartId: cartId,
+                            couponCode: couponCode,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                document.getElementById('offerModal').style.display='none';
+                                // document.body.classList.remove('noscroll');
+                                $('#orderSummery').html(response.orderSummaryResponse);
+                                // document.body.classList.remove('noscroll');
+                                window.location.reload();
+                            } else {
+                                document.getElementById('errormsgoffer').innerHTML = response.message;
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            document.getElementById('logoutPopup3').style.display='flex';
+                        }
+                    });
                 });
             });
         </script>
