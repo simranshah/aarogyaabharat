@@ -324,26 +324,35 @@ $isMobile =
                         </div>
 
                         <div class="order-summary">
+
                             <div class="summary-title">Order Summary</div>
                             <div class="summary-item">
+                                <span>Monthly Payment</span>
+                                <span id="rental-monthly-payment">₹ 0</span>
+                            </div>
+                            <div class="summary-item" style="display: none;">
                                 <span>Rental Base Amount</span>
                                 <span id="rental-base-amount">₹ 0</span>
                             </div>
-                            <div class="summary-item">
+                            <div class="summary-item" style="display: none;">
                                 <span>GST (18%)</span>
                                 <span id="rental-gst-amount">₹ 0</span>
                             </div>
                             <div class="summary-item">
-                                <span>Deposit (25%)</span>
+                                <span>Deposit </span>
                                 <span id="rental-deposit-amount">₹ 0</span>
                             </div>
-                            <div class="summary-item">
+                            <div class="summary-item" style="display: none;">
                                 <span>Delivery & Installation (Free)</span>
                                 <span>₹ 0</span>
                             </div>
-                            <div class="summary-item total">
+                            <div class="summary-item total" style="display: none;">
                                 <span>Total Payable</span>
                                 <span id="rental-total-amount">₹ 0</span>
+                            </div>
+                            <div class="summary-item total" style="display: none;">
+                                <span>Total Payable (With Deposit)</span>
+                                <span id="rental-total-amount-with-deposit">₹ 0</span>
                             </div>
                         </div>
                         @if($productDetails->productAttributes->stock == 0)
@@ -554,26 +563,35 @@ $isMobile =
                 </div>
 
                 <div class="order-summary">
+
                     <div class="summary-title">Order Summary</div>
                     <div class="summary-item">
+                        <span>Monthly Payment</span>
+                        <span id="rental-monthly-payment">₹ 0</span>
+                    </div>
+                    <div class="summary-item" style="display: none;">
                         <span>Rental Base Amount</span>
                         <span id="rental-base-amount2">₹ 0</span>
                     </div>
-                    <div class="summary-item">
+                    <div class="summary-item" style="display: none;">
                         <span>GST (18%)</span>
                         <span id="rental-gst-amount2">₹ 0</span>
                     </div>
                     <div class="summary-item">
-                        <span>Deposit (25%)</span>
+                        <span>Deposit </span>
                         <span id="rental-deposit-amount2">₹ 0</span>
                     </div>
-                    <div class="summary-item">
+                    <div class="summary-item" style="display: none;">
                         <span>Delivery & Installation (Free)</span>
                         <span>₹ 0</span>
                     </div>
-                    <div class="summary-item total">
+                    <div class="summary-item total" style="display: none;">
                         <span>Total Payable</span>
                         <span id="rental-total-amount2">₹ 0</span>
+                    </div>
+                    <div class="summary-item total" >
+                        <span>Total Payable (With Deposit)</span>
+                        <span id="rental-total-amount-with-deposit">₹ 0</span>
                     </div>
                 </div>
                 @if($productDetails->productAttributes->stock == 0)
@@ -1638,11 +1656,13 @@ function updateRentalSummary() {
         var gstAmount1 = baseAmount1 * 0.18;
         var depositAmount1 = productPrice * 0.25; // 25% deposit
         var totalAmount1 = baseAmount1 + gstAmount1 + depositAmount1;
-        
+        document.getElementById('rental-monthly-payment').innerHTML = '₹ ' + (baseAmount1/tenure1).toFixed(2);
+
         document.getElementById('rental-base-amount').innerHTML = '₹ ' + baseAmount1.toFixed(2);
         document.getElementById('rental-gst-amount').innerHTML = '₹ ' + gstAmount1.toFixed(2);
         document.getElementById('rental-deposit-amount').innerHTML = '₹ ' + depositAmount1.toFixed(2);
         document.getElementById('rental-total-amount').innerHTML = '₹ ' + totalAmount1.toFixed(2);
+        document.getElementById('rental-total-amount-with-deposit').innerHTML = '₹ ' + ((baseAmount1/tenure1) + depositAmount1).toFixed(2);
     }
     
     // Update second rental section
@@ -1661,10 +1681,12 @@ function updateRentalSummary() {
         var depositAmount2 = productPrice * 0.25; // 25% deposit
         var totalAmount2 = baseAmount2 + gstAmount2 + depositAmount2;
         
+        document.getElementById('rental-monthly-payment').innerHTML = '₹ ' + (baseAmount2/tenure2).toFixed(2);
         document.getElementById('rental-base-amount2').innerHTML = '₹ ' + baseAmount2.toFixed(2);
         document.getElementById('rental-gst-amount2').innerHTML = '₹ ' + gstAmount2.toFixed(2);
         document.getElementById('rental-deposit-amount2').innerHTML = '₹ ' + depositAmount2.toFixed(2);
         document.getElementById('rental-total-amount2').innerHTML = '₹ ' + totalAmount2.toFixed(2);
+        document.getElementById('rental-total-amount-with-deposit').innerHTML = '₹ ' + ((baseAmount2/tenure2) + depositAmount2).toFixed(2);
     }
 }
 
