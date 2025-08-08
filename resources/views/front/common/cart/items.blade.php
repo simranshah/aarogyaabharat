@@ -20,8 +20,8 @@ if(isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->
 
 {{-- Rental Items Section --}}
 @if(!empty($rentalItems))
-<div class="rental-section" style="margin-top: 20px; ">
-    <h3 style="color: #333; margin-bottom: 15px; padding: 10px;">
+<div class="rental-section" >
+    <h3 style="color: #333; padding: 10px;margin-bottom: 15px;">
         <img src="{{ asset('front/images/rent_icon.svg') }}" alt="Rent" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;" />Rental Items
     </h3>
     @foreach($rentalItems as $cartItem)

@@ -20,7 +20,7 @@
         border: 1px solid #ced4da;
         border-radius: 3px;
         font-size: 11px;
-        width: 90px;
+        width: 100px;
         background: white;
         color: #495057;
     }
@@ -96,7 +96,7 @@
         padding: 8px 16px;
         border: 1px solid #ddd;
         background: white;
-        color: #666;
+        color: #00000;
         border-radius: 6px;
         font-size: 14px;
         font-weight: 500;
@@ -106,7 +106,7 @@
 
     .toggle-btn.active {
         background: linear-gradient(90deg, rgba(255, 204, 92, 0.9) 4%, rgba(242, 166, 2, 0.9) 100%);;
-        color: white;
+        color: #00000;
         border-color: linear-gradient(90deg, rgba(255, 204, 92, 0.9) 4%, rgba(242, 166, 2, 0.9) 100%);;
     }
 

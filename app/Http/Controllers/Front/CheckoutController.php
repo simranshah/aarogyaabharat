@@ -284,6 +284,7 @@ class CheckoutController extends Controller
                 'delivery_fees' => $deliveryFees,
                 'total_amount' => $itemTotal,
                 'status' => 'pending',
+                'deposit' =>  $depositAmount,
             ]);
 
             $rentalOrderIds[] = $rentalOrder->id;

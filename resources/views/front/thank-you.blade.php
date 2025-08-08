@@ -373,6 +373,16 @@
             text-align: center;
             line-height: 1.4;
         }
+        .company-logo {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.company-logo img {
+    max-width: 160px; /* Adjust size */
+    height: auto;
+}
 
         @media (max-width: 768px) {
             .main-content {
@@ -394,6 +404,9 @@
     <div class="container">
         <div class="main-content">
             <div class="left-section">
+                <div class="company-logo">
+                    <img src="/front/images/arogya_bharat.svg" alt="Logo">
+                </div>
                 <div class="confetti-container" id="confetti-container"></div>
                 
                 <div class="mascot">
@@ -540,6 +553,10 @@
                         <div class="detail-row">
                             <span>Rental Base Amount</span>
                             <span>Rs {{$rentalData->base_amount}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Rental Deposit</span>
+                            <span>Rs {{$rentalData->deposit}}</span>
                         </div>
                         <div class="detail-row">
                             <span>Rental GST ({{$rentalData->product->gst ?? 18}}%)</span>

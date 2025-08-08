@@ -27,6 +27,8 @@ use App\Models\orderCancelItem;
 use App\Models\RetrunItems;
 use League\OAuth1\Client\Server\Server;
 use App\Models\Front\Cart;
+use App\Models\Front\CartProduct;
+use App\Models\Admin\Product;
 use Faker\Provider\ar_EG\Address;
 use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Mail;
@@ -166,17 +168,87 @@ class CustomerController extends Controller
             }else{
             Auth::login($customer, true);
             $session_id = session()->get('cart_id');
-        \Log::channel('cart_log')->info('AppServiceProvider method - Session ID:', ['session_id' => $session_id]);
+            \Log::channel('cart_log')->info('Login merge - Session ID:', ['session_id' => $session_id]);
 
-        // ✅ Fetch all cart records with session_id
-        $sessionCarts = Cart::where('session_id', $session_id)->get();
+            // Merge session cart into user's cart without duplicating existing products
+            try {
+                DB::beginTransaction();
 
-        foreach ($sessionCarts as $cart) {
-            // Update cart records to be associated with logged-in user
-            $cart->user_id = Auth::id();
-            $cart->session_id = null;
-            $cart->save();
-        }
+                $sessionCarts = Cart::with('cartProducts')
+                    ->where('session_id', $session_id)
+                    ->get();
+
+                if ($sessionCarts->isNotEmpty()) {
+                    $userCart = Cart::with('cartProducts')
+                        ->where('user_id', Auth::id())
+                        ->first();
+
+                    if (!$userCart) {
+                        // No existing user cart; simply attach session carts to the user
+                        foreach ($sessionCarts as $cart) {
+                            $cart->user_id = Auth::id();
+                            $cart->session_id = null;
+                            $cart->save();
+                        }
+                    } else {
+                        // Existing user cart present: move only non-duplicate items
+                        foreach ($sessionCarts as $cart) {
+                            foreach ($cart->cartProducts as $cartItem) {
+                                $exists = CartProduct::where('cart_id', $userCart->id)
+                                    ->where('product_id', $cartItem->product_id)
+                                    ->where('is_rental', (bool) $cartItem->is_rental)
+                                    ->first();
+
+                                if ($exists) {
+                                    // Skip duplicates by deleting session item
+                                    $cartItem->delete();
+                                } else {
+                                    // Move item to user's cart
+                                    $cartItem->cart_id = $userCart->id;
+                                    $cartItem->save();
+                                }
+                            }
+                            // After moving items, delete empty session cart row
+                            $cart->delete();
+                        }
+
+                        // Recalculate user cart totals based on items
+                        $userCart->refresh();
+                        $subTotal = 0;
+                        $totalGST = 0;
+                        $totalDelivery = 0;
+                        foreach ($userCart->cartProducts as $item) {
+                            if ($item->is_visible) {
+                                if ($item->is_rental) {
+                                    $subTotal += (float) $item->total_price;
+                                    $totalGST += (float) $item->gst_amount;
+                                    $totalDelivery += (float) $item->delivery_fees;
+                                } else {
+                                    $subTotal += (float) $item->total_price;
+                                    $product = Product::find($item->product_id);
+                                    if ($product) {
+                                        $totalGST += ((float) $item->total_price * (float) $product->gst) / 100;
+                                        $totalDelivery += (float) ($product->delivery_and_installation_fees ?? 0);
+                                    }
+                                }
+                            }
+                        }
+                        $userCart->sub_total = $subTotal;
+                        $userCart->total_gst = $totalGST;
+                        $userCart->total_delivery_charges = $totalDelivery;
+                        $userCart->session_id = null; // ensure no session binding remains
+                        $userCart->save();
+                    }
+
+                    // Clear session cart id after merge
+                    session()->forget('cart_id');
+                }
+
+                DB::commit();
+            } catch (\Throwable $e) {
+                DB::rollBack();
+                \Log::channel('cart_log')->error('Login merge failed', ['error' => $e->getMessage()]);
+            }
             return redirect()->route('home')->with('success', 'OTP verified successfully! Welcome back, ' . $customer->name);
             return response()->json([
                 'success' => 'OTP verified succesfully!',

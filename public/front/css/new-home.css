@@ -9566,12 +9566,12 @@ margin-bottom: 10px;
   font-weight: 700;
 }
 .cartProductblock1 {
-  margin-top: 20px;
+
   float: left;
   width: 100%;
   border-bottom: 1px solid #F0F0F0;
-  margin-bottom: 24px;
-  padding-bottom: 28px;
+  
+  padding-bottom: 8px;
 }
 .profileAccorClick1{float:left;width:100%;display:flex;align-items:center;padding:13px 0;margin-bottom:8px;cursor:pointer}.profileAccorClick1 .icon1{float:left;width:24px;height:24px;margin-right:12px}.profileAccorClick1 p{font-size:16px;color:#000;flex:1}.profileAccorClick1 .arrow1{width:10px;height:17px;float:left}.profileAccorClick1.active .arrow1{transform:rotate(-90deg)}
 @media (max-width: 768px) {
@@ -9581,4 +9581,7 @@ margin-bottom: 10px;
     padding: revert !important;
     
 }
+}
+.error-container {
+width: 100%;
 }

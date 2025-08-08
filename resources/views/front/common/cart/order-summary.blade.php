@@ -64,7 +64,7 @@
             @if($rentalTotal > 0)
             <li class="breakup-item">
                 <div class="item-label">Rental (+)</div>
-                <div class="item-amount">₹{{ number_format($rentalTotal, 2) }}/mo</div>
+                <div class="item-amount">₹ {{ number_format($rentalTotal, 2) }}/mo</div>
             </li>
             @endif
             
@@ -72,7 +72,7 @@
             @if($rentalGST > 0)
             <li class="breakup-item">
                 <div class="item-label">Total GST (+)</div>
-                <div class="item-amount">₹{{ number_format($rentalGST, 2) }}/mo</div>
+                <div class="item-amount">₹ {{ number_format($rentalGST, 2) }}/mo</div>
             </li>
             @endif
             
@@ -80,13 +80,13 @@
             @if($rentalTotal > 0)
             <li class="breakup-item total-monthly">
                 <div class="item-label">Total Monthly Rental</div>
-                <div class="item-amount">₹{{ number_format($rentalTotal + $rentalGST, 2) }}/mo</div>
+                <div class="item-amount">₹ {{ number_format($rentalTotal + $rentalGST, 2) }}/mo</div>
             </li>
             @endif
             @if($totalDeposit > 0)
             <li class="breakup-item">
                 <div class="item-label">Refundable Deposit ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 1)->count() }} Items) - Payable Now</div>
-                <div class="item-amount">₹{{ number_format($totalDeposit, 2) }}</div>
+                <div class="item-amount">₹ {{ number_format($totalDeposit, 2) }}</div>
             </li>
             @endif
         </div>
@@ -100,7 +100,7 @@
             @if($buyTotal > 0)
             <li class="breakup-item">
                 <div class="item-label">Buy Items Subtotal</div>
-                <div class="item-amount">₹{{ number_format($buyTotal, 2) }}</div>
+                <div class="item-amount">₹ {{ number_format($buyTotal, 2) }}</div>
             </li>
             @endif
             
@@ -108,7 +108,7 @@
             @if($buyGST > 0)
             <li class="breakup-item">
                 <div class="item-label">Total GST (18%)</div>
-                <div class="item-amount">₹{{ number_format($buyGST, 2) }}</div>
+                <div class="item-amount">₹ {{ number_format($buyGST, 2) }}</div>
             </li>
             @endif
         </div>
@@ -124,7 +124,7 @@
             @if($rentalDelivery > 0)
             <li class="breakup-item delivery-item">
                 <div class="item-label">Delivery and Convenience</div>
-                <div class="item-amount">₹{{ number_format($rentalDelivery, 2) }}</div>
+                <div class="item-amount">₹ {{ number_format($rentalDelivery, 2) }}</div>
             </li>
             @endif
             
@@ -138,7 +138,7 @@
             @if($totalDeposit > 0)
             <li class="breakup-item rent-cart-total">
                 <div class="item-label">Rent Cart Total</div>
-                <div class="item-amount">₹{{ number_format($rentalTotal + $rentalGST + $rentalDelivery + $totalDeposit, 2) }}</div>
+                <div class="item-amount">₹ {{ number_format($rentalTotal + $rentalGST + $rentalDelivery + $totalDeposit, 2) }}</div>
             </li>
             @endif
             
@@ -152,7 +152,7 @@
             @if($buyDelivery > 0)
             <li class="breakup-item delivery-item">
                 <div class="item-label">Delivery and Convenience</div>
-                <div class="item-amount">₹{{ number_format($buyDelivery, 2) }}</div>
+                <div class="item-amount">₹ {{ number_format($buyDelivery, 2) }}</div>
             </li>
             @endif
             
@@ -160,7 +160,7 @@
             @if($buyTotal > 0)
             <li class="breakup-item buy-cart-total">
                 <div class="item-label">Buy Cart Total</div>
-                <div class="item-amount">₹{{ number_format($buyTotal + $buyGST + $buyDelivery, 2) }}</div>
+                <div class="item-amount">₹ {{ number_format($buyTotal + $buyGST + $buyDelivery, 2) }}</div>
             </li>
             @endif
         </div>
@@ -170,7 +170,7 @@
         @if($cartProducts[0]->discount_offer_amount > 0)
         <li class="breakup-item rent-cart-total">
             <div class="item-label">Offer Discount</div>
-            <div class="item-amount" style="color: #03a685;">-₹{{ number_format($cartProducts[0]->discount_offer_amount, 2) }}</div>
+            <div class="item-amount" style="color: #03a685;">-₹ {{ number_format($cartProducts[0]->discount_offer_amount, 2) }}</div>
         </li>
         @endif
     </ul>

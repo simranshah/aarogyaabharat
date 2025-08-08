@@ -89,6 +89,7 @@ class NewCartController extends Controller
                 
                 $cartProduct = CartProduct::where('cart_id', $cart->id)
                 ->where('product_id', $product->id)
+                ->where('is_rental', false) // Check for buy items only
                 ->first();
                 
                 if ($cartProduct) {

@@ -23,7 +23,8 @@ class RentalOrder extends Model
         'razorpay_order_id',
         'razorpay_payment_id',
         'status',
-        'payment_verified_at'
+        'payment_verified_at',
+        'deposit'
     ];
 
     protected $casts = [
