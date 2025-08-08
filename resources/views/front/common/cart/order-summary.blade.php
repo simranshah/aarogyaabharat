@@ -1,44 +1,49 @@
+@php
+$buyTotal = 0;
+$rentalTotal = 0;
+$buyGST = 0;
+$rentalGST = 0;
+$buyDelivery = 0;
+$rentalDelivery = 0;
+$buyDeposit = 0;
+$rentalDeposit = 0;
+
+// Separate calculations for buy and rental items
+if (isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->cartProducts)) {
+    foreach ($cartProducts[0]->cartProducts as $cartItem) {
+        if (isset($cartItem->is_visible) && $cartItem->is_visible == 1) {
+            if (isset($cartItem->is_rental) && $cartItem->is_rental == 1) {
+                // Rental item calculations
+                $rentalTotal += ($cartItem->base_amount * $cartItem->quantity)/$cartItem->tenure;
+                $rentalGST += (((($cartItem->base_amount * $cartItem->quantity)/$cartItem->tenure) * $cartItem->product->gst) / 100); // 18% GST
+                $rentalDelivery += $cartItem->product->delivery_and_installation_fees;
+                $rentalDeposit += ($cartItem->product->our_price * 0.25) * $cartItem->quantity; // 25% deposit
+            } else {
+                // Buy item calculations
+                $buyTotal += $cartItem->product->our_price * $cartItem->quantity;
+                $buyGST += ($cartItem->product->our_price * $cartItem->quantity * $cartItem->product->gst) / 100;
+                $buyDelivery += $cartItem->product->delivery_and_installation_fees;
+            }
+        }
+    }
+}
+
+$totalGST = $buyGST + $rentalGST;
+$totalDelivery = $buyDelivery + $rentalDelivery;
+$totalDeposit = $rentalDeposit;
+$finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDeposit - $cartProducts[0]->discount_offer_amount;
+@endphp
 <div class="orderSummery cost-breakup-card">
     <div class="cost-breakup-header">
         <div class="header-content">
             <h4 class="cost-breakup-title">Order Summary</h4>
+            @if($rentalTotal!=0)
+            <div class="breakup-subtitle">Showing Rent Breakup ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->where('is_rental', 1)->count() }} Items)</div>
+            @else
             <div class="breakup-subtitle">Showing Rent Breakup ({{ $cartProducts[0]->cartProducts->where('is_visible', 1)->count() }} Items)</div>
+            @endif
         </div>
-        @php
-        $buyTotal = 0;
-        $rentalTotal = 0;
-        $buyGST = 0;
-        $rentalGST = 0;
-        $buyDelivery = 0;
-        $rentalDelivery = 0;
-        $buyDeposit = 0;
-        $rentalDeposit = 0;
-        
-        // Separate calculations for buy and rental items
-        if (isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->cartProducts)) {
-            foreach ($cartProducts[0]->cartProducts as $cartItem) {
-                if (isset($cartItem->is_visible) && $cartItem->is_visible == 1) {
-                    if (isset($cartItem->is_rental) && $cartItem->is_rental == 1) {
-                        // Rental item calculations
-                        $rentalTotal += ($cartItem->base_amount * $cartItem->quantity)/$cartItem->tenure;
-                        $rentalGST += ((($rentalTotal) * $cartItem->product->gst) / 100); // 18% GST
-                        $rentalDelivery += $cartItem->product->delivery_and_installation_fees;
-                        $rentalDeposit += ($cartItem->product->our_price * 0.25) * $cartItem->quantity; // 25% deposit
-                    } else {
-                        // Buy item calculations
-                        $buyTotal += $cartItem->product->our_price * $cartItem->quantity;
-                        $buyGST += ($cartItem->product->our_price * $cartItem->quantity * $cartItem->product->gst) / 100;
-                        $buyDelivery += $cartItem->product->delivery_and_installation_fees;
-                    }
-                }
-            }
-        }
-        
-        $totalGST = $buyGST + $rentalGST;
-        $totalDelivery = $buyDelivery + $rentalDelivery;
-        $totalDeposit = $rentalDeposit;
-        $finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDeposit - $cartProducts[0]->discount_offer_amount;
-        @endphp
+
         <div class="rent-buy-toggle">
             @if($rentalTotal > 0)
                 <button class="toggle-btn active" data-type="rent">Rent</button>

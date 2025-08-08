@@ -745,6 +745,7 @@ class CartController2 extends Controller
             }
 
             if (!$cart) {
+                $request->total_amount=$request->total_amount-$request->deposit_amount;
                 // Create new cart
                 $cart = new Cart([
                     'user_id' => $customer ? $customer->id : null,
@@ -758,6 +759,7 @@ class CartController2 extends Controller
                 $cart->save();
             } else {
                 // Update existing cart totals
+                $request->total_amount=$request->total_amount-$request->deposit_amount;
                 $cart->sub_total += $request->total_amount;
                 $cart->total_gst += $request->gst_amount;
                 $cart->price += $request->base_amount;
@@ -766,6 +768,7 @@ class CartController2 extends Controller
             }
 
             // Add rental product to cart products
+
             $cartProduct = new CartProduct([
                 'cart_id' => $cart->id,
                 'product_id' => $product->id,
@@ -775,15 +778,17 @@ class CartController2 extends Controller
                 'is_rental' => true,
                 'tenure' => $request->tenure,
                 'base_amount' => $request->base_amount,
-                'gst_amount' => $request->gst_amount,
+                'gst_amount' => $request->gst_amount/$request->tenure,
                 'delivery_fees' => $request->delivery_fees,
                 'last_rental_date' => $lastRentalDate,
             ]);
             $cartProduct->save();
+            $totalCartCount = CartProduct::where('cart_id', $cart->id)->count();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Rental product added to cart successfully!'
+                'message' => 'Rental product added to cart successfully!',
+                'cartproductcount'=>  $totalCartCount
             ]);
 
         } catch (\Exception $e) {

@@ -1385,7 +1385,7 @@
                     complete: function() {
                         // Re-enable button
                         document.getElementById('checkoutAllButton').disabled = false;
-                        document.getElementById('checkoutAllButton').innerHTML = 'Checkout All Items';
+                        document.getElementById('checkoutAllButton').innerHTML = 'Proceed to pay';
                     }
                 });
             }

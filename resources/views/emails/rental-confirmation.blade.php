@@ -41,7 +41,9 @@
               <div style="font-weight: bold; margin-bottom: 10px; color: #333;">Rental Information</div>
               <div style="line-height: 1.6; font-size: 14px; color: #666;">
                 <strong>Rental ID:</strong> #{{ $order->id }}<br>
-                <strong>Rental Date:</strong> {{ $order->created_at->format('d/m/Y H:i') }}<br>
+                <strong>Rental Date:</strong> {{$order->created_at
+    ->setTimezone('Asia/Kolkata')
+    ->format('d/m/Y H:i'); }}<br>
                 <strong>Tenure:</strong> {{ $order->tenure }} months<br>
                 <strong>Last Rental Date:</strong> {{ $order->last_rental_date ? $order->last_rental_date->format('d/m/Y') : 'N/A' }}<br>
                 <strong>Status:</strong> <span style="color: #28a745; font-weight: bold;">{{ ucfirst($order->status) }}</span>
@@ -109,19 +111,24 @@
               <table style="width: 100%; border-collapse: collapse;">
                 <tr>
                   <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">Base Amount:</td>
-                  <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right;">₹{{ number_format($order->base_amount ?? 0, 2) }}</td>
+                  <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right;">₹{{ number_format($order->base_amount/$order->tenure ?? 0, 2) }}</td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">GST (18%):</td>
-                  <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right;">₹{{ number_format($order->gst_amount ?? 0, 2) }}</td>
+                  <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right;">₹{{ number_format($order->gst_amount/$order->tenure ?? 0, 2) }}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">Deposit :</td>
+                  <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right;">₹{{ number_format($order->deposit ?? 0, 2) }}</td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 0; border-bottom: 1px solid #ddd;">Delivery Fees:</td>
                   <td style="padding: 8px 0; border-bottom: 1px solid #ddd; text-align: right;">₹{{ number_format($order->delivery_fees ?? 0, 2) }}</td>
                 </tr>
+                
                 <tr>
                   <td style="padding: 8px 0; font-weight: bold; font-size: 16px;">Total:</td>
-                  <td style="padding: 8px 0; font-weight: bold; font-size: 16px; text-align: right; color: #1e3c72;">₹{{ number_format($order->total_amount ?? 0, 2) }}</td>
+                  <td style="padding: 8px 0; font-weight: bold; font-size: 16px; text-align: right; color: #1e3c72;">₹{{ number_format((($order->base_amount/$order->tenure)+($order->gst_amount/$order->tenure ?? 0) + $order->deposit+$order->delivery_fees)  ?? 0, 2) }}</td>
                 </tr>
               </table>
             </td>
