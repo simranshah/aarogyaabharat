@@ -141,7 +141,35 @@
                         </div>
                         <div>
                             <div class="profileAccorClick1 " onclick="changeRentStatusTab('active','main-rental-div');">
-                                <img src="{{asset('front/images/rent_icon.svg')}}" alt="rent_info" class="icon1" />
+                                <svg width="30" height="28" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" aria-label="Rental receipt icon">
+                                    <!-- colors -->
+                                    <defs>
+                                      <style>
+                                        .stroke{stroke:#1f3c8d;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;}
+                                        .blue{fill:#1f3c8d;}
+                                        .gold{fill:#f7b500;}
+                                      </style>
+                                    </defs>
+                                  
+                                    <!-- Document outline with wavy top -->
+                                    <path class="stroke" fill="none"
+                                          d="M18 20
+                                             c4 5 10 8 14 8s10-3 14-8c4 5 10 8 14 8s10-3 14-8c4 5 10 8 14 8s10-3 14-8
+                                             v72c0 6-5 11-11 11H29c-6 0-11-5-11-11V20z"/>
+                                  
+                                    <!-- Text lines -->
+                                    <rect class="gold" x="32" y="44" rx="3" ry="3" width="56" height="8"/>
+                                    <rect class="gold" x="32" y="58" rx="3" ry="3" width="44" height="8"/>
+                                    <rect class="gold" x="32" y="72" rx="3" ry="3" width="52" height="8"/>
+                                    <rect class="gold" x="32" y="86" rx="3" ry="3" width="40" height="8"/>
+                                  
+                                    <!-- Bottom-right RENT label -->
+                                    <g transform="translate(68,92)">
+                                      <rect x="0" y="0" width="44" height="22" rx="6" ry="6" fill="#f7b500" />
+                                      <text x="22" y="15" text-anchor="middle" font-family="Inter, Arial, sans-serif"
+                                            font-size="12" font-weight="700" class="blue">RENT</text>
+                                    </g>
+                                  </svg>
                                 <p>Rent Orders</p>
                                 <img src="{{asset('front/images/rightArrow.svg')}}" alt="rightArrow" class="arrow1" />
                             </div>

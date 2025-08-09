@@ -22,7 +22,7 @@ if(isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->
 @if(!empty($rentalItems))
 <div class="rental-section" >
     <h3 style="color: #333; padding: 10px;margin-bottom: 15px;">
-        <img src="{{ asset('front/images/rent_icon.svg') }}" alt="Rent" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;" />Rental Items
+        <img src="{{ asset('front/images/rent_icon.svg') }}" alt="Rent" style="width: 50px; height: 50px; margin-right: 8px; vertical-align: middle;" />Rental Items
     </h3>
     @foreach($rentalItems as $cartItem)
         <div class="cartProductblock1">
