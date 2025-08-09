@@ -31,8 +31,14 @@ if (isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]-
 $totalGST = $buyGST + $rentalGST;
 $totalDelivery = $buyDelivery + $rentalDelivery;
 $totalDeposit = $rentalDeposit;
+if($buyTotal > 0){
 $finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDeposit - $cartProducts[0]->discount_offer_amount;
+}else{
+$finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDeposit;
+}
+// $finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDeposit - $cartProducts[0]->discount_offer_amount;
 @endphp
+
 <div class="orderSummery cost-breakup-card">
     <div class="cost-breakup-header">
         <div class="header-content">
@@ -172,7 +178,7 @@ $finalTotal = $buyTotal + $rentalTotal + $totalGST + $totalDelivery + $totalDepo
         @endif
 
         {{-- Offer Discount --}}
-        @if($cartProducts[0]->discount_offer_amount > 0)
+        @if($cartProducts[0]->discount_offer_amount > 0 && $buyTotal > 0)
         <li class="breakup-item rent-cart-total">
             <div class="item-label">Offer Discount</div>
             <div class="item-amount" style="color: #03a685;">-₹ {{ number_format($cartProducts[0]->discount_offer_amount, 2) }}</div>

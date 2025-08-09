@@ -424,7 +424,12 @@
                 </div>
                 
                 {{-- <a href="{{url('/')}}"><button class="home-button" >Shop more</button></a> --}}
-                @if(isset($orderData) && $orderData && isset($rentalData) && $rentalData)
+                @if(
+                    isset($orderData) && $orderData && (
+                        (isset($rentalDatas) && $rentalDatas && $rentalDatas->count() > 0) ||
+                        (isset($rentalData) && $rentalData)
+                    )
+                )
                 <a href="{{ route('cart.complete.order.summary', ['order_id' => $orderData->id, 'order_type' => 'combined']) }}">
                     <button class="download-button">View Complete Summary</button>
                 </a>
@@ -446,7 +451,12 @@
                         <span>Date: {{ \Carbon\Carbon::parse($orderData->created_at)->format('d-m-Y') }}</span>
                     </div>
                     @endif
-                    @if(isset($rentalData) && $rentalData)
+                    @if(isset($rentalDatas) && $rentalDatas && $rentalDatas->count() > 0)
+                    <div class="detail-row">
+                        <span>Rental Orders: {{$rentalDatas->count()}} item(s)</span>
+                        <span>Tenure: varies</span>
+                    </div>
+                    @elseif(isset($rentalData) && $rentalData)
                     <div class="detail-row">
                         <span>Rental Order ID: {{$rentalData->id}}</span>
                         <span>Tenure: {{$rentalData->tenure}} months</span>
@@ -467,7 +477,20 @@
                 <div class="shipping-address">
                     <div class="address-label">Shipping Address:</div>
                     <div class="address-text">
-                       @if(isset($rentalData) && $rentalData && $rentalData->rentalAddress)
+                       @if(isset($rentalDatas) && $rentalDatas && $rentalDatas->count() > 0 && optional($rentalDatas->first())->rentalAddress)
+                           @php
+                           $addr = $rentalDatas->first()->rentalAddress;
+                           $fullAddress = 
+                                    ($addr->house_number ? $addr->house_number . ', ' : '') .
+                                    ($addr->society_name ? $addr->society_name . ', ' : '') .
+                                    ($addr->locality ? $addr->locality . ', ' : '') .
+                                    ($addr->landmark ? $addr->landmark . ', ' : '') .
+                                    ($addr->pincode ? $addr->pincode . ', ' : '') .
+                                    ($addr->city ? $addr->city . ', ' : '') .
+                                    ($addr->state ? $addr->state : '');
+                           @endphp
+                           {{$fullAddress}}
+                       @elseif(isset($rentalData) && $rentalData && $rentalData->rentalAddress)
                            @php
                            $fullAddress = 
                                     ($rentalData->rentalAddress->house_number ? $rentalData->rentalAddress->house_number . ', ' : '') .
@@ -508,17 +531,19 @@
                 </div>
                 
                 <div class="product-list">
-                    @if(isset($rentalData) && $rentalData)
+                    @if(isset($rentalDatas) && $rentalDatas && $rentalDatas->count() > 0)
+                       @foreach ($rentalDatas as $rentalItem)
                         <div class="product-item">
                             <div class="product-image" >
-                                <img style="width: 100%;height:100%;" src="{{ asset('storage/' . $rentalData->product->image) }}" alt="{{ $rentalData->product->name }}">
+                                <img style="width: 100%;height:100%;" src="{{ asset('storage/' . $rentalItem->product->image) }}" alt="{{ $rentalItem->product->name }}">
                             </div>
                             <div class="product-details">
-                                <div class="product-name">{{ $rentalData->product->name }}</div>
-                                <div class="product-qty">Rental Period: {{$rentalData->tenure}} months</div>
+                                <div class="product-name">{{ $rentalItem->product->name }}</div>
+                                <div class="product-qty">Rental Period: {{$rentalItem->tenure}} months</div>
                             </div>
-                            <div class="product-price">Rs {{$rentalData->base_amount}}</div>
+                            <div class="product-price">Rs {{round($rentalItem->base_amount/$rentalItem->tenure,2)}}</div>
                         </div>
+                        @endforeach
                     @endif
                     @if(isset($orderData) && $orderData && $orderData->orderItems)
                         @foreach ($orderData->orderItems as $orderitems)
@@ -549,26 +574,59 @@
                 </div>
                 
                 <div class="total-section">
-                    @if(isset($rentalData) && $rentalData)
+                    @if(isset($rentalDatas) && $rentalDatas && $rentalDatas->count() > 0)
+                        @php
+                            $rentalBaseTotal = $rentalDatas->sum(function($r){ return $r->tenure ? ($r->base_amount / $r->tenure) : $r->base_amount; });
+                            $rentalGstTotal = $rentalDatas->sum(function($r){ return $r->tenure ? ($r->gst_amount / $r->tenure) : $r->gst_amount; });
+                            $rentalDepositTotal = $rentalDatas->sum('deposit');
+                            $rentalDeliveryTotal = $rentalDatas->sum('delivery_fees');
+                            $rentalGrandTotal = $rentalBaseTotal + $rentalGstTotal + $rentalDepositTotal + $rentalDeliveryTotal;
+                        @endphp
                         <div class="detail-row">
-                            <span>Rental Base Amount</span>
-                            <span>Rs {{$rentalData->base_amount}}</span>
+                            <span>Rental Base Amount (1 month)</span>
+                            <span>Rs {{ round($rentalBaseTotal, 2) }}</span>
                         </div>
                         <div class="detail-row">
                             <span>Rental Deposit</span>
-                            <span>Rs {{$rentalData->deposit}}</span>
+                            <span>Rs {{ round($rentalDepositTotal, 2) }}</span>
                         </div>
                         <div class="detail-row">
-                            <span>Rental GST ({{$rentalData->product->gst ?? 18}}%)</span>
-                            <span>Rs {{$rentalData->gst_amount}}</span>
+                            <span>Rental GST (1 month)</span>
+                            <span>Rs {{ round($rentalGstTotal, 2) }}</span>
                         </div>
                         <div class="detail-row">
                             <span>Rental Delivery Fees</span>
-                            <span>Rs {{$rentalData->delivery_fees}}</span>
+                            <span>Rs {{ round($rentalDeliveryTotal, 2) }}</span>
                         </div>
                         <div class="detail-row">
                             <span>Rental Total</span>
-                            <span>Rs {{$rentalData->total_amount}}</span>
+                            <span>Rs {{ round($rentalGrandTotal, 2) }}</span>
+                        </div>
+                    @elseif(isset($rentalData) && $rentalData)
+                        @php
+                            $monthlyBase = $rentalData->tenure ? ($rentalData->base_amount / $rentalData->tenure) : $rentalData->base_amount;
+                            $monthlyGst = $rentalData->tenure ? ($rentalData->gst_amount / $rentalData->tenure) : $rentalData->gst_amount;
+                            $singleGrand = $monthlyBase + $monthlyGst + $rentalData->deposit + $rentalData->delivery_fees;
+                        @endphp
+                        <div class="detail-row">
+                            <span>Rental Base Amount (1 month)</span>
+                            <span>Rs {{ round($monthlyBase, 2) }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Rental Deposit</span>
+                            <span>Rs {{ round($rentalData->deposit, 2) }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Rental GST (1 month)</span>
+                            <span>Rs {{ round($monthlyGst, 2) }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Rental Delivery Fees</span>
+                            <span>Rs {{ round($rentalData->delivery_fees, 2) }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Rental Total</span>
+                            <span>Rs {{ round($singleGrand, 2) }}</span>
                         </div>
                     @endif
                     @if(isset($orderData) && $orderData)
@@ -585,10 +643,20 @@
                             <span>Rs {{$orderData->amount}}</span>
                         </div>
                     @endif
-                    @if(isset($rentalData) && $rentalData && isset($orderData) && $orderData)
+                    @if(isset($rentalDatas) && $rentalDatas && $rentalDatas->count() > 0 && isset($orderData) && $orderData)
                         <div class="total-row" style="border-top: 2px solid #e9ecef; padding-top: 10px; margin-top: 10px;">
                             <span>Grand Total</span>
-                            <span>Rs {{$rentalData->total_amount + $orderData->amount}}</span>
+                            <span>Rs {{ round($rentalGrandTotal + $orderData->amount,2)}}</span>
+                        </div>
+                    @elseif(isset($rentalData) && $rentalData && isset($orderData) && $orderData)
+                        <div class="total-row" style="border-top: 2px solid #e9ecef; padding-top: 10px; margin-top: 10px;">
+                            <span>Grand Total</span>
+                            <span>Rs {{ round($rentalData->total_amount + $orderData->amount,2)}}</span>
+                        </div>
+                    @elseif(isset($rentalDatas) && $rentalDatas && $rentalDatas->count() > 0)
+                        <div class="total-row">
+                            <span>Total</span>
+                            <span>Rs {{$rentalGrandTotal}}</span>
                         </div>
                     @elseif(isset($rentalData) && $rentalData)
                         <div class="total-row">
@@ -601,21 +669,30 @@
                             <span>Rs {{$orderData->amount}}</span>
                         </div>
                     @elseif(isset($orderType) && $orderType === 'rental' && $orderData)
+                        @php
+                            $monthlyBase2 = $orderData->tenure ? ($orderData->base_amount / $orderData->tenure) : $orderData->base_amount;
+                            $monthlyGst2 = $orderData->tenure ? ($orderData->gst_amount / $orderData->tenure) : $orderData->gst_amount;
+                            $singleGrand2 = $monthlyBase2 + $monthlyGst2 + ($orderData->deposit ?? 0) + ($orderData->delivery_fees ?? 0);
+                        @endphp
                         <div class="detail-row">
-                            <span>Base Amount</span>
-                            <span>Rs {{$orderData->base_amount}}</span>
+                            <span>Base Amount (1 month)</span>
+                            <span>Rs {{ round($monthlyBase2, 2) }}</span>
                         </div>
                         <div class="detail-row">
-                            <span>GST ({{$orderData->product->gst ?? 18}}%)</span>
-                            <span>Rs {{$orderData->gst_amount}}</span>
+                            <span>Deposit</span>
+                            <span>Rs {{ round($orderData->deposit ?? 0, 2) }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>GST (1 month)</span>
+                            <span>Rs {{ round($monthlyGst2, 2) }}</span>
                         </div>
                         <div class="detail-row">
                             <span>Delivery Fees</span>
-                            <span>Rs {{$orderData->delivery_fees}}</span>
+                            <span>Rs {{ round($orderData->delivery_fees ?? 0, 2) }}</span>
                         </div>
                         <div class="total-row">
                             <span>Total</span>
-                            <span>Rs {{$orderData->total_amount}}</span>
+                            <span>Rs {{ round($singleGrand2, 2) }}</span>
                         </div>
                     @endif
                 </div>

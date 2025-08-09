@@ -109,9 +109,11 @@ class CheckoutController extends Controller
             }
 
             // Apply discount if any
+            if (!empty($buyItems)) {
             if (!empty($cart->discount_offer_amount)) {
                 $totalAmount -= $cart->discount_offer_amount;
             }
+        }
 
             $totalAmount = max($totalAmount, 0);
             $totalAmount =round($totalAmount, 2);

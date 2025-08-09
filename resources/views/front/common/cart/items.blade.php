@@ -52,7 +52,7 @@ if(isset($cartProducts) && !empty($cartProducts[0]) && !empty($cartProducts[0]->
                     @endif
                 </a></p>
                 <div style=" align-items: center; justify-content: space-between;">
-                <strong>₹ {{round(($cartItem->price - $cartItem->delivery_fees - $cartItem->gst_amount)/$cartItem->tenure, 2)}}/mo</strong>
+                <strong>₹ {{round(($cartItem->base_amount * $cartItem->quantity)/$cartItem->tenure,2)}}/mo</strong>
                 @if(isset($cartItem->tenure))
                     <div class="tenure-selector">
                         <label>Change Tenure:</label>

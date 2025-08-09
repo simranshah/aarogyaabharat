@@ -500,7 +500,7 @@ class NewPaymentController extends Controller
         if ($orderType === 'rental' || $orderType === 'combined') {
             $rentalData = RentalOrder::with('product', 'rentalAddress')
                 ->where('razorpay_payment_id', $orderid)
-                ->first();
+                ->get();
         }
         
         // If no data found for the specified type
@@ -510,7 +510,7 @@ class NewPaymentController extends Controller
         
         return view('front.thank-you')->with([
             'orderData' => $orderData,
-            'rentalData' => $rentalData,
+            'rentalDatas' => $rentalData,
             'orderType' => $orderType
         ]);
     }
